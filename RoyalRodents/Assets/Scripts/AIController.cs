@@ -11,7 +11,6 @@ public class AIController : MonoBehaviour, IDamageable<float>
 
     public float _health = 25f;
     public float _healthMax = 25.5f;
-    //Wild way to write a getter/setter in initialization ? unsure if i like this, looksy messy
     public float _damage = 3f;
     public HealthBar _HealthBar;
 

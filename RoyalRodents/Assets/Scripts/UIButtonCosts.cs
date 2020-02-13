@@ -34,6 +34,7 @@ public class UIButtonCosts : MonoBehaviour
         UpdateCosts();
     }
 
+    //Needs to get called elsewhere from some other system such as the game manager when we increment a resource, not in Update, will be figured out later.
     public void UpdateCosts()
     {
         currentGold = GameManager.Instance._gold;
@@ -51,6 +52,7 @@ public class UIButtonCosts : MonoBehaviour
             Debug.LogError("UI Costs cant find Text");
     }
     
+    //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts(string type)
     {
         Debug.Log("request to approve");

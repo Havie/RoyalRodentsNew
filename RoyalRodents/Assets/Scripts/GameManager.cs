@@ -50,19 +50,23 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Temp way to give the player a TownCenter at start.
         GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>().StartingBuildComplete();
         _gold = 1;
         _victoryPoints = 0;
         UpdateVictoryPoint();
         UpdateGold();
+        //Set up our animators
         _WinAnimator=_WinImg.GetComponent<Animator>();
         _LoseAnimator = _LoseImg.GetComponent<Animator>();
+        //Shows the splash screen (TMP till main menu?)
         _SplashScreen.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Developer Tools to get resources
         if (Input.GetKeyDown(KeyCode.Z))
             incrementVictoryPoints(1);
         if (Input.GetKeyDown(KeyCode.X))

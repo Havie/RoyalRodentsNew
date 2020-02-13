@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/*Model-View-Controller
+*Responsible for communication between game_world(Model) and UI(View)
+* Keeps track of last clicked object.
+* Is a Singleton/Instance 
+*/
 public class MVCController : MonoBehaviour
 {
     private static MVCController _instance;
@@ -35,7 +41,7 @@ public class MVCController : MonoBehaviour
 
     public void Update()
     {
-        
+        //responsible for finding out what was left clicked
         if (Input.GetMouseButtonDown(0) && checkingClicks)
         {
 
@@ -57,14 +63,19 @@ public class MVCController : MonoBehaviour
                    // Debug.Log("Last Clicked is a buildingobj:" + lastClicked.name);
                    
                     lastClicked.GetComponent<BuildableObject>().imClicked();
+
+                    //There is a disconnect here, for clarity sake this script should be the only one responisible for telling the UI what to do,
+                    // However we will have to check the state of the building clicked from this script then instead
                     _BuildMenu.showMenu(true, MouseRaw);
                 }
+                // If Menu is active, and we click another object, we want to close the menu
                 else if (UIBuildMenu.isActive2())
                 {
                     _BuildMenu.showMenu(false, Vector3.zero);
                 }
 
             }
+            // If Menu is active, and we click off of the object, we want to close the menu
             else if (UIBuildMenu.isActive2())
             {
                 _BuildMenu.showMenu(false, Vector3.zero);
@@ -72,6 +83,7 @@ public class MVCController : MonoBehaviour
         }
     }
 
+    // Called from "Approve Costs" in UIButtonCosts Script
         public void buildSomething(string type)
         {
             if (lastClicked == null)

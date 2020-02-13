@@ -146,41 +146,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 }
         }
 
-
-
-             if (Input.GetMouseButtonDown(0))
-         {
-           
-
-                            //ALL OF THIS IS TEST
-                            /* GameObject o = GameObject.FindGameObjectWithTag("Canvas");
-                             RectTransform CanvasRect = o.GetComponent<RectTransform>();
-                             Vector2 WorldObject_ScreenPosition = new Vector2(
-                             ((mousePos.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
-                             ((mousePos.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
-
-                             Vector2 localpoint;
-                             RectTransform rectTransform = _BuildMenu.getRect();
-                             Canvas canvas = o.GetComponent<Canvas>();
-                             RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, canvas.worldCamera, out localpoint);
-                             Vector2 normalizedPoint = Rect.PointToNormalized(rectTransform.rect, localpoint);
-                             Debug.Log("Normalized :  " +normalizedPoint);
-
-
-                             Vector2 pos;
-                             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
-                             Vector2 newPos2D_Cav = canvas.transform.TransformPoint(pos);
-
-                             Debug.Log("Mouse2d" + mousePos2D);
-                             Debug.Log("WorldObj:" + WorldObject_ScreenPosition);
-                             Debug.Log("Mouse:" + MouseRaw);
-                             Debug.Log("attempt:" + newPos2D_Cav);
-                             // UI_Element.anchoredPosition = WorldObject_ScreenPosition;
-                             //END OF TESTS
-                             */
-
-                            //now you can set the position of the ui element
-        }
     }
 
 
@@ -189,27 +154,31 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         Debug.Log("Something In Collider Range");
     }
 
+    // Called from MVC controller to let the building know its been clicked
     public void imClicked()
     {
         if (eState == BuildingState.Built)
         {
-
+            //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
         }
        else if (eState == BuildingState.Available || eState == BuildingState.Idle)
         {
+            // Turns off the "notification exclamation mark" as the player is now aware of obj
             eState = BuildingState.Idle;
-            //_BuildMenu.showMenu(true, loc);
+
+            //Disconnect here, MVC controller is now responsible for talking to UI, however the check is best done here.
+            //_BuildMenu.showMenu(true, MouseRaw);
         }
         else
         {
+            //Default
             eState = BuildingState.Idle;
-            //_BuildMenu.showMenu(true, loc);
         }
   
 
     }
 
-
+    // Called from MVC controller
     public virtual void BuildSomething(string type)
     {
         Debug.Log("Time to Build Something type=" + type);
@@ -261,6 +230,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
     }
 
+    //Temporary way to delay construction
     IEnumerator BuildCoroutine()
     {
         yield return new WaitForSeconds(5f);
@@ -268,6 +238,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
     }
 
+    //Upon completetion let the correct script know to assign the new Sprite, and update our HP/Type.
     public void BuildComplete()
     {
         eState = BuildingState.Built;
@@ -299,6 +270,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         GameManager.Instance.incrementVictoryPoints(1);
     }
 
+    //Temp hack/work around for GameManager to create your town center on launch, must be updated later on
     public void SetType(string type)
     {
         switch (type)
@@ -314,3 +286,33 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
 
 }
+
+
+//ALL OF THIS IS TEST For tracking mouse clicks //ignore for now
+/* GameObject o = GameObject.FindGameObjectWithTag("Canvas");
+ RectTransform CanvasRect = o.GetComponent<RectTransform>();
+ Vector2 WorldObject_ScreenPosition = new Vector2(
+ ((mousePos.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+ ((mousePos.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+
+ Vector2 localpoint;
+ RectTransform rectTransform = _BuildMenu.getRect();
+ Canvas canvas = o.GetComponent<Canvas>();
+ RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, canvas.worldCamera, out localpoint);
+ Vector2 normalizedPoint = Rect.PointToNormalized(rectTransform.rect, localpoint);
+ Debug.Log("Normalized :  " +normalizedPoint);
+
+
+ Vector2 pos;
+ RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
+ Vector2 newPos2D_Cav = canvas.transform.TransformPoint(pos);
+
+ Debug.Log("Mouse2d" + mousePos2D);
+ Debug.Log("WorldObj:" + WorldObject_ScreenPosition);
+ Debug.Log("Mouse:" + MouseRaw);
+ Debug.Log("attempt:" + newPos2D_Cav);
+ // UI_Element.anchoredPosition = WorldObject_ScreenPosition;
+ //END OF TESTS
+ */
+
+//now you can set the position of the ui element

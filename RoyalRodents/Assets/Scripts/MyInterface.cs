@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 
-// This file has two diferent interfaces in it, uncommon but shows diff types
+// This file has two diferent interfaces in it, uncommon but shows different ways to implement
 
 //interface 1
 public interface IMyInterface 
@@ -14,7 +14,7 @@ public interface IMyInterface
 }
 
 
-//interface 2
+//interface 2 used by all characters and buildings
 public interface IDamageable<T>
 {
     void Damage(T damageTaken);

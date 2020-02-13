@@ -1,0 +1,2 @@
+# RoyalRodentsNew
+gitignore setup

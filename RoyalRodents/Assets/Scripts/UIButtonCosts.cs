@@ -68,4 +68,10 @@ public class UIButtonCosts : MonoBehaviour
         }
     }
 
+    public void Demolish()
+    {
+        Debug.Log("Heard Demolish");
+        controller.DemolishSomething();
+    }
+
 }

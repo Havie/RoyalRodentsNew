@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
                 _startPos -= new Vector3(1, 0, 0);
 
 
-        // Defines a layer mask that only looks at the "builings" and "Player" Layer(s)
+        // Defines a layer mask that only looks at the "buildings" and "Player" Layer(s)
         LayerMask _LayerMask = (1 << 8) | (1 << 9);
         RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 0.75f, _LayerMask);
 

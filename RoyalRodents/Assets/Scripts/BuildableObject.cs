@@ -33,6 +33,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     private SpriteRenderer srNotify;
     private SpriteRenderer srWorker;
     private UIBuildMenu _BuildMenu;
+    private UIBuildMenu _DestroyMenu;
 
     [SerializeField]
     private float _hitpoints = 0;
@@ -86,6 +87,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
         GameObject o=GameObject.FindGameObjectWithTag("BuildMenu");
         _BuildMenu = o.GetComponent<UIBuildMenu>();
+        o = GameObject.FindGameObjectWithTag("DestroyMenu");
+        _DestroyMenu = o.GetComponent<UIBuildMenu>();
     }
 
     // Update is called once per frame
@@ -222,12 +225,63 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             case null:
                 break;
         }
-        _BuildMenu.showMenu(false, Vector3.zero);
+        _BuildMenu.showMenu(false, Vector3.zero,null);
         StartCoroutine(BuildCoroutine());
-
-
-
     }
+
+    // Called from MVC controller
+    public  void DemolishSomething()
+    {
+        Debug.Log("Time to Destroy Something type=" );
+        switch (eType)
+        {
+            case (BuildingType.House):
+                bHouse house = this.GetComponent<bHouse>();
+                Destroy(house);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Available;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a house");
+                break;
+            case (BuildingType.Farm):
+                bFarm farm = this.GetComponent<bFarm>();
+                Destroy(farm);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a Farm");
+                break;
+            case (BuildingType.Wall):
+                bWall wall = this.GetComponent<bWall>();
+                Destroy(wall);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a Wall");
+                break;
+            case (BuildingType.Tower):
+                bTower tower = this.GetComponent<bTower>();
+                Destroy(tower);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a Tower");
+                break;
+            case (BuildingType.TownCenter):
+                bTownCenter btc = this.GetComponent<bTownCenter>();
+                Destroy(btc);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a TownCenter");
+                break;
+
+        }
+        _DestroyMenu.showMenu(false, Vector3.zero, null);
+        StartCoroutine(DemolishCoroutine());
+    }
+
+
 
     //Temporary way to delay construction
     IEnumerator BuildCoroutine()
@@ -235,6 +289,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         yield return new WaitForSeconds(5f);
         BuildComplete();
 
+    }
+
+    IEnumerator DemolishCoroutine()
+    {
+        yield return new WaitForSeconds(5f);
+        DemolishComplete();
     }
 
     //Upon completetion let the correct script know to assign the new Sprite, and update our HP/Type.
@@ -262,11 +322,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete();
         }
 
-
-
-
-
         GameManager.Instance.incrementVictoryPoints(1);
+    }
+    public void DemolishComplete()
+    {
+        eState = BuildingState.Available;
+        sr.sprite = _statedefault;
     }
 
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on

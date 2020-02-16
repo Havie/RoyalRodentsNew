@@ -18,6 +18,7 @@ public class MVCController : MonoBehaviour
     public bool _isBuilding;
 
     public UIBuildMenu _BuildMenu;
+    public UIBuildMenu _DestroyMenu;
 
     public bool checkingClicks;
 
@@ -34,8 +35,11 @@ public class MVCController : MonoBehaviour
 
     void Start()
     {
+        //Not doing any Null Checks here is bad practice
         GameObject o = GameObject.FindGameObjectWithTag("BuildMenu");
         _BuildMenu = o.GetComponent<UIBuildMenu>();
+        o= GameObject.FindGameObjectWithTag("DestroyMenu");
+        _DestroyMenu = o.GetComponent<UIBuildMenu>();
         checkingClicks = true;
     }
 
@@ -52,7 +56,7 @@ public class MVCController : MonoBehaviour
     {
         if (_lastClicked == null)
         {
-            Debug.Log("Last clicked is null");
+            Debug.LogError("Last clicked is null");
             return;
         }
         //print("lastClicked: " + _lastClicked + " in BuildSomething");
@@ -60,6 +64,21 @@ public class MVCController : MonoBehaviour
         {
             // Debug.Log("Found Buildable Object");
             _lastClicked.GetComponent<BuildableObject>().BuildSomething(type);
+        }
+
+    }
+
+    public void DemolishSomething()
+    {
+        if (_lastClicked == null)
+        {
+            Debug.LogError("Last clicked is null");
+            return;
+        }
+        if (_lastClicked.GetComponent<BuildableObject>())
+        {
+            // Debug.Log("Found Buildable Object");
+            _lastClicked.GetComponent<BuildableObject>().DemolishSomething();
         }
 
     }
@@ -74,7 +93,6 @@ public class MVCController : MonoBehaviour
     */
     private GameObject checkClick(Vector3 MouseRaw)
     {
-
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -83,59 +101,97 @@ public class MVCController : MonoBehaviour
 
         // Gets the layer Mask Via Bitwise operations, then OR combines them.
         // This gets the "buildings" and "Player" Layer
-        LayerMask _LayerMask = (1 << 8) | (1<<9);
+        LayerMask _LayerMask = (1 << 8) | (1<<9) | (1<<5);
 
         RaycastHit2D hit=  Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
 
 
         if (hit.collider != null)
         {
-            Debug.Log("Hit result:" + hit.collider.gameObject);
+          // Debug.Log("Hit result:" + hit.collider.gameObject);
             if (_lastClicked == hit.collider.gameObject)
                 return _lastClicked;
 
+           // Debug.Log("Enter");
+            GameObject _TMPlastClicked = hit.collider.gameObject;
 
-            _lastClicked = hit.collider.gameObject;
-
-            if (_lastClicked.GetComponent<BuildableObject>())
+            if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
+                Debug.Log("Case0");
                 // Debug.Log("Last Clicked is a buildingobj:" + lastClicked.name);
-                BuildableObject buildObj = _lastClicked.GetComponent<BuildableObject>();
+                BuildableObject buildObj = _TMPlastClicked.GetComponent<BuildableObject>();
                 buildObj.imClicked();
                 _isBuilding = true;
 
-                //There is a disconnect here, for clarity sake this script should be the only one responisible for telling the UI what to do,
-                // However we will have to check the state of the building clicked from this script then instead
-                if(!UIBuildMenu.isActiveStatic() && buildObj.getState()!= BuildableObject.BuildingState.Built)
-                    _BuildMenu.showMenu(true, MouseRaw);
+
+                //We have found an building Object that is not the last one clicked
+                // check the state of the building clicked 
+                if (buildObj.getState() != BuildableObject.BuildingState.Built)
+                {
+                   if(_DestroyMenu.isActive())
+                        _DestroyMenu.showMenu(false, MouseRaw, _TMPlastClicked);
+
+                    _BuildMenu.showMenu(true, MouseRaw, _TMPlastClicked);
+                }
+                else
+                {
+                    if (_BuildMenu.isActive())
+                        _BuildMenu.showMenu(false, MouseRaw, _TMPlastClicked);
+
+                    _DestroyMenu.showMenu(true, MouseRaw, _TMPlastClicked);
+                }
+
+
+                _lastClicked = _TMPlastClicked;
                 return _lastClicked;
             }
-            else if (_lastClicked.GetComponent<Button>())
+            else if (_TMPlastClicked.GetComponent<Button>())
             {
                 Debug.LogError("Its a button");
             }
-            // If Menu is active, and we click another object, we want to close the menu
-            else if (UIBuildMenu.isActiveStatic())
+            // If a Menu is active, and we click another object, we want to close the menu
+            else if (_BuildMenu.isActive() || _DestroyMenu.isActive())
             {
-                _BuildMenu.showMenu(false, Vector3.zero);
+                _BuildMenu.showMenu(false, Vector3.zero, null);
+                _DestroyMenu.showMenu(false, Vector3.zero,null);
                 _isBuilding = false;
                 _lastClicked = null;
-                return null;
+                Debug.Log("Case1");
             }
             else
             {
+                Debug.LogError("else??");
                 _isBuilding = false;
                 _lastClicked = null;
                 return null;
             }
 
         }
-        // If Menu is active, and we click off of the object, we want to close the menu
-        else if (UIBuildMenu.isActiveStatic())
+        //UI layer
+        _LayerMask = (1 << 5);
+         hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
+        Debug.LogError("Here comes the Ui TESt");
+        //THIS IS BUGGED, can not get the RayCast to See UI OBjects? -- need to research
+        if (hit.collider==null)  
         {
-            _BuildMenu.showMenu(false, Vector3.zero);
-            _isBuilding = false;
-            _lastClicked = null;
+            // Debug.Log("Hit result UI:" + hit.collider.gameObject);
+
+            
+            // If a Menu is active, and we click off of the object, we want to close the menu
+            if (_BuildMenu.isActive())
+            {
+                _BuildMenu.showMenu(false, Vector3.zero, null);
+                _isBuilding = false;
+                _lastClicked = null;
+                Debug.Log("Case2");
+            }
+            else if (_DestroyMenu.isActive())
+            {
+                _DestroyMenu.showMenu(false, Vector3.zero, null);
+                _isBuilding = false;
+                _lastClicked = null;
+                Debug.Log("Case3");
+            }
         }
         return null;
     }

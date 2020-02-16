@@ -8,6 +8,7 @@ TagManager:
   - Canvas
   - TownCenter
   - MVC
+  - DestroyMenu
   layers:
   - Default
   - TransparentFX

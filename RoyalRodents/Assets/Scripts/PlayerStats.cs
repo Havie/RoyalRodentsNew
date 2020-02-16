@@ -6,7 +6,8 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
 {
     public float _Hp=50f;
     public float _HpMax = 100f;
-    public float _Move_Speed = 40f;
+    [Range(0, 10f)]
+    public float _Move_Speed = 2f;
     public float _AttackDamage = 10f;
     public HealthBar _HealthBar;
 

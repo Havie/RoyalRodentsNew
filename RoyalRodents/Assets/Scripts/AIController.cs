@@ -165,8 +165,8 @@ public class AIController : MonoBehaviour, IDamageable<float>
         yield return new WaitForSeconds(1f);
         if (_skull)
         {
-       _target=    Instantiate(_skull, this.transform.position, Quaternion.identity);
-            Debug.Log("SkullMade@" + _target.transform.position);
+            _target=    Instantiate(_skull, this.transform.position, Quaternion.identity);
+            //Debug.Log("SkullMade@" + _target.transform.position);
         }
         else
             Debug.LogWarning("noSkull");

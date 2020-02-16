@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
 
     public CharacterControllerTMP controller;
     public Animator _animator;
-    
+
+
     private float _moveSpeed = 40f;
 
     private float horizontalMove = 0f;
@@ -15,21 +17,27 @@ public class PlayerMovement : MonoBehaviour
     private bool crouch = false;
 
     private bool _AttackDelay;
-    private bool _isAttacking;
+    public bool _isAttacking;
     private bool _isHealing;
     private float _damage;
+    private Rigidbody2D m_Rigidbody2D;
+    public bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    private Vector3 m_Velocity = Vector3.zero;
 
 
+    private bool isDead;
 
-    public bool isDead;
-
+    private void Awake()
+    {
+        m_Rigidbody2D = GetComponent<Rigidbody2D>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        _moveSpeed= this.GetComponent<PlayerStats>()._Move_Speed;
+        _moveSpeed = this.GetComponent<PlayerStats>()._Move_Speed;
         _damage = this.GetComponent<PlayerStats>()._AttackDamage;
-       _animator = this.GetComponent<Animator>();
+        _animator = this.GetComponent<Animator>();
 
     }
 
@@ -55,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Attack();
         }
-        if(Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             Heal();
         }
@@ -63,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isDead)
+        if (!isDead && !_isAttacking)
         {
             // move our character
             if (horizontalMove != 0)
@@ -71,7 +79,12 @@ public class PlayerMovement : MonoBehaviour
             else
                 _animator.SetBool("IsMoving", false);
 
-            controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+            if (horizontalMove > 0)
+            {
+              //  Debug.Log("Horiz Move=" + horizontalMove);
+               // Debug.Log("Horiz Move Fixed=" + horizontalMove * Time.fixedDeltaTime);
+            }
+            Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
             jump = false;
         }
     }
@@ -107,19 +120,19 @@ public class PlayerMovement : MonoBehaviour
             else
                 _startPos -= new Vector3(1, 0, 0);
         }
-       
+
         //Define a Layer mask to Ignore all items ON that layer.
         int _LayerMask = ~(LayerMask.GetMask("Default"));
         RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 0.75f, _LayerMask);
 
         //Drawing a Ray doesnt work?
-       //Debug.DrawRay(_startPos, _ourDir, Color.red);
+        //Debug.DrawRay(_startPos, _ourDir, Color.red);
 
-       //  Debug.Log("Hit Dis:" + hit.distance);
+        //  Debug.Log("Hit Dis:" + hit.distance);
 
         if (hit.collider != null)
         {
-           // Debug.Log("Found :" + hit.collider.gameObject.name);
+            // Debug.Log("Found :" + hit.collider.gameObject.name);
             AIController ai = hit.collider.GetComponent<AIController>();
             if (ai)
             {
@@ -142,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Heal()
     {
-        if(GameManager.Instance._gold>0)
+        if (GameManager.Instance._gold > 0)
         {
             this.GetComponent<PlayerStats>().Damage(-5);
             GameManager.Instance.incrementGold(-1);
@@ -150,4 +163,57 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+    public void Move(float move, bool crouch, bool jump)
+    {
+        if (!_isAttacking)
+        {
+            // Move the character by finding the target velocity
+            //Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+            // And then smoothing it out and applying it to the character
+            // m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+
+
+            this.transform.position += new Vector3( move , 0, 0);
+
+
+            // If the input is moving the player right and the player is facing left...
+            if (move > 0 && !m_FacingRight)
+            {
+                // ... flip the player.
+                Flip();
+            }
+            // Otherwise if the input is moving the player left and the player is facing right...
+            else if (move < 0 && m_FacingRight)
+            {
+                // ... flip the player.
+                Flip();
+            }
+        }
+    }
+
+    private void Flip()
+    {
+        // Switch the way the player is labelled as facing.
+        m_FacingRight = !m_FacingRight;
+
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.GetComponent<CoinResource>())
+        {
+            // if (collision.transform.GetComponent<CoinResource>().isActive())
+            {
+                GameManager.Instance.incrementGold(1);
+                Destroy(collision.gameObject);
+            }
+        }
+    }
+
 }
+
+

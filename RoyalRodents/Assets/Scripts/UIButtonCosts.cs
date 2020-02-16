@@ -60,7 +60,11 @@ public class UIButtonCosts : MonoBehaviour
         if (currentGold >= cost)
         {
             controller.buildSomething(type);
-            Debug.Log("Cost Approved");
+           Debug.Log("Cost Approved");
+        }
+        else
+        {
+            Debug.LogError("Cost is not approved");
         }
     }
 

@@ -44,7 +44,6 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     void Start()
     {
         _Hp = 50f;
-        Debug.Log("HP=" +_Hp);
         SetUpHealthBar(_HealthBar.gameObject);
         UpdateHealthBar();
     }

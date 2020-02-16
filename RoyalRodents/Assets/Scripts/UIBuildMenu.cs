@@ -51,7 +51,7 @@ public class UIBuildMenu : MonoBehaviour
     {
         return active;
     }
-    public static bool isActive2()
+    public static bool isActiveStatic()
     {
         return active;
     }

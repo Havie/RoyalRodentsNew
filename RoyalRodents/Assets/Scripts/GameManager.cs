@@ -111,7 +111,6 @@ public class GameManager : MonoBehaviour
     }
     public void youWin()
     {
-        Debug.Log("You WOn!");
         if(_WinAnimator)
         {
             _WinAnimator.SetTrigger("PlayAnim");
@@ -120,7 +119,6 @@ public class GameManager : MonoBehaviour
     }
     public void youLose()
     {
-        Debug.Log("You lost");
         if(_LoseAnimator)
         {
             _LoseAnimator.SetTrigger("PlayAnim");

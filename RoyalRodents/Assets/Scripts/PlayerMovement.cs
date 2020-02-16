@@ -10,18 +10,16 @@ public class PlayerMovement : MonoBehaviour
     public Animator _animator;
 
 
-    private float _moveSpeed = 40f;
-
+    private float _moveSpeed ;
     private float horizontalMove = 0f;
     private bool jump = false;
     private bool crouch = false;
-
     private bool _AttackDelay;
-    public bool _isAttacking;
+    private bool _isAttacking;
     private bool _isHealing;
     private float _damage;
     private Rigidbody2D m_Rigidbody2D;
-    public bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
 
 
@@ -61,7 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Attack();
+            if(MVCController.Instance.checkIfAttackable(Input.mousePosition))
+                Attack();
         }
         if (Input.GetMouseButton(1))
         {
@@ -71,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isDead && !_isAttacking)
+        if (!isDead)
         {
             // move our character
             if (horizontalMove != 0)
@@ -79,27 +78,26 @@ public class PlayerMovement : MonoBehaviour
             else
                 _animator.SetBool("IsMoving", false);
 
-            if (horizontalMove > 0)
-            {
-              //  Debug.Log("Horiz Move=" + horizontalMove);
-               // Debug.Log("Horiz Move Fixed=" + horizontalMove * Time.fixedDeltaTime);
-            }
             Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-            jump = false;
         }
+        else
+            _animator.SetBool("IsMoving", false);
     }
 
     public void Attack()
     {
+        
         if (!_AttackDelay)
         {
             _isAttacking = true;
             _animator.SetTrigger("Attack");
-            StartCoroutine(AttackEnd());
+            StartCoroutine(AttackRoutine());
         }
 
     }
-    IEnumerator AttackEnd()
+    // A Couroutine that can set a delay that is partly responsible for howlong till we can attack again
+    // also handles our damage output via raycasting in front of us
+    IEnumerator AttackRoutine()
     {
 
         _AttackDelay = true;
@@ -108,31 +106,28 @@ public class PlayerMovement : MonoBehaviour
         //Add to the starting pos so we dont target ourself
         Vector3 _startPos = this.transform.position;
         Vector3 _ourDir = Vector2.left;
-        if (this.transform.GetComponent<CharacterControllerTMP>())
-        {
-            //This is Another Hack that needs fixing
-            bool _facingRight = this.transform.GetComponent<CharacterControllerTMP>().m_FacingRight;
-            if (_facingRight)
+       
+            if (m_FacingRight)
             {
                 _startPos += new Vector3(1, 0, 0);
                 _ourDir = -Vector2.left;
             }
             else
                 _startPos -= new Vector3(1, 0, 0);
-        }
 
-        //Define a Layer mask to Ignore all items ON that layer.
-        int _LayerMask = ~(LayerMask.GetMask("Default"));
+
+        // Defines a layer mask that only looks at the "builings" and "Player" Layer(s)
+        LayerMask _LayerMask = (1 << 8) | (1 << 9);
         RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 0.75f, _LayerMask);
 
         //Drawing a Ray doesnt work?
         //Debug.DrawRay(_startPos, _ourDir, Color.red);
 
-        //  Debug.Log("Hit Dis:" + hit.distance);
+        //Debug.Log("Hit Dis:" + hit.distance);
 
         if (hit.collider != null)
         {
-            // Debug.Log("Found :" + hit.collider.gameObject.name);
+           // Debug.Log("Found :" + hit.collider.gameObject.name);
             AIController ai = hit.collider.GetComponent<AIController>();
             if (ai)
             {
@@ -141,10 +136,19 @@ public class PlayerMovement : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.85f);
-        _isAttacking = false;
         _AttackDelay = false;
     }
 
+    //Called from Engine-Animation Event
+    public void attackDone()
+    {
+        StartCoroutine(AttackDoneC());
+    }
+    IEnumerator AttackDoneC()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _isAttacking = false;
+    }
 
     public void Die()
     {
@@ -189,6 +193,8 @@ public class PlayerMovement : MonoBehaviour
                 Flip();
             }
         }
+        else
+            _animator.SetBool("IsMoving", false);
     }
 
     private void Flip()
@@ -213,6 +219,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+
 
 }
 

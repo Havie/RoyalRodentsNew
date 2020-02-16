@@ -1001,7 +1001,6 @@ GameObject:
   m_Component:
   - component: {fileID: 211813089}
   - component: {fileID: 211813088}
-  - component: {fileID: 211813087}
   - component: {fileID: 211813092}
   - component: {fileID: 211813091}
   - component: {fileID: 211813090}
@@ -1015,41 +1014,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &211813087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 211813086}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24a4b7c2c71653a40b927328f4f7e372, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_JumpForce: 550
-  m_CrouchSpeed: 0.36
-  m_MovementSmoothing: 0.05
-  m_AirControl: 1
-  m_WhatIsGround:
-    serializedVersion: 2
-    m_Bits: 55
-  m_GroundCheck: {fileID: 1099797709}
-  m_CeilingCheck: {fileID: 989509830}
-  m_CrouchDisableCollider: {fileID: 211813091}
-  m_Grounded: 0
-  m_FacingRight: 1
-  OnLandEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnCrouchEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: CharacterControllerTMP+BoolEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_wasCrouching: 0
 --- !u!212 &211813088
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1191,10 +1155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3509360f533d6e44480b9fb17452cfa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 211813087}
+  controller: {fileID: 0}
   _animator: {fileID: 211813095}
-  _isAttacking: 0
-  m_FacingRight: 1
 --- !u!114 &211813094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1634,7 +1596,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46bcaed90ba4ab44a7342884c9c1532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastClicked: {fileID: 0}
+  _LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _lastClicked: {fileID: 0}
+  _isBuilding: 0
   _BuildMenu: {fileID: 0}
   checkingClicks: 0
 --- !u!1 &306802979
@@ -8628,6 +8594,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingSlot (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093538, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 121616952865093536, guid: 4504865118a8f5f47a285609418fd7df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8721,6 +8692,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 2.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951087422358, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951746684691, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4504865118a8f5f47a285609418fd7df, type: 3}
@@ -9590,6 +9571,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingSlot (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093538, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 121616952865093536, guid: 4504865118a8f5f47a285609418fd7df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9684,6 +9670,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -3.67
       objectReference: {fileID: 0}
+    - target: {fileID: 121616951087422358, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951746684691, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4504865118a8f5f47a285609418fd7df, type: 3}
 --- !u!1 &1251979427
@@ -9733,6 +9729,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BuildingSlot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093538, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 121616952865093536, guid: 4504865118a8f5f47a285609418fd7df,
         type: 3}
@@ -9833,6 +9834,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951087422358, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951746684691, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4504865118a8f5f47a285609418fd7df, type: 3}
@@ -10818,6 +10829,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingSlot (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093538, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 121616952865093536, guid: 4504865118a8f5f47a285609418fd7df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10917,6 +10933,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 4.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951087422358, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951746684691, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093470, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093470, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093470, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 13.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093470, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093470, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093470, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093470, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4504865118a8f5f47a285609418fd7df, type: 3}
@@ -12693,6 +12754,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1050882231712464169, guid: 8a7f4bb0d32b3414d8609bcdabefdaae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1050882231712464171, guid: 8a7f4bb0d32b3414d8609bcdabefdaae,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12785,6 +12851,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050882230000718109, guid: 8a7f4bb0d32b3414d8609bcdabefdaae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050882230543134104, guid: 8a7f4bb0d32b3414d8609bcdabefdaae,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a7f4bb0d32b3414d8609bcdabefdaae, type: 3}
@@ -13320,7 +13396,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859004796}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 18c5a5765483e7c48801c804def84046, type: 3}
@@ -15219,6 +15295,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingSlot
       objectReference: {fileID: 0}
+    - target: {fileID: 121616952865093538, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 121616952865093536, guid: 4504865118a8f5f47a285609418fd7df,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15318,6 +15399,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951087422358, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 121616951746684691, guid: 4504865118a8f5f47a285609418fd7df,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4504865118a8f5f47a285609418fd7df, type: 3}

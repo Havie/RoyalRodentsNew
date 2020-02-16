@@ -24,10 +24,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
 
     [SerializeField]
-    protected BuildingState eState;
+    private BuildingState eState;
 
     [SerializeField]
-    protected BuildingType eType;
+    private BuildingType eType;
 
     private SpriteRenderer sr;
     private SpriteRenderer srNotify;
@@ -38,8 +38,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     private float _hitpoints = 0;
     private float _hitpointsMax = 0;
 
-    protected enum BuildingState { Available, Idle, Building, Built };
-    protected enum BuildingType { House, Farm, Tower, Wall, TownCenter, Vacant}
+    public enum BuildingState { Available, Idle, Building, Built };
+    public enum BuildingType { House, Farm, Tower, Wall, TownCenter, Vacant}
 
 
 
@@ -66,15 +66,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             _HealthBar.gameObject.SetActive(false);
     }
 
-    public BuildableObject()
-    {
-
-    }
-
-    public BuildableObject(string custom)
-    {
-        //this is a secondary constructor, see House class
-    }
 
 
     // Start is called before the first frame update
@@ -148,6 +139,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
     }
 
+    public BuildingState getState()
+    {
+        return eState;
+    }
+    public BuildingType getType()
+    {
+        return eType;
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -189,35 +188,35 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 eType = BuildingType.House;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a house");
+               // Debug.Log("Made a house");
                 break;
             case ("farm"):
                 this.gameObject.AddComponent<bFarm>();
                 eType = BuildingType.Farm;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a Farm");
+               // Debug.Log("Made a Farm");
                 break;
             case ("wall"):
                 this.gameObject.AddComponent<bWall>();
                 eType = BuildingType.Wall;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a Wall");
+               // Debug.Log("Made a Wall");
                 break;
             case ("tower"):
                 this.gameObject.AddComponent<bTower>();
                 eType = BuildingType.Tower;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a Tower");
+               // Debug.Log("Made a Tower");
                 break;
             case ("towncenter"):
                 this.gameObject.AddComponent<bTownCenter>();
                 eType = BuildingType.TownCenter;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a TownCenter");
+               // Debug.Log("Made a TownCenter");
                 break;
 
             case null:

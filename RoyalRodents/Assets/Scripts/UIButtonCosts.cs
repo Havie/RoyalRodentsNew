@@ -74,4 +74,15 @@ public class UIButtonCosts : MonoBehaviour
         controller.DemolishSomething();
     }
 
+    /**Called by "Event Trigger Pointer Enter/Exit on Button*/
+    public void MouseEnter()
+    {
+        Debug.Log("HEARD ENTER");
+        controller.CheckClicks(false);
+    }
+    public void MouseExit()
+    {
+        Debug.Log("HEARD EXIT");
+        controller.CheckClicks(true);
+    }
 }

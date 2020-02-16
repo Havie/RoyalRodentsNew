@@ -13,14 +13,15 @@ public class MVCController : MonoBehaviour
 {
     private static MVCController _instance;
 
-
-    public GameObject _lastClicked;
+    [SerializeField]
+    private GameObject _lastClicked;
     public bool _isBuilding;
 
-    public UIBuildMenu _BuildMenu;
-    public UIBuildMenu _DestroyMenu;
-
     public bool checkingClicks;
+
+    private UIBuildMenu _BuildMenu;
+    private UIBuildMenu _DestroyMenu;
+
 
     public static MVCController Instance
     {
@@ -38,7 +39,7 @@ public class MVCController : MonoBehaviour
         //Not doing any Null Checks here is bad practice
         GameObject o = GameObject.FindGameObjectWithTag("BuildMenu");
         _BuildMenu = o.GetComponent<UIBuildMenu>();
-        o= GameObject.FindGameObjectWithTag("DestroyMenu");
+        o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
         checkingClicks = true;
     }
@@ -93,6 +94,8 @@ public class MVCController : MonoBehaviour
     */
     private GameObject checkClick(Vector3 MouseRaw)
     {
+
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -101,18 +104,18 @@ public class MVCController : MonoBehaviour
 
         // Gets the layer Mask Via Bitwise operations, then OR combines them.
         // This gets the "buildings" and "Player" Layer
-        LayerMask _LayerMask = (1 << 8) | (1<<9) | (1<<5);
+        LayerMask _LayerMask = (1 << 8) | (1 << 9) | (1 << 5);
 
-        RaycastHit2D hit=  Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
 
 
         if (hit.collider != null)
         {
-          // Debug.Log("Hit result:" + hit.collider.gameObject);
+            Debug.Log("Hit result:" + hit.collider.gameObject);
             if (_lastClicked == hit.collider.gameObject)
                 return _lastClicked;
 
-           // Debug.Log("Enter");
+            // Debug.Log("Enter");
             GameObject _TMPlastClicked = hit.collider.gameObject;
 
             if (_TMPlastClicked.GetComponent<BuildableObject>())
@@ -128,7 +131,7 @@ public class MVCController : MonoBehaviour
                 // check the state of the building clicked 
                 if (buildObj.getState() != BuildableObject.BuildingState.Built)
                 {
-                   if(_DestroyMenu.isActive())
+                    if (_DestroyMenu.isActive())
                         _DestroyMenu.showMenu(false, MouseRaw, _TMPlastClicked);
 
                     _BuildMenu.showMenu(true, MouseRaw, _TMPlastClicked);
@@ -153,7 +156,7 @@ public class MVCController : MonoBehaviour
             else if (_BuildMenu.isActive() || _DestroyMenu.isActive())
             {
                 _BuildMenu.showMenu(false, Vector3.zero, null);
-                _DestroyMenu.showMenu(false, Vector3.zero,null);
+                _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
                 Debug.Log("Case1");
@@ -167,16 +170,10 @@ public class MVCController : MonoBehaviour
             }
 
         }
-        //UI layer
-        _LayerMask = (1 << 5);
-         hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
-        Debug.LogError("Here comes the Ui TESt");
-        //THIS IS BUGGED, can not get the RayCast to See UI OBjects? -- need to research
-        if (hit.collider==null)  
-        {
-            // Debug.Log("Hit result UI:" + hit.collider.gameObject);
+       else if (checkingClicks)// should only happen if we arent hovering over a UI button
+        { 
 
-            
+            //UI layer
             // If a Menu is active, and we click off of the object, we want to close the menu
             if (_BuildMenu.isActive())
             {
@@ -192,6 +189,8 @@ public class MVCController : MonoBehaviour
                 _lastClicked = null;
                 Debug.Log("Case3");
             }
+
+
         }
         return null;
     }
@@ -210,6 +209,15 @@ public class MVCController : MonoBehaviour
                 return true;
 
         return true;
+    }
+
+    public GameObject getLastClicked()
+    {
+        return _lastClicked;
+    }
+    public void clearLastClicked()
+    {
+        _lastClicked = null;
     }
 }
 

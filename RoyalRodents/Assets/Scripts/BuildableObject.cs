@@ -34,6 +34,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     private SpriteRenderer srWorker;
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
+    private MVCController controller;
 
     [SerializeField]
     private float _hitpoints = 0;
@@ -89,6 +90,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         _BuildMenu = o.GetComponent<UIBuildMenu>();
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
+
+        o = GameObject.FindGameObjectWithTag("MVC");
+        if (o)
+        {
+            if (o.GetComponent<MVCController>())
+                controller = o.GetComponent<MVCController>();
+            else
+                Debug.LogError("UI Costs cant find MVC Controller");
+        }
+
     }
 
     // Update is called once per frame
@@ -322,12 +333,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete();
         }
 
-        GameManager.Instance.incrementVictoryPoints(1);
+        if(controller.getLastClicked()==this.gameObject)
+            controller.clearLastClicked();
     }
     public void DemolishComplete()
     {
         eState = BuildingState.Available;
         sr.sprite = _statedefault;
+        if (controller.getLastClicked() == this.gameObject)
+            controller.clearLastClicked();
     }
 
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on

@@ -8,10 +8,15 @@ public class GameManager : MonoBehaviour
 {
 
     private static GameManager _instance;
+	//local Resource Vars
     public int _gold = 1;
     public int _victoryPoints;
+
+	//TopPanel UI Resource Bar Text
     public TextMeshProUGUI _VictoryText;
     public TextMeshProUGUI _GoldText;
+
+	//
     public Image _WinImg;
     public Image _LoseImg;
     public Animator _WinAnimator;
@@ -19,7 +24,10 @@ public class GameManager : MonoBehaviour
     public Button _ButtonQuit;
     public Image _SplashScreen;
     private bool _firstClick;
+
+	//ResourceManagerScript
 	private ResourceManagerScript _rm;
+
 
     public static GameManager Instance
     {
@@ -112,6 +120,14 @@ public class GameManager : MonoBehaviour
             _GoldText.text = _gold.ToString();
         }
     }
+
+	//update TopPanel Resource UI to current Resource Variables
+	public void updateTopPanelUI()
+	{
+		_VictoryText.text = _victoryPoints.ToString();
+		_GoldText.text = _gold.ToString();
+	}
+
     public void youWin()
     {
         if(_WinAnimator)

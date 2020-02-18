@@ -2571,7 +2571,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anims: {fileID: 424029616}
-  health: 30
   moveSpeed: 0.5
   target: {fileID: 0}
 --- !u!95 &424029616

@@ -9,13 +9,6 @@ public class bHouse :MonoBehaviour
 	public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
 
 
-    public bHouse() // calls BuildObjectConstructor by default
-    {
-        
-    }
-
-
-
     // Start is called before the first frame update
     void Start()
     {

@@ -46,7 +46,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
 
 
-    //interface stuff
+    /**Begin Interface stuff*/
     public void Damage(float damageTaken)
     {
         if (_hitpoints - damageTaken > 0)
@@ -67,13 +67,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         if (_hitpoints == 0)
             _HealthBar.gameObject.SetActive(false);
     }
-
+    /** End interface stuff*/
 
 
     // Start is called before the first frame update
     void Start()
     {
         sr = this.transform.GetComponent<SpriteRenderer>();
+        _statedefault= Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_concept");
         sr.sprite = _statedefault;
 
         srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
@@ -129,7 +130,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                     srNotify.sprite = _buildingHammer;
                     srWorker.sprite = _emptyWorker;
                     srNotify.enabled = true;
-                   // srWorker.enabled = true;
+                    srWorker.enabled = true;
                     _animator.SetBool("Building", true);
                     break;
                 }
@@ -144,7 +145,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             case BuildingState.Built:
                 {
                     srNotify.enabled = false;
-                  //  srWorker.enabled = true;
+                    srWorker.enabled = true;
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
@@ -179,8 +180,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             // Turns off the "notification exclamation mark" as the player is now aware of obj
             eState = BuildingState.Idle;
 
-            //Disconnect here, MVC controller is now responsible for talking to UI, however the check is best done here.
-            //_BuildMenu.showMenu(true, MouseRaw);
+            //Disconnect here, MVC controller is now responsible for talking to UI
         }
         else
         {
@@ -194,7 +194,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     // Called from MVC controller
     public virtual void BuildSomething(string type)
     {
-        Debug.Log("Time to Build Something type=" + type);
+       // Debug.Log("Time to Build Something type=" + type);
         switch (type)
         {
             case ("house"):
@@ -243,7 +243,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     // Called from MVC controller
     public  void DemolishSomething()
     {
-        Debug.Log("Time to Destroy Something type=" );
+       // Debug.Log("Time to Destroy Something" );
         switch (eType)
         {
             case (BuildingType.House):
@@ -308,7 +308,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         DemolishComplete();
     }
 
-    //Upon completetion let the correct script know to assign the new Sprite, and update our HP/Type.
+    //Upon completion let the correct script know to assign the new Sprite, and update our HP/Type.
     public void BuildComplete()
     {
         eState = BuildingState.Built;
@@ -333,6 +333,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete();
         }
 
+        //Resets it so we can click again without clicking off first
         if(controller.getLastClicked()==this.gameObject)
             controller.clearLastClicked();
     }

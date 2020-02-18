@@ -46,13 +46,15 @@ public class UIButtonCosts : MonoBehaviour
         currentGold = GameManager.Instance._gold;
         if (text!=null)
         {
-			foreach(string key in  _cost.Keys)
-			{
-				int tmp;
-				_cost.TryGetValue(key, out tmp);
-				cost = tmp;
-			}
-
+            if (_cost!=null)
+            {
+                foreach (string key in _cost.Keys)
+                {
+                    int tmp;
+                    _cost.TryGetValue(key, out tmp);
+                    cost = tmp;
+                }
+            }
 
             text.text = currentGold.ToString() + "/" + cost;
             if (currentGold < cost)
@@ -69,7 +71,7 @@ public class UIButtonCosts : MonoBehaviour
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts(string type)
     {
-        Debug.Log("request to approve");
+       // Debug.Log("request to approve");
         if (type.Equals("house"))
         {
 
@@ -78,29 +80,29 @@ public class UIButtonCosts : MonoBehaviour
         if (currentGold >= cost)
         {
             controller.buildSomething(type);
-           Debug.Log("Cost Approved");
+          // Debug.Log("Cost Approved");
         }
         else
         {
-            Debug.LogError("Cost is not approved");
+           // Debug.LogError("Cost is not approved");
         }
     }
 
     public void Demolish()
     {
-        Debug.Log("Heard Demolish");
+        //Debug.Log("Heard Demolish");
         controller.DemolishSomething();
     }
 
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/
     public void MouseEnter()
     {
-        Debug.Log("HEARD ENTER");
+       // Debug.Log("HEARD ENTER");
         controller.CheckClicks(false);
     }
     public void MouseExit()
     {
-        Debug.Log("HEARD EXIT");
+       // Debug.Log("HEARD EXIT");
         controller.CheckClicks(true);
     }
 }

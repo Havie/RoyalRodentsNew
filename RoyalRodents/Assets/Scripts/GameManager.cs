@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Button _ButtonQuit;
     public Image _SplashScreen;
     private bool _firstClick;
+	private ResourceManagerScript _rm;
 
     public static GameManager Instance
     {

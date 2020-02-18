@@ -5,33 +5,37 @@ using UnityEngine;
 public class ResourceManagerScript : MonoBehaviour
 {
     //create resource variables
-    private int food, trash, wood, metal, shiny;
+    private int _food, _trash, _wood, _metal, _shiny;
 
-    //create rodent recruited array list
-    public GameObject prefab;
-    List<GameObject> goList;
+	//resource icon sprites
+	public Sprite _foodIcon;
+	public Sprite _trashIcon;
+	public Sprite _woodIcon;
+	public Sprite _metalIcon;
+	public Sprite _shinyIcon;
 
-    //setters and getters for resource variable properties
-    public int Food
+
+	//setters and getters for resource variable properties
+	public int Food
     {
         get
         {
-            return food;
+            return _food;
         }
         set
         {
-            food = value;
+			_food = value;
         }
     }
     public int Trash
     {
         get
         {
-            return trash;
+            return _trash;
         }
         set
         {
-            trash = value;
+			_trash = value;
         }
     }
 
@@ -39,11 +43,11 @@ public class ResourceManagerScript : MonoBehaviour
     {
         get
         {
-            return wood;
+            return _wood;
         }
         set
         {
-            wood = value;
+			_wood = value;
         }
     }
 
@@ -51,11 +55,11 @@ public class ResourceManagerScript : MonoBehaviour
     {
         get
         {
-            return metal;
+            return _metal;
         }
         set
         {
-            metal = value;
+			_metal = value;
         }
     }
 
@@ -63,22 +67,22 @@ public class ResourceManagerScript : MonoBehaviour
     {
         get
         {
-            return shiny;
+            return _shiny;
         }
         set
         {
-            shiny = value;
+			_shiny = value;
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        food = 0;
-        trash = 0;
-        wood = 0;
-        metal = 0;
-        shiny = 0;
+		_food = 0;
+		_trash = 0;
+		_wood = 0;
+		_metal = 0;
+		_shiny = 0;
 
         goList = new List<GameObject>();
     }
@@ -86,37 +90,6 @@ public class ResourceManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //add object to rodent recruit array list
-        if (Input.GetKeyDown(KeyCode.I) {
-            // This random position is for fun :D
-            Vector3 rndPos = new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20));
-
-            // Create a new GameObject from prefab and move to random position
-            goList.Add((GameObject)Instanciate(prefab, rndPos, Quaternion.Identity);
-        }
-
-        //Hold L to show recruit array list
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log(goList.Count);
-            foreach (GameObject go in goList)
-            {
-                Debug.Log(go.name);
-            }
-        }
+        
     }
-
-    /*
-    private class Resource
-    {
-        public enum ResourceType
-        {
-            Food,
-            Trash,
-            Wood,
-            Metal,
-            Shiny
-        }
-    }
-    */
 }

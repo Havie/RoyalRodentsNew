@@ -2571,7 +2571,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anims: {fileID: 424029616}
-  health: 30
   moveSpeed: 0.5
   target: {fileID: 0}
 --- !u!95 &424029616
@@ -2651,7 +2650,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424029614}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.757986, y: -193.32362, z: 0}
+  m_LocalPosition: {x: -7.71, y: -193.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

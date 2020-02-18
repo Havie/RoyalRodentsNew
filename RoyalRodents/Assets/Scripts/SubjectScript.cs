@@ -14,7 +14,7 @@ using UnityEngine;
  */
 public class SubjectScript : MonoBehaviour
 {
-    public Animation anims;
+    public Animator anims;
     public float health = 30f;
     public float moveSpeed = 0.5f;
     public GameObject target;
@@ -23,7 +23,6 @@ public class SubjectScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        anims = this.GetComponent<Animation>();
         facingRight = false;
     }
 
@@ -38,12 +37,10 @@ public class SubjectScript : MonoBehaviour
             if(Mathf.Abs(targetLocation.x - transform.position.x) > 0.5f)
             {
                 Move(targetLocation);
-                // TODO: Start idle animation
-                anims.Play("ratIdle");
             }
             else
             {
-                //TODO: free movement for rodents without targets
+                anims.SetFloat("currentSpeed", 0);
 
             }
         }
@@ -52,8 +49,10 @@ public class SubjectScript : MonoBehaviour
     // Moves the rat towards its target
     void Move(Vector3 pos)
     {
-        if(transform.position.x > pos.x)
+        anims.SetFloat("currentSpeed", 1);
+        if (transform.position.x > pos.x)
         {
+
             if (facingRight)
             {
                 flipDirection();

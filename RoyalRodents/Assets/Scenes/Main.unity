@@ -2552,7 +2552,7 @@ GameObject:
   - component: {fileID: 424029619}
   - component: {fileID: 424029615}
   m_Layer: 0
-  m_Name: RatSprite_0
+  m_Name: Chunkboy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2570,7 +2570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9b972cac7e1e54387ecd51f4d84866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anims: {fileID: 0}
+  anims: {fileID: 424029616}
   health: 30
   moveSpeed: 0.5
   target: {fileID: 0}

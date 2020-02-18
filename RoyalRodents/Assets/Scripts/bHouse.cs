@@ -6,7 +6,7 @@ public class bHouse :MonoBehaviour
 {
     private Sprite _built;
     private float _hitpoints = 50;
-
+    public static Dictionary<string, int> _cost;
 
 
     public bHouse() // calls BuildObjectConstructor by default
@@ -20,6 +20,8 @@ public class bHouse :MonoBehaviour
     void Start()
     {
         _built = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored_y");
+        _cost.Add("Wood", 3);
+        _cost.Add("Trash", 4);
        
     }
 

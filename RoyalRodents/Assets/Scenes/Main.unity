@@ -2549,6 +2549,7 @@ GameObject:
   - component: {fileID: 424029618}
   - component: {fileID: 424029617}
   - component: {fileID: 424029616}
+  - component: {fileID: 424029619}
   - component: {fileID: 424029615}
   m_Layer: 0
   m_Name: Chunkboy
@@ -2572,7 +2573,7 @@ MonoBehaviour:
   anims: {fileID: 424029616}
   health: 30
   moveSpeed: 0.5
-  target: {fileID: 211813086}
+  target: {fileID: 0}
 --- !u!95 &424029616
 Animator:
   serializedVersion: 3
@@ -2656,6 +2657,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &424029619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424029614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2b61cb9328daa439df04b522b6e2ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Hp: 50
+  _HpMax: 100
+  _MoveSpeed: 2
+  _AttackDamage: 1
+  _HealthBar: {fileID: 0}
+  _Name: Rodent
+  _Type: 6
 --- !u!1 &489813140
 GameObject:
   m_ObjectHideFlags: 0

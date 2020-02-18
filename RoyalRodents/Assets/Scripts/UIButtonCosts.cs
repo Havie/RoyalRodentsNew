@@ -56,6 +56,10 @@ public class UIButtonCosts : MonoBehaviour
     public void ApproveCosts(string type)
     {
         Debug.Log("request to approve");
+        if (type.Equals("house"))
+        {
+            Dictionary<string, int> cost = bHouse._cost;
+        }
 
         if (currentGold >= cost)
         {

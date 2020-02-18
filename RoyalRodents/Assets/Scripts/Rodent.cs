@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour ,IDamageable<float>
+public class Rodent : MonoBehaviour, IDamageable<float>
 {
-    public float _Hp=50f;
+
+    public float _Hp = 50f;
     public float _HpMax = 100f;
     [Range(0, 10f)]
     public float _MoveSpeed = 2f;
-    public float _AttackDamage = 10f;
+    public float _AttackDamage = 1f;
     public HealthBar _HealthBar;
 
-    //Interface Stuff
+    public string _Name="Rodent";
+
+    [SerializeField]
+    private RodentType _Type = RodentType.Default;
+
+    public enum RodentType { Rat, Badger, Beaver, Raccon, Mouse, Porcupine, Default };
+
+
+
+    /**Interface Stuff */
     public void Damage(float damageTaken)
     {
         if (_Hp - damageTaken > 0)
@@ -19,9 +29,8 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
         else
         {
             _Hp = 0;
-            //Super slop::
-            this.GetComponent<PlayerMovement>().Die();
-            
+            Die();
+
         }
 
         //Debug.LogWarning("HP=" + _Hp);
@@ -39,17 +48,25 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
         if (_HealthBar)
             _HealthBar.SetSize(_Hp / _HpMax);
     }
+    /** End Interface Stuff */
+
 
     // Start is called before the first frame update
     void Start()
     {
-        _Hp = 50f;
-        SetUpHealthBar(_HealthBar.gameObject);
-        UpdateHealthBar();
+
     }
 
-    void LateUpdate()
+    // Update is called once per frame
+    void Update()
     {
-        _HealthBar.transform.position = this.transform.position + new Vector3(0, 1, 0);
+
+    }
+
+
+    public void Die()
+    {
+        //Should this be in Rodent or in AIController which holds the Animator?
     }
 }
+

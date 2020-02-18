@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rodent : MonoBehaviour, IDamageable<float>
+public class Rodent : MonoBehaviour , IDamageable<float>
 {
 
     public float _Hp = 50f;
@@ -17,7 +17,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     [SerializeField]
     private RodentType _Type = RodentType.Default;
 
-    public enum RodentType { Rat, Badger, Beaver, Raccon, Mouse, Porcupine, Default };
+    public enum RodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, Default };
 
 
 

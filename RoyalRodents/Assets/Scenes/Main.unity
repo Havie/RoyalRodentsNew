@@ -1346,7 +1346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Hp: 0
   _HpMax: 100
-  _Move_Speed: 5.15
+  _MoveSpeed: 2
   _AttackDamage: 10
   _HealthBar: {fileID: 1659600318395307564, guid: 3998ea7aadd183a4cbb2c6428b2dc2d6,
     type: 3}
@@ -2549,6 +2549,7 @@ GameObject:
   - component: {fileID: 424029618}
   - component: {fileID: 424029617}
   - component: {fileID: 424029616}
+  - component: {fileID: 424029619}
   - component: {fileID: 424029615}
   m_Layer: 0
   m_Name: RatSprite_0
@@ -2569,10 +2570,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9b972cac7e1e54387ecd51f4d84866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ratAnim: {fileID: 0}
+  anims: {fileID: 0}
   health: 30
   moveSpeed: 0.5
-  target: {fileID: 211813086}
+  target: {fileID: 0}
 --- !u!95 &424029616
 Animator:
   serializedVersion: 3
@@ -2654,8 +2655,27 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &424029619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424029614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f2b61cb9328daa439df04b522b6e2ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Hp: 50
+  _HpMax: 100
+  _MoveSpeed: 2
+  _AttackDamage: 1
+  _HealthBar: {fileID: 0}
+  _Name: Rodent
+  _Type: 6
 --- !u!1 &489813140
 GameObject:
   m_ObjectHideFlags: 0

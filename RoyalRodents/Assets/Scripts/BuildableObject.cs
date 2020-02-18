@@ -24,22 +24,24 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
 
     [SerializeField]
-    protected BuildingState eState;
+    private BuildingState eState;
 
     [SerializeField]
-    protected BuildingType eType;
+    private BuildingType eType;
 
     private SpriteRenderer sr;
     private SpriteRenderer srNotify;
     private SpriteRenderer srWorker;
     private UIBuildMenu _BuildMenu;
+    private UIBuildMenu _DestroyMenu;
+    private MVCController controller;
 
     [SerializeField]
     private float _hitpoints = 0;
     private float _hitpointsMax = 0;
 
-    protected enum BuildingState { Available, Idle, Building, Built };
-    protected enum BuildingType { House, Farm, Tower, Wall, TownCenter, Vacant}
+    public enum BuildingState { Available, Idle, Building, Built };
+    public enum BuildingType { House, Farm, Tower, Wall, TownCenter, Vacant}
 
 
 
@@ -66,15 +68,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             _HealthBar.gameObject.SetActive(false);
     }
 
-    public BuildableObject()
-    {
-
-    }
-
-    public BuildableObject(string custom)
-    {
-        //this is a secondary constructor, see House class
-    }
 
 
     // Start is called before the first frame update
@@ -95,6 +88,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
         GameObject o=GameObject.FindGameObjectWithTag("BuildMenu");
         _BuildMenu = o.GetComponent<UIBuildMenu>();
+        o = GameObject.FindGameObjectWithTag("DestroyMenu");
+        _DestroyMenu = o.GetComponent<UIBuildMenu>();
+
+        o = GameObject.FindGameObjectWithTag("MVC");
+        if (o)
+        {
+            if (o.GetComponent<MVCController>())
+                controller = o.GetComponent<MVCController>();
+            else
+                Debug.LogError("UI Costs cant find MVC Controller");
+        }
+
     }
 
     // Update is called once per frame
@@ -148,6 +153,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
     }
 
+    public BuildingState getState()
+    {
+        return eState;
+    }
+    public BuildingType getType()
+    {
+        return eType;
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -189,46 +202,97 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 eType = BuildingType.House;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a house");
+               // Debug.Log("Made a house");
                 break;
             case ("farm"):
                 this.gameObject.AddComponent<bFarm>();
                 eType = BuildingType.Farm;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a Farm");
+               // Debug.Log("Made a Farm");
                 break;
             case ("wall"):
                 this.gameObject.AddComponent<bWall>();
                 eType = BuildingType.Wall;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a Wall");
+               // Debug.Log("Made a Wall");
                 break;
             case ("tower"):
                 this.gameObject.AddComponent<bTower>();
                 eType = BuildingType.Tower;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a Tower");
+               // Debug.Log("Made a Tower");
                 break;
             case ("towncenter"):
                 this.gameObject.AddComponent<bTownCenter>();
                 eType = BuildingType.TownCenter;
                 eState = BuildingState.Building;
                 sr.sprite = _stateConstruction;
-                Debug.Log("Made a TownCenter");
+               // Debug.Log("Made a TownCenter");
                 break;
 
             case null:
                 break;
         }
-        _BuildMenu.showMenu(false, Vector3.zero);
+        _BuildMenu.showMenu(false, Vector3.zero,null);
         StartCoroutine(BuildCoroutine());
-
-
-
     }
+
+    // Called from MVC controller
+    public  void DemolishSomething()
+    {
+        Debug.Log("Time to Destroy Something type=" );
+        switch (eType)
+        {
+            case (BuildingType.House):
+                bHouse house = this.GetComponent<bHouse>();
+                Destroy(house);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Available;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a house");
+                break;
+            case (BuildingType.Farm):
+                bFarm farm = this.GetComponent<bFarm>();
+                Destroy(farm);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a Farm");
+                break;
+            case (BuildingType.Wall):
+                bWall wall = this.GetComponent<bWall>();
+                Destroy(wall);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a Wall");
+                break;
+            case (BuildingType.Tower):
+                bTower tower = this.GetComponent<bTower>();
+                Destroy(tower);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a Tower");
+                break;
+            case (BuildingType.TownCenter):
+                bTownCenter btc = this.GetComponent<bTownCenter>();
+                Destroy(btc);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                sr.sprite = _stateConstruction;
+                // Debug.Log("Destroyed a TownCenter");
+                break;
+
+        }
+        _DestroyMenu.showMenu(false, Vector3.zero, null);
+        StartCoroutine(DemolishCoroutine());
+    }
+
+
 
     //Temporary way to delay construction
     IEnumerator BuildCoroutine()
@@ -236,6 +300,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         yield return new WaitForSeconds(5f);
         BuildComplete();
 
+    }
+
+    IEnumerator DemolishCoroutine()
+    {
+        yield return new WaitForSeconds(5f);
+        DemolishComplete();
     }
 
     //Upon completetion let the correct script know to assign the new Sprite, and update our HP/Type.
@@ -263,11 +333,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete();
         }
 
-
-
-
-
-        GameManager.Instance.incrementVictoryPoints(1);
+        if(controller.getLastClicked()==this.gameObject)
+            controller.clearLastClicked();
+    }
+    public void DemolishComplete()
+    {
+        eState = BuildingState.Available;
+        sr.sprite = _statedefault;
+        if (controller.getLastClicked() == this.gameObject)
+            controller.clearLastClicked();
     }
 
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on

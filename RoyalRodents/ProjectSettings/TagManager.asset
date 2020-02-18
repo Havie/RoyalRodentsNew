@@ -9,6 +9,9 @@ TagManager:
   - TownCenter
   - MVC
   - DestroyMenu
+  - PlayerRodent
+  - NeutralRodent
+  - EnemyRodent
   layers:
   - Default
   - TransparentFX

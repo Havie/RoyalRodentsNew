@@ -18,18 +18,24 @@ public class Rat : MonoBehaviour
     private void Awake()
     {
         _Default = Resources.Load<Sprite>("Rodent/FatRat/RatSprite_0");
-        _AnimatorController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/RatSprite_1");
+        _AnimatorController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/RatController");
     }
 
     // Start is called before the first frame update
     void Start()
     {
         this.GetComponent<SpriteRenderer>().sprite = _Default;
-        //this.GetComponent<Animator>().runtimeAnimatorController = _AnimatorController;
+        this.GetComponent<Animator>().runtimeAnimatorController = _AnimatorController;
 
-        //Tmp until getter/setter
-        this.GetComponent<SubjectScript>().moveSpeed = _MoveSpeed;
-        //this.GetComponent<Rodent>().set= _MoveSpeed;
+        Rodent r = this.GetComponent<Rodent>();
+        if(r)
+        {
+            r.setSpeed(_MoveSpeed);
+            r.setHpMax(_HpMax);
+            r.setHp(_Hp);
+            r.setAttackDmg(_AttackDamage);
+        }
+
 
         //TMP Test - Finds and follows the player
         this.GetComponent<SubjectScript>().target = GameObject.FindObjectOfType<PlayerStats>().gameObject;

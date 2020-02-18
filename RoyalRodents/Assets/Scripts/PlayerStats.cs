@@ -11,7 +11,7 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     public float _AttackDamage = 10f;
     public HealthBar _HealthBar;
 
-    //Interface Stuff
+    /**Begin Interface stuff*/
     public void Damage(float damageTaken)
     {
         if (_Hp - damageTaken > 0)
@@ -19,11 +19,14 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
         else
         {
             _Hp = 0;
-            //Super slop::
-            this.GetComponent<PlayerMovement>().Die();
+            //Sloppy?
+            PlayerMovement pm = this.GetComponent<PlayerMovement>();
+            if (pm)
+                pm.Die();
+            else
+                Debug.LogError("Should have died but cant find PlayerMovement");
             
         }
-
         //Debug.LogWarning("HP=" + _Hp);
         UpdateHealthBar();
     }
@@ -39,6 +42,8 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
         if (_HealthBar)
             _HealthBar.SetSize(_Hp / _HpMax);
     }
+    /**End Interface stuff*/
+
 
     // Start is called before the first frame update
     void Start()

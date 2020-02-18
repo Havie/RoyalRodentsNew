@@ -111,7 +111,7 @@ public class MVCController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Hit result:" + hit.collider.gameObject);
+           // Debug.Log("Hit result:" + hit.collider.gameObject);
             if (_lastClicked == hit.collider.gameObject)
                 return _lastClicked;
 
@@ -120,7 +120,7 @@ public class MVCController : MonoBehaviour
 
             if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
-                Debug.Log("Case0");
+               // Debug.Log("Case0");
                 // Debug.Log("Last Clicked is a buildingobj:" + lastClicked.name);
                 BuildableObject buildObj = _TMPlastClicked.GetComponent<BuildableObject>();
                 buildObj.imClicked();
@@ -159,11 +159,11 @@ public class MVCController : MonoBehaviour
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
-                Debug.Log("Case1");
+               // Debug.Log("Case1");
             }
             else
             {
-                Debug.LogError("else??");
+                //Debug.LogError("else??");
                 _isBuilding = false;
                 _lastClicked = null;
                 return null;

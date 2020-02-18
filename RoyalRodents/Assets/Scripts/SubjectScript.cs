@@ -40,7 +40,7 @@ public class SubjectScript : MonoBehaviour
             }
             else
             {
-                //TODO: free movement for rodents without targets
+                anims.SetFloat("currentSpeed", 0);
 
             }
         }
@@ -49,9 +49,9 @@ public class SubjectScript : MonoBehaviour
     // Moves the rat towards its target
     void Move(Vector3 pos)
     {
+        anims.SetFloat("currentSpeed", 1);
         if (transform.position.x > pos.x)
         {
-            anims.SetFloat("currentSpeed", 1);
 
             if (facingRight)
             {

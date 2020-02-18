@@ -29,7 +29,7 @@ public class Rat : MonoBehaviour
 
         //Tmp until getter/setter
         this.GetComponent<SubjectScript>().moveSpeed = _MoveSpeed;
-        this.GetComponent<Rodent>()._MoveSpeed= _MoveSpeed;
+        //this.GetComponent<Rodent>().set= _MoveSpeed;
 
         //TMP Test - Finds and follows the player
         this.GetComponent<SubjectScript>().target = GameObject.FindObjectOfType<PlayerStats>().gameObject;

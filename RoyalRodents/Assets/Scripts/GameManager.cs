@@ -62,6 +62,8 @@ public class GameManager : MonoBehaviour
         _LoseAnimator = _LoseImg.GetComponent<Animator>();
         //Shows the splash screen (TMP till main menu?)
         _SplashScreen.gameObject.SetActive(true);
+		//Get ResourceManagerScript from Component
+		_rm = this.GetComponent<ResourceManagerScript>();
     }
 
     // Update is called once per frame

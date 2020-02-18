@@ -5,8 +5,10 @@ using TMPro;
 
 public class UIButtonCosts : MonoBehaviour
 {
-    public int cost;
-    public int currentGold;
+    int cost;
+	public string _type;
+	public Dictionary<string, int> _cost;
+	public int currentGold;
     public TextMeshProUGUI text;
     MVCController controller;
 
@@ -27,7 +29,11 @@ public class UIButtonCosts : MonoBehaviour
        
         text=  this.gameObject.transform.GetComponent<TextMeshProUGUI>();
         UpdateCosts();
-    }
+
+
+		if(_type.Equals("house"))
+			_cost = bHouse._costLevel1;
+	}
 
      void Update()
     {
@@ -40,6 +46,14 @@ public class UIButtonCosts : MonoBehaviour
         currentGold = GameManager.Instance._gold;
         if (text!=null)
         {
+			foreach(string key in  _cost.Keys)
+			{
+				int tmp;
+				_cost.TryGetValue(key, out tmp);
+				cost = tmp;
+			}
+
+
             text.text = currentGold.ToString() + "/" + cost;
             if (currentGold < cost)
             {
@@ -58,7 +72,7 @@ public class UIButtonCosts : MonoBehaviour
         Debug.Log("request to approve");
         if (type.Equals("house"))
         {
-            Dictionary<string, int> cost = bHouse._cost;
+
         }
 
         if (currentGold >= cost)

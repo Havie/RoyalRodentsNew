@@ -6,6 +6,7 @@ using UnityEngine;
  * Behavior script for rats in the player base.
  * - CURRENT FUNCTIONALITY -
  *      - Rats will run to whatever object is assigned and wait there.
+ *      - Now has a function that changes targets
  *      
  * - PLANNED FUTURE FUNCTIONALITY -
  *      - Rats will be assigned buildings to run towards.
@@ -43,6 +44,10 @@ public class SubjectScript : MonoBehaviour
                 anims.SetFloat("currentSpeed", 0);
 
             }
+        }
+        else
+        {
+
         }
     }
 

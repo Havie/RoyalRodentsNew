@@ -54,7 +54,7 @@ public class SubjectScript : MonoBehaviour
         }
     }
    
-    void setSpeed(float nSpeed)
+    public void setSpeed(float nSpeed)
     {
         this.moveSpeed = nSpeed;
     }

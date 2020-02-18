@@ -25,11 +25,11 @@ public class Rat : MonoBehaviour
     void Start()
     {
         this.GetComponent<SpriteRenderer>().sprite = _Default;
-        this.GetComponent<Animator>().runtimeAnimatorController = _AnimatorController;
+        //this.GetComponent<Animator>().runtimeAnimatorController = _AnimatorController;
 
         //Tmp until getter/setter
         this.GetComponent<SubjectScript>().moveSpeed = _MoveSpeed;
-        this.GetComponent<Rodent>()._MoveSpeed = _MoveSpeed;
+        this.GetComponent<Rodent>()._MoveSpeed= _MoveSpeed;
 
         //TMP Test - Finds and follows the player
         this.GetComponent<SubjectScript>().target = GameObject.FindObjectOfType<PlayerStats>().gameObject;

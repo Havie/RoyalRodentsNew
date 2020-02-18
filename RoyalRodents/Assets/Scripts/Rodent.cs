@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class Rodent : MonoBehaviour , IDamageable<float>
 {
-
-    public float _Hp = 50f;
-    public float _HpMax = 100f;
-    [Range(0, 10f)]
-    public float _MoveSpeed = 2f;
-    public float _AttackDamage = 1f;
     public HealthBar _HealthBar;
 
-    public string _Name="Rodent";
-
+    [SerializeField]
+    private float _Hp = 50f;
+    [SerializeField]
+    private float _HpMax = 100f;
+    [SerializeField]
+    [Range(0, 10f)]
+    private float _MoveSpeed = 2f;
+    [SerializeField]
+    private float _AttackDamage = 1f;
+    [SerializeField]
+    private string _Name="Rodent";
     [SerializeField]
     private RodentType _Type = RodentType.Default;
 
@@ -61,6 +64,30 @@ public class Rodent : MonoBehaviour , IDamageable<float>
     void Update()
     {
 
+    }
+
+    public float HpMax
+    {
+        get
+        {
+            return _HpMax;
+        }
+        set
+        {
+            _HpMax = value;
+        }
+    }
+
+    public float MoveSpeed
+    {
+        get
+        {
+            return _MoveSpeed;
+        }
+        set
+        {
+            _MoveSpeed = value;
+        }
     }
 
 

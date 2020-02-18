@@ -51,6 +51,9 @@ public class SubjectScript : MonoBehaviour
         else
         {
             //TODO: free movement for rats with no target
+            float randX = Random.Range(transform.position.x - 100f, transform.position.x + 100f);
+            Vector3 randDistance = new Vector3(randX, 0, 0);
+            Move(randDistance);
         }
     }
    

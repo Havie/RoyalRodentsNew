@@ -16,7 +16,6 @@ using UnityEngine;
 public class SubjectScript : MonoBehaviour
 {
     public Animator anims;
-    public float health = 30f;
     public float moveSpeed = 0.5f;
     public GameObject target;
     private bool facingRight;
@@ -41,20 +40,38 @@ public class SubjectScript : MonoBehaviour
             }
             else
             {
-                anims.SetFloat("currentSpeed", 0);
+                if (anims)
+                {
+                    anims.SetBool("isMoving", false);
+                }
+                
 
             }
         }
         else
         {
-
+            //TODO: free movement for rats with no target
         }
+    }
+   
+    void setSpeed(float nSpeed)
+    {
+        this.moveSpeed = nSpeed;
+    }
+
+    float getSpeed()
+    {
+        return moveSpeed;
     }
 
     // Moves the rat towards its target
     void Move(Vector3 pos)
     {
-        anims.SetFloat("currentSpeed", 1);
+        if (anims)
+        {
+            anims.SetBool("isMoving", true);
+        }
+        
         if (transform.position.x > pos.x)
         {
 

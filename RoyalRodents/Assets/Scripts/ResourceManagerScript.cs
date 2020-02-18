@@ -83,8 +83,6 @@ public class ResourceManagerScript : MonoBehaviour
 		_wood = 0;
 		_metal = 0;
 		_shiny = 0;
-
-        goList = new List<GameObject>();
     }
 
     // Update is called once per frame

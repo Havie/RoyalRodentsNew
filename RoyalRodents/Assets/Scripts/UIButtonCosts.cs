@@ -60,8 +60,29 @@ public class UIButtonCosts : MonoBehaviour
         if (currentGold >= cost)
         {
             controller.buildSomething(type);
-            Debug.Log("Cost Approved");
+           Debug.Log("Cost Approved");
+        }
+        else
+        {
+            Debug.LogError("Cost is not approved");
         }
     }
 
+    public void Demolish()
+    {
+        Debug.Log("Heard Demolish");
+        controller.DemolishSomething();
+    }
+
+    /**Called by "Event Trigger Pointer Enter/Exit on Button*/
+    public void MouseEnter()
+    {
+        Debug.Log("HEARD ENTER");
+        controller.CheckClicks(false);
+    }
+    public void MouseExit()
+    {
+        Debug.Log("HEARD EXIT");
+        controller.CheckClicks(true);
+    }
 }

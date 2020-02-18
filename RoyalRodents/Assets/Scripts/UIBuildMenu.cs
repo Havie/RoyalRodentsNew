@@ -10,13 +10,14 @@ public class UIBuildMenu : MonoBehaviour
 
     public Button[] buttons;
 
-    private static bool active;
+    private bool _active;
+    private GameObject _current;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        showMenu(false, Vector3.zero);
+        showMenu(false, Vector3.zero,null);
     }
 
     // Update is called once per frame
@@ -25,9 +26,10 @@ public class UIBuildMenu : MonoBehaviour
         
     }
 
-    public void showMenu(bool cond, Vector2 loc)
+    public void showMenu(bool cond, Vector2 loc, GameObject o)
     {
-        active = cond;
+        _active = cond;
+        _current = o;
         //GameObject o = GameObject.FindGameObjectWithTag("Canvas");
         //Canvas canvas = o.GetComponent<Canvas>();
         //Vector2 difference= canvas.GetComponent<RectTransform>().anchoredPosition- this.transform.GetComponent<RectTransform>().anchoredPosition;
@@ -49,16 +51,12 @@ public class UIBuildMenu : MonoBehaviour
 
     public bool isActive()
     {
-        return active;
-    }
-    public static bool isActive2()
-    {
-        return active;
+        return _active;
     }
 
-    //TMP
-    public RectTransform getRect()
+    public GameObject getLastObj()
     {
-        return this.transform.GetComponent<RectTransform>();
+        return _current;
     }
+ 
 }

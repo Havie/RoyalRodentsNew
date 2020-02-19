@@ -123,8 +123,9 @@ public class SubjectScript : MonoBehaviour
     }
 
     // Reassign rodent's target
-    void changeTarget(GameObject nTarget)
+    public void changeTarget(GameObject nTarget)
     {
+        Debug.Log("Changing Target to " + nTarget);
         this.target = nTarget;
     }
 }

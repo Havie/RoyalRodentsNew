@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class bWorkerScript : MonoBehaviour
 {
+
+    UIAssignmentMenu _menu;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _menu = MVCController.Instance.getAssignmentMenu();
     }
 
     private void OnMouseDown()
     {
-       // Debug.Log("WorkScriptActive");
+        //tell the MVC Controller which Building has been clicked
+       
+        MVCController.Instance.setLastClicked(this.transform.parent.gameObject);
 
         // Need to Ask GameManager for a List of Player Rodents
         List<Rodent> _PlayerRodents=GameManager.Instance.getPlayerRodents();
@@ -24,6 +28,10 @@ public class bWorkerScript : MonoBehaviour
             {
                 //do something / put into a Button
                 Debug.Log(r.getName() + "  is Available");
+                if(_menu)
+                {
+                    _menu.CreateButton(r);
+                }
             }
         }
     }

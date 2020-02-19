@@ -99,5 +99,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>
         //Should this be in Rodent or in AIController which holds the Animator?
         // the player script does this that way but it feels weird 
     }
+
+    public void setTarget(GameObject o)
+    {
+        //need proper getter/setter someday
+       SubjectScript s= this.GetComponent<SubjectScript>();
+        if (s)
+            s.changeTarget(o);
+    }
 }
 

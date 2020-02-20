@@ -15,6 +15,8 @@ public class MVCController : MonoBehaviour
 
     [SerializeField]
     private GameObject _lastClicked;
+    [SerializeField]
+    private GameObject _dummyObj;
     public bool _isBuilding;
 
     public bool checkingClicks;
@@ -45,6 +47,14 @@ public class MVCController : MonoBehaviour
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
         checkingClicks = true;
 
+        if (_dummyObj == null)
+        {
+            Transform t = this.transform.GetChild(0);
+            if (t)
+                _dummyObj = t.gameObject;
+            else
+                Debug.LogError("MVC controller cant find Dummy Object");
+        }
 
         //Debugg Mode:
         _printStatement = false;
@@ -112,7 +122,7 @@ public class MVCController : MonoBehaviour
         if (_printStatement)
             Debug.Log("Check Click!");
         if (!checkingClicks)
-            return null;
+            return _dummyObj;
 
         if (_printStatement)
             Debug.Log("Passed");
@@ -194,9 +204,10 @@ public class MVCController : MonoBehaviour
                 if (_TMPlastClicked.transform.parent.gameObject == _lastClicked)
                 {
                     //case that last clicked was assigned by the worker Portrait
-                   // Debug.Log("Worker Portrait");
+                    if(_printStatement)
+                         Debug.Log("Worker Portrait");
                     _isBuilding = true;
-                    return null;
+                    return _dummyObj;
                 }
                 if (_printStatement)
                     Debug.Log("Fall through Case");
@@ -255,10 +266,11 @@ public class MVCController : MonoBehaviour
     public bool checkIfAttackable(Vector3 MouseLoc)
     {
         GameObject go = checkClick(MouseLoc);
-       // Debug.Log("Attackable checked Go is::" + go);
+        if(_printStatement)
+            Debug.Log("Attackable checked Go is::" + go);
         if (go)
             //May need to check later on that the building is the enemies
-            if (go.GetComponent<BuildableObject>() || go.GetComponent<Button>())
+            if (go.GetComponent<BuildableObject>() || go == _dummyObj)
                 return false;
             else
                 return true;

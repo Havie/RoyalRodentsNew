@@ -16,7 +16,10 @@ public class HealthBar : MonoBehaviour
 
     public void SetSize(float sizeNormalized)
     {
+        if(bar)
         bar.localScale = new Vector3(sizeNormalized, 1f);
+        else
+            Debug.LogError("Some kind of health bar error??");
     }
 }
 

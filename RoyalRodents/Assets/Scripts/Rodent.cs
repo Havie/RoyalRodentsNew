@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rodent : MonoBehaviour , IDamageable<float>
+public class Rodent : MonoBehaviour, IDamageable<float>
 {
     public HealthBar _HealthBar;
 
@@ -16,15 +16,18 @@ public class Rodent : MonoBehaviour , IDamageable<float>
     [SerializeField]
     private float _AttackDamage = 1f;
     [SerializeField]
-    private string _Name="Rodent";
+    private string _Name = "Rodent";
     [SerializeField]
-    private RodentType _Type = RodentType.Default;
+    private eRodentType _Type = eRodentType.Default;
+    private eStatus _Status = eStatus.Available;
 
-    public enum RodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, Default };
+    public enum eRodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, Default };
+    public enum eStatus { Busy, Available, Building, Working, Army, Default};
+
+    private SubjectScript subjectScript;
 
 
-
-    /**Interface Stuff */
+    /**Begin Interface Stuff */
     public void Damage(float damageTaken)
     {
         if (_Hp - damageTaken > 0)
@@ -33,15 +36,14 @@ public class Rodent : MonoBehaviour , IDamageable<float>
         {
             _Hp = 0;
             Die();
-
         }
-
         //Debug.LogWarning("HP=" + _Hp);
         UpdateHealthBar();
     }
 
     public void SetUpHealthBar(GameObject go)
     {
+        //which comes first the chicken or the egg...
         _HealthBar = Instantiate(go).GetComponent<HealthBar>();
         _HealthBar.gameObject.transform.SetParent(this.transform);
     }
@@ -57,7 +59,13 @@ public class Rodent : MonoBehaviour , IDamageable<float>
     // Start is called before the first frame update
     void Start()
     {
+        SetUpHealthBar(_HealthBar.gameObject);
+        subjectScript = this.GetComponent<SubjectScript>();
+        if (subjectScript == null)
+            Debug.LogError("Warning No SubjectScript found for Rodent");
 
+        //get a name
+        _Name = RodentNames.getRandomName();
     }
 
     // Update is called once per frame
@@ -65,35 +73,39 @@ public class Rodent : MonoBehaviour , IDamageable<float>
     {
 
     }
-
-    public float HpMax
+    void LateUpdate()
     {
-        get
-        {
-            return _HpMax;
-        }
-        set
-        {
-            _HpMax = value;
-        }
+        _HealthBar.transform.position = this.transform.position + new Vector3(0, 1, 0);
     }
 
-    public float MoveSpeed
-    {
-        get
-        {
-            return _MoveSpeed;
-        }
-        set
-        {
-            _MoveSpeed = value;
-        }
-    }
+    public void setHp(float val) { _Hp = val; UpdateHealthBar(); }// use sparingly, should call Damage
+    public void setHpMax(float val) { _HpMax = val; UpdateHealthBar(); }
+    public void setSpeed(float val)  { _MoveSpeed = val; if(subjectScript)subjectScript.setSpeed(_MoveSpeed);  }
+    public void setAttackDmg(float val) => _AttackDamage = val;
+    public void setName(string s) => _Name = s;
+    public void setRodentType(eRodentType type) => _Type = type;
+    public void setRodentStatus(eStatus status) => _Status = status;
 
+    public float getHp() { return _Hp; }
+    public float getHpMax() { return _HpMax; }
+    public float getSpeed() { return _MoveSpeed; }
+    public float getAttackDmg() { return _AttackDamage; }
+    public string getName() { return _Name; }
+    public eRodentType GetRodentType() { return _Type; }
+    public eStatus GetRodentStatus() { return _Status; }
 
     public void Die()
     {
         //Should this be in Rodent or in AIController which holds the Animator?
+        // the player script does this that way but it feels weird 
+    }
+
+    public void setTarget(GameObject o)
+    {
+        //need proper getter/setter someday
+       SubjectScript s= this.GetComponent<SubjectScript>();
+        if (s)
+            s.changeTarget(o);
     }
 }
 

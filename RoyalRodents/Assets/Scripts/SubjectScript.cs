@@ -24,6 +24,10 @@ public class SubjectScript : MonoBehaviour
     void Start()
     {
         facingRight = false;
+        // a backup condition to get the right speed
+        Rodent r = this.GetComponent<Rodent>();
+        if (r)
+            moveSpeed=r.getSpeed();
     }
 
     // Update is called once per frame
@@ -119,8 +123,9 @@ public class SubjectScript : MonoBehaviour
     }
 
     // Reassign rodent's target
-    void changeTarget(GameObject nTarget)
+    public void changeTarget(GameObject nTarget)
     {
+        Debug.Log("Changing Target to " + nTarget);
         this.target = nTarget;
     }
 }

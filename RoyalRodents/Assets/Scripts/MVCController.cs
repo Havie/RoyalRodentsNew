@@ -21,7 +21,7 @@ public class MVCController : MonoBehaviour
 
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
-
+    private UIAssignmentMenu _AssignmentMenu;
 
     public static MVCController Instance
     {
@@ -46,9 +46,13 @@ public class MVCController : MonoBehaviour
 
 
 
-    public void Update()
+    public void SetUpAssignmentMenu(UIAssignmentMenu am)
     {
-
+        _AssignmentMenu = am;
+    }
+    public void SetUpBuildMenu(UIBuildMenu bm)
+    {
+        _BuildMenu = bm;
     }
 
     /** Called from "Approve Costs" in UIButtonCosts Script
@@ -94,7 +98,7 @@ public class MVCController : MonoBehaviour
     */
     private GameObject checkClick(Vector3 MouseRaw)
     {
-
+       // Debug.Log("Check Click!");
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
@@ -111,16 +115,16 @@ public class MVCController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.Log("Hit result:" + hit.collider.gameObject);
+           //Debug.Log("Hit result:" + hit.collider.gameObject);
             if (_lastClicked == hit.collider.gameObject)
                 return _lastClicked;
 
-            // Debug.Log("Enter");
+          // Debug.Log("Enter");
             GameObject _TMPlastClicked = hit.collider.gameObject;
 
             if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
-                Debug.Log("Case0");
+               // Debug.Log("Case0");
                 // Debug.Log("Last Clicked is a buildingobj:" + lastClicked.name);
                 BuildableObject buildObj = _TMPlastClicked.GetComponent<BuildableObject>();
                 buildObj.imClicked();
@@ -142,15 +146,14 @@ public class MVCController : MonoBehaviour
                         _BuildMenu.showMenu(false, MouseRaw, _TMPlastClicked);
 
                     _DestroyMenu.showMenu(true, MouseRaw, _TMPlastClicked);
+
                 }
 
+                // Does this belong here? Or better place?
+                _AssignmentMenu.showMenu(false);
 
                 _lastClicked = _TMPlastClicked;
                 return _lastClicked;
-            }
-            else if (_TMPlastClicked.GetComponent<Button>())
-            {
-                Debug.LogError("Its a button");
             }
             // If a Menu is active, and we click another object, we want to close the menu
             else if (_BuildMenu.isActive() || _DestroyMenu.isActive())
@@ -159,11 +162,27 @@ public class MVCController : MonoBehaviour
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
-                Debug.Log("Case1");
+              //  Debug.Log("Case1");
+
+                // Does this belong here? Or better place?
+                _AssignmentMenu.showMenu(false);
             }
+            else if(_TMPlastClicked.transform.parent)
+            {
+                if (_TMPlastClicked.transform.parent.gameObject == _lastClicked)
+                {
+                    //case that last clicked was assigned by the worker Portrait
+                   // Debug.Log("Worker Portrait");
+                    _isBuilding = true;
+                    return null;
+                }
+                Debug.Log("Fall through Case");
+            }
+
             else
             {
-                Debug.LogError("else??");
+              //  Debug.LogError("else??");
+                _AssignmentMenu.showMenu(false);
                 _isBuilding = false;
                 _lastClicked = null;
                 return null;
@@ -180,14 +199,14 @@ public class MVCController : MonoBehaviour
                 _BuildMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
-                Debug.Log("Case2");
+               // Debug.Log("Case2");
             }
             else if (_DestroyMenu.isActive())
             {
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
-                Debug.Log("Case3");
+                //Debug.Log("Case3");
             }
 
 
@@ -201,6 +220,7 @@ public class MVCController : MonoBehaviour
     public bool checkIfAttackable(Vector3 MouseLoc)
     {
         GameObject go = checkClick(MouseLoc);
+       // Debug.Log("Attackable checked Go is::" + go);
         if (go)
             //May need to check later on that the building is the enemies
             if (go.GetComponent<BuildableObject>() || go.GetComponent<Button>())
@@ -215,9 +235,34 @@ public class MVCController : MonoBehaviour
     {
         return _lastClicked;
     }
+    public void setLastClicked(GameObject o)
+    {
+        Debug.Log("setLast to" + o);
+        _lastClicked = o;
+    }
     public void clearLastClicked()
     {
         _lastClicked = null;
+    }
+
+    public UIAssignmentMenu getAssignmentMenu()
+    {
+        return _AssignmentMenu;
+    }
+    public void RodentAssigned(Rodent r)
+    {
+        Debug.Log("heard rodent Assigned " + _lastClicked + " is last clicked");
+        //Might want to do some other checks, like the building state?
+        if (_lastClicked)
+        {
+            if (_lastClicked.GetComponent<BuildableObject>())
+            {
+                Debug.Log("enter obj");
+                r.setTarget(_lastClicked);
+                clearLastClicked();
+                _AssignmentMenu.showMenu(false);
+            }
+        }
     }
 }
 

@@ -84,10 +84,4 @@ public class ResourceManagerScript : MonoBehaviour
 		_metal = 0;
 		_shiny = 0;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

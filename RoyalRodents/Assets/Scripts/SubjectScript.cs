@@ -7,18 +7,22 @@ using UnityEngine;
  * - CURRENT FUNCTIONALITY -
  *      - Rats will run to whatever object is assigned and wait there.
  *      - Now has a function that changes targets
+ *      - Rats can be assigned up to two targets, one remembered and one being acted on
  *      
  * - PLANNED FUTURE FUNCTIONALITY -
- *      - Rats will be assigned buildings to run towards.
- *      - After reaching their target, they will occupy that building.
  *      - If not assigned a building, rats will run around the base.
+ *      - Different behaviors for different types of rodents
  */
 public class SubjectScript : MonoBehaviour
 {
     public Animator anims;
     public float moveSpeed = 0.5f;
-    public GameObject target;
+    public GameObject currentTarget;
+    public GameObject savedTarget;
     private bool facingRight;
+    private bool royalGuard = false;
+    private bool worker = false;
+    private bool builder = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,33 +38,50 @@ public class SubjectScript : MonoBehaviour
     void Update()
     {
         // Check if a target exists
-        if (target)
+        if (currentTarget)
         {
-            // Finds target object position, and then commands the rat to move if it is not very close to it already
-            Vector3 targetLocation = new Vector3(target.transform.position.x, 0, 0);
-            if(Mathf.Abs(targetLocation.x - transform.position.x) > 0.5f)
+            // TODO: branches with each class's behavior built in.
+            if (royalGuard)
             {
-                Move(targetLocation);
+                royalGuardBehavior();
             }
-            else
+            else if (worker) {
+                WorkerBehavior();
+            }
+            else if (builder)
             {
-                if (anims)
-                {
-                    anims.SetBool("isMoving", false);
-                }
-                
-
+                builderBehavior();
             }
+            
+            Move(currentTarget);
         }
         else
         {
             //TODO: free movement for rats with no target
-            float randX = Random.Range(transform.position.x - 100f, transform.position.x + 100f);
-            Vector3 randDistance = new Vector3(randX, 0, 0);
-            Move(randDistance);
         }
     }
-   
+
+    // Set rodent roles, ensuring there is only 1 active at a time
+    public void setRoyalGuard()
+    {
+        royalGuard = true;
+        worker = false;
+        builder = false;
+    }
+
+    public void setWorker(){
+        royalGuard = false;
+        worker = true;
+        builder = false;
+    }
+
+    public void setBuilder()
+    {
+        royalGuard = false;
+        worker = false;
+        builder = true;
+    }
+
     public void setSpeed(float nSpeed)
     {
         this.moveSpeed = nSpeed;
@@ -71,46 +92,62 @@ public class SubjectScript : MonoBehaviour
         return moveSpeed;
     }
 
-    // Moves the rat towards its target
-    void Move(Vector3 pos)
+    // Finds target object position, and then commands the rat to move if it is not very close to it already
+    void Move(GameObject target)
     {
+        Vector3 pos = new Vector3(target.transform.position.x, 0, 0);
+
         if (anims)
         {
             anims.SetBool("isMoving", true);
         }
         
-        if (transform.position.x > pos.x)
+        if(Mathf.Abs(pos.x - transform.position.x) > 0.5)
         {
-
-            if (facingRight)
+            if (transform.position.x > pos.x)
             {
-                flipDirection();
-            }
-
-            if(pos.x >= 0)
-            {
-                transform.position -= pos.normalized * Time.deltaTime * moveSpeed;
+                // Flip if facing right
+                if (facingRight)
+                {
+                    flipDirection();
+                }
+                // Account for double negatives
+                if (pos.x >= 0)
+                {
+                    transform.position -= pos.normalized * Time.deltaTime * moveSpeed;
+                }
+                else
+                {
+                    transform.position += pos.normalized * Time.deltaTime * moveSpeed;
+                }
             }
             else
             {
-                transform.position += pos.normalized * Time.deltaTime * moveSpeed;
+                // Flip if facing left
+                if (!facingRight)
+                {
+                    flipDirection();
+                }
+                // Account for double negatives
+                if (pos.x >= 0)
+                {
+                    transform.position += pos.normalized * Time.deltaTime * moveSpeed;
+                }
+                else
+                {
+                    transform.position -= pos.normalized * Time.deltaTime * moveSpeed;
+                }
             }
         }
         else
         {
-            if (!facingRight)
+            if (anims)
             {
-                flipDirection();
-            }
-            if (pos.x >= 0)
-            {
-                transform.position += pos.normalized * Time.deltaTime * moveSpeed;
-            }
-            else
-            {
-                transform.position -= pos.normalized * Time.deltaTime * moveSpeed;
+                // On finishing movement, return to idle
+                anims.SetBool("isMoving", false);
             }
         }
+        
     }
 
     void flipDirection()
@@ -122,10 +159,40 @@ public class SubjectScript : MonoBehaviour
         transform.localScale = theScale;
     }
 
-    // Reassign rodent's target
+    // Assign rodent's current target. 
     public void changeTarget(GameObject nTarget)
     {
         Debug.Log("Changing Target to " + nTarget);
-        this.target = nTarget;
+        this.currentTarget = nTarget;
+    }
+
+    // Assign the rodent's saved target
+    public void setSavedTarget(GameObject nTarget)
+    {
+        savedTarget = nTarget;
+    }
+
+    // TODO: Cases for Worker, RoyalGuard, and Builder specific behavior
+    private void royalGuardBehavior()
+    {
+        // Follow the king at all times.
+        // Future: Attack enemies within a radius of the king
+        Move(currentTarget);
+    }
+
+    private void WorkerBehavior()
+    {
+        // Walk to their assigned building
+        // Idle in the area of it
+        // Future: Be able to work occupy the building and deliver resources to the town center
+        Move(currentTarget);
+        
+    }
+
+    private void builderBehavior()
+    {
+        // Walk to their assigned building
+        // Future: Be able to carry resources from the town center to the building being constructed
+        Move(currentTarget);
     }
 }

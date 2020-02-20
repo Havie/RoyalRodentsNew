@@ -12,6 +12,8 @@ public class Rat : MonoBehaviour
     [Range(0, 10f)]
     private float _MoveSpeed = 5f;
     private float _AttackDamage = 1f;
+    [SerializeField]
+    private Sprite _Portrait;
 
 
 
@@ -19,6 +21,7 @@ public class Rat : MonoBehaviour
     {
         _Default = Resources.Load<Sprite>("Rodent/FatRat/RatSprite_0");
         _AnimatorController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/RatController");
+        _Portrait = Resources.Load<Sprite>("TMPAssests/tmpRat");
     }
 
     // Start is called before the first frame update
@@ -34,6 +37,7 @@ public class Rat : MonoBehaviour
             r.setHpMax(_HpMax);
             r.setHp(_Hp);
             r.setAttackDmg(_AttackDamage);
+            r.setPortrait(_Portrait);
         }
 
 

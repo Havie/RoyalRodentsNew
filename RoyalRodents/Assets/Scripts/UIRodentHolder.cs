@@ -21,4 +21,16 @@ public class UIRodentHolder : MonoBehaviour
         //Tell the MVC Controller which character has been Selected
         MVCController.Instance.RodentAssigned(_character);
     }
+
+    /**Called by "Event Trigger Pointer Enter/Exit on Button*/
+    public void MouseEnter()
+    {
+       // Debug.Log("HEARD ENTER");
+        MVCController.Instance.CheckClicks(false);
+    }
+    public void MouseExit()
+    {
+       // Debug.Log("HEARD EXIT");
+        MVCController.Instance.CheckClicks(true);
+    }
 }

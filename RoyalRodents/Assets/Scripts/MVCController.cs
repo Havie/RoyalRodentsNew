@@ -58,7 +58,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debugg Mode:
-        _printStatement = true;
+        _printStatement = false;
     }
 
 

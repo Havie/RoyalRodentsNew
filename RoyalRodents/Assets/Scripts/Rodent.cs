@@ -107,10 +107,18 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
     {
+
         //need proper getter/setter someday
        SubjectScript s= this.GetComponent<SubjectScript>();
         if (s)
             s.changeTarget(o);
+
+        if(o==null)
+        {
+            _Status = eStatus.Available;
+            return;
+        }
+
 
         if (o.GetComponent<BuildableObject>())
         {
@@ -135,7 +143,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>
             _Status = eStatus.Army; // for all intentive purposes army can behave same for player and defense structure
         }
         else
+        {
             Debug.Log("We dont know this behavior");
+        }
     }
 }
 

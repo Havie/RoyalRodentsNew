@@ -54,27 +54,33 @@ public class bWorkerScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Occupied");
-            //To-Do: Option to dismiss current worker 
-
+            // Option to dismiss current worker 
+            // Debug.Log("Occupied");
             //Pull Up red X
-            if(bo)
+            if (bo)
             {
                 bo.ShowRedX(true);
-
                 //Able to click the X
                ToggleCollider(false);
             }
-            //give rodent new target, tell building its unmanned
+            
         }
     }
     public void dismissRodent()
     {
         Debug.Log("heard Dismiss");
+        bo.DismissWorker(_worker);
+        _worker = null;
     }
     public void ToggleCollider(bool cond)
     {
-        col.enabled = cond;
+        if(col)
+            col.enabled = cond;
+        else
+        {
+            col = this.GetComponent<CircleCollider2D>();
+            ToggleCollider(cond);
+        }
     }
 
     private void OnMouseEnter()

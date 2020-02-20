@@ -161,9 +161,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 }
             case BuildingState.Idle:
                 {
+                    _srWorker.sprite = _sWorker;
                     _srNotify.enabled = false;
-                    _srPortrait.enabled = false;
-                    _srWorker.enabled = false;
+                    _srPortrait.enabled = true;
+                    _srWorker.enabled = true;
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
@@ -403,6 +404,22 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             _sWorker = r.GetPortrait();
             Debug.LogError(_sWorker.ToString());
         }
+        //To-Do: Something not be handled here is the status of Building to Built.
+
+    }
+    public void DismissWorker(Rodent r)
+    {
+        Debug.Log("DismissWorker!");
+        if (r != _Worker)
+            Debug.LogError("Rodents dont match:Uh-Oh?");
+
+        //Tell the worker to fuck off
+        _Worker.setTarget(null);
+        eState = BuildingState.Idle;
+        _Worker = null;
+        _sWorker = _sEmptyPortrait;
+
+
     }
     public void ShowRedX(bool cond)
     {

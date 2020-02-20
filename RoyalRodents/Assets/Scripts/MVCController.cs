@@ -293,14 +293,22 @@ public class MVCController : MonoBehaviour
         //Might want to do some other checks, like the building state?
         if (_lastClicked)
         {
-            if (_lastClicked.GetComponent<BuildableObject>())
+            BuildableObject _Building = _lastClicked.GetComponent<BuildableObject>();
+            if (_Building)
             {
                 if (_printStatement)
                     Debug.Log("enter obj");
+
+                //Rodent Things
                 r.setTarget(_lastClicked);
+                _Building.AssignWorker(r);
+
+                //To:Do update Rodent Status
+
+
                 clearLastClicked();
-                CheckClicks(true);
                 _AssignmentMenu.showMenu(false);
+                CheckClicks(true);
             }
         }
     }

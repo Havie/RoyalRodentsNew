@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class UIAssignmentMenu : MonoBehaviour
 {
-    public GameObject _buttonTemplate;
+    [SerializeField]
+    private GameObject _buttonTemplate;
 
     private bool _active;
     private Button[] _buttons=new Button[10];
@@ -25,7 +26,11 @@ public class UIAssignmentMenu : MonoBehaviour
         if (_aspectHeight == 0)
             _aspectHeight = 30;
 
-       
+        //Get our prefab if it isnt manualyl assigned
+        if(!_buttonTemplate)
+            _buttonTemplate= Resources.Load<GameObject>("UI/Button_Rodent");
+
+
     }
 
     // Update is called once per frame
@@ -99,6 +104,7 @@ public class UIAssignmentMenu : MonoBehaviour
                     ++_index;
                     ++_used;
                 }
+                //Assign Text
                 Transform t = b.transform.Find("Name");
                 if (t)
                 {
@@ -106,8 +112,16 @@ public class UIAssignmentMenu : MonoBehaviour
                     if (text)
                         text.text = rodent.getName();
                 }
+                //Assign Image 
+                t = b.transform.Find("Portrait");
+                if(t)
+                {
+                    Image image = t.GetComponent<Image>();
+                    if (image)
+                        image.sprite = rodent.GetPortrait();
+                }
 
-                //To-Do:Assign Image 
+
             }
         }
         //Reuse Old Buttons
@@ -132,7 +146,14 @@ public class UIAssignmentMenu : MonoBehaviour
                         text.text = rodent.getName();
 
                 }
-                //To-Do:Assign Image 
+                //Assign Image 
+                t = b.transform.Find("Portrait");
+                if (t)
+                {
+                    Image image = t.GetComponent<Image>();
+                    if (image)
+                        image.sprite = rodent.GetPortrait();
+                }
             }
 
         }

@@ -26,6 +26,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>
 
     private SubjectScript subjectScript;
 
+    [SerializeField]
+    private Sprite _Portrait;
+
 
     /**Begin Interface Stuff */
     public void Damage(float damageTaken)
@@ -85,6 +88,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     public void setName(string s) => _Name = s;
     public void setRodentType(eRodentType type) => _Type = type;
     public void setRodentStatus(eStatus status) => _Status = status;
+    public void setPortrait(Sprite s) => _Portrait = s;
 
     public float getHp() { return _Hp; }
     public float getHpMax() { return _HpMax; }
@@ -93,6 +97,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     public string getName() { return _Name; }
     public eRodentType GetRodentType() { return _Type; }
     public eStatus GetRodentStatus() { return _Status; }
+    public Sprite GetPortrait() { return _Portrait; }
 
     public void Die()
     {

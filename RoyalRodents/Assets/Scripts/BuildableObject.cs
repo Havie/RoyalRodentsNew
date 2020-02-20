@@ -81,7 +81,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
         srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
         srWorker = _WorkerObject.transform.GetComponent<SpriteRenderer>();
-        srWorker.sprite = _sEmptyWorker;
+        _sWorker = _sEmptyWorker;
+        srWorker.sprite = _sWorker;
 
         eState =BuildingState.Available;
         eType = BuildingType.Vacant;
@@ -130,7 +131,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             case BuildingState.Building:
                 {
                     srNotify.sprite = _sBuildingHammer;
-                    srWorker.sprite = _sEmptyWorker;
+                    srWorker.sprite = _sWorker; // update to be empty elsewhere later on
                     srNotify.enabled = true;
                     srWorker.enabled = true;
                     _animator.SetBool("Building", true);
@@ -302,6 +303,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         yield return new WaitForSeconds(5f);
         BuildComplete();
 
+        //To:Do Update to kick builder rat off worker_obj
+
     }
 
     IEnumerator DemolishCoroutine()
@@ -345,6 +348,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         sr.sprite = _sStatedefault;
         if (controller.getLastClicked() == this.gameObject)
             controller.clearLastClicked();
+
+        //To-Do : Kick the worker rodent off
     }
 
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on
@@ -361,8 +366,19 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
         eState = BuildingState.Built;
     }
-
+    public void AssignWorker(Rodent r)
+    {
+        _Worker = r;
+        bWorkerScript ws=_WorkerObject.GetComponent<bWorkerScript>();
+        if(ws)
+        {
+            ws.setWorker(_Worker);
+            _sWorker = r.GetPortrait();
+            Debug.LogError(_sWorker.ToString());
+        }
+    }
 }
+
 
 
 //ALL OF THIS IS TEST For tracking mouse clicks //ignore for now

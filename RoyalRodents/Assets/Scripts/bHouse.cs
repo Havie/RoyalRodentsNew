@@ -6,7 +6,7 @@ public class bHouse :MonoBehaviour
 {
     private Sprite _built;
     private float _hitpoints = 50;
-    public static Dictionary<string, int> _cost;
+	public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
 
 
     public bHouse() // calls BuildObjectConstructor by default
@@ -20,9 +20,8 @@ public class bHouse :MonoBehaviour
     void Start()
     {
         _built = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored_y");
-        _cost.Add("Wood", 3);
-        _cost.Add("Trash", 4);
-       
+		_costLevel1.Add("Trash", 4);
+
     }
 
     // Update is called once per frame

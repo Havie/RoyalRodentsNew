@@ -7,9 +7,18 @@ public class UIButtonCosts : MonoBehaviour
 {
     int cost;
 	public string _type;
+	public int _level;
 	public Dictionary<string, int> _cost;
+
+	//Current Player Resources Local Vars
 	public int currentGold;
-    public TextMeshProUGUI text;
+
+	public int currentTrash;
+	public int currentWood;
+	public int currentMetal;
+	public int currentShiny;
+
+	public TextMeshProUGUI text;
 
     public Color bad = Color.red;
     public Color good = Color.black;
@@ -18,45 +27,75 @@ public class UIButtonCosts : MonoBehaviour
     void Start()
     {
         text=  this.gameObject.transform.GetComponent<TextMeshProUGUI>();
-        UpdateCosts();
+        UpdateButton();
 
-
-		if(_type.Equals("house"))
-			_cost = bHouse._costLevel1;
 	}
 
      void Update()
     {
-        UpdateCosts();
+        UpdateButton();
     }
+
+	//updates all variables to update the button
+	void UpdateButton()
+	{
+		UpdateCurrentResources();
+		UpdateCosts();
+		UpdateCostsText();
+	}
+
+	//set local vars from resource manager
+	void UpdateCurrentResources()
+	{
+		currentGold = GameManager.Instance._gold;
+
+		//update local vars from player resources
+		currentTrash = GameManager.Instance._rm.Trash;
+		currentWood = GameManager.Instance._rm.Wood;
+		currentMetal = GameManager.Instance._rm.Metal;
+		currentShiny = GameManager.Instance._rm.Shiny;
+	}
 
     //Needs to get called elsewhere from some other system such as the game manager when we increment a resource, not in Update, will be figured out later.
     public void UpdateCosts()
     {
-        currentGold = GameManager.Instance._gold;
-        if (text!=null)
-        {
-            if (_cost!=null)
-            {
-                foreach (string key in _cost.Keys)
-                {
-                    int tmp;
-                    _cost.TryGetValue(key, out tmp);
-                    cost = tmp;
-                }
-            }
+		if (_type.Equals("house"))
+		{
+			if (_level.Equals(1))
+				_cost = bHouse._costLevel1;
+			if (_level.Equals(2))
+				_cost = bHouse._costLevel2;
+			if (_level.Equals(3))
+				_cost = bHouse._costLevel3;
+		}
 
-            text.text = currentGold.ToString() + "/" + cost;
-            if (currentGold < cost)
-            {
-                text.color = bad;
-            }
-            else
-                text.color = good;
-        }
+		if (_cost != null)
+		{
+			foreach (string key in _cost.Keys)
+			{
+				int tmp;
+				_cost.TryGetValue(key, out tmp);
+				cost = tmp;
+			}
+		}
+    }
+
+	//update UI button text
+	private void UpdateCostsText()
+	{
+		if (text != null)
+		{
+			text.text = currentTrash.ToString() + "/" + cost;
+			if (currentTrash < cost)
+			{
+				text.color = bad;
+			}
+			else
+				text.color = good;
+		}
         else
             Debug.LogError("UI Costs cant find Text");
-    }
+	}
     
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts(string type)
@@ -67,7 +106,7 @@ public class UIButtonCosts : MonoBehaviour
 
         }
 
-        if (currentGold >= cost)
+        if (currentTrash >= cost)
         {
             MVCController.Instance.buildSomething(type);
           // Debug.Log("Cost Approved");

@@ -414,6 +414,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         else
         {
             _srRedX.enabled = false;
+            //Turn back on the collider possible hack
+            if(_PortraitOutlineObject)
+                _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
         }
     }
 }

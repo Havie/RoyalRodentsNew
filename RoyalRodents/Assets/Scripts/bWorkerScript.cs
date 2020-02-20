@@ -8,11 +8,13 @@ public class bWorkerScript : MonoBehaviour
     UIAssignmentMenu _menu;
     private Rodent _worker;
     private BuildableObject bo;
+    private Collider2D col;
     // Start is called before the first frame update
     void Start()
     {
         setUpMenu();
         bo = this.transform.parent.GetComponent<BuildableObject>();
+        col = this.GetComponent<CircleCollider2D>();
     }
     private void setUpMenu()
     {
@@ -59,10 +61,22 @@ public class bWorkerScript : MonoBehaviour
             if(bo)
             {
                 bo.ShowRedX(true);
+
+                //Able to click the X
+               ToggleCollider(false);
             }
             //give rodent new target, tell building its unmanned
         }
     }
+    public void dismissRodent()
+    {
+        Debug.Log("heard Dismiss");
+    }
+    public void ToggleCollider(bool cond)
+    {
+        col.enabled = cond;
+    }
+
     private void OnMouseEnter()
     {
         MVCController.Instance.CheckClicks(false);

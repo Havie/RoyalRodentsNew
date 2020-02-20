@@ -6,8 +6,9 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-
+    //GameManager Instance
     private static GameManager _instance;
+
     //local Resource Vars
     public int _gold = 1;
     public int _victoryPoints;
@@ -15,8 +16,13 @@ public class GameManager : MonoBehaviour
     //TopPanel UI Resource Bar Text
     public TextMeshProUGUI _VictoryText;
     public TextMeshProUGUI _GoldText;
+    public TextMeshProUGUI _TrashText;
+    public TextMeshProUGUI _WoodText;
+    public TextMeshProUGUI _MetalText;
+    public TextMeshProUGUI _ShinyText;
+    public TextMeshProUGUI _FoodText;
 
-    //
+    //Other Vars
     public Image _WinImg;
     public Image _LoseImg;
     public Animator _WinAnimator;
@@ -28,10 +34,11 @@ public class GameManager : MonoBehaviour
     //ResourceManagerScript
     private ResourceManagerScript _rm;
 
+    //Rodent Lists
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
 
-
+    //Create Instance of GameManager
     public static GameManager Instance
     {
         get
@@ -66,15 +73,20 @@ public class GameManager : MonoBehaviour
         GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>().StartingBuildComplete();
         _gold = 1;
         _victoryPoints = 0;
-        UpdateVictoryPoint();
-        UpdateGold();
+        //Get ResourceManagerScript from Component
+        _rm = this.GetComponent<ResourceManagerScript>();
+        UpdateVictoryPointText();
+        UpdateGoldText();
+        UpdateTrashText();
+        UpdateWoodText();
+        UpdateMetalText();
+        UpdateShinyText();
+        UpdateFoodText();
         //Set up our animators
         _WinAnimator = _WinImg.GetComponent<Animator>();
         _LoseAnimator = _LoseImg.GetComponent<Animator>();
         //Shows the splash screen (TMP till main menu?)
         _SplashScreen.gameObject.SetActive(true);
-        //Get ResourceManagerScript from Component
-        _rm = this.GetComponent<ResourceManagerScript>();
 
 
         // Find any Rodents starting under Players control
@@ -109,39 +121,94 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //Increment Resources Methods
     public void incrementGold(int amnt)
     {
         _gold += amnt;
-        UpdateGold();
+        UpdateGoldText();
     }
-
+    public void incrementTrash(int amnt)
+    {
+        _rm.Trash += amnt;
+        UpdateTrashText();
+    }
+    public void incrementWood(int amnt)
+    {
+        _rm.Wood += amnt;
+        UpdateWoodText();
+    }
+    public void incrementMetal(int amnt)
+    {
+        _rm.Metal += amnt;
+        UpdateMetalText();
+    }
+    public void incrementShiny(int amnt)
+    {
+        _rm.Shiny += amnt;
+        UpdateShinyText();
+    }
+    public void incrementFood(int amnt)
+    {
+        _rm.Food += amnt;
+        UpdateFoodText();
+    }
     public void incrementVictoryPoints(int amnt)
     {
         _victoryPoints += amnt;
-        UpdateVictoryPoint();
+        UpdateVictoryPointText();
         if (_victoryPoints >= 5)
             youWin();
     }
-    public void UpdateVictoryPoint()
+
+    //Update Resource Panel UI Text
+    public void UpdateVictoryPointText()
     {
         if (_VictoryText != null)
         {
             _VictoryText.text = _victoryPoints.ToString();
         }
     }
-    public void UpdateGold()
+    public void UpdateGoldText()
     {
         if (_GoldText)
         {
             _GoldText.text = _gold.ToString();
         }
     }
-
-    //update TopPanel Resource UI to current Resource Variables
-    public void updateTopPanelUI()
+    public void UpdateTrashText()
     {
-        _VictoryText.text = _victoryPoints.ToString();
-        _GoldText.text = _gold.ToString();
+        if (_TrashText)
+        {
+            _TrashText.text = _rm.Trash.ToString();
+        }
+    }
+    public void UpdateWoodText()
+    {
+        if (_WoodText)
+        {
+            _WoodText.text = _rm.Wood.ToString();
+        }
+    }
+    public void UpdateMetalText()
+    {
+        if (_MetalText)
+        {
+            _MetalText.text = _rm.Metal.ToString();
+        }
+    }
+    public void UpdateShinyText()
+    {
+        if (_ShinyText)
+        {
+            _ShinyText.text = _rm.Shiny.ToString();
+        }
+    }
+    public void UpdateFoodText()
+    {
+        if (_FoodText)
+        {
+            _FoodText.text = _rm.Food.ToString();
+        }
     }
 
     public void youWin()

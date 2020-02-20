@@ -111,6 +111,27 @@ public class Rodent : MonoBehaviour, IDamageable<float>
        SubjectScript s= this.GetComponent<SubjectScript>();
         if (s)
             s.changeTarget(o);
+
+        if (o.GetComponent<BuildableObject>())
+        {
+            BuildableObject bo = o.GetComponent<BuildableObject>();
+            if (bo.getState() == BuildableObject.BuildingState.Building)
+            {
+                //Tell subject script to behave like a builder
+               //OR
+              // Tell them to defend a location when that script arrives
+            }
+            else if (bo.getState() == BuildableObject.BuildingState.Built)
+            {
+                // Tell Subject Script to behave like a Worker 
+            }
+        }
+        else if (o.GetComponent<PlayerStats>())
+        {
+            // Tell Subject script to behave like a bodyguard
+        }
+        else
+            Debug.Log("We dont know this behavior");
     }
 }
 

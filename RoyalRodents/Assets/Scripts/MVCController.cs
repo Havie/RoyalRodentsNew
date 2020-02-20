@@ -15,6 +15,8 @@ public class MVCController : MonoBehaviour
 
     [SerializeField]
     private GameObject _lastClicked;
+    [SerializeField]
+    private GameObject _dummyObj;
     public bool _isBuilding;
 
     public bool checkingClicks;
@@ -22,6 +24,8 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
+
+    private bool _printStatement;
 
     public static MVCController Instance
     {
@@ -42,6 +46,18 @@ public class MVCController : MonoBehaviour
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
         checkingClicks = true;
+
+        if (_dummyObj == null)
+        {
+            Transform t = this.transform.GetChild(0);
+            if (t)
+                _dummyObj = t.gameObject;
+            else
+                Debug.LogError("MVC controller cant find Dummy Object");
+        }
+
+        //Debugg Mode:
+        _printStatement = false;
     }
 
 
@@ -61,7 +77,8 @@ public class MVCController : MonoBehaviour
     {
         if (_lastClicked == null)
         {
-            Debug.LogError("Last clicked is null");
+            if(_printStatement)
+                Debug.LogError("Last clicked is null");
             return;
         }
         //print("lastClicked: " + _lastClicked + " in BuildSomething");
@@ -69,6 +86,7 @@ public class MVCController : MonoBehaviour
         {
             // Debug.Log("Found Buildable Object");
             _lastClicked.GetComponent<BuildableObject>().BuildSomething(type);
+            CheckClicks(true);
         }
 
     }
@@ -77,13 +95,16 @@ public class MVCController : MonoBehaviour
     {
         if (_lastClicked == null)
         {
-            Debug.LogError("Last clicked is null");
+            if (_printStatement)
+                Debug.LogError("Last clicked is null");
             return;
         }
         if (_lastClicked.GetComponent<BuildableObject>())
         {
-            // Debug.Log("Found Buildable Object");
+            if (_printStatement)
+                Debug.Log("Found Buildable Object");
             _lastClicked.GetComponent<BuildableObject>().DemolishSomething();
+            CheckClicks(true);
         }
 
     }
@@ -98,7 +119,13 @@ public class MVCController : MonoBehaviour
     */
     private GameObject checkClick(Vector3 MouseRaw)
     {
-       // Debug.Log("Check Click!");
+        if (_printStatement)
+            Debug.Log("Check Click!");
+        if (!checkingClicks)
+            return _dummyObj;
+
+        if (_printStatement)
+            Debug.Log("Passed");
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
@@ -115,16 +142,19 @@ public class MVCController : MonoBehaviour
 
         if (hit.collider != null)
         {
-           //Debug.Log("Hit result:" + hit.collider.gameObject);
+            if (_printStatement)
+                Debug.Log("Hit result:" + hit.collider.gameObject);
             if (_lastClicked == hit.collider.gameObject)
                 return _lastClicked;
 
-          // Debug.Log("Enter");
+            if (_printStatement)
+                Debug.Log("Enter");
             GameObject _TMPlastClicked = hit.collider.gameObject;
 
             if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
-               // Debug.Log("Case0");
+                if (_printStatement)
+                    Debug.Log("Case0");
                 // Debug.Log("Last Clicked is a buildingobj:" + lastClicked.name);
                 BuildableObject buildObj = _TMPlastClicked.GetComponent<BuildableObject>();
                 buildObj.imClicked();
@@ -162,26 +192,31 @@ public class MVCController : MonoBehaviour
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
-              //  Debug.Log("Case1");
+                if (_printStatement)
+                    Debug.Log("Case1");
 
+                    return null;
                 // Does this belong here? Or better place?
-                _AssignmentMenu.showMenu(false);
+               // _AssignmentMenu.showMenu(false);
             }
             else if(_TMPlastClicked.transform.parent)
             {
                 if (_TMPlastClicked.transform.parent.gameObject == _lastClicked)
                 {
                     //case that last clicked was assigned by the worker Portrait
-                   // Debug.Log("Worker Portrait");
+                    if(_printStatement)
+                         Debug.Log("Worker Portrait");
                     _isBuilding = true;
-                    return null;
+                    return _dummyObj;
                 }
-                Debug.Log("Fall through Case");
+                if (_printStatement)
+                    Debug.Log("Fall through Case");
             }
 
             else
             {
-              //  Debug.LogError("else??");
+                if (_printStatement)
+                    Debug.LogError("else??");
                 _AssignmentMenu.showMenu(false);
                 _isBuilding = false;
                 _lastClicked = null;
@@ -189,7 +224,7 @@ public class MVCController : MonoBehaviour
             }
 
         }
-       else if (checkingClicks)// should only happen if we arent hovering over a UI button
+       //else if (checkingClicks)// should only happen if we aren't hovering over a UI button
         { 
 
             //UI layer
@@ -199,18 +234,29 @@ public class MVCController : MonoBehaviour
                 _BuildMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
-               // Debug.Log("Case2");
+                if (_printStatement)
+                    Debug.Log("Case2");
             }
             else if (_DestroyMenu.isActive())
             {
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
-                //Debug.Log("Case3");
+                if (_printStatement)
+                    Debug.Log("Case3");
+            }
+            else if(_AssignmentMenu.isActive())
+            {
+                _AssignmentMenu.showMenu(false);
+                _isBuilding = false;
+                _lastClicked = null;
+                if (_printStatement)
+                    Debug.Log("Case4");
             }
 
-
         }
+        if (_printStatement)
+            Debug.Log("Fell Through MVC");
         return null;
     }
 
@@ -220,10 +266,11 @@ public class MVCController : MonoBehaviour
     public bool checkIfAttackable(Vector3 MouseLoc)
     {
         GameObject go = checkClick(MouseLoc);
-       // Debug.Log("Attackable checked Go is::" + go);
+        if(_printStatement)
+            Debug.Log("Attackable checked Go is::" + go);
         if (go)
             //May need to check later on that the building is the enemies
-            if (go.GetComponent<BuildableObject>() || go.GetComponent<Button>())
+            if (go.GetComponent<BuildableObject>() || go == _dummyObj)
                 return false;
             else
                 return true;
@@ -237,7 +284,8 @@ public class MVCController : MonoBehaviour
     }
     public void setLastClicked(GameObject o)
     {
-        Debug.Log("setLast to" + o);
+        if (_printStatement)
+            Debug.Log("setLast to" + o);
         _lastClicked = o;
     }
     public void clearLastClicked()
@@ -251,16 +299,28 @@ public class MVCController : MonoBehaviour
     }
     public void RodentAssigned(Rodent r)
     {
-        Debug.Log("heard rodent Assigned " + _lastClicked + " is last clicked");
+        if (_printStatement)
+            Debug.Log("heard rodent Assigned " + _lastClicked + " is last clicked");
+
         //Might want to do some other checks, like the building state?
         if (_lastClicked)
         {
-            if (_lastClicked.GetComponent<BuildableObject>())
+            BuildableObject _Building = _lastClicked.GetComponent<BuildableObject>();
+            if (_Building)
             {
-                Debug.Log("enter obj");
+                if (_printStatement)
+                    Debug.Log("enter obj");
+
+                //Rodent Things
                 r.setTarget(_lastClicked);
+                _Building.AssignWorker(r);
+
+                //To:Do update Rodent Status
+
+
                 clearLastClicked();
                 _AssignmentMenu.showMenu(false);
+                CheckClicks(true);
             }
         }
     }

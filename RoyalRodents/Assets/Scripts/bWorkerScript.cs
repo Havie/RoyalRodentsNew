@@ -7,10 +7,12 @@ public class bWorkerScript : MonoBehaviour
 
     UIAssignmentMenu _menu;
     private Rodent _worker;
+    private BuildableObject bo;
     // Start is called before the first frame update
     void Start()
     {
         setUpMenu();
+        bo = this.transform.parent.GetComponent<BuildableObject>();
     }
     private void setUpMenu()
     {
@@ -26,6 +28,7 @@ public class bWorkerScript : MonoBehaviour
     }
     private void OnMouseDown()
     {
+        
         if (!isOccupied())
         {
             //tell the MVC Controller which Building has been clicked
@@ -42,13 +45,30 @@ public class bWorkerScript : MonoBehaviour
                 setUpMenu();
                 _menu.CreateButton(_PlayerRodents);
             }
+            if (bo)
+            {
+                bo.ShowRedX(false);
+            }
         }
         else
         {
-            Debug.Log("NotOccupied");
+            Debug.Log("Occupied");
             //To-Do: Option to dismiss current worker 
-            _worker = null;
+
+            //Pull Up red X
+            if(bo)
+            {
+                bo.ShowRedX(true);
+            }
             //give rodent new target, tell building its unmanned
         }
+    }
+    private void OnMouseEnter()
+    {
+        MVCController.Instance.CheckClicks(false);
+    }
+    private void OnMouseExit()
+    {
+        MVCController.Instance.CheckClicks(true);
     }
 }

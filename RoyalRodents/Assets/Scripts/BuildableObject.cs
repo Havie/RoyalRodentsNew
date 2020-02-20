@@ -94,8 +94,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
         //Set Up Worker to be empty
         _srWorker = _WorkerObject.transform.GetComponent<SpriteRenderer>();
-        _sWorker = null;
+        _sWorker = _sEmptyPortrait;
         _srWorker.sprite = _sWorker;
+        Debug.Log(_srWorker);
 
         //SetUp the RedX
         _srRedX = _RedXObject.transform.GetComponent<SpriteRenderer>();
@@ -169,6 +170,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 }
             case BuildingState.Built:
                 {
+                    _srWorker.sprite = _sWorker;
                     _srNotify.enabled = false;
                     _srPortrait.enabled = true;
                     _srWorker.enabled = true;
@@ -372,6 +374,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         if (_controller.getLastClicked() == this.gameObject)
             _controller.clearLastClicked();
 
+        ShowRedX(false);
         //To-Do : Kick the worker rodent off
     }
 
@@ -391,8 +394,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
     public void AssignWorker(Rodent r)
     {
+        Debug.Log("AssignWorker!");
         _Worker = r;
-        bWorkerScript ws=_WorkerObject.GetComponent<bWorkerScript>();
+        bWorkerScript ws=_PortraitOutlineObject.GetComponent<bWorkerScript>();
         if(ws)
         {
             ws.setWorker(_Worker);
@@ -403,9 +407,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     public void ShowRedX(bool cond)
     {
         if (cond)
+        {
             _srRedX.enabled = true;
+            MVCController.Instance.setLastRedX(this);
+        }
         else
+        {
             _srRedX.enabled = false;
+        }
     }
 }
 

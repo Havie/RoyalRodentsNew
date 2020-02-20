@@ -20,9 +20,10 @@ public class SubjectScript : MonoBehaviour
     public GameObject currentTarget;
     public GameObject savedTarget;
     private bool facingRight;
-    private bool royalGuard = false;
+    private bool royalGuard = true;
     private bool worker = false;
     private bool builder = false;
+    private bool coroutineStarted = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,8 @@ public class SubjectScript : MonoBehaviour
         Rodent r = this.GetComponent<Rodent>();
         if (r)
             moveSpeed=r.getSpeed();
+
+        
     }
 
     // Update is called once per frame
@@ -43,17 +46,22 @@ public class SubjectScript : MonoBehaviour
             // TODO: branches with each class's behavior built in.
             if (royalGuard)
             {
-                royalGuardBehavior();
+                
+                if (!coroutineStarted)
+                {
+                    royalGuardBehavior();
+                    
+                }
+               
             }
             else if (worker) {
-                WorkerBehavior();
+                workerBehavior();
             }
             else if (builder)
             {
                 builderBehavior();
             }
             
-            Move(currentTarget);
         }
         else
         {
@@ -102,7 +110,7 @@ public class SubjectScript : MonoBehaviour
             anims.SetBool("isMoving", true);
         }
         
-        if(Mathf.Abs(pos.x - transform.position.x) > 0.5)
+        if(Mathf.Abs(pos.x - transform.position.x) > 2.5f)
         {
             if (transform.position.x > pos.x)
             {
@@ -145,9 +153,72 @@ public class SubjectScript : MonoBehaviour
             {
                 // On finishing movement, return to idle
                 anims.SetBool("isMoving", false);
+                
             }
+            StartCoroutine(idleDelay());
         }
         
+    }
+
+    void idleInRadius(){
+        Vector3 pos = new Vector3(Random.Range((currentTarget.transform.position.x - 1.5f), (currentTarget.transform.position.x +1.5f)), 0 , 0);
+
+        if (anims)
+        {
+            anims.SetBool("isMoving", true);
+        }
+
+        if (transform.position.x > pos.x)
+        {
+            // Flip if facing right
+            if (facingRight)
+            {
+                flipDirection();
+            }
+            // Account for double negatives
+            if (pos.x >= 0)
+            {
+                transform.position -= pos.normalized * Time.deltaTime * moveSpeed;
+            }
+            else
+            {
+                transform.position += pos.normalized * Time.deltaTime * moveSpeed;
+            }
+        }
+        else
+        {
+            // Flip if facing left
+            if (!facingRight)
+            {
+                flipDirection();
+            }
+            // Account for double negatives
+            if (pos.x >= 0)
+            {
+                transform.position += pos.normalized * Time.deltaTime * moveSpeed;
+            }
+            else
+            {
+                transform.position -= pos.normalized * Time.deltaTime * moveSpeed;
+            }
+        }
+
+        if (anims)
+        {
+            // On finishing movement, return to idle
+            anims.SetBool("isMoving", false);
+        }
+        StartCoroutine(idleDelay());
+
+    }
+
+    IEnumerator idleDelay()
+    {
+        coroutineStarted = true;
+        Debug.Log("Your enter Coroutine at" + Time.time);
+        yield return new WaitForSeconds(5.0f);
+        Debug.Log("Your exit oroutine at" + Time.time);
+        coroutineStarted = false;
     }
 
     void flipDirection()
@@ -178,9 +249,11 @@ public class SubjectScript : MonoBehaviour
         // Follow the king at all times.
         // Future: Attack enemies within a radius of the king
         Move(currentTarget);
+        idleInRadius();
+        
     }
 
-    private void WorkerBehavior()
+    private void workerBehavior()
     {
         // Walk to their assigned building
         // Idle in the area of it
@@ -194,5 +267,6 @@ public class SubjectScript : MonoBehaviour
         // Walk to their assigned building
         // Future: Be able to carry resources from the town center to the building being constructed
         Move(currentTarget);
+
     }
 }

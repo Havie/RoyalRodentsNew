@@ -11,15 +11,21 @@ public class UIAssignmentMenu : MonoBehaviour
     private bool _active;
     private Button[] _buttons=new Button[10];
     private int _index;
+    private int _used;
     private int _aspectHeight;
-    
+    MVCController controller;
+    private List<Rodent> _rList;
+
 
     // Start is called before the first frame update
     void Start()
     {
         MVCController.Instance.SetUpAssignmentMenu(this);
+        //We will need to actually calculate this somehow at some point
         if (_aspectHeight == 0)
             _aspectHeight = 30;
+
+       
     }
 
     // Update is called once per frame
@@ -29,6 +35,7 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void showMenu(bool cond)
     {
+        //Debug.Log("ShowMenu::"+cond);
         _active = cond;
 
        for (int i=0; i<_index; ++i)
@@ -36,33 +43,101 @@ public class UIAssignmentMenu : MonoBehaviour
            _buttons[i].gameObject.SetActive(cond);
         }
 
+        //If we turn off the menu, reset the index and list
         if (!_active)
+        {
             _index = 0;
+            _rList = null;
+        }
+    }
+    public bool isActive()
+    {
+        return _active;
+    }
+
+    public void CreateButton(List<Rodent> _PlayerRodents)
+    {
+        if (_PlayerRodents == _rList)
+            return;
+        _rList = _PlayerRodents;
+
+
+        foreach (Rodent r in _PlayerRodents)
+        {
+            if (r.GetRodentStatus() == Rodent.eStatus.Available)
+            {
+                Debug.Log(r.getName() + "  is Available");
+                CreateButton(r);
+            }
+        }
     }
 
     //Will need to send in portrait later on
     public void CreateButton(Rodent rodent)
     {
-        GameObject o = Instantiate(_buttonTemplate);
-        o.gameObject.transform.SetParent(this.transform);
-        o.transform.localPosition = new Vector3(0, -_aspectHeight + (_index* _aspectHeight), 0);
-        Button b= o.GetComponent<Button>();
-        if (b)
+       // Debug.Log("Make a Button for :" +rodent.getName());
+
+        //Make new Buttons
+        if (_index >= _used)
         {
-           UIRodentHolder holder= b.GetComponent<UIRodentHolder>();
-            if (holder)
-                holder.setRodent(rodent);
+           // Debug.Log("Make a new Button!");
+           //Make a new button from prefab
+            GameObject o = Instantiate(_buttonTemplate);
+            o.gameObject.transform.SetParent(this.transform);
+            //offset it to stack upwards
+            o.transform.localPosition = new Vector3(0, -_aspectHeight + (_index * _aspectHeight), 0);
+            Button b = o.GetComponent<Button>();
+            if (b)
+            {
+                UIRodentHolder holder = b.GetComponent<UIRodentHolder>();
+                if (holder)
+                    holder.setRodent(rodent);
 
-            _buttons[_index] = b;
-            if(_index<_buttons.Length) // need to find a way to scroll someday
-                ++_index;
-            Transform t = o.transform.Find("Name");
-            TextMeshProUGUI text = t.GetComponent<TextMeshProUGUI>();
-            if (text)
-                text.text = rodent.getName();
+                _buttons[_index] = b;
+                if (_index < _buttons.Length) // need to find a way to scroll someday
+                {
+                    ++_index;
+                    ++_used;
+                }
+                Transform t = b.transform.Find("Name");
+                if (t)
+                {
+                    TextMeshProUGUI text = t.GetComponent<TextMeshProUGUI>();
+                    if (text)
+                        text.text = rodent.getName();
+                }
 
-            //To-Do:Assign Image 
+                //To-Do:Assign Image 
+            }
+        }
+        //Reuse Old Buttons
+        else
+        {
+          //  Debug.Log("Reuse a Button! for " + rodent.getName()+ " @Index:" +_index +"    used:"+ _used );
+            Button b = _buttons[_index];
+            if (b)
+            {
+                UIRodentHolder holder = b.GetComponent<UIRodentHolder>();
+                if (holder)
+                    holder.setRodent(rodent);
+
+                    ++_index;
+
+                Transform t = b.transform.Find("Name");
+ 
+                TextMeshProUGUI text = t.GetComponent<TextMeshProUGUI>();
+                if (t)
+                {
+                    if (text)
+                        text.text = rodent.getName();
+
+                }
+                //To-Do:Assign Image 
+            }
+
         }
         showMenu(true);
     }
+
+
 }

@@ -10,7 +10,6 @@ public class UIButtonCosts : MonoBehaviour
 	public Dictionary<string, int> _cost;
 	public int currentGold;
     public TextMeshProUGUI text;
-    MVCController controller;
 
     public Color bad = Color.red;
     public Color good = Color.black;
@@ -18,15 +17,6 @@ public class UIButtonCosts : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject o = GameObject.FindGameObjectWithTag("MVC");
-        if(o)
-        {
-            if (o.GetComponent<MVCController>())
-                controller = o.GetComponent<MVCController>();
-            else
-                Debug.LogError("UI Costs cant find MVC Controller");
-        }
-       
         text=  this.gameObject.transform.GetComponent<TextMeshProUGUI>();
         UpdateCosts();
 
@@ -79,7 +69,7 @@ public class UIButtonCosts : MonoBehaviour
 
         if (currentGold >= cost)
         {
-            controller.buildSomething(type);
+            MVCController.Instance.buildSomething(type);
           // Debug.Log("Cost Approved");
         }
         else
@@ -91,18 +81,18 @@ public class UIButtonCosts : MonoBehaviour
     public void Demolish()
     {
         //Debug.Log("Heard Demolish");
-        controller.DemolishSomething();
+        MVCController.Instance.DemolishSomething();
     }
 
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/
     public void MouseEnter()
     {
-       // Debug.Log("HEARD ENTER");
-        controller.CheckClicks(false);
+        Debug.Log("HEARD ENTER");
+        MVCController.Instance.CheckClicks(false);
     }
     public void MouseExit()
     {
-       // Debug.Log("HEARD EXIT");
-        controller.CheckClicks(true);
+        Debug.Log("HEARD EXIT");
+        MVCController.Instance.CheckClicks(true);
     }
 }

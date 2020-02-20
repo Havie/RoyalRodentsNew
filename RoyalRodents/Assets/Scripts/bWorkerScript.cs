@@ -9,6 +9,10 @@ public class bWorkerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        setUpMenu();
+    }
+    private void setUpMenu()
+    {
         _menu = MVCController.Instance.getAssignmentMenu();
     }
 
@@ -20,7 +24,16 @@ public class bWorkerScript : MonoBehaviour
 
         // Need to Ask GameManager for a List of Player Rodents
         List<Rodent> _PlayerRodents=GameManager.Instance.getPlayerRodents();
+        if (_menu)
+            _menu.CreateButton(_PlayerRodents);
+        else
+        {
+            Debug.LogWarning("No AssignmentMenu, attempting to resetup");
+            setUpMenu();
+            _menu.CreateButton(_PlayerRodents);
+        }
 
+        /*
         // Look for Available Rodents
         foreach(Rodent r in _PlayerRodents)
         {
@@ -28,11 +41,18 @@ public class bWorkerScript : MonoBehaviour
             {
                 //do something / put into a Button
                 Debug.Log(r.getName() + "  is Available");
-                if(_menu)
+                if (_menu)
                 {
+                    _menu.CreateButton(r);
+                }
+                else
+                {
+                    Debug.LogError("NoMenu Found, Trying to regrab");
+                    setUpMenu();
                     _menu.CreateButton(r);
                 }
             }
         }
+        */
     }
 }

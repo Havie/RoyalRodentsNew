@@ -24,6 +24,7 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
+    private BuildableObject _lastRedX;
 
     private bool _printStatement;
 
@@ -179,8 +180,9 @@ public class MVCController : MonoBehaviour
 
                 }
 
-                // Does this belong here? Or better place?
                 _AssignmentMenu.showMenu(false);
+                if (_lastRedX)
+                    _lastRedX.ShowRedX(false);
 
                 _lastClicked = _TMPlastClicked;
                 return _lastClicked;
@@ -192,12 +194,11 @@ public class MVCController : MonoBehaviour
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
+
                 if (_printStatement)
                     Debug.Log("Case1");
 
                     return null;
-                // Does this belong here? Or better place?
-               // _AssignmentMenu.showMenu(false);
             }
             else if(_TMPlastClicked.transform.parent)
             {
@@ -220,6 +221,7 @@ public class MVCController : MonoBehaviour
                 _AssignmentMenu.showMenu(false);
                 _isBuilding = false;
                 _lastClicked = null;
+
                 return null;
             }
 
@@ -234,6 +236,7 @@ public class MVCController : MonoBehaviour
                 _BuildMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
+
                 if (_printStatement)
                     Debug.Log("Case2");
             }
@@ -242,6 +245,7 @@ public class MVCController : MonoBehaviour
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
+
                 if (_printStatement)
                     Debug.Log("Case3");
             }
@@ -250,6 +254,7 @@ public class MVCController : MonoBehaviour
                 _AssignmentMenu.showMenu(false);
                 _isBuilding = false;
                 _lastClicked = null;
+
                 if (_printStatement)
                     Debug.Log("Case4");
             }
@@ -257,6 +262,9 @@ public class MVCController : MonoBehaviour
         }
         if (_printStatement)
             Debug.Log("Fell Through MVC");
+
+        if (_lastRedX)
+            _lastRedX.ShowRedX(false);
         return null;
     }
 
@@ -323,6 +331,12 @@ public class MVCController : MonoBehaviour
                 CheckClicks(true);
             }
         }
+    }
+    public void setLastRedX(BuildableObject redx)
+    {
+        if (_printStatement)
+            Debug.Log("set redX");
+        _lastRedX = redx;
     }
 }
 

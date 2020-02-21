@@ -526,7 +526,7 @@ Transform:
   - {fileID: 1277586023}
   - {fileID: 292937962}
   m_Father: {fileID: 489813141}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &146207184
 BoxCollider2D:
@@ -1040,7 +1040,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 
+  _level: 0
   currentGold: 0
+  currentTrash: 0
+  currentWood: 0
+  currentMetal: 0
+  currentShiny: 0
   text: {fileID: 0}
   bad: {r: 1, g: 0, b: 0, a: 1}
   good: {r: 0, g: 0, b: 0, a: 1}
@@ -2847,7 +2852,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: farm
+  _level: 0
   currentGold: 0
+  currentTrash: 0
+  currentWood: 0
+  currentMetal: 0
+  currentShiny: 0
   text: {fileID: 0}
   bad: {r: 1, g: 0, b: 0, a: 1}
   good: {r: 0, g: 0, b: 0, a: 1}
@@ -3510,6 +3520,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 951111039}
+  - {fileID: 1300016560}
   - {fileID: 146207183}
   - {fileID: 1687040297}
   m_Father: {fileID: 0}
@@ -4114,7 +4125,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: house
+  _level: 0
   currentGold: 0
+  currentTrash: 0
+  currentWood: 0
+  currentMetal: 0
+  currentShiny: 0
   text: {fileID: 0}
   bad: {r: 1, g: 0, b: 0, a: 1}
   good: {r: 0, g: 0, b: 0, a: 1}
@@ -4983,7 +4999,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: towncenter
+  _level: 0
   currentGold: 0
+  currentTrash: 0
+  currentWood: 0
+  currentMetal: 0
+  currentShiny: 0
   text: {fileID: 0}
   bad: {r: 1, g: 0, b: 0, a: 1}
   good: {r: 0, g: 0, b: 0, a: 1}
@@ -6225,7 +6246,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: wall
+  _level: 0
   currentGold: 0
+  currentTrash: 0
+  currentWood: 0
+  currentMetal: 0
+  currentShiny: 0
   text: {fileID: 0}
   bad: {r: 1, g: 0, b: 0, a: 1}
   good: {r: 0, g: 0, b: 0, a: 1}
@@ -9205,7 +9231,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: tower
+  _level: 0
   currentGold: 0
+  currentTrash: 0
+  currentWood: 0
+  currentMetal: 0
+  currentShiny: 0
   text: {fileID: 0}
   bad: {r: 1, g: 0, b: 0, a: 1}
   good: {r: 0, g: 0, b: 0, a: 1}
@@ -9286,8 +9317,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: -2803656888904295428, guid: 5204687b5b1cfa5449c5470c3c31abbc,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 540fea1830b579c4bb5acea35f99d4cd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10984,9 +11014,9 @@ MonoBehaviour:
   _VictoryText: {fileID: 1608612128}
   _GoldText: {fileID: 1922297173}
   _TrashText: {fileID: 1746027354}
-  _WoodText: {fileID: 0}
+  _WoodText: {fileID: 498547516}
   _MetalText: {fileID: 984769676}
-  _ShinyText: {fileID: 0}
+  _ShinyText: {fileID: 247588678}
   _FoodText: {fileID: 933066596}
   _WinImg: {fileID: 1833481567}
   _LoseImg: {fileID: 316976829}
@@ -10994,6 +11024,7 @@ MonoBehaviour:
   _LoseAnimator: {fileID: 0}
   _ButtonQuit: {fileID: 1430313666}
   _SplashScreen: {fileID: 504911883}
+  _rm: {fileID: 0}
 --- !u!4 &1015704530
 Transform:
   m_ObjectHideFlags: 0
@@ -11024,8 +11055,8 @@ MonoBehaviour:
   _foodIcon: {fileID: 21300000, guid: bfcfa0c5631732f4aaed09ba4740cd32, type: 3}
   _trashIcon: {fileID: 21300000, guid: 538cb27819be4194d9fb2960cc759b9e, type: 3}
   _woodIcon: {fileID: 21300000, guid: abc539e8950cd0545bc0e50532476654, type: 3}
-  _metalIcon: {fileID: 0}
-  _shinyIcon: {fileID: 0}
+  _metalIcon: {fileID: 21300000, guid: 540fea1830b579c4bb5acea35f99d4cd, type: 3}
+  _shinyIcon: {fileID: 21300000, guid: 379553a2d2e39384bbc884992baab0ef, type: 3}
 --- !u!1 &1016393579
 GameObject:
   m_ObjectHideFlags: 0
@@ -11183,8 +11214,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: -2803656888904295428, guid: 5204687b5b1cfa5449c5470c3c31abbc,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 379553a2d2e39384bbc884992baab0ef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12668,6 +12698,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &1300016560 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 836861451392373974, guid: 996141f1d3b7a5f4ba4883fbf2cee5d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 751086781}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1307117207
 GameObject:
   m_ObjectHideFlags: 0
@@ -15192,7 +15228,7 @@ Transform:
   - {fileID: 1620951941}
   - {fileID: 152457911}
   m_Father: {fileID: 489813141}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1687040298
 BoxCollider2D:

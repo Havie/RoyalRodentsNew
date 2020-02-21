@@ -82,7 +82,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     {
         _sr = this.transform.GetComponent<SpriteRenderer>();
         _sStatedefault= Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_concept");
-        _sr.sprite = _sStatedefault;
+        if (eType != BuildingType.TownCenter)
+            _sr.sprite = _sStatedefault;
 
         //SetUp the NotifyObj
         _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
@@ -96,16 +97,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         _srWorker = _WorkerObject.transform.GetComponent<SpriteRenderer>();
         _sWorker = _sEmptyPortrait;
         _srWorker.sprite = _sWorker;
-        Debug.Log(_srWorker);
+
 
         //SetUp the RedX
         _srRedX = _RedXObject.transform.GetComponent<SpriteRenderer>();
         _srRedX.sprite = _sRedX;
         ShowRedX(false);
 
-
-        eState =BuildingState.Available;
-        eType = BuildingType.Vacant;
+        if (eType != BuildingType.TownCenter)
+        {
+            eState = BuildingState.Available;
+            eType = BuildingType.Vacant;
+        }
         _animator = GetComponentInChildren<Animator>();
         
 
@@ -382,6 +385,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on
     public void SetType(string type)
     {
+        Debug.Log("Heard set Type");
         switch (type)
         {
             case ("TownCenter"):
@@ -409,12 +413,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
     public void DismissWorker(Rodent r)
     {
-        Debug.Log("DismissWorker!");
+       // Debug.Log("DismissWorker!");
         if (r != _Worker)
             Debug.LogError("Rodents dont match:Uh-Oh?");
 
         //Tell the worker to fuck off
-        _Worker.setTarget(null);
+        if(_Worker)
+             _Worker.setTarget(null);
         eState = BuildingState.Idle;
         _Worker = null;
         _sWorker = _sEmptyPortrait;

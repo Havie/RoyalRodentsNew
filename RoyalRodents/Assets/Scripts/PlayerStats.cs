@@ -9,7 +9,8 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     [Range(0, 10f)]
     public float _MoveSpeed = 2f;
     public float _AttackDamage = 10f;
-    public HealthBar _HealthBar;
+    public GameObject _HealthBarObj;
+    private HealthBar _HealthBar;
 
     /**Begin Interface stuff*/
     public void Damage(float damageTaken)
@@ -33,14 +34,20 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
 
     public void SetUpHealthBar(GameObject go)
     {
-        _HealthBar = Instantiate(go).GetComponent<HealthBar>();
-        _HealthBar.gameObject.transform.SetParent(this.transform);
+        //which comes first the chicken or the egg...
+        _HealthBarObj = Instantiate(go);
+        _HealthBarObj.gameObject.transform.SetParent(this.transform);
+        _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
+        if (!_HealthBar)
+            Debug.LogError("Cant Find Health bar");
+        _HealthBarObj.transform.SetParent(this.transform);
+        _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
     }
 
     public void UpdateHealthBar()
     {
         if (_HealthBar)
-            _HealthBar.SetSize(_Hp / _HpMax);
+            _HealthBar.SetHealth(_Hp / _HpMax);
     }
     /**End Interface stuff*/
 
@@ -49,12 +56,12 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     void Start()
     {
         _Hp = 50f;
-        SetUpHealthBar(_HealthBar.gameObject);
+        SetUpHealthBar(_HealthBarObj.gameObject);
         UpdateHealthBar();
     }
 
     void LateUpdate()
     {
-        _HealthBar.transform.position = this.transform.position + new Vector3(0, 1, 0);
+    
     }
 }

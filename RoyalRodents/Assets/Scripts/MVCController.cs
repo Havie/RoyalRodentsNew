@@ -57,8 +57,8 @@ public class MVCController : MonoBehaviour
                 Debug.LogError("MVC controller cant find Dummy Object");
         }
 
-        //Debugg Mode:
-        _printStatement = true;
+        //Debug Mode:
+        _printStatement = false;
     }
 
 

@@ -71,7 +71,7 @@ public class UIAssignmentMenu : MonoBehaviour
         {
             if (r.GetRodentStatus() == Rodent.eStatus.Available)
             {
-                Debug.Log(r.getName() + "  is Available");
+               // Debug.Log(r.getName() + "  is Available");
                 CreateButton(r);
             }
         }

@@ -42,7 +42,7 @@ public class Rat : MonoBehaviour
 
 
         //TMP Test - Finds and follows the player
-        this.GetComponent<SubjectScript>().target = GameObject.FindObjectOfType<PlayerStats>().gameObject;
+        this.GetComponent<SubjectScript>().currentTarget = GameObject.FindObjectOfType<PlayerStats>().gameObject;
     }
 
     // Update is called once per frame

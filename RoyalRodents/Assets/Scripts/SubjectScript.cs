@@ -208,7 +208,7 @@ public class SubjectScript : MonoBehaviour
             // On finishing movement, return to idle
             anims.SetBool("isMoving", false);
         }
-        StartCoroutine(idleDelay());
+        
 
     }
 
@@ -216,6 +216,7 @@ public class SubjectScript : MonoBehaviour
     {
         coroutineStarted = true;
         Debug.Log("Your enter Coroutine at" + Time.time);
+        
         yield return new WaitForSeconds(5.0f);
         Debug.Log("Your exit oroutine at" + Time.time);
         coroutineStarted = false;

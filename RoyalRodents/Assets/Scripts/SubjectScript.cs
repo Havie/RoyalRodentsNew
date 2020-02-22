@@ -225,7 +225,7 @@ public class SubjectScript : MonoBehaviour
                 if (_printStatements)
                     Debug.Log("Move Positively to::" + pos);
                 StartCoroutine(IdleMovetoLoc(pos));
-                WaitDuration = Random.Range(5, 10);
+                WaitDuration = SetWaitDuration("move");
             }
             else if (_chanceToMove < -2)
             {
@@ -234,7 +234,7 @@ public class SubjectScript : MonoBehaviour
                 if (_printStatements)
                     Debug.Log("Move Negatively to::" + pos);
                 StartCoroutine(IdleMovetoLoc(pos));
-                WaitDuration = Random.Range(5, 10);
+                WaitDuration = SetWaitDuration("move");
             }
             else
             {
@@ -242,7 +242,7 @@ public class SubjectScript : MonoBehaviour
                 if (_printStatements)
                     Debug.Log("StandStill::" + transform.position);
                 StartCoroutine(IdleMovetoLoc(transform.position));
-                WaitDuration = Random.Range(2, 5);
+                WaitDuration = SetWaitDuration("move");
                 //To:Do 
                 //If Working Play A working Animation while standing still
             }
@@ -343,7 +343,7 @@ public class SubjectScript : MonoBehaviour
         {
             Move(currentTarget);
             if (_printStatements)
-                Debug.LogError("RoyalMove");
+                Debug.LogError("WorkerMove");
         }
         else
             idleInRadius(10);
@@ -360,10 +360,36 @@ public class SubjectScript : MonoBehaviour
         {
             Move(currentTarget);
             if (_printStatements)
-                Debug.LogError("RoyalMove");
+                Debug.LogError("BuilderMove");
         }
             // not sure this one will idle
             // instead it might reach here and play an animation
             // or Idle in radius 0 and play an anim in there?
+    }
+
+
+    /**Figures out how long to idle for based on Occupation and State */
+    private float SetWaitDuration(string state)
+    {
+        if (state.Equals("move"))
+        {
+            if (worker)
+                return Random.Range(4, 10);
+            else if (royalGuard)
+                return Random.Range(1, 4f);
+            else if (builder)
+                return Random.Range(5, 10f);
+        }
+        else if(state.Equals("idle"))
+        {
+            if (worker)
+                return Random.Range(0.5f, 1f);
+            else if (royalGuard)
+                return Random.Range(1, 2f);  // will follow player a lot better
+            else if (builder)
+                return Random.Range(0.1f, 1f);
+        }
+
+        return Random.Range(2, 5);
     }
 }

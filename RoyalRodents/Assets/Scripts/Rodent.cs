@@ -123,6 +123,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
         if(o==null)
         {
             _Status = eStatus.Available;
+            s.setIdle();
             return;
         }
 
@@ -133,6 +134,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
             if (bo.getState() == BuildableObject.BuildingState.Building)
             {
                 //Tell subject script to behave like a builder
+                s.setBuilder();
                 _Status = eStatus.Building;
                 //OR
                 // Tell them to defend a location when that script arrives
@@ -141,17 +143,22 @@ public class Rodent : MonoBehaviour, IDamageable<float>
             else if (bo.getState() == BuildableObject.BuildingState.Built)
             {
                 // Tell Subject Script to behave like a Worker 
+                s.setWorker();
                 _Status = eStatus.Working;
+
             }
         }
         else if (o.GetComponent<PlayerStats>())
         {
             // Tell Subject script to behave like a bodyguard
+            s.setRoyalGuard();
             _Status = eStatus.Army; // for all intensive purposes army can behave same for player and defense structure
+
         }
         else
         {
             Debug.Log("We dont know this behavior");
+            s.setIdle();
         }
     }
 }

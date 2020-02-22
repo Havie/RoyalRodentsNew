@@ -19,6 +19,7 @@ public class SubjectScript : MonoBehaviour
     public float moveSpeed = 0.5f;
     public GameObject currentTarget;
     public GameObject savedTarget;
+    public Vector3 IdlePos;
     private bool facingRight;
     private bool royalGuard = true;
     private bool worker = false;
@@ -26,7 +27,6 @@ public class SubjectScript : MonoBehaviour
     private bool coroutineStarted = false;
     private bool ShouldIdle = false;
     private bool MovingInIdle = false;
-    private Vector3 IdlePos;
     private float WaitDuration;
 
     private bool _printStatements = false;
@@ -62,15 +62,21 @@ public class SubjectScript : MonoBehaviour
             {
                 builderBehavior();
             }
-
+            else
+            {
+                //Shouldnt happen?
+                Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
+                idleInRadius(IdlePos,5); 
+            }
         }
         else
         {
-            //TODO: free movement for rats with no target
+            //free movement for rats with no target
+            idleInRadius(IdlePos, 5);
         }
     }
 
-    // Set rodent roles, ensuring there is only 1 active at a time
+    /** Sets rodent roles, ensuring there is only 1 active at a time */
     public void setRoyalGuard()
     {
         royalGuard = true;
@@ -91,7 +97,16 @@ public class SubjectScript : MonoBehaviour
         worker = false;
         builder = true;
     }
+    public void setIdle()
+    {
+        royalGuard = false;
+        worker = false;
+        builder = false;
+        //changeTarget(this.gameObject);  // shouldnt need to do this
+        IdlePos = this.transform.position;
 
+
+    }
     public void setSpeed(float nSpeed)
     {
         this.moveSpeed = nSpeed;
@@ -101,6 +116,7 @@ public class SubjectScript : MonoBehaviour
     {
         return moveSpeed;
     }
+    /** find objects Position and pass it along */
     private void Move(GameObject target)
     {
         if (_printStatements)
@@ -108,7 +124,7 @@ public class SubjectScript : MonoBehaviour
        if(!ShouldIdle)
             Move(target.transform.position);
     }
-    // Finds target object position, and then commands the rat to move if it is not very close to it already
+    /** Will move to location if far enough away, otherwise will try to idle */
     void Move(Vector3 loc)
     {
         if (_printStatements)
@@ -180,9 +196,23 @@ public class SubjectScript : MonoBehaviour
 
     }
 
-    /**If there character should Idle, This will pick a location nearby and start a coroutine if one isnt already started */
-    void idleInRadius(int radius)
+    /**  Finds the right Position to idle in */
+   public void idleInRadius(int radius)
     {
+
+        if(currentTarget==null)
+        {
+            Debug.LogError("Cant Idle, Current Target is Null");
+            return;
+        }
+        idleInRadius(currentTarget.transform.position, radius);
+    }
+    /** This will pick a location nearby to move to and start a coroutine if one isn't already started 
+    * we dont use Current Target here in case we dont have one, and want to idle on our own location internally */
+    private void idleInRadius(Vector3 loc, int radius)
+    {
+        
+
         if (!coroutineStarted)
         {
             // Debug.Log("Told to Idle in Radius");
@@ -190,17 +220,17 @@ public class SubjectScript : MonoBehaviour
             if (_chanceToMove > 2)
             {
                 //Move Right
-                Vector3 pos = new Vector3(Random.Range((currentTarget.transform.position.x +1f), (currentTarget.transform.position.x + 6.5f)), 0, 0);
-                
-                    if (_printStatements)
-                        Debug.Log("Move Positively to::" + pos);
+                Vector3 pos = new Vector3(Random.Range((loc.x + 1f), (loc.x + 6.5f)), 0, 0);
+
+                if (_printStatements)
+                    Debug.Log("Move Positively to::" + pos);
                 StartCoroutine(IdleMovetoLoc(pos));
                 WaitDuration = Random.Range(5, 10);
             }
             else if (_chanceToMove < -2)
             {
                 //Move Left
-                Vector3 pos = new Vector3(Random.Range((currentTarget.transform.position.x - 6.5f), (currentTarget.transform.position.x-1f)), 0, 0);
+                Vector3 pos = new Vector3(Random.Range((loc.x - 6.5f), (loc.x - 1f)), 0, 0);
                 if (_printStatements)
                     Debug.Log("Move Negatively to::" + pos);
                 StartCoroutine(IdleMovetoLoc(pos));
@@ -238,6 +268,7 @@ public class SubjectScript : MonoBehaviour
             while (currentTime < ExitTime)
             {
                 currentTime += Time.deltaTime;
+                yield return new WaitForSeconds(Time.deltaTime);
             }
             yield return new WaitForSeconds(WaitDuration);
             ShouldIdle = false;
@@ -257,7 +288,7 @@ public class SubjectScript : MonoBehaviour
         while (MovingInIdle)
         {
             Move(pos);
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(Time.deltaTime);
 
         }
         yield return new WaitForSeconds(WaitDuration);

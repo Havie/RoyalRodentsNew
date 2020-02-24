@@ -110,7 +110,7 @@ public class SubjectScript : MonoBehaviour
             anims.SetBool("isMoving", true);
         }
         
-        if(Mathf.Abs(pos.x - transform.position.x) > 2.5f)
+        if(Mathf.Abs(pos.x - transform.position.x) > 1f)
         {
             if (transform.position.x > pos.x)
             {
@@ -217,7 +217,7 @@ public class SubjectScript : MonoBehaviour
         coroutineStarted = true;
         Debug.Log("Your enter Coroutine at" + Time.time);
         
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
         Debug.Log("Your exit oroutine at" + Time.time);
         coroutineStarted = false;
     }

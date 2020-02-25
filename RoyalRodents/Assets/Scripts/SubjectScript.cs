@@ -287,6 +287,7 @@ public class SubjectScript : MonoBehaviour
         //Debug.LogWarning("Enter Actual Move Coroutine");
         MovingInIdle = true;
         coroutineStarted = true;
+        //No Print Statements Here 290
         while (MovingInIdle)
         {
             Move(pos);

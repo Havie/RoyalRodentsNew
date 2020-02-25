@@ -288,10 +288,14 @@ public class SubjectScript : MonoBehaviour
         //Debug.LogWarning("Enter Actual Move Coroutine");
         MovingInIdle = true;
         coroutineStarted = true;
-        Debug.Log("Your enter Coroutine at" + Time.time);
-        
-        yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
-        Debug.Log("Your exit oroutine at" + Time.time);
+        //No Print Statements Here 290
+        while (MovingInIdle)
+        {
+            Move(pos);
+            yield return new WaitForSeconds(Time.deltaTime);
+
+        }
+        yield return new WaitForSeconds(WaitDuration);
         coroutineStarted = false;
 
     }

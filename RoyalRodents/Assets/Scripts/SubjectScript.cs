@@ -34,6 +34,7 @@ public class SubjectScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        anims = this.GetComponent<Animator>();
         facingRight = false;
         // a backup condition to get the right speed
         Rodent r = this.GetComponent<Rodent>();

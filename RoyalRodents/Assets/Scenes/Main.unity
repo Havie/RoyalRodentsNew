@@ -1385,10 +1385,10 @@ SpriteRenderer:
   m_SortingLayerID: -1689781891
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4760805912181872802, guid: 9c87aff0045cd244ca9e77cce6f8ebdf,
+  m_Sprite: {fileID: -2663516210323102311, guid: db874878ccfda02468c2e3fef5a9f4ce,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3, y: 3}
@@ -1405,7 +1405,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211813086}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.12, y: -193.24, z: 0}
+  m_LocalPosition: {x: -12.8, y: -192, z: 0}
   m_LocalScale: {x: 1.7, y: 1.7, z: 1}
   m_Children:
   - {fileID: 989509830}
@@ -1426,9 +1426,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.019543732, y: -0.31147128}
+  m_Offset: {x: 0.7664548, y: -0.4999999}
   serializedVersion: 2
-  m_Radius: 0.5242829
+  m_Radius: 0.45118245
 --- !u!61 &211813091
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1442,18 +1442,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.008587718, y: -0.09618217}
+  m_Offset: {x: 0.6864263, y: -0.14270198}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.25, y: 1.25}
+    oldSize: {x: 2.56, y: 2.56}
     newSize: {x: 3, y: 3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0702422, y: 1.1540648}
+  m_Size: {x: 0.93733215, y: 2.2040513}
   m_EdgeRadius: 0
 --- !u!50 &211813092
 Rigidbody2D:
@@ -1518,7 +1518,7 @@ Animator:
   m_GameObject: {fileID: 211813086}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 64b34c8e7d6bfda459e477c97cdfeb69, type: 2}
+  m_Controller: {fileID: 9100000, guid: 41414ea78d440eb4980c489b00a3b49c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3096,6 +3096,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   currentTarget: {fileID: 0}
   savedTarget: {fileID: 0}
+  IdlePos: {x: 0, y: 0, z: 0}
 --- !u!95 &424029616
 Animator:
   serializedVersion: 3
@@ -3999,6 +4000,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   currentTarget: {fileID: 0}
   savedTarget: {fileID: 0}
+  IdlePos: {x: 0, y: 0, z: 0}
 --- !u!114 &529887151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5976,6 +5978,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   currentTarget: {fileID: 0}
   savedTarget: {fileID: 0}
+  IdlePos: {x: 0, y: 0, z: 0}
 --- !u!114 &831743570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11534,6 +11537,7 @@ MonoBehaviour:
   moveSpeed: 0.5
   currentTarget: {fileID: 0}
   savedTarget: {fileID: 0}
+  IdlePos: {x: 0, y: 0, z: 0}
 --- !u!114 &1255177559
 MonoBehaviour:
   m_ObjectHideFlags: 0

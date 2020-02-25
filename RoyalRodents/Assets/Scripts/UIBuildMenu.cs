@@ -45,8 +45,6 @@ public class UIBuildMenu : MonoBehaviour
         foreach (Button b in buttons)
         {
             b.gameObject.SetActive(cond);
-            //UIButtonCosts bc = b.GetComponent<UIButtonCosts>;
-            //b.bc.UpdateButton();
         }
     }
 

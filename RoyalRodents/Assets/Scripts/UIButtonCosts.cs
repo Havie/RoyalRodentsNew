@@ -5,42 +5,30 @@ using TMPro;
 
 public class UIButtonCosts : MonoBehaviour
 {
-	//Button Definition
+    int cost;
 	public string _type;
 	public int _level;
-
-	//Current local dictionary
 	public Dictionary<string, int> _cost;
 
-	//Get Build Scripts for Each Struture
-	//public bHouse b_house;
-
-	//Cost of Upgrade by Resource Vars
-	private int costGold;
-
-	private int costTrash;
-	private int costWood;
-	private int costMetal;
-	private int costShiny;
-
 	//Current Player Resources Local Vars
-	private int currentGold;
+	public int currentGold;
 
-	private int currentTrash;
-	private int currentWood;
-	private int currentMetal;
-	private int currentShiny;
+	public int currentTrash;
+	public int currentWood;
+	public int currentMetal;
+	public int currentShiny;
 
 	public TextMeshProUGUI text;
 
-	private Color bad = Color.red;
-	private Color good = Color.black;
+    public Color bad = Color.red;
+    public Color good = Color.black;
 
     // Start is called before the first frame update
     void Start()
     {
-        text = this.gameObject.transform.GetComponent<TextMeshProUGUI>();
+        text=  this.gameObject.transform.GetComponent<TextMeshProUGUI>();
         UpdateButton();
+
 	}
 
      void Update()
@@ -49,8 +37,7 @@ public class UIButtonCosts : MonoBehaviour
     }
 
 	//updates all variables to update the button
-	//***Needs to get called elsewhere from some other system such as the game manager when we increment a resource, not in Update, will be figured out later.*
-	public void UpdateButton()
+	void UpdateButton()
 	{
 		UpdateCurrentResources();
 		UpdateCosts();
@@ -70,17 +57,19 @@ public class UIButtonCosts : MonoBehaviour
 		
 	}
 
+    //Needs to get called elsewhere from some other system such as the game manager when we increment a resource, not in Update, will be figured out later.
     public void UpdateCosts()
     {
 		if (_type.Equals("house"))
 		{
-			if (_level == 1)
+			if (_level.Equals(1))
 				_cost = bHouse._costLevel1;
-			if (_level == 2)
+			if (_level.Equals(2))
 				_cost = bHouse._costLevel2;
-			if (_level == 3)
+			if (_level.Equals(3))
 				_cost = bHouse._costLevel3;
 		}
+<<<<<<< HEAD
 		else if (_type.Equals("farm"))
 		{
 			if (_level == 1)
@@ -123,29 +112,16 @@ public class UIButtonCosts : MonoBehaviour
 		}
 		else
 			Debug.LogError("Build button not properly defined unknown:::" +_type);
+=======
+>>>>>>> parent of 16935df... Resource System Work
 
-		//set default costs to zero before recalculating
-		costTrash = -1;
-		costWood = -1;
-		costMetal = -1;
-		costShiny = -1;
-
-		//set cost variables from specific cost dictionary
 		if (_cost != null)
 		{
 			foreach (string key in _cost.Keys)
 			{
 				int tmp;
 				_cost.TryGetValue(key, out tmp);
-
-				if (key.Equals("Trash"))
-					costTrash = tmp;
-				else if (key.Equals("Wood"))
-					costWood = tmp;
-				else if (key.Equals("Metal"))
-					costMetal = tmp;
-				else if (key.Equals("Shiny"))
-					costShiny = tmp;
+				cost = tmp;
 			}
 		}
     }
@@ -155,9 +131,8 @@ public class UIButtonCosts : MonoBehaviour
 	{
 		if (text != null)
 		{
-			//only shows trash cost at the moment *
-			text.text = currentTrash.ToString() + "/" + costTrash;
-			if (currentTrash < costTrash)
+			text.text = currentTrash.ToString() + "/" + cost;
+			if (currentTrash < cost)
 			{
 				text.color = bad;
 			}
@@ -171,19 +146,22 @@ public class UIButtonCosts : MonoBehaviour
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts(string type)
     {
-		UpdateButton();
+       // Debug.Log("request to approve");
+        if (type.Equals("house"))
+        {
 
-        if (currentTrash >= costTrash)
+        }
+
+        if (currentTrash >= cost)
         {
             MVCController.Instance.buildSomething(type);
-			// Debug.Log("Cost Approved");
+          // Debug.Log("Cost Approved");
         }
         else
         {
            // Debug.LogError("Cost is not approved");
         }
     }
-
 
     public void Demolish()
     {

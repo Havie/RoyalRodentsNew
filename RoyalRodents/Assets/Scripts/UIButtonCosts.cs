@@ -71,6 +71,7 @@ public class UIButtonCosts : MonoBehaviour
 		}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		else if (_type.Equals("farm"))
 		{
 			if (_level == 1)
@@ -117,6 +118,8 @@ public class UIButtonCosts : MonoBehaviour
 >>>>>>> parent of 16935df... Resource System Work
 =======
 >>>>>>> parent of 16935df... Resource System Work
+=======
+>>>>>>> parent of 16935df... Resource System Work
 
 		if (_cost != null)
 		{
@@ -153,9 +156,15 @@ public class UIButtonCosts : MonoBehaviour
         if (type.Equals("house"))
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         }
 
+=======
+
+        }
+
+>>>>>>> parent of 16935df... Resource System Work
 =======
 
         }

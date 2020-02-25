@@ -137,6 +137,7 @@ public class SubjectScript : MonoBehaviour
 
         //If we are far enough away
         if (Mathf.Abs(pos.x - transform.position.x) > _ranDistance)
+
         {
 
             if (anims)
@@ -287,13 +288,10 @@ public class SubjectScript : MonoBehaviour
         //Debug.LogWarning("Enter Actual Move Coroutine");
         MovingInIdle = true;
         coroutineStarted = true;
-        while (MovingInIdle)
-        {
-            Move(pos);
-            yield return new WaitForSeconds(Time.deltaTime);
-
-        }
-        yield return new WaitForSeconds(WaitDuration);
+        Debug.Log("Your enter Coroutine at" + Time.time);
+        
+        yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
+        Debug.Log("Your exit oroutine at" + Time.time);
         coroutineStarted = false;
 
     }

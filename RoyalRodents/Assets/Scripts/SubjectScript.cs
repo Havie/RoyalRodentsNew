@@ -130,12 +130,14 @@ public class SubjectScript : MonoBehaviour
         if (_printStatements)
             Debug.Log("Told to Move to Loc  " + loc);
 
-        if (anims)
-        {
-            anims.SetBool("isMoving", true);
-        }
-        
-        if(Mathf.Abs(pos.x - transform.position.x) > 1f)
+        //LINE 133 is Bugged
+        //Line 134 is bugged
+        Vector3 pos = new Vector3(loc.x, 0, 0);
+        float _ranDistance = Random.Range(0.1f, 1.5f); //might make global and unique to role
+
+        //If we are far enough away
+        if (Mathf.Abs(pos.x - transform.position.x) > _ranDistance)
+
         {
 
             if (anims)

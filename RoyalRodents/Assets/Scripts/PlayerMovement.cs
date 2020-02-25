@@ -214,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // if (collision.transform.GetComponent<CoinResource>().isActive())
             {
-                GameManager.Instance.incrementGold(1);
+                GameManager.Instance.incrementTrash(1);
                 Destroy(collision.gameObject);
             }
         }

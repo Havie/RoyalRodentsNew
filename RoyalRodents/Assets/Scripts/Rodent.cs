@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Rodent : MonoBehaviour, IDamageable<float>
 {
-    public HealthBar _HealthBar;
+    public GameObject _HealthBarObj;
+    private HealthBar _HealthBar;
 
     [SerializeField]
     private float _Hp = 50f;
@@ -47,14 +48,20 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     public void SetUpHealthBar(GameObject go)
     {
         //which comes first the chicken or the egg...
-        _HealthBar = Instantiate(go).GetComponent<HealthBar>();
-        _HealthBar.gameObject.transform.SetParent(this.transform);
+        _HealthBarObj = Instantiate(go);
+        _HealthBarObj.gameObject.transform.SetParent(this.transform);
+        _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
+        if (!_HealthBar)
+            Debug.LogError("Cant Find Health bar");
+        _HealthBarObj.transform.SetParent(this.transform);
+        _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+        UpdateHealthBar();
     }
 
     public void UpdateHealthBar()
     {
         if (_HealthBar)
-            _HealthBar.SetSize(_Hp / _HpMax);
+            _HealthBar.SetHealth(_Hp / _HpMax);
     }
     /** End Interface Stuff */
 
@@ -62,7 +69,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     // Start is called before the first frame update
     void Start()
     {
-        SetUpHealthBar(_HealthBar.gameObject);
+        SetUpHealthBar(_HealthBarObj.gameObject);
         subjectScript = this.GetComponent<SubjectScript>();
         if (subjectScript == null)
             Debug.LogError("Warning No SubjectScript found for Rodent");
@@ -78,7 +85,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     }
     void LateUpdate()
     {
-        _HealthBar.transform.position = this.transform.position + new Vector3(0, 1, 0);
+       // _HealthBarObj.transform.position = this.transform.position + new Vector3(0, 1, 0);
     }
 
     public void setHp(float val) { _Hp = val; UpdateHealthBar(); }// use sparingly, should call Damage
@@ -116,6 +123,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
         if(o==null)
         {
             _Status = eStatus.Available;
+            s.setIdle();
             return;
         }
 
@@ -126,6 +134,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
             if (bo.getState() == BuildableObject.BuildingState.Building)
             {
                 //Tell subject script to behave like a builder
+                s.setBuilder();
                 _Status = eStatus.Building;
                 //OR
                 // Tell them to defend a location when that script arrives
@@ -134,17 +143,22 @@ public class Rodent : MonoBehaviour, IDamageable<float>
             else if (bo.getState() == BuildableObject.BuildingState.Built)
             {
                 // Tell Subject Script to behave like a Worker 
+                s.setWorker();
                 _Status = eStatus.Working;
+
             }
         }
         else if (o.GetComponent<PlayerStats>())
         {
             // Tell Subject script to behave like a bodyguard
-            _Status = eStatus.Army; // for all intentive purposes army can behave same for player and defense structure
+            s.setRoyalGuard();
+            _Status = eStatus.Army; // for all intensive purposes army can behave same for player and defense structure
+
         }
         else
         {
             Debug.Log("We dont know this behavior");
+            s.setIdle();
         }
     }
 }

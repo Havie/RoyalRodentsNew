@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class bTownCenter : MonoBehaviour
 {
+    [SerializeField]
     private Sprite _built;
-    private float _hitpoints = 150;
+    private float _hitpoints = 250;
 
     //create strucutre costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
     public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
@@ -23,7 +24,7 @@ public class bTownCenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _built = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored6");
+        _built = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
 
         //Set Upgrade/Build Costs (1-5 levels)
         _costLevel1.Add("Trash", 2);
@@ -55,12 +56,18 @@ public class bTownCenter : MonoBehaviour
         this.transform.GetComponent<SpriteRenderer>().sprite = _built;
         return _hitpoints;
     }
-
+    
     public void StartingBuildComplete()
     {
+        if(!_built)
+        {
+            _built = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+
+        }
         this.transform.GetComponent<BuildableObject>().SetType("TownCenter");
         this.transform.GetComponent<BuildableObject>().Damage(0 - _hitpoints);
         this.transform.GetComponent<SpriteRenderer>().sprite = _built;
+        Debug.Log("Created Initial TownCenter with Sprite:::" + _built);
     }
 
 

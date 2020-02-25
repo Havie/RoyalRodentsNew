@@ -10,7 +10,7 @@ public class Rat : MonoBehaviour
     private float _Hp = 100f;
     private float _HpMax = 100f;
     [Range(0, 10f)]
-    private float _MoveSpeed = 5f;
+    private float _MoveSpeed = 3f;
     private float _AttackDamage = 1f;
     [SerializeField]
     private Sprite _Portrait;
@@ -42,7 +42,7 @@ public class Rat : MonoBehaviour
 
 
         //TMP Test - Finds and follows the player
-        this.GetComponent<SubjectScript>().target = GameObject.FindObjectOfType<PlayerStats>().gameObject;
+        this.GetComponent<SubjectScript>().currentTarget = GameObject.FindObjectOfType<PlayerStats>().gameObject;
     }
 
     // Update is called once per frame

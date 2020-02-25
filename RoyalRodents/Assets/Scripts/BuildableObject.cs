@@ -5,24 +5,27 @@ using UnityEngine.UI;
 
 public class BuildableObject : MonoBehaviour, IDamageable<float>
 {
-    public Sprite _sStatedefault;
-    public Sprite _sStateHighlight;
-    public Sprite _sStateConstruction;
-    public Sprite _sStateDamaged;
-    public Sprite _sStateDestroyed;
-    public Sprite _sOnHover;
-    public Sprite _sNotification;
-    public Sprite _sEmptyWorker;
-    public Sprite _sWorker;
-    public Sprite _sBuildingHammer;
+    [SerializeField] private Sprite _sStatedefault;
+    [SerializeField] private Sprite _sStateHighlight;
+    [SerializeField] private Sprite _sStateConstruction;
+    [SerializeField] private Sprite _sStateDamaged;
+    [SerializeField] private Sprite _sStateDestroyed;
+    [SerializeField] private Sprite _sOnHover;
+    [SerializeField] private Sprite _sNotification;
+    [SerializeField] private Sprite _sEmptyPortrait;
+    [SerializeField] private Sprite _sWorker;
+    [SerializeField] private Sprite _sRedX;
+    [SerializeField] private Sprite _sBuildingHammer;
 
-    public GameObject _NotificationObject;
-    public GameObject _WorkerObject;
+    [SerializeField] private GameObject _NotificationObject;
+    [SerializeField] private GameObject _WorkerObject;
+    [SerializeField] private GameObject _PortraitOutlineObject;
+    [SerializeField] private GameObject _RedXObject;
 
-    public Animator _animator;
-    public HealthBar _HealthBar;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private HealthBar _HealthBar;
 
-    private Rodent _Worker;
+    [SerializeField] private Rodent _Worker;
 
 
     [SerializeField]
@@ -31,12 +34,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     [SerializeField]
     private BuildingType eType;
 
-    private SpriteRenderer sr;
-    private SpriteRenderer srNotify;
-    private SpriteRenderer srWorker;
+    private SpriteRenderer _sr;
+    private SpriteRenderer _srNotify;
+    private SpriteRenderer _srWorker;
+    private SpriteRenderer _srPortrait;
+    private SpriteRenderer _srRedX;
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
-    private MVCController controller;
+    private MVCController _controller;
 
     [SerializeField]
     private float _hitpoints = 0;
@@ -75,14 +80,29 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     // Start is called before the first frame update
     void Start()
     {
-        sr = this.transform.GetComponent<SpriteRenderer>();
+        _sr = this.transform.GetComponent<SpriteRenderer>();
         _sStatedefault= Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_concept");
-        sr.sprite = _sStatedefault;
+        _sr.sprite = _sStatedefault;
 
-        srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
-        srWorker = _WorkerObject.transform.GetComponent<SpriteRenderer>();
-        _sWorker = _sEmptyWorker;
-        srWorker.sprite = _sWorker;
+        //SetUp the NotifyObj
+        _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
+        _srNotify.sprite = _sNotification;
+
+        //SetUp the Portrait BG
+        _srPortrait = _PortraitOutlineObject.transform.GetComponent<SpriteRenderer>();
+        _srPortrait.sprite = _sEmptyPortrait;
+
+        //Set Up Worker to be empty
+        _srWorker = _WorkerObject.transform.GetComponent<SpriteRenderer>();
+        _sWorker = _sEmptyPortrait;
+        _srWorker.sprite = _sWorker;
+        Debug.Log(_srWorker);
+
+        //SetUp the RedX
+        _srRedX = _RedXObject.transform.GetComponent<SpriteRenderer>();
+        _srRedX.sprite = _sRedX;
+        ShowRedX(false);
+
 
         eState =BuildingState.Available;
         eType = BuildingType.Vacant;
@@ -99,7 +119,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         if (o)
         {
             if (o.GetComponent<MVCController>())
-                controller = o.GetComponent<MVCController>();
+                _controller = o.GetComponent<MVCController>();
             else
                 Debug.LogError("UI Costs cant find MVC Controller");
         }
@@ -121,34 +141,40 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         {
             case BuildingState.Available:
                 {
-                    srNotify.sprite = _sNotification;
-                    srNotify.enabled = true;
-                    srWorker.enabled = false;
+                    _srNotify.sprite = _sNotification;
+                    _srNotify.enabled = true;
+                    _srPortrait.enabled = false;
+                    _srWorker.enabled = false;
                     _animator.SetBool("Notify", true);
                     _animator.SetBool("Building", false);
                     break;
                 }
             case BuildingState.Building:
                 {
-                    srNotify.sprite = _sBuildingHammer;
-                    srWorker.sprite = _sWorker; // update to be empty elsewhere later on
-                    srNotify.enabled = true;
-                    srWorker.enabled = true;
+                    _srNotify.sprite = _sBuildingHammer;
+                    _srWorker.sprite = _sWorker; // update to be empty elsewhere later on
+                    _srNotify.enabled = true;
+                    _srPortrait.enabled = true;
+                    _srWorker.enabled = true;
                     _animator.SetBool("Building", true);
                     break;
                 }
             case BuildingState.Idle:
                 {
-                    srNotify.enabled = false;
-                    srWorker.enabled = false;
+                    _srWorker.sprite = _sWorker;
+                    _srNotify.enabled = false;
+                    _srPortrait.enabled = true;
+                    _srWorker.enabled = true;
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
                 }
             case BuildingState.Built:
                 {
-                    srNotify.enabled = false;
-                    srWorker.enabled = true;
+                    _srWorker.sprite = _sWorker;
+                    _srNotify.enabled = false;
+                    _srPortrait.enabled = true;
+                    _srWorker.enabled = true;
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
@@ -204,35 +230,35 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 this.gameObject.AddComponent<bHouse>();
                 eType = BuildingType.House;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                // Debug.Log("Made a house");
                 break;
             case ("farm"):
                 this.gameObject.AddComponent<bFarm>();
                 eType = BuildingType.Farm;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                // Debug.Log("Made a Farm");
                 break;
             case ("wall"):
                 this.gameObject.AddComponent<bWall>();
                 eType = BuildingType.Wall;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                // Debug.Log("Made a Wall");
                 break;
             case ("tower"):
                 this.gameObject.AddComponent<bTower>();
                 eType = BuildingType.Tower;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                // Debug.Log("Made a Tower");
                 break;
             case ("towncenter"):
                 this.gameObject.AddComponent<bTownCenter>();
                 eType = BuildingType.TownCenter;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                // Debug.Log("Made a TownCenter");
                 break;
 
@@ -254,7 +280,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 Destroy(house);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Available;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                 // Debug.Log("Destroyed a house");
                 break;
             case (BuildingType.Farm):
@@ -262,7 +288,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 Destroy(farm);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                 // Debug.Log("Destroyed a Farm");
                 break;
             case (BuildingType.Wall):
@@ -270,7 +296,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 Destroy(wall);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                 // Debug.Log("Destroyed a Wall");
                 break;
             case (BuildingType.Tower):
@@ -278,7 +304,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 Destroy(tower);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                 // Debug.Log("Destroyed a Tower");
                 break;
             case (BuildingType.TownCenter):
@@ -286,7 +312,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 Destroy(btc);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
-                sr.sprite = _sStateConstruction;
+                _sr.sprite = _sStateConstruction;
                 // Debug.Log("Destroyed a TownCenter");
                 break;
 
@@ -339,16 +365,17 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         }
 
         //Resets it so we can click again without clicking off first
-        if(controller.getLastClicked()==this.gameObject)
-            controller.clearLastClicked();
+        if(_controller.getLastClicked()==this.gameObject)
+            _controller.clearLastClicked();
     }
     public void DemolishComplete()
     {
         eState = BuildingState.Available;
-        sr.sprite = _sStatedefault;
-        if (controller.getLastClicked() == this.gameObject)
-            controller.clearLastClicked();
+        _sr.sprite = _sStatedefault;
+        if (_controller.getLastClicked() == this.gameObject)
+            _controller.clearLastClicked();
 
+        ShowRedX(false);
         //To-Do : Kick the worker rodent off
     }
 
@@ -368,13 +395,45 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
     public void AssignWorker(Rodent r)
     {
+        Debug.Log("AssignWorker!");
         _Worker = r;
-        bWorkerScript ws=_WorkerObject.GetComponent<bWorkerScript>();
+        bWorkerScript ws=_PortraitOutlineObject.GetComponent<bWorkerScript>();
         if(ws)
         {
             ws.setWorker(_Worker);
             _sWorker = r.GetPortrait();
             Debug.LogError(_sWorker.ToString());
+        }
+        //To-Do: Something not be handled here is the status of Building to Built.
+
+    }
+    public void DismissWorker(Rodent r)
+    {
+        Debug.Log("DismissWorker!");
+        if (r != _Worker)
+            Debug.LogError("Rodents dont match:Uh-Oh?");
+
+        //Tell the worker to fuck off
+        _Worker.setTarget(null);
+        eState = BuildingState.Idle;
+        _Worker = null;
+        _sWorker = _sEmptyPortrait;
+
+
+    }
+    public void ShowRedX(bool cond)
+    {
+        if (cond)
+        {
+            _srRedX.enabled = true;
+            MVCController.Instance.setLastRedX(this);
+        }
+        else
+        {
+            _srRedX.enabled = false;
+            //Turn back on the collider possible hack
+            if(_PortraitOutlineObject)
+                _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
         }
     }
 }

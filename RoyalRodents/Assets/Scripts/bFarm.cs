@@ -19,7 +19,11 @@ public class bFarm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+<<<<<<< HEAD
         _built = Resources.Load<Sprite>("Buildings/Farm/trash_farm");
+=======
+        _built = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored3");
+>>>>>>> parent of 16935df... Resource System Work
 
     }
 

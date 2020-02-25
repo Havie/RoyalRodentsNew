@@ -70,6 +70,7 @@ public class UIButtonCosts : MonoBehaviour
 				_cost = bHouse._costLevel3;
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		else if (_type.Equals("farm"))
 		{
 			if (_level == 1)
@@ -114,6 +115,8 @@ public class UIButtonCosts : MonoBehaviour
 			Debug.LogError("Build button not properly defined unknown:::" +_type);
 =======
 >>>>>>> parent of 16935df... Resource System Work
+=======
+>>>>>>> parent of 16935df... Resource System Work
 
 		if (_cost != null)
 		{
@@ -149,9 +152,15 @@ public class UIButtonCosts : MonoBehaviour
        // Debug.Log("request to approve");
         if (type.Equals("house"))
         {
+<<<<<<< HEAD
 
         }
 
+=======
+
+        }
+
+>>>>>>> parent of 16935df... Resource System Work
         if (currentTrash >= cost)
         {
             MVCController.Instance.buildSomething(type);

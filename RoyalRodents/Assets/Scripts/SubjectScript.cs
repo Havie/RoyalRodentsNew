@@ -130,11 +130,14 @@ public class SubjectScript : MonoBehaviour
         if (_printStatements)
             Debug.Log("Told to Move to Loc  " + loc);
 
+        //LINE 133 is Bugged
+        //Line 134 is bugged
         Vector3 pos = new Vector3(loc.x, 0, 0);
         float _ranDistance = Random.Range(0.1f, 1.5f); //might make global and unique to role
 
         //If we are far enough away
         if (Mathf.Abs(pos.x - transform.position.x) > _ranDistance)
+
         {
 
             if (anims)
@@ -285,13 +288,10 @@ public class SubjectScript : MonoBehaviour
         //Debug.LogWarning("Enter Actual Move Coroutine");
         MovingInIdle = true;
         coroutineStarted = true;
-        while (MovingInIdle)
-        {
-            Move(pos);
-            yield return new WaitForSeconds(Time.deltaTime);
-
-        }
-        yield return new WaitForSeconds(WaitDuration);
+        Debug.Log("Your enter Coroutine at" + Time.time);
+        
+        yield return new WaitForSeconds(Random.Range(1.0f, 2.5f));
+        Debug.Log("Your exit oroutine at" + Time.time);
         coroutineStarted = false;
 
     }

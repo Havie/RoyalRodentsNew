@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ResourceManagerScript : MonoBehaviour
 {
-    //create resource variables
-    private int _food, _trash, _wood, _metal, _shiny;
+	//Make a singleton
+	private static ResourceManagerScript _instance;
+
+	//create resource variables
+	private int _food, _trash, _wood, _metal, _shiny;
 
 	//resource icon sprites
 	public Sprite _foodIcon;
@@ -14,6 +17,33 @@ public class ResourceManagerScript : MonoBehaviour
 	public Sprite _metalIcon;
 	public Sprite _shinyIcon;
 
+	//Create Instance of GameManager
+	public static ResourceManagerScript Instance
+	{
+		get
+		{
+			if (_instance == null)
+				_instance = new ResourceManagerScript();
+			return _instance;
+		}
+	}
+
+	private void Awake()
+	{
+		if (_instance == null)
+		{
+			//if not, set instance to this
+			_instance = this;
+		}
+		//If instance already exists and it's not this:
+		else if (_instance != this)
+		{
+			//Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+			Destroy(gameObject);
+		}
+
+		DontDestroyOnLoad(gameObject);
+	}
 
 	//setters and getters for resource variable properties
 	public int Food
@@ -84,4 +114,6 @@ public class ResourceManagerScript : MonoBehaviour
 		_metal = 0;
 		_shiny = 0;
     }
+
+	
 }

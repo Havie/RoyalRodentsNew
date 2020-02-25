@@ -131,6 +131,7 @@ public class SubjectScript : MonoBehaviour
             Debug.Log("Told to Move to Loc  " + loc);
 
         //LINE 133 is Bugged
+        //Line 134 is bugged
         Vector3 pos = new Vector3(loc.x, 0, 0);
         float _ranDistance = Random.Range(0.1f, 1.5f); //might make global and unique to role
 

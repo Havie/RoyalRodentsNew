@@ -63,10 +63,11 @@ public class UIButtonCosts : MonoBehaviour
 		currentGold = GameManager.Instance._gold;
 
 		//update local vars from player resources
-		currentTrash = GameManager.Instance._rm.Trash;
-		currentWood = GameManager.Instance._rm.Wood;
-		currentMetal = GameManager.Instance._rm.Metal;
-		currentShiny = GameManager.Instance._rm.Shiny;
+		currentTrash = ResourceManagerScript.Instance.Trash;
+		currentWood = ResourceManagerScript.Instance.Wood;
+		currentMetal = ResourceManagerScript.Instance.Metal;
+		currentShiny = ResourceManagerScript.Instance.Shiny;
+		
 	}
 
     public void UpdateCosts()
@@ -121,7 +122,7 @@ public class UIButtonCosts : MonoBehaviour
 				_cost = bTownCenter._costLevel5;
 		}
 		else
-			Debug.LogError("Build button not properly defined");
+			Debug.LogError("Build button not properly defined unknown:::" +_type);
 
 		//set default costs to zero before recalculating
 		costTrash = -1;

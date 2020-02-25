@@ -17,9 +17,6 @@ public class ResourceManagerScript : MonoBehaviour
 	public Sprite _metalIcon;
 	public Sprite _shinyIcon;
 
-
-
-
 	//Create Instance of GameManager
 	public static ResourceManagerScript Instance
 	{
@@ -47,7 +44,6 @@ public class ResourceManagerScript : MonoBehaviour
 
 		DontDestroyOnLoad(gameObject);
 	}
-
 
 	//setters and getters for resource variable properties
 	public int Food
@@ -118,4 +114,6 @@ public class ResourceManagerScript : MonoBehaviour
 		_metal = 0;
 		_shiny = 0;
     }
+
+	
 }

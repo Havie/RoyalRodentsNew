@@ -5,30 +5,39 @@ using TMPro;
 
 public class UIButtonCosts : MonoBehaviour
 {
-    int cost;
+	//Button Definition
 	public string _type;
 	public int _level;
+
+	//Current local dictionary
 	public Dictionary<string, int> _cost;
 
-	//Current Player Resources Local Vars
-	public int currentGold;
+	//Cost of Upgrade by Resource Vars
+	private int costGold;
 
-	public int currentTrash;
-	public int currentWood;
-	public int currentMetal;
-	public int currentShiny;
+	private int costTrash;
+	private int costWood;
+	private int costMetal;
+	private int costShiny;
+
+	//Current Player Resources Local Vars
+	private int currentGold;
+
+	private int currentTrash;
+	private int currentWood;
+	private int currentMetal;
+	private int currentShiny;
 
 	public TextMeshProUGUI text;
 
-    public Color bad = Color.red;
-    public Color good = Color.black;
+	private Color bad = Color.red;
+	private Color good = Color.black;
 
     // Start is called before the first frame update
     void Start()
     {
-        text=  this.gameObject.transform.GetComponent<TextMeshProUGUI>();
+        text = this.gameObject.transform.GetComponent<TextMeshProUGUI>();
         UpdateButton();
-
 	}
 
      void Update()
@@ -37,7 +46,8 @@ public class UIButtonCosts : MonoBehaviour
     }
 
 	//updates all variables to update the button
-	void UpdateButton()
+	//***Needs to get called elsewhere from some other system such as the game manager when we increment a resource, not in Update, will be figured out later.*
+	public void UpdateButton()
 	{
 		UpdateCurrentResources();
 		UpdateCosts();
@@ -54,83 +64,55 @@ public class UIButtonCosts : MonoBehaviour
 		currentWood = ResourceManagerScript.Instance.Wood;
 		currentMetal = ResourceManagerScript.Instance.Metal;
 		currentShiny = ResourceManagerScript.Instance.Shiny;
-		
 	}
 
-    //Needs to get called elsewhere from some other system such as the game manager when we increment a resource, not in Update, will be figured out later.
     public void UpdateCosts()
     {
 		if (_type.Equals("house"))
 		{
-			if (_level.Equals(1))
-				_cost = bHouse._costLevel1;
-			if (_level.Equals(2))
-				_cost = bHouse._costLevel2;
-			if (_level.Equals(3))
-				_cost = bHouse._costLevel3;
+			_cost = bHouse.getCost(_level);
 		}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		else if (_type.Equals("farm"))
 		{
-			if (_level == 1)
-				_cost = bFarm._costLevel1;
-			if (_level == 2)
-				_cost = bFarm._costLevel2;
-			if (_level == 3)
-				_cost = bFarm._costLevel3;
+			_cost = bFarm.getCost(_level);
 		}
 		else if (_type.Equals("wall"))
 		{
-			if (_level == 1)
-				_cost = bWall._costLevel1;
-			if (_level == 2)
-				_cost = bWall._costLevel2;
-			if (_level == 3)
-				_cost = bWall._costLevel3;
+			_cost = bWall.getCost(_level);
 		}
 		else if (_type.Equals("tower"))
 		{
-			if (_level == 1)
-				_cost = bTower._costLevel1;
-			if (_level == 2)
-				_cost = bTower._costLevel2;
-			if (_level == 3)
-				_cost = bTower._costLevel3;
+			_cost = bTower.getCost(_level);
 		}
 		else if (_type.Equals("towncenter"))
 		{
-			if (_level == 1)
-				_cost = bTownCenter._costLevel1;
-			if (_level == 2)
-				_cost = bTownCenter._costLevel2;
-			if (_level == 3)
-				_cost = bTownCenter._costLevel3;
-			if (_level == 4)
-				_cost = bTownCenter._costLevel4;
-			if (_level == 5)
-				_cost = bTownCenter._costLevel5;
+			_cost = bTownCenter.getCost(_level);
 		}
 		else
-			Debug.LogError("Build button not properly defined unknown:::" +_type);
-=======
->>>>>>> parent of 16935df... Resource System Work
-=======
->>>>>>> parent of 16935df... Resource System Work
-=======
->>>>>>> parent of 16935df... Resource System Work
-=======
->>>>>>> parent of 16935df... Resource System Work
+			Debug.LogError("Build button not defined with type or level, or couldn't get cost dictionary from building script");
 
+		//set default costs to zero before recalculating
+		costTrash = -1;
+		costWood = -1;
+		costMetal = -1;
+		costShiny = -1;
+
+		//set cost variables from specific cost dictionary
 		if (_cost != null)
 		{
 			foreach (string key in _cost.Keys)
 			{
 				int tmp;
 				_cost.TryGetValue(key, out tmp);
-				cost = tmp;
+
+				if (key.Equals("Trash"))
+					costTrash = tmp;
+				else if (key.Equals("Wood"))
+					costWood = tmp;
+				else if (key.Equals("Metal"))
+					costMetal = tmp;
+				else if (key.Equals("Shiny"))
+					costShiny = tmp;
 			}
 		}
     }
@@ -140,8 +122,9 @@ public class UIButtonCosts : MonoBehaviour
 	{
 		if (text != null)
 		{
-			text.text = currentTrash.ToString() + "/" + cost;
-			if (currentTrash < cost)
+			//only shows trash cost at the moment *
+			text.text = currentTrash.ToString() + "/" + costTrash;
+			if (currentTrash < costTrash)
 			{
 				text.color = bad;
 			}
@@ -155,40 +138,19 @@ public class UIButtonCosts : MonoBehaviour
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts(string type)
     {
-       // Debug.Log("request to approve");
-        if (type.Equals("house"))
-        {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+		UpdateButton();
 
-        }
-
-=======
-
-        }
-
->>>>>>> parent of 16935df... Resource System Work
-=======
-
-        }
-
->>>>>>> parent of 16935df... Resource System Work
-=======
-
-        }
-
->>>>>>> parent of 16935df... Resource System Work
-        if (currentTrash >= cost)
+        if (currentTrash >= costTrash)
         {
             MVCController.Instance.buildSomething(type);
-          // Debug.Log("Cost Approved");
+			// Debug.Log("Cost Approved");
         }
         else
         {
            // Debug.LogError("Cost is not approved");
         }
     }
+
 
     public void Demolish()
     {

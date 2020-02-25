@@ -17,6 +17,8 @@ public class bHouse :MonoBehaviour
 	void Start()
     {
         _built = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored_y");
+
+        //Set Upgrade/Build Costs (1-3 levels)
 		_costLevel1.Add("Trash", 2);
 
 		_costLevel2.Add("Trash", 4);

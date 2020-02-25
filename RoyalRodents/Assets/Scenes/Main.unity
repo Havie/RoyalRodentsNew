@@ -1041,14 +1041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _type: 
   _level: 0
-  currentGold: 0
-  currentTrash: 0
-  currentWood: 0
-  currentMetal: 0
-  currentShiny: 0
   text: {fileID: 0}
-  bad: {r: 1, g: 0, b: 0, a: 1}
-  good: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &158025138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2739,7 +2732,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 0/1
+  m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2808,10 +2801,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 338177751}
-    characterCount: 3
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 2
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -2852,15 +2845,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: farm
-  _level: 0
-  currentGold: 0
-  currentTrash: 0
-  currentWood: 0
-  currentMetal: 0
-  currentShiny: 0
-  text: {fileID: 0}
-  bad: {r: 1, g: 0, b: 0, a: 1}
-  good: {r: 0, g: 0, b: 0, a: 1}
+  _level: 1
+  text: {fileID: 338177751}
 --- !u!1 &353773183
 GameObject:
   m_ObjectHideFlags: 0
@@ -4012,7 +3998,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 0/1
+  m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4081,10 +4067,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 523724631}
-    characterCount: 3
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 2
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -4125,15 +4111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: house
-  _level: 0
-  currentGold: 0
-  currentTrash: 0
-  currentWood: 0
-  currentMetal: 0
-  currentShiny: 0
-  text: {fileID: 0}
-  bad: {r: 1, g: 0, b: 0, a: 1}
-  good: {r: 0, g: 0, b: 0, a: 1}
+  _level: 1
+  text: {fileID: 523724631}
 --- !u!1 &529887148
 GameObject:
   m_ObjectHideFlags: 0
@@ -4886,7 +4865,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 0/1
+  m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4955,10 +4934,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 603163986}
-    characterCount: 3
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 2
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -4999,15 +4978,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: towncenter
-  _level: 0
-  currentGold: 0
-  currentTrash: 0
-  currentWood: 0
-  currentMetal: 0
-  currentShiny: 0
-  text: {fileID: 0}
-  bad: {r: 1, g: 0, b: 0, a: 1}
-  good: {r: 0, g: 0, b: 0, a: 1}
+  _level: 1
+  text: {fileID: 603163986}
 --- !u!1 &630670318
 GameObject:
   m_ObjectHideFlags: 0
@@ -6133,7 +6105,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 0/1
+  m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6202,10 +6174,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 798430809}
-    characterCount: 3
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 2
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -6246,15 +6218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: wall
-  _level: 0
-  currentGold: 0
-  currentTrash: 0
-  currentWood: 0
-  currentMetal: 0
-  currentShiny: 0
-  text: {fileID: 0}
-  bad: {r: 1, g: 0, b: 0, a: 1}
-  good: {r: 0, g: 0, b: 0, a: 1}
+  _level: 1
+  text: {fileID: 798430809}
 --- !u!1 &804835498
 GameObject:
   m_ObjectHideFlags: 0
@@ -9118,7 +9083,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 0/1
+  m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9187,10 +9152,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 859358923}
-    characterCount: 3
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
-    wordCount: 2
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -9231,15 +9196,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: tower
-  _level: 0
-  currentGold: 0
-  currentTrash: 0
-  currentWood: 0
-  currentMetal: 0
-  currentShiny: 0
-  text: {fileID: 0}
-  bad: {r: 1, g: 0, b: 0, a: 1}
-  good: {r: 0, g: 0, b: 0, a: 1}
+  _level: 1
+  text: {fileID: 859358923}
 --- !u!1 &884527026
 GameObject:
   m_ObjectHideFlags: 0

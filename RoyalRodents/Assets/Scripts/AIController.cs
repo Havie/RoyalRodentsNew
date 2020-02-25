@@ -12,7 +12,8 @@ public class AIController : MonoBehaviour, IDamageable<float>
     public float _health = 25f;
     public float _healthMax = 25.5f;
     public float _damage = 3f;
-    public HealthBar _HealthBar;
+    public GameObject _HealthBarObj;
+    private HealthBar _HealthBar;
 
     public Vector3 testGoalPos;
 
@@ -41,15 +42,20 @@ public class AIController : MonoBehaviour, IDamageable<float>
 
     public void SetUpHealthBar(GameObject go)
     {
-        _HealthBar = Instantiate(go).GetComponent<HealthBar>();
-        _HealthBar.gameObject.transform.SetParent(this.transform);
-        
+        //which comes first the chicken or the egg...
+        _HealthBarObj = Instantiate(go);
+        _HealthBarObj.gameObject.transform.SetParent(this.transform);
+        _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
+        if (!_HealthBar)
+            Debug.LogError("Cant Find Health bar");
+        _HealthBarObj.transform.SetParent(this.transform);
+        _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
     }
 
     public void UpdateHealthBar()
     {
         if (_HealthBar)
-            _HealthBar.SetSize((_health / _healthMax));
+            _HealthBar.SetHealth(_health / _healthMax);
     }
 
     // Start is called before the first frame update
@@ -61,7 +67,7 @@ public class AIController : MonoBehaviour, IDamageable<float>
         _health = 25.5f;
         _healthMax = 25.5f;
         _damage = 3f;
-        SetUpHealthBar(_HealthBar.gameObject);
+        SetUpHealthBar(_HealthBarObj);
         UpdateHealthBar();
     }
 
@@ -84,7 +90,7 @@ public class AIController : MonoBehaviour, IDamageable<float>
     }
     void LateUpdate()
     {
-        _HealthBar.transform.position = this.transform.position + new Vector3(0, 1, 0);
+        
     }
 
 

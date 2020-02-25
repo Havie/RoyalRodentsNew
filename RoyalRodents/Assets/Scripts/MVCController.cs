@@ -24,7 +24,7 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
-    private BuildableObject _lastRedX;
+    private List<BuildableObject> _lastRedX=new List<BuildableObject>();
 
     private bool _printStatement;
 
@@ -58,7 +58,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debugg Mode:
-        _printStatement = false;
+        _printStatement = true;
     }
 
 
@@ -156,7 +156,7 @@ public class MVCController : MonoBehaviour
             {
                 if (_printStatement)
                     Debug.Log("Case0");
-                // Debug.Log("Last Clicked is a buildingobj:" + lastClicked.name);
+                // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
                 BuildableObject buildObj = _TMPlastClicked.GetComponent<BuildableObject>();
                 buildObj.imClicked();
                 _isBuilding = true;
@@ -175,14 +175,15 @@ public class MVCController : MonoBehaviour
                 {
                     if (_BuildMenu.isActive())
                         _BuildMenu.showMenu(false, MouseRaw, _TMPlastClicked);
-
-                    _DestroyMenu.showMenu(true, MouseRaw, _TMPlastClicked);
+                    //Cant Demolish TownCenter
+                    //Will need to find a solution to pull up Upgrade Button on its own
+                    if(buildObj.getType()!=BuildableObject.BuildingType.TownCenter)
+                        _DestroyMenu.showMenu(true, MouseRaw, _TMPlastClicked);
 
                 }
 
                 _AssignmentMenu.showMenu(false);
-                if (_lastRedX)
-                    _lastRedX.ShowRedX(false);
+                showRedX(false);
 
                 _lastClicked = _TMPlastClicked;
                 return _lastClicked;
@@ -263,8 +264,7 @@ public class MVCController : MonoBehaviour
         if (_printStatement)
             Debug.Log("Fell Through MVC");
 
-        if (_lastRedX)
-            _lastRedX.ShowRedX(false);
+        showRedX(false);
         return null;
     }
 
@@ -278,6 +278,7 @@ public class MVCController : MonoBehaviour
             Debug.Log("Attackable checked Go is::" + go);
         if (go)
             //May need to check later on that the building is the enemies
+            //Could add a check here if go==dummyobj then to turn off last redX if I wanted to go back to single variable instead of List<>
             if (go.GetComponent<BuildableObject>() || go == _dummyObj)
                 return false;
             else
@@ -336,7 +337,13 @@ public class MVCController : MonoBehaviour
     {
         if (_printStatement)
             Debug.Log("set redX");
-        _lastRedX = redx;
+        _lastRedX.Add(redx);
+    }
+    public void showRedX(bool cond)
+    {
+        if (_lastRedX.Count > 0)
+            foreach (BuildableObject b in _lastRedX)
+            { b.ShowRedX(cond); }
     }
 }
 

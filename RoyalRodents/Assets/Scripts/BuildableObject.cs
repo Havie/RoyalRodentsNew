@@ -423,6 +423,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         eState = BuildingState.Idle;
         _Worker = null;
         _sWorker = _sEmptyPortrait;
+        
 
 
     }

@@ -38,10 +38,15 @@ public class bTownCenter : MonoBehaviour
     
     public void StartingBuildComplete()
     {
+        if(!_built)
+        {
+            _built = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+
+        }
         this.transform.GetComponent<BuildableObject>().SetType("TownCenter");
         this.transform.GetComponent<BuildableObject>().Damage(0 - _hitpoints);
         this.transform.GetComponent<SpriteRenderer>().sprite = _built;
-        Debug.Log("Created Initial TownCenter");
+        Debug.Log("Created Initial TownCenter with Sprite:::" + _built);
     }
 
 

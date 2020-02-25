@@ -137,6 +137,7 @@ public class SubjectScript : MonoBehaviour
 
         //If we are far enough away
         if (Mathf.Abs(pos.x - transform.position.x) > _ranDistance)
+
         {
 
             if (anims)

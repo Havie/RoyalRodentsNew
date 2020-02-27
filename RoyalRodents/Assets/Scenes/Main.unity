@@ -1341,7 +1341,7 @@ GameObject:
   - component: {fileID: 211813094}
   - component: {fileID: 211813095}
   m_Layer: 8
-  m_Name: Kevin
+  m_Name: KingPoss
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1518,7 +1518,7 @@ Animator:
   m_GameObject: {fileID: 211813086}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 41414ea78d440eb4980c489b00a3b49c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 87f618ac90b0f564b81dbb5445269257, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

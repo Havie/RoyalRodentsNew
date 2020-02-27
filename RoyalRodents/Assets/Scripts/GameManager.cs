@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         _WinAnimator = _WinImg.GetComponent<Animator>();
         _LoseAnimator = _LoseImg.GetComponent<Animator>();
         //Shows the splash screen (TMP till main menu?)
-        _SplashScreen.gameObject.SetActive(true);
+       // _SplashScreen.gameObject.SetActive(true);
 
 
         // Find any Rodents starting under Players control

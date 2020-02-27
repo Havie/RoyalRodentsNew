@@ -32,11 +32,13 @@ public class GameManager : MonoBehaviour
     private bool _firstClick;
 
     //ResourceManagerScript
-    private ResourceManagerScript _rm;
+    public ResourceManagerScript _rm;
 
     //Rodent Lists
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
+
+	private bTownCenter _TownCenter;
 
     //Create Instance of GameManager
     public static GameManager Instance
@@ -72,7 +74,7 @@ public class GameManager : MonoBehaviour
         //Temp way to give the player a TownCenter at start.
         GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>().StartingBuildComplete();
 
-        _gold = 1;
+		_gold = 1;
         _victoryPoints = 0;
         //Get ResourceManagerScript from Component
         _rm = this.GetComponent<ResourceManagerScript>();
@@ -245,4 +247,9 @@ public class GameManager : MonoBehaviour
     {
         return _PlayerRodents;
     }
+
+	public bTownCenter getTownCenter()
+	{
+		return _TownCenter;
+	}
 }

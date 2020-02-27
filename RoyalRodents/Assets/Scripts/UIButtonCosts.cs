@@ -92,10 +92,10 @@ public class UIButtonCosts : MonoBehaviour
 			Debug.LogError("Build button not defined with type or level, or couldn't get cost dictionary from building script");
 
 		//set default costs to zero before recalculating
-		costTrash = -1;
-		costWood = -1;
-		costMetal = -1;
-		costShiny = -1;
+		costTrash = 0;
+		costWood = 0;
+		costMetal = 0;
+		costShiny = 0;
 
 		//set cost variables from specific cost dictionary
 		if (_cost != null)
@@ -140,11 +140,16 @@ public class UIButtonCosts : MonoBehaviour
     {
 		UpdateButton();
 
-        if (currentTrash >= costTrash)
+        if ((currentTrash >= costTrash) &&  (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
         {
             MVCController.Instance.buildSomething(type);
+
+			GameManager.Instance.incrementTrash(-costTrash);
+			GameManager.Instance.incrementWood(-costWood);
+			GameManager.Instance.incrementMetal(-costMetal);
+			GameManager.Instance.incrementShiny(-costShiny);
 			// Debug.Log("Cost Approved");
-        }
+		}
         else
         {
            // Debug.LogError("Cost is not approved");

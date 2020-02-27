@@ -363,9 +363,11 @@ public class SubjectScript : MonoBehaviour
         // Move(currentTarget);
         if (!ShouldIdle)
         {
+            // Move to Town Center
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("BuilderMove");
+
         }
             // not sure this one will idle
             // instead it might reach here and play an animation

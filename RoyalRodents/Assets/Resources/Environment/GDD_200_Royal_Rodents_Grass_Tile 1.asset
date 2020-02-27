@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GDD_200_Royal_Rodents_Grass_Tile
+  m_Name: GDD_200_Royal_Rodents_Grass_Tile 1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 85a9e1d0d2ec41647948b51b907d6e98, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 09ef147710c6a7c45a3a1cfc4b666980, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

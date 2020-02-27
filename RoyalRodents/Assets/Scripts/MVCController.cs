@@ -152,6 +152,18 @@ public class MVCController : MonoBehaviour
                 Debug.Log("Enter");
             GameObject _TMPlastClicked = hit.collider.gameObject;
 
+
+            if (_TMPlastClicked.GetComponent<Rodent>())
+            {
+                Debug.Log("Clicked a Rodent");
+
+                //Show a new Menu to Recruit and Feed this Thing
+
+
+                // clicking a rodent should also close other menus, my if/elses are fucked up below need serious restructuring 
+            }
+
+            
             if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
                 if (_printStatement)

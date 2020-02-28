@@ -42,12 +42,18 @@ public class UIBuildMenu : MonoBehaviour
 
        // Debug.Log("The Menu loc moves to :" + loc);
 
-        foreach (Button b in buttons)
-        {
-            b.gameObject.SetActive(cond);
-            //UIButtonCosts bc = b.GetComponent<UIButtonCosts>;
-            //b.bc.UpdateButton();
-        }
+       foreach (Button b in buttons)
+       {
+           b.gameObject.SetActive(cond);
+            
+           //When Enabling Upgrade Buttons, change the button based on the type and level of last strucuture clicked
+           if (b.name == "Button_Upgrade")
+           {
+               UIButtonCosts buttonScript = b.GetComponent<UIButtonCosts>();
+               if (buttonScript != null)
+                    buttonScript.ChangeButton("house", 2); //***only updates to house lvl 2 button for now. Should get based on the type and level of last strucuture clicked
+            }
+       }
     }
 
 

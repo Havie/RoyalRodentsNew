@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: db874878ccfda02468c2e3fef5a9f4ce
+guid: 2471a377e4c3e41469cef0598966a4d4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2663516210323102311
-    second: MCIdleSprite_0
+      213: 5084656619033475422
+    second: MCWalkSprite_0
   - first:
-      213: -5517293495206944888
-    second: MCIdleSprite_1
+      213: -8123489303336214040
+    second: MCWalkSprite_1
   - first:
-      213: -7836386798341103305
-    second: MCIdleSprite_2
+      213: -8884261810241041772
+    second: MCWalkSprite_2
   - first:
-      213: 7186281817751871908
-    second: MCIdleSprite_3
+      213: -477885414769390488
+    second: MCWalkSprite_3
   - first:
-      213: 4084147712339958271
-    second: MCIdleSprite_4
+      213: -2117736435067465523
+    second: MCWalkSprite_4
   - first:
-      213: 5380306363768652738
-    second: MCIdleSprite_5
+      213: -2582283402159639264
+    second: MCWalkSprite_5
   - first:
-      213: -8141233771606451705
-    second: MCIdleSprite_6
+      213: 952494532326313331
+    second: MCWalkSprite_6
   - first:
-      213: -563828252482742820
-    second: MCIdleSprite_7
+      213: 2284642813065916918
+    second: MCWalkSprite_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -87,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -99,7 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -111,7 +111,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,7 +123,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -135,7 +135,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -147,7 +147,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -159,7 +159,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -171,7 +171,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -182,7 +182,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MCIdleSprite_0
+      name: MCWalkSprite_0
       rect:
         serializedVersion: 2
         x: 0
@@ -196,14 +196,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 482ca133c3c44c24a8678813e0c19a2b
-      internalID: -2663516210323102311
+      spriteID: 00bba815aa9e6154da45fc6b9c9d5e9e
+      internalID: 5084656619033475422
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCIdleSprite_1
+      name: MCWalkSprite_1
       rect:
         serializedVersion: 2
         x: 256
@@ -217,14 +217,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9db01b35d81394847afd46aa4b9279e8
-      internalID: -5517293495206944888
+      spriteID: 5087ff23a91e230448f2ecdda88cd7b1
+      internalID: -8123489303336214040
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCIdleSprite_2
+      name: MCWalkSprite_2
       rect:
         serializedVersion: 2
         x: 512
@@ -238,14 +238,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bac3a6bef7a8834a9c1cc71221e997f
-      internalID: -7836386798341103305
+      spriteID: b4b17d89510115a42884b96fdd5aaea5
+      internalID: -8884261810241041772
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCIdleSprite_3
+      name: MCWalkSprite_3
       rect:
         serializedVersion: 2
         x: 768
@@ -259,14 +259,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7710ce8788e9eff468664d8c2dbfe699
-      internalID: 7186281817751871908
+      spriteID: f686784899bb36a4fada9ab5d5b15589
+      internalID: -477885414769390488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCIdleSprite_4
+      name: MCWalkSprite_4
       rect:
         serializedVersion: 2
         x: 0
@@ -280,14 +280,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e12bbaaedc15c04eb97f4553f607e94
-      internalID: 4084147712339958271
+      spriteID: 1e24a0c8ce4e7284797e807165c10444
+      internalID: -2117736435067465523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCIdleSprite_5
+      name: MCWalkSprite_5
       rect:
         serializedVersion: 2
         x: 256
@@ -301,14 +301,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d9535cf1dddacd4ba023810be8898cf
-      internalID: 5380306363768652738
+      spriteID: 56f2b65fcf92cf8489540e741a423b76
+      internalID: -2582283402159639264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCIdleSprite_6
+      name: MCWalkSprite_6
       rect:
         serializedVersion: 2
         x: 512
@@ -322,14 +322,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac4d4cea9d57be24c9a685dba42a6b60
-      internalID: -8141233771606451705
+      spriteID: 60f6da2356ab29041bff11fdf3d3442b
+      internalID: 952494532326313331
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCIdleSprite_7
+      name: MCWalkSprite_7
       rect:
         serializedVersion: 2
         x: 768
@@ -343,8 +343,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1188b9d24a02c1459d91cce20a0329d
-      internalID: -563828252482742820
+      spriteID: 80cb0cc6fe2b40847a076bf22483a77b
+      internalID: 2284642813065916918
       vertices: []
       indices: 
       edges: []

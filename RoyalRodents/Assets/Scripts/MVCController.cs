@@ -16,6 +16,8 @@ public class MVCController : MonoBehaviour
     [SerializeField]
     private GameObject _lastClicked;
     [SerializeField]
+    private Rodent _lastRodent;
+    [SerializeField]
     private GameObject _dummyObj;
     public bool _isBuilding;
 
@@ -24,9 +26,12 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
+    private UIRecruitMenu _RecruitMenu;
     private List<BuildableObject> _lastRedX=new List<BuildableObject>();
 
-    private bool _printStatement;
+    private bool _recruitDummy;
+
+    private bool _printStatements;
 
     public static MVCController Instance
     {
@@ -58,7 +63,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatement = false;
+        _printStatements = false;
     }
 
 
@@ -71,6 +76,10 @@ public class MVCController : MonoBehaviour
     {
         _BuildMenu = bm;
     }
+    public void SetUpRecruitMenu(UIRecruitMenu rm)
+    {
+        _RecruitMenu = rm;
+    }
 
     /** Called from "Approve Costs" in UIButtonCosts Script
      * */
@@ -78,7 +87,7 @@ public class MVCController : MonoBehaviour
     {
         if (_lastClicked == null)
         {
-            if(_printStatement)
+            if(_printStatements)
                 Debug.LogError("Last clicked is null");
             return;
         }
@@ -96,13 +105,13 @@ public class MVCController : MonoBehaviour
     {
         if (_lastClicked == null)
         {
-            if (_printStatement)
+            if (_printStatements)
                 Debug.LogError("Last clicked is null");
             return;
         }
         if (_lastClicked.GetComponent<BuildableObject>())
         {
-            if (_printStatement)
+            if (_printStatements)
                 Debug.Log("Found Buildable Object");
             _lastClicked.GetComponent<BuildableObject>().DemolishSomething();
             CheckClicks(true);
@@ -120,14 +129,16 @@ public class MVCController : MonoBehaviour
     */
     private GameObject checkClick(Vector3 MouseRaw)
     {
-        if (_printStatement)
+        if (_printStatements)
             Debug.Log("Check Click!");
         if (!checkingClicks)
             return _dummyObj;
 
-        if (_printStatement)
+        if (_printStatements)
             Debug.Log("Passed");
 
+
+        _recruitDummy = false;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -143,30 +154,38 @@ public class MVCController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (_printStatement)
+            if (_printStatements)
                 Debug.Log("Hit result:" + hit.collider.gameObject);
             if (_lastClicked == hit.collider.gameObject)
                 return _lastClicked;
 
-            if (_printStatement)
+            if (_printStatements)
                 Debug.Log("Enter");
             GameObject _TMPlastClicked = hit.collider.gameObject;
 
 
             if (_TMPlastClicked.GetComponent<Rodent>())
             {
-                Debug.Log("Clicked a Rodent");
+                _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
+                if(_printStatements)
+                    Debug.Log("Clicked a Rodent");
+
+                if (_lastRodent.tag.Equals("NeutralRodent"))
+                {
+                    showRecruitMenu(true, MouseRaw, _lastRodent.getName());
+                    _recruitDummy = true;
+                }
 
                 //Show a new Menu to Recruit and Feed this Thing
 
 
-                // clicking a rodent should also close other menus, my if/elses are fucked up below need serious restructuring 
+                // clicking a rodent should also close other menus, my if/ elses are fucked up below need serious restructuring 
             }
 
             
-            if (_TMPlastClicked.GetComponent<BuildableObject>())
+            else if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
-                if (_printStatement)
+                if (_printStatements)
                     Debug.Log("Case0");
                 // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
                 BuildableObject buildObj = _TMPlastClicked.GetComponent<BuildableObject>();
@@ -201,14 +220,15 @@ public class MVCController : MonoBehaviour
                 return _lastClicked;
             }
             // If a Menu is active, and we click another object, we want to close the menu
-            else if (_BuildMenu.isActive() || _DestroyMenu.isActive())
+            else if (_BuildMenu.isActive() || _DestroyMenu.isActive() || _RecruitMenu.isActive())
             {
                 _BuildMenu.showMenu(false, Vector3.zero, null);
                 _DestroyMenu.showMenu(false, Vector3.zero, null);
+                _RecruitMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
 
-                if (_printStatement)
+                if (_printStatements)
                     Debug.Log("Case1");
 
                     return null;
@@ -218,18 +238,18 @@ public class MVCController : MonoBehaviour
                 if (_TMPlastClicked.transform.parent.gameObject == _lastClicked)
                 {
                     //case that last clicked was assigned by the worker Portrait
-                    if(_printStatement)
+                    if(_printStatements)
                          Debug.Log("Worker Portrait");
                     _isBuilding = true;
                     return _dummyObj;
                 }
-                if (_printStatement)
+                if (_printStatements)
                     Debug.Log("Fall through Case");
             }
 
             else
             {
-                if (_printStatement)
+                if (_printStatements)
                     Debug.LogError("else??");
                 _AssignmentMenu.showMenu(false);
                 _isBuilding = false;
@@ -250,7 +270,7 @@ public class MVCController : MonoBehaviour
                 _isBuilding = false;
                 _lastClicked = null;
 
-                if (_printStatement)
+                if (_printStatements)
                     Debug.Log("Case2");
             }
             else if (_DestroyMenu.isActive())
@@ -259,7 +279,7 @@ public class MVCController : MonoBehaviour
                 _isBuilding = false;
                 _lastClicked = null;
 
-                if (_printStatement)
+                if (_printStatements)
                     Debug.Log("Case3");
             }
             else if(_AssignmentMenu.isActive())
@@ -268,12 +288,21 @@ public class MVCController : MonoBehaviour
                 _isBuilding = false;
                 _lastClicked = null;
 
-                if (_printStatement)
+                if (_printStatements)
                     Debug.Log("Case4");
+            }
+            else if (_RecruitMenu.isActive() && !_recruitDummy)
+            {
+                showRecruitMenu(false, Vector3.zero, null);
+                _isBuilding = false;
+                _lastClicked = null;
+
+                if (_printStatements)
+                    Debug.Log("Case5");
             }
 
         }
-        if (_printStatement)
+        if (_printStatements)
             Debug.Log("Fell Through MVC");
 
         showRedX(false);
@@ -286,7 +315,7 @@ public class MVCController : MonoBehaviour
     public bool checkIfAttackable(Vector3 MouseLoc)
     {
         GameObject go = checkClick(MouseLoc);
-        if(_printStatement)
+        if(_printStatements)
             Debug.Log("Attackable checked Go is::" + go);
         if (go)
             //May need to check later on that the building is the enemies
@@ -305,7 +334,7 @@ public class MVCController : MonoBehaviour
     }
     public void setLastClicked(GameObject o)
     {
-        if (_printStatement)
+        if (_printStatements)
             Debug.Log("setLast to" + o);
         _lastClicked = o;
     }
@@ -320,7 +349,7 @@ public class MVCController : MonoBehaviour
     }
     public void RodentAssigned(Rodent r)
     {
-        if (_printStatement)
+        if (_printStatements)
             Debug.Log("heard rodent Assigned " + _lastClicked + " is last clicked");
 
         //Might want to do some other checks, like the building state?
@@ -329,7 +358,7 @@ public class MVCController : MonoBehaviour
             BuildableObject _Building = _lastClicked.GetComponent<BuildableObject>();
             if (_Building)
             {
-                if (_printStatement)
+                if (_printStatements)
                     Debug.Log("enter obj");
 
                 //Rodent Things
@@ -347,7 +376,7 @@ public class MVCController : MonoBehaviour
     }
     public void setLastRedX(BuildableObject redx)
     {
-        if (_printStatement)
+        if (_printStatements)
             Debug.Log("set redX");
         _lastRedX.Add(redx);
     }
@@ -356,6 +385,21 @@ public class MVCController : MonoBehaviour
         if (_lastRedX.Count > 0)
             foreach (BuildableObject b in _lastRedX)
             { b.ShowRedX(cond); }
+    }
+    public void showRecruitMenu(bool cond, Vector3 loc, string name)
+    {
+        if (_RecruitMenu)
+            _RecruitMenu.showMenu(cond, loc, name);
+        else
+            Debug.LogError("MVC has no RecruitMenu");
+    }
+
+    public void Recruit()
+    {
+       // Debug.Log("Recruit: " + _lastRodent);
+        showRecruitMenu(false, Vector3.zero, "");
+        _lastRodent.tag = "PlayerRodent";
+        _lastRodent.Recruit();
     }
 }
 

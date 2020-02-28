@@ -252,4 +252,9 @@ public class GameManager : MonoBehaviour
 	{
 		return _TownCenter;
 	}
+    public void addToPlayerRodents(Rodent r)
+    {
+        //can Lists add duplicates? should we check against this?
+        _PlayerRodents.Add(r);
+    }
 }

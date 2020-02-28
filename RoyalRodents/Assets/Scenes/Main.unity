@@ -1209,13 +1209,13 @@ SpriteRenderer:
   m_SortingLayerID: -1689781891
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2663516210323102311, guid: db874878ccfda02468c2e3fef5a9f4ce,
+  m_Sprite: {fileID: -2663516210323102311, guid: e507ac990eea5244cba0714346dab065,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1271,7 +1271,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 2.56, y: 2.56}
-    newSize: {x: 3, y: 3}
+    newSize: {x: 2.56, y: 2.56}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -2226,6 +2226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lastClicked: {fileID: 0}
+  _lastRodent: {fileID: 0}
   _dummyObj: {fileID: 0}
   _isBuilding: 0
   checkingClicks: 0
@@ -5616,7 +5617,7 @@ GameObject:
   - component: {fileID: 814841147}
   m_Layer: 8
   m_Name: Keith (1)
-  m_TagString: Untagged
+  m_TagString: EnemyRodent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8640,7 +8641,7 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &881647128

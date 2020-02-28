@@ -83,6 +83,8 @@ public class SubjectScript : MonoBehaviour
         royalGuard = true;
         worker = false;
         builder = false;
+
+        currentTarget = GameObject.FindGameObjectWithTag("Player");
     }
 
     public void setWorker()
@@ -366,6 +368,7 @@ public class SubjectScript : MonoBehaviour
                     float dist = Mathf.Abs(g.transform.position.x - this.transform.position.x);
                     if ( dist <= attackRange && dist < closestDistance)
                     {
+                        // Set new closest target
                         closest = g;
                         closestDistance = dist;
                         Debug.Log("New Closest.");
@@ -383,6 +386,12 @@ public class SubjectScript : MonoBehaviour
                 
             }
         }
+    }
+
+    // Resets the rodent's target back to the original current, now saved in the secondary target
+    public void resetOriginalTarget()
+    {
+        currentTarget = savedTarget;
     }
 
     private void workerBehavior()

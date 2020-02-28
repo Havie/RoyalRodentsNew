@@ -392,7 +392,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on
     public void SetType(string type)
     {
-        Debug.Log("Heard set Type");
+       // Debug.Log("Heard set Type");
         switch (type)
         {
             case ("TownCenter"):
@@ -406,16 +406,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
     public void AssignWorker(Rodent r)
     {
-        Debug.Log("AssignWorker!");
+       // Debug.Log("AssignWorker!");
         _Worker = r;
         bWorkerScript ws=_PortraitOutlineObject.GetComponent<bWorkerScript>();
         if(ws)
         {
             ws.setWorker(_Worker);
             _sWorker = r.GetPortrait();
-            Debug.LogError(_sWorker.ToString());
+           // Debug.LogError(_sWorker.ToString());
         }
-        //To-Do: Something not be handled here is the status of Building to Built.
+        //To-Do: Something not being handled here is the status of Building to Built.
 
     }
     public void DismissWorker(Rodent r)

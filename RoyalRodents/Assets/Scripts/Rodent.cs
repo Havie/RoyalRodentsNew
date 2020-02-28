@@ -161,5 +161,15 @@ public class Rodent : MonoBehaviour, IDamageable<float>
             s.setIdle();
         }
     }
+    public void Recruit()
+    {
+        GameManager.Instance.addToPlayerRodents(this);
+        _Status = eStatus.Available;
+        // No new Behavior?
+
+        // Go to Town Center? 
+
+        //What if not in Zone?
+    }
 }
 

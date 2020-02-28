@@ -34,6 +34,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     [SerializeField]
     private BuildingType eType;
 
+    private int _level = 0;
+
     private SpriteRenderer _sr;
     private SpriteRenderer _srNotify;
     private SpriteRenderer _srWorker;
@@ -186,6 +188,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
     }
 
+    //Getters
     public BuildingState getState()
     {
         return eState;
@@ -193,6 +196,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     public BuildingType getType()
     {
         return eType;
+    }
+    public int getLevel()
+    {
+        return _level;
     }
 
     public void OnTriggerEnter(Collider other)

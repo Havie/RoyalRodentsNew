@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class ResourceManagerScript : MonoBehaviour
 {
@@ -10,12 +12,12 @@ public class ResourceManagerScript : MonoBehaviour
 	//create resource variables
 	private int _food, _trash, _wood, _metal, _shiny;
 
-	//resource icon sprites
-	public Sprite _foodIcon;
-	public Sprite _trashIcon;
-	public Sprite _woodIcon;
-	public Sprite _metalIcon;
-	public Sprite _shinyIcon;
+    //TopPanel UI Resource Bar Text
+    public TextMeshProUGUI _TrashText;
+    public TextMeshProUGUI _WoodText;
+    public TextMeshProUGUI _MetalText;
+    public TextMeshProUGUI _ShinyText;
+    public TextMeshProUGUI _FoodText;
 
 	//Create Instance of GameManager
 	public static ResourceManagerScript Instance
@@ -52,20 +54,12 @@ public class ResourceManagerScript : MonoBehaviour
         {
             return _food;
         }
-        set
-        {
-			_food = value;
-        }
     }
     public int Trash
     {
         get
         {
             return _trash;
-        }
-        set
-        {
-			_trash = value;
         }
     }
 
@@ -75,10 +69,6 @@ public class ResourceManagerScript : MonoBehaviour
         {
             return _wood;
         }
-        set
-        {
-			_wood = value;
-        }
     }
 
     public int Metal
@@ -86,10 +76,6 @@ public class ResourceManagerScript : MonoBehaviour
         get
         {
             return _metal;
-        }
-        set
-        {
-			_metal = value;
         }
     }
 
@@ -99,21 +85,89 @@ public class ResourceManagerScript : MonoBehaviour
         {
             return _shiny;
         }
-        set
-        {
-			_shiny = value;
-        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-		_food = 0;
-		_trash = 0;
-		_wood = 0;
-		_metal = 0;
-		_shiny = 0;
+		_food = 10;
+		_trash = 10;
+		_wood = 10;
+		_metal = 10;
+		_shiny = 10;
+
+        UpdateAllResourcesText();
     }
 
-	
+    //Increment Resources Methods
+    public void incrementTrash(int amnt)
+    {
+        _trash += amnt;
+        UpdateTrashText();
+    }
+    public void incrementWood(int amnt)
+    {
+        _wood += amnt;
+        UpdateWoodText();
+    }
+    public void incrementMetal(int amnt)
+    {
+        _metal += amnt;
+        UpdateMetalText();
+    }
+    public void incrementShiny(int amnt)
+    {
+        _shiny += amnt;
+        UpdateShinyText();
+    }
+    public void incrementFood(int amnt)
+    {
+        _food += amnt;
+        UpdateFoodText();
+    }
+
+    //Update Resource Panel UI Text
+    public void UpdateTrashText()
+    {
+        if (_TrashText)
+        {
+            _TrashText.text = _trash.ToString();
+        }
+    }
+    public void UpdateWoodText()
+    {
+        if (_WoodText)
+        {
+            _WoodText.text = _wood.ToString();
+        }
+    }
+    public void UpdateMetalText()
+    {
+        if (_MetalText)
+        {
+            _MetalText.text = _metal.ToString();
+        }
+    }
+    public void UpdateShinyText()
+    {
+        if (_ShinyText)
+        {
+            _ShinyText.text = _shiny.ToString();
+        }
+    }
+    public void UpdateFoodText()
+    {
+        if (_FoodText)
+        {
+            _FoodText.text = _food.ToString();
+        }
+    }
+    public void UpdateAllResourcesText()
+    {
+        UpdateTrashText();
+        UpdateWoodText();
+        UpdateMetalText();
+        UpdateShinyText();
+        UpdateFoodText();
+    }
 }

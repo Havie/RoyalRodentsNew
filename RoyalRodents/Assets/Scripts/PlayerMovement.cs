@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.Instance._gold > 0)
         {
             this.GetComponent<PlayerStats>().Damage(-5);
-            GameManager.Instance.incrementGold(-1);
+            ResourceManagerScript.Instance.incrementTrash(-1);
             _animator.SetTrigger("Dead");
 
         }
@@ -208,13 +208,14 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = theScale;
     }
 
+    //Collect Pickup
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.GetComponent<CoinResource>())
         {
             // if (collision.transform.GetComponent<CoinResource>().isActive())
             {
-                GameManager.Instance.incrementTrash(1);
+                ResourceManagerScript.Instance.incrementTrash(1);
                 Destroy(collision.gameObject);
             }
         }

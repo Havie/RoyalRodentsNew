@@ -156,13 +156,6 @@ public class UIButtonCosts : MonoBehaviour
         }
     }
 
-
-    public void Demolish()
-    {
-        //Debug.Log("Heard Demolish");
-        MVCController.Instance.DemolishSomething();
-    }
-
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/
     public void MouseEnter()
     {

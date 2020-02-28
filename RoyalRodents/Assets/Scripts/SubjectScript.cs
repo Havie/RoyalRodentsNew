@@ -83,6 +83,8 @@ public class SubjectScript : MonoBehaviour
         royalGuard = true;
         worker = false;
         builder = false;
+
+        currentTarget = GameObject.FindGameObjectWithTag("Player");
     }
 
     public void setWorker()
@@ -330,12 +332,66 @@ public class SubjectScript : MonoBehaviour
         // Follow the king at all times.
         // Future: Attack enemies within a radius of the king
         if (!ShouldIdle)
-        { Move(currentTarget);
+        {
+            FindAttackTarget();
+            Move(currentTarget);
             if (_printStatements)
-                Debug.LogError("RoyalMove"); }
+                Debug.LogError("RoyalMove");
+        }
         else
             idleInRadius(8);
 
+    }
+
+    private void FindAttackTarget()
+    {
+        // Code assumes that currentTarget will always be an enemy if it is not the player
+        float closestDistance;
+        float attackRange = 10f;
+
+        // If target is already an enemy, do not change target.
+        if (!(currentTarget.tag == "EnemyRodent"))
+        {
+            // Find closest enemy tag
+            GameObject[] enemyList = GameObject.FindGameObjectsWithTag("EnemyRodent");
+            GameObject closest;
+
+            // Empty array check
+            if (!(enemyList.Length == 0))
+            {
+                
+                // Primer target for comparison
+                closest = enemyList[0];
+                closestDistance = Mathf.Abs(closest.transform.position.x - this.transform.position.x);
+                foreach (GameObject g in enemyList)
+                {
+                    float dist = Mathf.Abs(g.transform.position.x - this.transform.position.x);
+                    if ( dist <= attackRange && dist < closestDistance)
+                    {
+                        // Set new closest target
+                        closest = g;
+                        closestDistance = dist;
+                        Debug.Log("New Closest.");
+                    }
+                }
+
+                // Set savedTarget to player, and currentTarget to found enemy
+                // If primer target was out of range, this line prevents rodents from attacking
+                if (closestDistance <= attackRange)
+                {
+                    savedTarget = currentTarget;
+                    currentTarget = closest;
+                    Debug.Log("Enemy found.");
+                }
+                
+            }
+        }
+    }
+
+    // Resets the rodent's target back to the original current, now saved in the secondary target
+    public void resetOriginalTarget()
+    {
+        currentTarget = savedTarget;
     }
 
     private void workerBehavior()
@@ -363,9 +419,11 @@ public class SubjectScript : MonoBehaviour
         // Move(currentTarget);
         if (!ShouldIdle)
         {
+            // Move to Town Center
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("BuilderMove");
+
         }
             // not sure this one will idle
             // instead it might reach here and play an animation

@@ -118,6 +118,22 @@ public class MVCController : MonoBehaviour
         }
 
     }
+    public void UpgradeSomething()
+    {
+        if (_lastClicked == null)
+        {
+            if (_printStatements)
+                Debug.LogError("Last clicked is null");
+            return;
+        }
+        if (_lastClicked.GetComponent<BuildableObject>())
+        {
+            if (_printStatements)
+                Debug.Log("Found Buildable Object to Upgrade");
+           // _lastClicked.GetComponent<BuildableObject>().UpgradeSomething();
+            CheckClicks(true);
+        }
+    }
 
     //unused currently but may need later
     public void CheckClicks(bool b)

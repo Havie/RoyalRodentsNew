@@ -74,7 +74,10 @@ public class SpawnVolume : MonoBehaviour
                 _occupied = true;
                 GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
 
-                //parent this thing to this obj keep heirarchy cleaner? Might end up negatively affecting the subject Script?
+                //tell the GM a new rat exists // Should be impossible not to have a RodentComponent
+                GameManager.Instance.AddtoRodents(_spawnedRat.GetComponent<Rodent>());
+
+                //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
                 _spawnedRat.transform.SetParent(this.transform);
 
                 // Set Team Neutral

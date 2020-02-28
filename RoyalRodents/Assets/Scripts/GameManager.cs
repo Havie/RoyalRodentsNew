@@ -257,4 +257,8 @@ public class GameManager : MonoBehaviour
         //can Lists add duplicates? should we check against this?
         _PlayerRodents.Add(r);
     }
+    public void AddtoRodents(Rodent r)
+    {
+        _AllRodents.Add(r);
+    }
 }

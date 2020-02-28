@@ -28,7 +28,13 @@ public class UIButtonCosts : MonoBehaviour
 	private int currentMetal;
 	private int currentShiny;
 
-	public TextMeshProUGUI text;
+	//Get reference to Button Text
+	public TextMeshProUGUI textTrashCost; //displays costs of button
+	public TextMeshProUGUI textWoodCost;
+	public TextMeshProUGUI textMetalCost;
+	public TextMeshProUGUI textShinyCost;
+
+	public TextMeshProUGUI textTitle; //displays name of button
 
 	private Color bad = Color.red;
 	private Color good = Color.black;
@@ -36,7 +42,7 @@ public class UIButtonCosts : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        text = this.gameObject.transform.GetComponent<TextMeshProUGUI>();
+        //text = this.gameObject.transform.GetComponent<TextMeshProUGUI>();
         UpdateButton();
 	}
 
@@ -120,34 +126,65 @@ public class UIButtonCosts : MonoBehaviour
 	//update UI button text
 	private void UpdateCostsText()
 	{
-		if (text != null)
+		//Set Trash Cost Text
+		if (textTrashCost != null)
 		{
-			//only shows trash cost at the moment *
-			text.text = currentTrash.ToString() + "/" + costTrash;
+			textTrashCost.text = currentTrash.ToString() + "/" + costTrash;
 			if (currentTrash < costTrash)
 			{
-				text.color = bad;
+				textTrashCost.color = bad;
 			}
 			else
-				text.color = good;
+				textTrashCost.color = good;
 		}
-        else
-            Debug.LogError("UI Costs cant find Text");
+		//Set Wood Cost Text
+		if (textWoodCost != null)
+		{
+			textWoodCost.text = currentWood.ToString() + "/" + costWood;
+			if (currentWood < costWood)
+			{
+				textWoodCost.color = bad;
+			}
+			else
+				textWoodCost.color = good;
+		}
+		//Set Metal Cost Text
+		if (textMetalCost != null)
+		{
+			textMetalCost.text = currentMetal.ToString() + "/" + costMetal;
+			if (currentMetal < costMetal)
+			{
+				textMetalCost.color = bad;
+			}
+			else
+				textMetalCost.color = good;
+		}
+		//Set Shiny Cost Text
+		if (textShinyCost != null)
+		{
+			textShinyCost.text = currentShiny.ToString() + "/" + costShiny;
+			if (currentShiny < costShiny)
+			{
+				textShinyCost.color = bad;
+			}
+			else
+				textShinyCost.color = good;
+		}
 	}
     
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
-    public void ApproveCosts(string type)
+    public void ApproveCosts()
     {
 		UpdateButton();
 
-        if ((currentTrash >= costTrash) &&  (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
+        if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
         {
-            MVCController.Instance.buildSomething(type);
+            MVCController.Instance.buildSomething(_type);
 
-			GameManager.Instance.incrementTrash(-costTrash);
-			GameManager.Instance.incrementWood(-costWood);
-			GameManager.Instance.incrementMetal(-costMetal);
-			GameManager.Instance.incrementShiny(-costShiny);
+			ResourceManagerScript.Instance.incrementTrash(-costTrash);
+			ResourceManagerScript.Instance.incrementWood(-costWood);
+			ResourceManagerScript.Instance.incrementMetal(-costMetal);
+			ResourceManagerScript.Instance.incrementShiny(-costShiny);
 			// Debug.Log("Cost Approved");
 		}
         else
@@ -156,6 +193,31 @@ public class UIButtonCosts : MonoBehaviour
         }
     }
 
+	//Changes Button for a different structure type and level
+	public void ChangeButton(string type, int lvl)
+	{
+		_type = type;
+		_level = lvl;
+
+		//update title of button
+		if (textTitle != null)
+		{
+			if (_type == "house")
+				textTitle.text = "House (LVL " + _level.ToString() + ")";
+			else if (_type == "farm")
+				textTitle.text = "Farm (LVL " + _level.ToString() + ")";
+			else if (_type == "wall")
+				textTitle.text = "Wall (LVL " + _level.ToString() + ")";
+			else if (_type == "tower")
+				textTitle.text = "Tower (LVL " + _level.ToString() + ")";
+			else if (_type == "towncenter")
+				textTitle.text = "Town Center (LVL " + _level.ToString() + ")";
+			else
+				textTitle.text = "notspecified (LVL " + _level.ToString() + ")";
+		}
+
+		UpdateButton();
+	}
 
     public void Demolish()
     {

@@ -100,7 +100,6 @@ public class MVCController : MonoBehaviour
         }
 
     }
-
     public void DemolishSomething()
     {
         if (_lastClicked == null)
@@ -153,8 +152,9 @@ public class MVCController : MonoBehaviour
         if (_printStatements)
             Debug.Log("Passed");
 
-
+        //used to keep track of if the recruit menu is open
         _recruitDummy = false;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -186,16 +186,19 @@ public class MVCController : MonoBehaviour
                 if(_printStatements)
                     Debug.Log("Clicked a Rodent");
 
-                if (_lastRodent.tag.Equals("NeutralRodent"))
+                if (_lastRodent.getTeam()==0)
                 {
-                    showRecruitMenu(true, MouseRaw, _lastRodent.getName());
+                    showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
                     _recruitDummy = true;
                 }
 
-                //Show a new Menu to Recruit and Feed this Thing
+                else if(_lastRodent.getTeam()==1)
+                {
+                    _recruitDummy = true;
+                    showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
+                }
 
 
-                // clicking a rodent should also close other menus, my if/ elses are fucked up below need serious restructuring 
             }
 
             
@@ -240,7 +243,7 @@ public class MVCController : MonoBehaviour
             {
                 ShowBuildMenu(false, Vector3.zero, null, null);
                 ShowDestroyMenu(false, Vector3.zero, null, null);
-                _RecruitMenu.showMenu(false, Vector3.zero, null);
+                _RecruitMenu.showMenu(false, Vector3.zero, null,0,0);
                 _isBuilding = false;
                 _lastClicked = null;
 
@@ -309,7 +312,7 @@ public class MVCController : MonoBehaviour
             }
             else if (_RecruitMenu.isActive() && !_recruitDummy)
             {
-                showRecruitMenu(false, Vector3.zero, null);
+                showRecruitMenu(false, Vector3.zero, null,0,0);
                 _isBuilding = false;
                 _lastClicked = null;
 
@@ -402,12 +405,17 @@ public class MVCController : MonoBehaviour
             foreach (BuildableObject b in _lastRedX)
             { b.ShowRedX(cond); }
     }
-    public void showRecruitMenu(bool cond, Vector3 loc, string name)
+    public void showRecruitMenu(bool cond, Vector3 loc, string name, int foodCost, int popCost)
     {
         if (_RecruitMenu)
-            _RecruitMenu.showMenu(cond, loc, name);
+            _RecruitMenu.showMenu(cond, loc, name, foodCost, popCost);
         else
             Debug.LogError("MVC has no RecruitMenu");
+    }
+    public void showKingGuardMenu(bool cond, Vector3 loc, string name)
+    {
+        if (_RecruitMenu)
+            _RecruitMenu.showKingGuardMenu(cond, loc, name);
     }
     public void ShowBuildMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building )
     {
@@ -419,12 +427,14 @@ public class MVCController : MonoBehaviour
         if (_DestroyMenu)
             _DestroyMenu.showMenu(cond, loc, go, building);
     }
+
     public void Recruit()
     {
        // Debug.Log("Recruit: " + _lastRodent);
-        showRecruitMenu(false, Vector3.zero, "");
+        showRecruitMenu(false, Vector3.zero, "", 0, 0);
         _lastRodent.tag = "PlayerRodent";
         _lastRodent.Recruit();
+        CheckClicks(true);
     }
 }
 

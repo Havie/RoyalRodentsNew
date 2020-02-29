@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     //Rodent Lists
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
+    public Transform _PlayerRodentDummy;
 
 	private bTownCenter _TownCenter;
 
@@ -152,6 +153,9 @@ public class GameManager : MonoBehaviour
     {
         //can Lists add duplicates? should we check against this?
         _PlayerRodents.Add(r);
+
+        //Keep organized in hierarchy 
+        r.gameObject.transform.SetParent(_PlayerRodentDummy);
     }
     public void AddtoRodents(Rodent r)
     {

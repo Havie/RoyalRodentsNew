@@ -20,7 +20,14 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     private string _Name = "Rodent";
     [SerializeField]
     private eRodentType _Type = eRodentType.Default;
+    [SerializeField]
     private eStatus _Status = eStatus.Available;
+
+    private int _RecruitmentCost = 1;
+    private int _PopulationCost = 1;
+
+    [SerializeField]
+    private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
 
     public enum eRodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, Default };
     public enum eStatus { Busy, Available, Building, Working, Army, Default};
@@ -165,11 +172,39 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     {
         GameManager.Instance.addToPlayerRodents(this);
         _Status = eStatus.Available;
+        setTeam(1);
         // No new Behavior?
 
         // Go to Town Center? 
 
         //What if not in Zone?
+    }
+
+    /**Sets the ID for the team
+     * 0 = neutral
+     * 1 = player
+     * 2 = enemy */
+    public void setTeam(int id)
+    {
+        if(id> -1 && id<3)
+            _Team = id;
+    }
+    public int getTeam()
+    {
+        return _Team;
+    }
+
+    public void setRecruitmentCost(int cost)
+    {
+        _RecruitmentCost = cost;
+    }
+    public int getRecruitmentCost()
+    {
+        return _RecruitmentCost;
+    }
+    public int getPopulationCost()
+    {
+        return _PopulationCost;
     }
 }
 

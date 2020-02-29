@@ -7,7 +7,7 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     public float _Hp=50f;
     public float _HpMax = 100f;
     [Range(0, 10f)]
-    public float _MoveSpeed = 2f;
+    public float _MoveSpeed = 3.5f;  //used to be 2
     public float _AttackDamage = 10f;
     public GameObject _HealthBarObj;
     private HealthBar _HealthBar;

@@ -13,6 +13,7 @@ TagManager:
   - NeutralRodent
   - EnemyRodent
   - UpgradeButton
+  - PlayerRodents
   layers:
   - Default
   - TransparentFX

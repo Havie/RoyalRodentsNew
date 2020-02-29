@@ -158,10 +158,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
     {
-        if (o)
-            Debug.Log("Rodent Set Target is : " + o.ToString());
-        else
-            Debug.Log("Rodent set Target is NULL");
+        
         //need proper getter/setter someday
        SubjectScript s= this.GetComponent<SubjectScript>();
         if (s)

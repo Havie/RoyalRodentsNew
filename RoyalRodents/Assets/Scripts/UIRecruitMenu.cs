@@ -165,7 +165,7 @@ public class UIRecruitMenu : MonoBehaviour
      * Tells MVC its time to recruit */
     public void Recruit()
     {
-        Debug.Log("!!!!Recruit " + _Name.text);
+       // Debug.Log("!!!!Recruit " + _Name.text);
 
         // Check RM if we have enough Food  
         if (ResourceManagerScript.Instance.Food < _FoodCost)

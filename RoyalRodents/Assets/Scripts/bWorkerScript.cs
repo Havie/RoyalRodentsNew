@@ -58,7 +58,7 @@ public class bWorkerScript : MonoBehaviour
         else
         {
             // Option to dismiss current worker 
-            Debug.Log("Occupied");
+            //Debug.Log("Occupied");
             //Pull Up red X
             if (bo)
             {
@@ -71,7 +71,7 @@ public class bWorkerScript : MonoBehaviour
     }
     public void dismissRodent()
     {
-        Debug.Log("heard Dismiss");
+        //Debug.Log("heard Dismiss");
         bo.DismissWorker(_worker);
         _worker = null;
         MVCController.Instance.showRedX(false);

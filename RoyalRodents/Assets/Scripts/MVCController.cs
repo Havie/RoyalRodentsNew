@@ -118,6 +118,22 @@ public class MVCController : MonoBehaviour
         }
 
     }
+    public void UpgradeSomething()
+    {
+        if (_lastClicked == null)
+        {
+            if (_printStatements)
+                Debug.LogError("Last clicked is null");
+            return;
+        }
+        if (_lastClicked.GetComponent<BuildableObject>())
+        {
+            if (_printStatements)
+                Debug.Log("Found Buildable Object to Upgrade");
+           _lastClicked.GetComponent<BuildableObject>().Upgrade();
+            CheckClicks(true);
+        }
+    }
 
     //unused currently but may need later
     public void CheckClicks(bool b)
@@ -198,18 +214,18 @@ public class MVCController : MonoBehaviour
                 if (buildObj.getState() != BuildableObject.BuildingState.Built)
                 {
                     if (_DestroyMenu.isActive())
-                        _DestroyMenu.showMenu(false, MouseRaw, _TMPlastClicked);
+                        ShowDestroyMenu(false, MouseRaw, _TMPlastClicked, buildObj);
 
-                    _BuildMenu.showMenu(true, MouseRaw, _TMPlastClicked);
+                    ShowBuildMenu(true, MouseRaw, _TMPlastClicked, buildObj);
                 }
                 else
                 {
                     if (_BuildMenu.isActive())
-                        _BuildMenu.showMenu(false, MouseRaw, _TMPlastClicked);
+                        ShowBuildMenu(false, MouseRaw, _TMPlastClicked, buildObj);
                     //Cant Demolish TownCenter
                     //Will need to find a solution to pull up Upgrade Button on its own
                     if(buildObj.getType()!=BuildableObject.BuildingType.TownCenter)
-                        _DestroyMenu.showMenu(true, MouseRaw, _TMPlastClicked);
+                        ShowDestroyMenu(true, MouseRaw, _TMPlastClicked, buildObj);
 
                 }
 
@@ -222,8 +238,8 @@ public class MVCController : MonoBehaviour
             // If a Menu is active, and we click another object, we want to close the menu
             else if (_BuildMenu.isActive() || _DestroyMenu.isActive() || _RecruitMenu.isActive())
             {
-                _BuildMenu.showMenu(false, Vector3.zero, null);
-                _DestroyMenu.showMenu(false, Vector3.zero, null);
+                ShowBuildMenu(false, Vector3.zero, null, null);
+                ShowDestroyMenu(false, Vector3.zero, null, null);
                 _RecruitMenu.showMenu(false, Vector3.zero, null);
                 _isBuilding = false;
                 _lastClicked = null;
@@ -266,7 +282,7 @@ public class MVCController : MonoBehaviour
             // If a Menu is active, and we click off of the object, we want to close the menu
             if (_BuildMenu.isActive())
             {
-                _BuildMenu.showMenu(false, Vector3.zero, null);
+                ShowBuildMenu(false, Vector3.zero, null, null);
                 _isBuilding = false;
                 _lastClicked = null;
 
@@ -275,7 +291,7 @@ public class MVCController : MonoBehaviour
             }
             else if (_DestroyMenu.isActive())
             {
-                _DestroyMenu.showMenu(false, Vector3.zero, null);
+                ShowDestroyMenu(false, Vector3.zero, null, null);
                 _isBuilding = false;
                 _lastClicked = null;
 
@@ -393,7 +409,16 @@ public class MVCController : MonoBehaviour
         else
             Debug.LogError("MVC has no RecruitMenu");
     }
-
+    public void ShowBuildMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building )
+    {
+        if(_BuildMenu)
+            _BuildMenu.showMenu(cond, loc, go, building);
+    }
+    public void ShowDestroyMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building)
+    {
+        if (_DestroyMenu)
+            _DestroyMenu.showMenu(cond, loc, go, building);
+    }
     public void Recruit()
     {
        // Debug.Log("Recruit: " + _lastRodent);

@@ -6,8 +6,9 @@ public class bHouse :MonoBehaviour
 {
     private Sprite _built;
     private float _hitpoints = 50;
+    private float _hitPointGrowth = 10;
 
-	//create strucutre costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
+	//create structure costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
 	public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
 	public static Dictionary<string, int> _costLevel2 = new Dictionary<string, int>();
 	public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
@@ -42,10 +43,18 @@ public class bHouse :MonoBehaviour
 		}
 	}
 
-    public float BuildingComplete()
+    public float BuildingComplete(int level)
     {
-        this.transform.GetComponent<SpriteRenderer>().sprite = _built;
-        return _hitpoints;
+        //To:Do add new images per level
+
+       if(level==1)
+         this.transform.GetComponent<SpriteRenderer>().sprite = _built;
+       else if(level==2)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _built;
+       else
+            this.transform.GetComponent<SpriteRenderer>().sprite = _built;
+
+        return (_hitpoints + (_hitPointGrowth*level));
     }
 
    

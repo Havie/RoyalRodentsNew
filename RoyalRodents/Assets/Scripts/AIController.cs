@@ -42,14 +42,21 @@ public class AIController : MonoBehaviour, IDamageable<float>
 
     public void SetUpHealthBar(GameObject go)
     {
-        //which comes first the chicken or the egg...
-        _HealthBarObj = Instantiate(go);
-        _HealthBarObj.gameObject.transform.SetParent(this.transform);
-        _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
-        if (!_HealthBar)
-            Debug.LogError("Cant Find Health bar");
-        _HealthBarObj.transform.SetParent(this.transform);
-        _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+        if (_HealthBarObj == null)
+            _HealthBarObj = Resources.Load<GameObject>("HealthBarCanvas");
+        if (_HealthBarObj)
+        {
+            //which comes first the chicken or the egg...
+            _HealthBarObj = Instantiate(go);
+            _HealthBarObj.gameObject.transform.SetParent(this.transform);
+            _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
+            if (!_HealthBar)
+                Debug.LogError("Cant Find Health bar");
+            _HealthBarObj.transform.SetParent(this.transform);
+            _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+        }
+        else
+            Debug.LogError("Cant Find Health bar Prefab");
     }
 
     public void UpdateHealthBar()
@@ -67,6 +74,8 @@ public class AIController : MonoBehaviour, IDamageable<float>
         _health = 25.5f;
         _healthMax = 25.5f;
         _damage = 3f;
+        if (_HealthBarObj == null)
+            _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
         SetUpHealthBar(_HealthBarObj);
         UpdateHealthBar();
     }

@@ -11,6 +11,7 @@ public class UIRecruitMenu : MonoBehaviour
     private TextMeshProUGUI _CostPop;
     private TextMeshProUGUI _Name;
     private TextMeshProUGUI _Name2;
+    private Rodent _Rodent;
 
     private bool _active;
 
@@ -28,15 +29,66 @@ public class UIRecruitMenu : MonoBehaviour
 
     void Start()
     {
-        MVCController.Instance.SetUpRecruitMenu(this);
+        //MVCController.Instance.SetUpRecruitMenu(this);
         showMenu(false, Vector3.zero, "empty", 1, 1);
     }
 
 
-    // a little unnecessary to be an array but other scripts are arrays
+    public void showMenu(bool cond, Rodent r)
+    {
+
+        _active = cond;
+       //Debug.Log("ShowMENU:" + r.getName());
+        if (cond)
+        {
+            // Tell the MVC were the active menu
+            MVCController.Instance.SetUpRecruitMenu(this);
+
+
+            _Rodent = r;
+            buttons[0].gameObject.SetActive(true);
+            buttons[1].gameObject.SetActive(false);
+
+            Vector3 loc = r.transform.position;
+            loc.y = loc.y + 1;
+            this.transform.position = loc;
+
+            _FoodCost = r.getRecruitmentCost();
+            _PopCost = r.getPopulationCost();
+
+
+
+            _CostPop.text = _FoodCost.ToString();
+            _CostFood.text = _PopCost.ToString();
+
+
+            //Check if we have enough food
+            if (ResourceManagerScript.Instance.Food < _FoodCost)
+            {
+                _CostFood.color = bad;
+            }
+            else
+                _CostFood.color = good;
+
+            //To-Do : Add Population check
+
+
+            _Name.text = r.getName();
+        }
+        else // will turn off all buttons
+        {
+            foreach (Button b in buttons)
+            {
+                b.gameObject.SetActive(false);
+            }
+        }
+
+    }
+
+    //Used by Canvas Version - basically left over code, all this does currently, is turn off the item
     public void showMenu(bool cond, Vector2 loc, string name, int FoodCost, int PopCost)
     {
-        // Debug.Log("Show MENU for : " + name);
+        //Debug.Log("Show Canvas MENU for : " + name);
 
         _active = cond;
 
@@ -83,17 +135,27 @@ public class UIRecruitMenu : MonoBehaviour
         }
     }
 
+    public void showKingGuardMenu(bool cond, Rodent r)
+    {
+        // Tell the MVC were the active menu
+        MVCController.Instance.SetUpRecruitMenu(this);
+
+        _active = cond;
+        buttons[1].gameObject.SetActive(cond);
+        _Name2.text = r.getName();
+    }
+
+    //Old canvas version - unused now
     public void showKingGuardMenu(bool cond, Vector2 loc, string name)
     {
         _active = cond;
         buttons[1].gameObject.SetActive(cond);
         _Name2.text = name;
-
-
     }
+    
 
 
-        public bool isActive()
+    public bool isActive()
     {
         return _active;
     }
@@ -103,7 +165,7 @@ public class UIRecruitMenu : MonoBehaviour
      * Tells MVC its time to recruit */
     public void Recruit()
     {
-        //Debug.Log("Recruit " + _Name.text);
+        Debug.Log("!!!!Recruit " + _Name.text);
 
         // Check RM if we have enough Food  
         if (ResourceManagerScript.Instance.Food < _FoodCost)
@@ -116,11 +178,22 @@ public class UIRecruitMenu : MonoBehaviour
         //To-Do
 
         //Tell MVC to go ahead
-        MVCController.Instance.Recruit();
+        MVCController.Instance.Recruit(_Rodent, this);
         //Update Resource Manager
         ResourceManagerScript.Instance.incrementFood(0 - _FoodCost);
 
     }
+
+    public void JoinGuard()
+    {
+        Debug.Log("Heard Join Guard");
+
+        //To-Do -everything
+
+        showMenu(false, Vector3.zero, null, 1, 0);
+    }
+
+
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/
     public void MouseEnter()
     {
@@ -129,7 +202,7 @@ public class UIRecruitMenu : MonoBehaviour
     }
     public void MouseExit()
     {
-        //Debug.Log("HEARD EXIT");
+       // Debug.Log("HEARD EXIT");
         MVCController.Instance.CheckClicks(true);
     }
     private void SetUpFromChildren()

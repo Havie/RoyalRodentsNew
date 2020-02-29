@@ -5,6 +5,7 @@ using UnityEngine;
 public class Rodent : MonoBehaviour, IDamageable<float>
 {
     public GameObject _HealthBarObj;
+    public GameObject _RecruitMenuPrefab;
     private HealthBar _HealthBar;
 
     [SerializeField]
@@ -32,7 +33,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     public enum eRodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, Default };
     public enum eStatus { Busy, Available, Building, Working, Army, Default};
 
-    private SubjectScript subjectScript;
+    private SubjectScript _SubjectScript;
+    private UIRecruitMenu _RecruitMenu;
 
     [SerializeField]
     private Sprite _Portrait;
@@ -54,14 +56,23 @@ public class Rodent : MonoBehaviour, IDamageable<float>
 
     public void SetUpHealthBar(GameObject go)
     {
-        //which comes first the chicken or the egg...
-        _HealthBarObj = Instantiate(go);
-        _HealthBarObj.gameObject.transform.SetParent(this.transform);
-        _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
-        if (!_HealthBar)
-            Debug.LogError("Cant Find Health bar");
-        _HealthBarObj.transform.SetParent(this.transform);
-        _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+        if (_HealthBarObj == null)
+            _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
+        if (_HealthBarObj!=null)
+        {
+            //which comes first the chicken or the egg...
+            _HealthBarObj = Instantiate(go);
+            _HealthBarObj.gameObject.transform.SetParent(this.transform);
+            _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
+            if (!_HealthBar)
+                Debug.LogError("Cant Find Health bar");
+            _HealthBarObj.transform.SetParent(this.transform);
+            _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+        }
+        else
+            Debug.LogError("Cant Find Health bar Prefab");
+
+
         UpdateHealthBar();
     }
 
@@ -72,13 +83,39 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     }
     /** End Interface Stuff */
 
+    public void SetUpRecruitMenu()
+    {
+        if (_RecruitMenuPrefab)
+        {
+            GameObject go = GameObject.Instantiate(_RecruitMenuPrefab, this.transform.position, this.transform.rotation);
+            if (go)
+            {
+                _RecruitMenu = go.GetComponent<UIRecruitMenu>();
+                if (_RecruitMenu == null)
+                    Debug.LogError("Cant Find RecruitMenu on " + this.gameObject + " " + _Name);
+                go.transform.SetParent(this.transform);
+            }
+        }
+        else
+        {
+            _RecruitMenuPrefab = Resources.Load<GameObject>("UI/RecruitMenu");
+            if (_RecruitMenuPrefab)
+                SetUpRecruitMenu();
+            else
+                Debug.LogError("Cant Find RecruitMenu Prefab");
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        if (_HealthBarObj == null)
+            _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
+
         SetUpHealthBar(_HealthBarObj.gameObject);
-        subjectScript = this.GetComponent<SubjectScript>();
-        if (subjectScript == null)
+        SetUpRecruitMenu();
+        _SubjectScript = this.GetComponent<SubjectScript>();
+        if (_SubjectScript == null)
             Debug.LogError("Warning No SubjectScript found for Rodent");
 
         //get a name
@@ -97,7 +134,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
 
     public void setHp(float val) { _Hp = val; UpdateHealthBar(); }// use sparingly, should call Damage
     public void setHpMax(float val) { _HpMax = val; UpdateHealthBar(); }
-    public void setSpeed(float val)  { _MoveSpeed = val; if(subjectScript)subjectScript.setSpeed(_MoveSpeed);  }
+    public void setSpeed(float val)  { _MoveSpeed = val; if(_SubjectScript)_SubjectScript.setSpeed(_MoveSpeed);  }
     public void setAttackDmg(float val) => _AttackDamage = val;
     public void setName(string s) => _Name = s;
     public void setRodentType(eRodentType type) => _Type = type;
@@ -205,6 +242,33 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     public int getPopulationCost()
     {
         return _PopulationCost;
+    }
+
+    public void OnMouseDown()
+    {
+        // Debug.Log("HeardMouseDown  " + _Name);
+
+        //Tell any old Menu To close
+        MVCController.Instance.showRecruitMenu(false, Vector3.zero, null, 0, 0);
+
+
+        if (_Status == eStatus.Available && _Team == 0)
+        {
+            if (_RecruitMenu)
+            {
+                _RecruitMenu.showMenu(true, this);
+            }
+            else
+                Debug.LogError("No RecruitMenu");
+        }
+        else if (_Status == eStatus.Available && _Team == 1)
+        {
+            if (_RecruitMenu)
+            {
+                _RecruitMenu.showKingGuardMenu(true, this);
+            }
+
+        }
     }
 }
 

@@ -66,7 +66,7 @@ public class SubjectScript : MonoBehaviour
             else
             {
                 //Shouldnt happen?
-                Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
+              //  Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
                 idleInRadius(IdlePos,5); 
             }
         }
@@ -316,7 +316,7 @@ public class SubjectScript : MonoBehaviour
     // Assign rodent's current target. 
     public void changeTarget(GameObject nTarget)
     {
-        Debug.Log("Changing Target to " + nTarget);
+        //Debug.Log("Changing Target to " + nTarget);
         this.currentTarget = nTarget;
     }
 

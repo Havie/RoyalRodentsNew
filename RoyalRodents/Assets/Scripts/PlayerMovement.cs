@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private bool isDead;
+    private bool _controlled;
 
     private void Awake()
     {
@@ -42,29 +43,34 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
 
-        if (Input.GetButtonDown("Jump"))
+        if (_controlled)
         {
-            jump = true;
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            crouch = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            crouch = false;
-        }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if(MVCController.Instance.checkIfAttackable(Input.mousePosition))
-                Attack();
-        }
-        if (Input.GetMouseButton(1))
-        {
-            Heal();
+            horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                jump = true;
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                crouch = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.S))
+            {
+                crouch = false;
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
+                    Attack();
+            }
+            if (Input.GetMouseButton(1))
+            {
+                Heal();
+            }
         }
     }
 
@@ -95,8 +101,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-    // A Couroutine that can set a delay that is partly responsible for howlong till we can attack again
-    // also handles our damage output via raycasting in front of us
+    // A Coroutine that can set a delay that is partly responsible for how long till we can attack again
+    // also handles our damage output via ray casting in front of us
     IEnumerator AttackRoutine()
     {
 
@@ -199,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip()
     {
-        // Switch the way the player is labelled as facing.
+        // Switch the way the player is labeled as facing.
         m_FacingRight = !m_FacingRight;
 
         // Multiply the player's x local scale by -1.
@@ -207,6 +213,13 @@ public class PlayerMovement : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+
+    public void setControlled(bool cond)
+    {
+       // Debug.Log("Player Is Controlled=" + cond);
+        _controlled = cond;
+    }
+
 
     //Collect Pickup
     private void OnTriggerEnter2D(Collider2D collision)

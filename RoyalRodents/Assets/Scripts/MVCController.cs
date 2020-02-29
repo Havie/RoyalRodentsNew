@@ -81,9 +81,8 @@ public class MVCController : MonoBehaviour
         _RecruitMenu = rm;
     }
 
-    /** Called from "Approve Costs" in UIButtonCosts Script
-     * */
-    public void buildSomething(string type)
+    /* * Called from "Approve Costs" in UIButtonCosts Script* */
+    public void MVCBuildSomething(string type)
     {
         if (_lastClicked == null)
         {
@@ -98,10 +97,26 @@ public class MVCController : MonoBehaviour
             _lastClicked.GetComponent<BuildableObject>().BuildSomething(type);
             CheckClicks(true);
         }
-
     }
 
-    public void DemolishSomething()
+    public void MVCUpgradeSomething()
+    {
+        if (_lastClicked == null)
+        {
+            if (_printStatements)
+                Debug.LogError("Last clicked is null");
+            return;
+        }
+        if (_lastClicked.GetComponent<BuildableObject>())
+        {
+            if (_printStatements)
+                Debug.Log("Found Buildable Object to Upgrade");
+            _lastClicked.GetComponent<BuildableObject>().UpgradeSomething();
+            CheckClicks(true);
+        }
+    }
+
+    public void MVCDemolishSomething()
     {
         if (_lastClicked == null)
         {
@@ -114,23 +129,6 @@ public class MVCController : MonoBehaviour
             if (_printStatements)
                 Debug.Log("Found Buildable Object");
             _lastClicked.GetComponent<BuildableObject>().DemolishSomething();
-            CheckClicks(true);
-        }
-
-    }
-    public void UpgradeSomething()
-    {
-        if (_lastClicked == null)
-        {
-            if (_printStatements)
-                Debug.LogError("Last clicked is null");
-            return;
-        }
-        if (_lastClicked.GetComponent<BuildableObject>())
-        {
-            if (_printStatements)
-                Debug.Log("Found Buildable Object to Upgrade");
-           _lastClicked.GetComponent<BuildableObject>().Upgrade();
             CheckClicks(true);
         }
     }

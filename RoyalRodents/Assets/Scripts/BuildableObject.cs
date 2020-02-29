@@ -230,7 +230,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
     }
 
-    // Called from MVC controller
+    // Called from MVC controller to Build or Upgrade a building
     public virtual void BuildSomething(string type)
     {
        // Debug.Log("Time to Build Something type=" + type);
@@ -241,7 +241,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 eType = BuildingType.House;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
-                _level=1;
+                _level = 1;
                // Debug.Log("Made a house");
                 break;
             case ("farm"):
@@ -284,8 +284,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         StartCoroutine(BuildCoroutine());
     }
 
+    public void UpgradeSomething()
+    {
+        eState = BuildingState.Building;
+        _sr.sprite = _sStateConstruction;
+        _level++;
+
+        _DestroyMenu.showMenu(false, Vector3.zero, null, this);
+        StartCoroutine(BuildCoroutine());
+    }
+
     // Called from MVC controller
-    public  void DemolishSomething()
+    public void DemolishSomething()
     {
        // Debug.Log("Time to Destroy Something" );
         switch (eType)
@@ -336,12 +346,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         StartCoroutine(DemolishCoroutine());
     }
 
-    public void Upgrade()
-    {
-        ++_level;
-        StartCoroutine(BuildCoroutine());
-    }
-
     //Temporary way to delay construction
     IEnumerator BuildCoroutine()
     {
@@ -361,27 +365,29 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     //Upon completion let the correct script know to assign the new Sprite, and update our HP/Type.
     public void BuildComplete()
     {
-        eState = BuildingState.Built;
-        if(eType== BuildingType.House)
-        {
-            _hitpoints+=  this.GetComponent<bHouse>().BuildingComplete(_level);
-        }
+       eState = BuildingState.Built;
+       if(eType == BuildingType.House)
+       {
+            _hitpoints +=  this.GetComponent<bHouse>().BuildingComplete(_level);
+       }
        else if (eType == BuildingType.Farm)
         {
-            _hitpoints += this.GetComponent<bFarm>().BuildingComplete();
+            _hitpoints += this.GetComponent<bFarm>().BuildingComplete(_level);
         }
        else if (eType == BuildingType.Wall)
         {
-            _hitpoints += this.GetComponent<bWall>().BuildingComplete();
+            _hitpoints += this.GetComponent<bWall>().BuildingComplete(_level);
         }
        else if (eType == BuildingType.Tower)
         {
-            _hitpoints += this.GetComponent<bTower>().BuildingComplete();
+            _hitpoints += this.GetComponent<bTower>().BuildingComplete(_level);
         }
        else if (eType == BuildingType.TownCenter)
         {
-            _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete();
+            _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete(_level);
         }
+
+        Debug.Log("Built a level " + _level + " structure");
 
         //Resets it so we can click again without clicking off first
         if(_controller.getLastClicked()==this.gameObject)

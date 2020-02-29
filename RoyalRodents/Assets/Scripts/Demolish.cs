@@ -7,7 +7,7 @@ public class Demolish : MonoBehaviour
     public void demolish()
     {
         //Debug.Log("Heard Demolish");
-        MVCController.Instance.DemolishSomething();
+        MVCController.Instance.MVCDemolishSomething();
     }
 
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/

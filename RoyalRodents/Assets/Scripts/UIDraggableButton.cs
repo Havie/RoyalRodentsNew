@@ -35,13 +35,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                     GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
                     if (go != null)
                     {
-                        if (go.tag.Equals("DummyObjMVC"))
-                        {
-                           Debug.Log("Successful Raycast1 =" + go.gameObject);
-                            this.transform.GetComponent<UIRodentHolder>().ImSelected();
-                            this.transform.position = _startLoc;
-                        }
-                        else if(go.GetComponent<BuildableObject>())
+                        if (go.GetComponent<BuildableObject>())
                         {
                             Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
@@ -49,7 +43,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                         }
                         else
                         {
-                           Debug.Log("Failed Raycast =" + go.gameObject);
+                            Debug.Log("Failed Raycast =" + go.gameObject);
                             this.transform.position = _startLoc;
                         }
                     }
@@ -65,7 +59,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
         {
             if (Input.GetMouseButtonDown(0))
             {
-               // Debug.Log("Selected");
+                // Debug.Log("Selected");
                 _selected = true;
                 _startLoc = this.transform.position;
             }
@@ -101,7 +95,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-       // Debug.Log("EXIT!!");
+        // Debug.Log("EXIT!!");
         _hovering = false;
         MVCController.Instance.CheckClicks(true);
     }

@@ -15,6 +15,7 @@ TagManager:
   - UpgradeButton
   - PlayerRodents
   - DummyObjMVC
+  - AssignMenu
   layers:
   - Default
   - TransparentFX

@@ -83,6 +83,18 @@ public class UIAssignmentMenu : MonoBehaviour
     private void setActive(bool cond)
     {
         _active = cond;
+        if(_active)
+        {
+            //Change Camera Control
+            Camera.main.GetComponent<CameraController>().setCharacterMode(false);
+        }
+        else
+        {
+            // Change Camera Control back
+            Camera.main.GetComponent<CameraController>().setCharacterMode(true);
+        }
+
+
     }
 
     public void CreateButton(List<Rodent> _PlayerRodents)

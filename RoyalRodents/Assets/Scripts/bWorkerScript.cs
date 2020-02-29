@@ -19,6 +19,8 @@ public class bWorkerScript : MonoBehaviour
     private void setUpMenu()
     {
         _menu = MVCController.Instance.getAssignmentMenu();
+        if (_menu == null)
+            _menu = UIAssignmentMenu.Instance;
     }
     public void setWorker(Rodent r)
     {
@@ -33,6 +35,7 @@ public class bWorkerScript : MonoBehaviour
         
         if (!isOccupied())
         {
+            Debug.Log("Heard Not Occupied");
             //tell the MVC Controller which Building has been clicked
 
             MVCController.Instance.setLastClicked(this.transform.parent.gameObject);
@@ -55,7 +58,7 @@ public class bWorkerScript : MonoBehaviour
         else
         {
             // Option to dismiss current worker 
-            // Debug.Log("Occupied");
+            Debug.Log("Occupied");
             //Pull Up red X
             if (bo)
             {

@@ -282,6 +282,8 @@ public class MVCController : MonoBehaviour
 
             if (_printStatements)
                 Debug.Log("Fall through Case1");
+
+            _isBuilding = false;
             return TurnThingsoff();
         }
 
@@ -293,6 +295,8 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.Log("UI is On, Return Last clicked");
+
+            // ??? _isBuilding = false;
             return _lastClicked;
         }
         else
@@ -300,6 +304,8 @@ public class MVCController : MonoBehaviour
 
             if (_printStatements)
                 Debug.Log("Fall through Case2");
+
+            _isBuilding = false;
             return TurnThingsoff();
         }
     }
@@ -363,7 +369,13 @@ public class MVCController : MonoBehaviour
 
                 clearLastClicked();
                 _AssignmentMenu.showMenu(false);
-                CheckClicks(true);
+
+                /* Keeping this off allows us to click once to pull up RedX
+                 * Menu immediately after assigned
+                 * Unknown if causes any other issues, onMouseExit from 
+                 * portrait / bworkerscript should re enabled properly
+                 * If having trouble, can try turning back on */
+                //CheckClicks(true);
             }
         }
     }
@@ -379,11 +391,8 @@ public class MVCController : MonoBehaviour
 
         ShowDestroyMenu(false, Vector3.zero, null, null);
 
-
-
         showRedX(false);
 
-        _isBuilding = false;
         clearLastClicked();
 
         return null;

@@ -3378,7 +3378,7 @@ GameObject:
   - component: {fileID: 357400552}
   m_Layer: 5
   m_Name: AssignmentMenu
-  m_TagString: BuildMenu
+  m_TagString: AssignMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18398,8 +18398,8 @@ GameObject:
   - component: {fileID: 1859004799}
   - component: {fileID: 1859004798}
   - component: {fileID: 1859004797}
-  - component: {fileID: 1859004800}
   - component: {fileID: 1859004801}
+  - component: {fileID: 1859004800}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -18481,10 +18481,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1859004796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 565d4651587e6ac439d9def414b83ae1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5724f0cd1099c0d42982e1286b9b3e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 211813089}
+  _target: {fileID: 0}
 --- !u!82 &1859004801
 AudioSource:
   m_ObjectHideFlags: 0

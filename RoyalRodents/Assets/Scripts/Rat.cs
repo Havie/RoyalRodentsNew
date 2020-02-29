@@ -15,6 +15,8 @@ public class Rat : MonoBehaviour
     [SerializeField]
     private Sprite _Portrait;
 
+    private int _RecruitmentCost = 1;
+
 
 
     private void Awake()
@@ -38,6 +40,7 @@ public class Rat : MonoBehaviour
             r.setHp(_Hp);
             r.setAttackDmg(_AttackDamage);
             r.setPortrait(_Portrait);
+            r.setRecruitmentCost(_RecruitmentCost);
         }
 
 

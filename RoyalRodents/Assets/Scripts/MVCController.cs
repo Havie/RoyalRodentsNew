@@ -27,7 +27,7 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
-    private List<BuildableObject> _lastRedX=new List<BuildableObject>();
+    private List<BuildableObject> _lastRedX = new List<BuildableObject>();
 
     private bool _recruitDummy;
 
@@ -63,7 +63,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = false;
+        _printStatements = true;
     }
 
 
@@ -87,7 +87,7 @@ public class MVCController : MonoBehaviour
     {
         if (_lastClicked == null)
         {
-            if(_printStatements)
+            if (_printStatements)
                 Debug.LogError("Last clicked is null");
             return;
         }
@@ -100,7 +100,6 @@ public class MVCController : MonoBehaviour
         }
 
     }
-
     public void DemolishSomething()
     {
         if (_lastClicked == null)
@@ -130,7 +129,7 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.Log("Found Buildable Object to Upgrade");
-           _lastClicked.GetComponent<BuildableObject>().Upgrade();
+            _lastClicked.GetComponent<BuildableObject>().Upgrade();
             CheckClicks(true);
         }
     }
@@ -138,6 +137,8 @@ public class MVCController : MonoBehaviour
     //unused currently but may need later
     public void CheckClicks(bool b)
     {
+        if (_printStatements)
+            Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
     /**This function is now called by the Player
@@ -148,13 +149,28 @@ public class MVCController : MonoBehaviour
         if (_printStatements)
             Debug.Log("Check Click!");
         if (!checkingClicks)
+        {
+              if (_RecruitMenu)
+            {
+                if (_RecruitMenu.isActive() && !_recruitDummy)
+                {
+                    showRecruitMenu(false, Vector3.zero, null, 0, 0);
+                    _isBuilding = false;
+                    _lastClicked = null;
+
+                    if (_printStatements)
+                        Debug.Log("Case00");
+                }
+            }
             return _dummyObj;
+        }
 
         if (_printStatements)
             Debug.Log("Passed");
 
-
+        //used to keep track of if the recruit menu is open
         _recruitDummy = false;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -183,22 +199,25 @@ public class MVCController : MonoBehaviour
             if (_TMPlastClicked.GetComponent<Rodent>())
             {
                 _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
-                if(_printStatements)
+                if (_printStatements)
                     Debug.Log("Clicked a Rodent");
 
-                if (_lastRodent.tag.Equals("NeutralRodent"))
+                if (_lastRodent.getTeam() == 0)
                 {
-                    showRecruitMenu(true, MouseRaw, _lastRodent.getName());
+                    // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
                     _recruitDummy = true;
                 }
 
-                //Show a new Menu to Recruit and Feed this Thing
+                else if (_lastRodent.getTeam() == 1)
+                {
+                    _recruitDummy = true;
+                    // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
+                }
 
 
-                // clicking a rodent should also close other menus, my if/ elses are fucked up below need serious restructuring 
             }
 
-            
+
             else if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
                 if (_printStatements)
@@ -224,13 +243,14 @@ public class MVCController : MonoBehaviour
                         ShowBuildMenu(false, MouseRaw, _TMPlastClicked, buildObj);
                     //Cant Demolish TownCenter
                     //Will need to find a solution to pull up Upgrade Button on its own
-                    if(buildObj.getType()!=BuildableObject.BuildingType.TownCenter)
+                    if (buildObj.getType() != BuildableObject.BuildingType.TownCenter)
                         ShowDestroyMenu(true, MouseRaw, _TMPlastClicked, buildObj);
 
                 }
 
                 _AssignmentMenu.showMenu(false);
                 showRedX(false);
+                showRecruitMenu(false, Vector3.zero, "", 0, 0);
 
                 _lastClicked = _TMPlastClicked;
                 return _lastClicked;
@@ -240,22 +260,22 @@ public class MVCController : MonoBehaviour
             {
                 ShowBuildMenu(false, Vector3.zero, null, null);
                 ShowDestroyMenu(false, Vector3.zero, null, null);
-                _RecruitMenu.showMenu(false, Vector3.zero, null);
+                _RecruitMenu.showMenu(false, Vector3.zero, null, 0, 0);
                 _isBuilding = false;
                 _lastClicked = null;
 
                 if (_printStatements)
                     Debug.Log("Case1");
 
-                    return null;
+                return null;
             }
-            else if(_TMPlastClicked.transform.parent)
+            else if (_TMPlastClicked.transform.parent)
             {
                 if (_TMPlastClicked.transform.parent.gameObject == _lastClicked)
                 {
                     //case that last clicked was assigned by the worker Portrait
-                    if(_printStatements)
-                         Debug.Log("Worker Portrait");
+                    if (_printStatements)
+                        Debug.Log("Worker Portrait");
                     _isBuilding = true;
                     return _dummyObj;
                 }
@@ -275,8 +295,8 @@ public class MVCController : MonoBehaviour
             }
 
         }
-       //else if (checkingClicks)// should only happen if we aren't hovering over a UI button
-        { 
+        //else if (checkingClicks)// should only happen if we aren't hovering over a UI button
+        {
 
             //UI layer
             // If a Menu is active, and we click off of the object, we want to close the menu
@@ -298,7 +318,7 @@ public class MVCController : MonoBehaviour
                 if (_printStatements)
                     Debug.Log("Case3");
             }
-            else if(_AssignmentMenu.isActive())
+            else if (_AssignmentMenu.isActive())
             {
                 _AssignmentMenu.showMenu(false);
                 _isBuilding = false;
@@ -307,14 +327,17 @@ public class MVCController : MonoBehaviour
                 if (_printStatements)
                     Debug.Log("Case4");
             }
-            else if (_RecruitMenu.isActive() && !_recruitDummy)
+            else if (_RecruitMenu)
             {
-                showRecruitMenu(false, Vector3.zero, null);
-                _isBuilding = false;
-                _lastClicked = null;
+                if (_RecruitMenu.isActive() && !_recruitDummy)
+                {
+                   showRecruitMenu(false, Vector3.zero, null, 0, 0);
+                    _isBuilding = false;
+                    _lastClicked = null;
 
-                if (_printStatements)
-                    Debug.Log("Case5");
+                    if (_printStatements)
+                        Debug.Log("Case5");
+                }
             }
 
         }
@@ -331,7 +354,7 @@ public class MVCController : MonoBehaviour
     public bool checkIfAttackable(Vector3 MouseLoc)
     {
         GameObject go = checkClick(MouseLoc);
-        if(_printStatements)
+        if (_printStatements)
             Debug.Log("Attackable checked Go is::" + go);
         if (go)
             //May need to check later on that the building is the enemies
@@ -353,6 +376,7 @@ public class MVCController : MonoBehaviour
         if (_printStatements)
             Debug.Log("setLast to" + o);
         _lastClicked = o;
+        _recruitDummy = false;
     }
     public void clearLastClicked()
     {
@@ -402,16 +426,21 @@ public class MVCController : MonoBehaviour
             foreach (BuildableObject b in _lastRedX)
             { b.ShowRedX(cond); }
     }
-    public void showRecruitMenu(bool cond, Vector3 loc, string name)
+    public void showRecruitMenu(bool cond, Vector3 loc, string name, int foodCost, int popCost)
     {
         if (_RecruitMenu)
-            _RecruitMenu.showMenu(cond, loc, name);
+            _RecruitMenu.showMenu(cond, loc, name, foodCost, popCost);
         else
             Debug.LogError("MVC has no RecruitMenu");
     }
-    public void ShowBuildMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building )
+    public void showKingGuardMenu(bool cond, Vector3 loc, string name)
     {
-        if(_BuildMenu)
+        if (_RecruitMenu)
+            _RecruitMenu.showKingGuardMenu(cond, loc, name);
+    }
+    public void ShowBuildMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building)
+    {
+        if (_BuildMenu)
             _BuildMenu.showMenu(cond, loc, go, building);
     }
     public void ShowDestroyMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building)
@@ -419,12 +448,23 @@ public class MVCController : MonoBehaviour
         if (_DestroyMenu)
             _DestroyMenu.showMenu(cond, loc, go, building);
     }
+
+    //Old functionality
     public void Recruit()
     {
-       // Debug.Log("Recruit: " + _lastRodent);
-        showRecruitMenu(false, Vector3.zero, "");
+        // Debug.Log("Recruit: " + _lastRodent);
+        showRecruitMenu(false, Vector3.zero, "", 0, 0);
         _lastRodent.tag = "PlayerRodent";
         _lastRodent.Recruit();
+        CheckClicks(true);
+    }
+    public void Recruit(Rodent r, UIRecruitMenu menu)
+    {
+        Debug.Log("MVC Rodent Recruit: " + _lastRodent);
+        menu.showMenu(false, Vector3.zero, "", 0, 0);
+        r.tag = "PlayerRodent";
+        r.Recruit();
+        CheckClicks(true);
     }
 }
 

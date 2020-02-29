@@ -14,6 +14,7 @@ TagManager:
   - EnemyRodent
   - UpgradeButton
   - PlayerRodents
+  - DummyObjMVC
   layers:
   - Default
   - TransparentFX

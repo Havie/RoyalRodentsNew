@@ -144,7 +144,7 @@ public class MVCController : MonoBehaviour
     /**This function is now called by the Player
     *Responsible for checking what was clicked, then notifying it if it needs to know
     */
-    private GameObject checkClick(Vector3 MouseRaw)
+    public GameObject checkClick(Vector3 MouseRaw)
     {
         if (_printStatements)
             Debug.Log("Check Click!");
@@ -216,8 +216,6 @@ public class MVCController : MonoBehaviour
 
 
             }
-
-
             else if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
                 if (_printStatements)
@@ -274,7 +272,9 @@ public class MVCController : MonoBehaviour
                 if (_TMPlastClicked.transform.parent.gameObject == _lastClicked)
                 {
                     //case that last clicked was assigned by the worker Portrait
-                    if (_printStatements)
+
+                    //Not entirely sure if this can even happen anymore?
+                    //if (_printStatements)
                         Debug.Log("Worker Portrait");
                     _isBuilding = true;
                     return _dummyObj;
@@ -401,11 +401,10 @@ public class MVCController : MonoBehaviour
                 if (_printStatements)
                     Debug.Log("enter obj");
 
-                //Rodent Things
+                //Rodent Things , status update etc
                 r.setTarget(_lastClicked);
                 _Building.AssignWorker(r);
 
-                //To:Do update Rodent Status
 
 
                 clearLastClicked();
@@ -414,6 +413,11 @@ public class MVCController : MonoBehaviour
             }
         }
     }
+    public void TurnThingsoff()
+    {
+
+    }
+
     public void setLastRedX(BuildableObject redx)
     {
         if (_printStatements)
@@ -430,8 +434,8 @@ public class MVCController : MonoBehaviour
     {
         if (_RecruitMenu)
             _RecruitMenu.showMenu(cond, loc, name, foodCost, popCost);
-        else
-            Debug.LogError("MVC has no RecruitMenu");
+        //else
+           // Debug.LogError("MVC has no RecruitMenu");
     }
     public void showKingGuardMenu(bool cond, Vector3 loc, string name)
     {

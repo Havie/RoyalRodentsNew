@@ -18,6 +18,7 @@ public class UIRodentHolder : MonoBehaviour
 
     public void ImSelected()
     {
+        Debug.Log("TellMVC I'm selected " + _character.getName());
         //Tell the MVC Controller which character has been Selected
         MVCController.Instance.RodentAssigned(_character);
     }

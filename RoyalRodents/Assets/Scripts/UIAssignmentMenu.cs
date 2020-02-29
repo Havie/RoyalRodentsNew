@@ -26,7 +26,7 @@ public class UIAssignmentMenu : MonoBehaviour
         if (_aspectHeight == 0)
             _aspectHeight = 30;
 
-        //Get our prefab if it isnt manualyl assigned
+        //Get our prefab if it isn't manually assigned
         if(!_buttonTemplate)
             _buttonTemplate= Resources.Load<GameObject>("UI/Button_Rodent");
 

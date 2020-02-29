@@ -158,7 +158,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
     {
-
+        if (o)
+            Debug.Log("Rodent Set Target is : " + o.ToString());
+        else
+            Debug.Log("Rodent set Target is NULL");
         //need proper getter/setter someday
        SubjectScript s= this.GetComponent<SubjectScript>();
         if (s)
@@ -177,18 +180,24 @@ public class Rodent : MonoBehaviour, IDamageable<float>
             BuildableObject bo = o.GetComponent<BuildableObject>();
             if (bo.getState() == BuildableObject.BuildingState.Building)
             {
+
                 //Tell subject script to behave like a builder
                 s.setBuilder();
                 _Status = eStatus.Building;
+                Debug.Log("Updated State to Builder");
                 //OR
                 // Tell them to defend a location when that script arrives
                 _Status = eStatus.Army;
             }
-            else if (bo.getState() == BuildableObject.BuildingState.Built)
+            else if (bo.getState() == BuildableObject.BuildingState.Built || bo.getState() == BuildableObject.BuildingState.Idle)
             {
+                //Unknown if state IDLE could cause a unique problem, can a building be
+                // idle but not built? i forget
+
                 // Tell Subject Script to behave like a Worker 
                 s.setWorker();
                 _Status = eStatus.Working;
+                Debug.Log("Updated State to Worker");
 
             }
         }

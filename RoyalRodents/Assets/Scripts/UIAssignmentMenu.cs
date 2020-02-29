@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UIAssignmentMenu : MonoBehaviour
 {
+    private static UIAssignmentMenu _instance;
+
     [SerializeField]
     private GameObject _buttonTemplate;
 
@@ -16,6 +18,16 @@ public class UIAssignmentMenu : MonoBehaviour
     private int _aspectHeight;
     MVCController controller;
     private List<Rodent> _rList;
+
+    public static UIAssignmentMenu Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = GameObject.FindObjectOfType<UIAssignmentMenu>(); ;
+            return _instance;
+        }
+    }
 
 
     // Start is called before the first frame update
@@ -36,12 +48,19 @@ public class UIAssignmentMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(_active)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                setActive(false);
+                showMenu(false);
+            }
+        }
     }
     public void showMenu(bool cond)
     {
         //Debug.Log("ShowMenu::"+cond);
-        _active = cond;
+        setActive(cond);
 
        for (int i=0; i<_index; ++i)
         {
@@ -58,6 +77,12 @@ public class UIAssignmentMenu : MonoBehaviour
     public bool isActive()
     {
         return _active;
+    }
+    //this seems unnecessary but whatever
+    // publicly turn this off via showMenu
+    private void setActive(bool cond)
+    {
+        _active = cond;
     }
 
     public void CreateButton(List<Rodent> _PlayerRodents)

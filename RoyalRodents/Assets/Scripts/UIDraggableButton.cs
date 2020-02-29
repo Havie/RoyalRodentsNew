@@ -37,13 +37,19 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                     {
                         if (go.tag.Equals("DummyObjMVC"))
                         {
-                           // Debug.Log("Successful Raycast =" + go.gameObject);
+                           Debug.Log("Successful Raycast1 =" + go.gameObject);
+                            this.transform.GetComponent<UIRodentHolder>().ImSelected();
+                            this.transform.position = _startLoc;
+                        }
+                        else if(go.GetComponent<BuildableObject>())
+                        {
+                            Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                             this.transform.position = _startLoc;
                         }
                         else
                         {
-                           // Debug.Log("Failed Raycast =" + go.gameObject);
+                           Debug.Log("Failed Raycast =" + go.gameObject);
                             this.transform.position = _startLoc;
                         }
                     }

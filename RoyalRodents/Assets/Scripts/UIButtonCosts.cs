@@ -213,7 +213,7 @@ public class UIButtonCosts : MonoBehaviour
 			else if (_type == "towncenter")
 				textTitle.text = "Town Center (LVL " + _level.ToString() + ")";
 			else
-				textTitle.text = "notspecified (LVL " + _level.ToString() + ")";
+				textTitle.text = "not specified (LVL " + _level.ToString() + ")";
 		}
 
 		UpdateButton();

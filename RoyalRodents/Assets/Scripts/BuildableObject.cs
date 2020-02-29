@@ -241,6 +241,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 eType = BuildingType.House;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
+                _level=1;
                // Debug.Log("Made a house");
                 break;
             case ("farm"):
@@ -248,34 +249,38 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 eType = BuildingType.Farm;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
-               // Debug.Log("Made a Farm");
+                _level = 1;
+                // Debug.Log("Made a Farm");
                 break;
             case ("wall"):
                 this.gameObject.AddComponent<bWall>();
                 eType = BuildingType.Wall;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
-               // Debug.Log("Made a Wall");
+                _level = 1;
+                // Debug.Log("Made a Wall");
                 break;
             case ("tower"):
                 this.gameObject.AddComponent<bTower>();
                 eType = BuildingType.Tower;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
-               // Debug.Log("Made a Tower");
+                _level = 1;
+                // Debug.Log("Made a Tower");
                 break;
             case ("towncenter"):
                 this.gameObject.AddComponent<bTownCenter>();
                 eType = BuildingType.TownCenter;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
-               // Debug.Log("Made a TownCenter");
+                _level = 1;
+                // Debug.Log("Made a TownCenter");
                 break;
 
             case null:
                 break;
         }
-        _BuildMenu.showMenu(false, Vector3.zero,null);
+        _BuildMenu.showMenu(false, Vector3.zero,null, this);
         StartCoroutine(BuildCoroutine());
     }
 
@@ -327,11 +332,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
                 break;
 
         }
-        _DestroyMenu.showMenu(false, Vector3.zero, null);
+        _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         StartCoroutine(DemolishCoroutine());
     }
 
-
+    public void Upgrade()
+    {
+        ++_level;
+        StartCoroutine(BuildCoroutine());
+    }
 
     //Temporary way to delay construction
     IEnumerator BuildCoroutine()
@@ -355,7 +364,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         eState = BuildingState.Built;
         if(eType== BuildingType.House)
         {
-            _hitpoints+=  this.GetComponent<bHouse>().BuildingComplete();
+            _hitpoints+=  this.GetComponent<bHouse>().BuildingComplete(_level);
         }
        else if (eType == BuildingType.Farm)
         {

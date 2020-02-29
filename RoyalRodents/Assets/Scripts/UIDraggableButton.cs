@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -37,13 +38,13 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                     {
                         if (go.GetComponent<BuildableObject>())
                         {
-                            Debug.Log("Successful Raycast2 =" + go.gameObject);
+                           // Debug.Log("Successful Raycast2 =" + go.gameObject);    
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                             this.transform.position = _startLoc;
                         }
                         else
                         {
-                            Debug.Log("Failed Raycast =" + go.gameObject);
+                           // Debug.Log("Failed Raycast =" + go.gameObject);
                             this.transform.position = _startLoc;
                         }
                     }
@@ -72,10 +73,9 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     // completely unused 
     public void onMouseOver()
     {
-        Debug.Log("Enter");
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Selected");
+          //  Debug.Log("Selected");
             _selected = true;
         }
     }

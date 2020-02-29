@@ -316,7 +316,7 @@ public class SubjectScript : MonoBehaviour
     // Assign rodent's current target. 
     public void changeTarget(GameObject nTarget)
     {
-        Debug.Log("Changing Target to " + nTarget);
+        //Debug.Log("Changing Target to " + nTarget);
         this.currentTarget = nTarget;
     }
 

@@ -9,10 +9,7 @@ public class Dog : MonoBehaviour
     public GameObject _target;
     public float _MovementSpeed = 2f;
 
-    private float _health = 25f;
-    private float _healthMax = 25.5f;
-    //Wild way to write a getter/setter in initialization ? unsure if i like this, looksy messy
-    private float _damage = 3f;
+
     private HealthBar _HealthBar;
 
     public Vector3 testGoalPos;
@@ -33,9 +30,7 @@ public class Dog : MonoBehaviour
         _Animator = this.GetComponent<Animator>();
         if (!_Animator)
             Debug.LogError("AI Controller Missing Animator");
-        _health = 25.5f;
-        _healthMax = 25.5f;
-        _damage = 3f;
+
      
     }
 

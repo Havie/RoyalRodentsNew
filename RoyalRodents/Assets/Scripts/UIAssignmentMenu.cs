@@ -18,6 +18,9 @@ public class UIAssignmentMenu : MonoBehaviour
     private int _aspectHeight;
     MVCController controller;
     private List<Rodent> _rList;
+    private CameraController _cameraController;
+
+    private UIAssignmentVFX _vfx;
 
     public static UIAssignmentMenu Instance
     {
@@ -42,6 +45,7 @@ public class UIAssignmentMenu : MonoBehaviour
         if(!_buttonTemplate)
             _buttonTemplate= Resources.Load<GameObject>("UI/Button_Rodent");
 
+        _cameraController = Camera.main.GetComponent<CameraController>();
 
     }
 
@@ -78,33 +82,40 @@ public class UIAssignmentMenu : MonoBehaviour
     {
         return _active;
     }
-    //this seems unnecessary but whatever
-    // publicly turn this off via showMenu
+
+    // publicly turned on/off via showMenu
     private void setActive(bool cond)
     {
         _active = cond;
         if(_active)
         {
             //Change Camera Control
-            Camera.main.GetComponent<CameraController>().setCharacterMode(false);
+            if(_cameraController)
+                _cameraController.setCharacterMode(false);
         }
         else
         {
             // Change Camera Control back
-            Camera.main.GetComponent<CameraController>().setCharacterMode(true);
+            if (_cameraController)
+                Camera.main.GetComponent<CameraController>().setCharacterMode(true);
         }
 
+        ToggleVFX();
 
     }
 
-    public void CreateButton(List<Rodent> _PlayerRodents)
+    public void CreateButtons(List<Rodent> _PlayerRodents)
     {
         if (_PlayerRodents == _rList)
             return;
         _rList = _PlayerRodents;
 
 
-        foreach (Rodent r in _PlayerRodents)
+        FindAvailable();
+    }
+    private void FindAvailable()
+    {
+        foreach (Rodent r in _rList)
         {
             if (r.GetRodentStatus() == Rodent.eStatus.Available)
             {
@@ -197,5 +208,46 @@ public class UIAssignmentMenu : MonoBehaviour
         showMenu(true);
     }
 
+    public void ResetButtons()
+    {
 
+        for (int i = 0; i < _index; ++i)
+        {
+            _buttons[i].gameObject.SetActive(false);
+        }
+
+        _index = 0;
+        FindAvailable();
+    }
+
+    /** used by UI button */
+    public void ToggleMenu()
+    {
+        showMenu(!_active);
+        ToggleVFX();
+    }
+    private void ToggleVFX()
+    {
+        if (_vfx)
+        {
+            if (_active)
+                _vfx.PlayGlowAnim(true);
+            else
+                _vfx.PlayGlowAnim(false);
+        }
+    }
+
+    public void setVFX(UIAssignmentVFX vfx)
+    {
+        _vfx = vfx;
+    }
+
+    /************************************************************************/
+    /* Potential issues:
+     *  Can Click and recruit random rodents while in Assignment Mode,
+     *  do we want this?
+     *  Can't Click buildings and build them from assignment menu
+     *  do we want this?
+     */
+    /************************************************************************/
 }

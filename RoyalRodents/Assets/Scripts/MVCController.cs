@@ -64,7 +64,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = true;
+        _printStatements = false;
     }
 
 
@@ -165,7 +165,8 @@ public class MVCController : MonoBehaviour
                         Debug.Log("Case00");
                 }
             }
-            Debug.Log("Auto Return Dummy OBJ because were not checking clicks");
+            if (_printStatements)
+                Debug.Log("Auto Return Dummy OBJ because were not checking clicks");
             return _dummyObj;
         }
 
@@ -267,7 +268,8 @@ public class MVCController : MonoBehaviour
                 {
                     if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
                     {
-                        Debug.Log("Worker Portrait");
+                        if(_printStatements)
+                            Debug.Log("Worker Portrait");
                         _isBuilding = true;
                         _assignDummy = true;
                         TurnThingsoff();
@@ -360,22 +362,32 @@ public class MVCController : MonoBehaviour
             BuildableObject _Building = _lastClicked.GetComponent<BuildableObject>();
             if (_Building)
             {
-                if (_printStatements)
-                    Debug.Log("enter obj");
+                //Check if this building is occupied
+                if (_Building.CheckOccupied())
+                {
+                    
+                }
+                else // free to assign 
+                {
+                    //Rodent Things , status update etc
+                    r.setTarget(_lastClicked);
+                    _Building.AssignWorker(r);
 
-                //Rodent Things , status update etc
-                r.setTarget(_lastClicked);
-                _Building.AssignWorker(r);
+                    clearLastClicked();
 
-                clearLastClicked();
-                _AssignmentMenu.showMenu(false);
+                    // Dont want menu to close so we can keep assigning in the mode
+                    //_AssignmentMenu.showMenu(false);
 
-                /* Keeping this off allows us to click once to pull up RedX
-                 * Menu immediately after assigned
-                 * Unknown if causes any other issues, onMouseExit from 
-                 * portrait / bworkerscript should re enabled properly
-                 * If having trouble, can try turning back on */
-                //CheckClicks(true);
+                    //instead reset the buttons
+                    UIAssignmentMenu.Instance.ResetButtons();
+
+                    /* Keeping this off allows us to click once to pull up RedX
+                     * Menu immediately after assigned
+                     * Unknown if causes any other issues, onMouseExit from 
+                     * portrait / bworkerscript should re enabled properly
+                     * If having trouble, can try turning back on */
+                    //CheckClicks(true);
+                }
             }
         }
     }
@@ -451,7 +463,7 @@ public class MVCController : MonoBehaviour
     }
     public void Recruit(Rodent r, UIRecruitMenu menu)
     {
-        Debug.Log("MVC Rodent Recruit: " + _lastRodent);
+       // Debug.Log("MVC Rodent Recruit: " + _lastRodent);
         menu.showMenu(false, Vector3.zero, "", 0, 0);
         r.tag = "PlayerRodent";
         r.Recruit();

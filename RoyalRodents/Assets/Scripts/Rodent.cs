@@ -184,7 +184,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
                 //Tell subject script to behave like a builder
                 s.setBuilder();
                 _Status = eStatus.Building;
-                Debug.Log("Updated State to Builder");
+               // Debug.Log("Updated State to Builder");
                 //OR
                 // Tell them to defend a location when that script arrives
                 _Status = eStatus.Army;
@@ -197,7 +197,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
                 // Tell Subject Script to behave like a Worker 
                 s.setWorker();
                 _Status = eStatus.Working;
-                Debug.Log("Updated State to Worker");
+               // Debug.Log("Updated State to Worker");
 
             }
         }

@@ -434,14 +434,26 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             Debug.LogError("Rodents dont match:Uh-Oh?");
 
         //Tell the worker to fuck off
-        if(_Worker)
-             _Worker.setTarget(null);
+        if (_Worker)
+            _Worker.setTarget(null);
+        else
+            Debug.LogError("Trying to dismiss a worker thats not there??");
+
         eState = BuildingState.Idle;
         _Worker = null;
         _sWorker = _sEmptyPortrait;
-        
+        //Resets the assignment window to get the available worker
+        //appears it works well enough to call here, instead of _Worker.setTarget(null)
+        UIAssignmentMenu.Instance.ResetButtons();
 
+    }
+    public bool CheckOccupied()
+    {
+        //If we want to have multiple workers, this needs to change
+        // can always check the workScript if its occupied? 
+        // or get all children of type bWorkerScript and see if any arent occupied
 
+        return (_Worker!=null);
     }
     public void ShowRedX(bool cond)
     {

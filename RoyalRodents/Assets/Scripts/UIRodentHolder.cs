@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIRodentHolder : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class UIRodentHolder : MonoBehaviour
 
     public void ImSelected()
     {
-        Debug.Log("TellMVC I'm selected " + _character.getName());
+       // Debug.Log("TellMVC I'm selected " + _character.getName());
         //Tell the MVC Controller which character has been Selected
         MVCController.Instance.RodentAssigned(_character);
     }

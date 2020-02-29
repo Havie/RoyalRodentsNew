@@ -216,10 +216,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void setControlled(bool cond)
     {
-        Debug.Log("Player Is Controlled=" + _controlled);
-
+       // Debug.Log("Player Is Controlled=" + cond);
         _controlled = cond;
-
     }
 
 

@@ -27,5 +27,9 @@ public class eWorkerOBJ : MonoBehaviour
     public void Locked(bool cond)
     {
         _Locked = cond;
+        if (_Locked)
+            this.GetComponent<SpriteRenderer>().sprite = _Img;
+        else
+            this.GetComponent<SpriteRenderer>().sprite = null;
     }
 }

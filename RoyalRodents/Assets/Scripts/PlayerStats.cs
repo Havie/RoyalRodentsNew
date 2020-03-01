@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour ,IDamageable<float>
+public class PlayerStats : MonoBehaviour, IDamageable<float>
 {
-    public float _Hp=50f;
+    public float _Hp = 50f;
     public float _HpMax = 100f;
     [Range(0, 10f)]
     public float _MoveSpeed = 3.5f;  //used to be 2
@@ -39,7 +39,7 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
                 pm.Die();
             else
                 Debug.LogError("Should have died but cant find PlayerMovement");
-            
+
         }
         //Debug.LogWarning("HP=" + _Hp);
         UpdateHealthBar();
@@ -80,6 +80,7 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
             _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
         SetUpHealthBar(_HealthBarObj.gameObject);
         UpdateHealthBar();
+        setUpRoyalGuard();
     }
 
     public void setUpRoyalGuard()
@@ -91,6 +92,8 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
         _WorkerObjects = new GameObject[_RoyalGuards.Length];
         _PortraitOutlineObjects = new GameObject[_RoyalGuards.Length];
         _RedXObjects = new GameObject[_RoyalGuards.Length];
+
+        _RoyalGuards[0].GetComponent<Employee>().Lock(false);
 
 
 
@@ -130,21 +133,21 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     }
     public void DismissWorker(Rodent r)
     {
-       foreach(GameObject g in _RoyalGuards)
+        foreach (GameObject g in _RoyalGuards)
         {
             Employee e = g.GetComponent<Employee>();
             if (e)
             {
                 if (e.isOccupied())
                 {
-                    if(e.getCurrentRodent()==r)
+                    if (e.getCurrentRodent() == r)
                     {
                         Debug.Log("We found the right Employee");
                         e.Dismiss();
                         break;
                     }
                 }
-           
+
 
             }
         }
@@ -156,19 +159,43 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     }
     public void ShowRedX(bool cond)
     {
+        bool foundAtLeastOne = false;
+        Debug.Log("Called Players Set Red x");
         if (cond)
         {
-           // _srRedX.enabled = true;
+            //Tell any occupied Employees to show x
+            foreach (GameObject g in _RoyalGuards)
+            {
+                Employee e = g.GetComponent<Employee>();
+                if (e)
+                {
+                    if (e.isOccupied())
+                    {
+                        e.ShowRedX(true);
+                        foundAtLeastOne = true;
+                    }
 
-            //Need to solve issue of now this is a Player..not BuildableObject
-           MVCController.Instance.setLastRedX(this.gameObject);
+                }
+            }
+
+            if (foundAtLeastOne)
+                MVCController.Instance.setLastRedX(this.gameObject);
         }
         else
         {
-           // _srRedX.enabled = false;
-            //Turn back on the collider possible hack
-           // if (_PortraitOutlineObject)
-             //   _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
+            if (cond)
+            {
+                //Tell any occupied Employees to show x
+                foreach (GameObject g in _RoyalGuards)
+                {
+                    Employee e = g.GetComponent<Employee>();
+                    if (e)
+                    {
+                        e.ShowRedX(false);
+                    }
+                }
+            }
+
         }
     }
 }

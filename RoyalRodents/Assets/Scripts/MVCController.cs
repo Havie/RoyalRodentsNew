@@ -135,11 +135,11 @@ public class MVCController : MonoBehaviour
         }
     }
 
-    //unused currently but may need later
+
     public void CheckClicks(bool b)
     {
-        if (_printStatements)
-            Debug.Log("Were Told to check clicks::" + b);
+       // if (_printStatements)
+           // Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
     /**This function is now called by the Player
@@ -272,8 +272,7 @@ public class MVCController : MonoBehaviour
                     if (_owner.GetComponent<BuildableObject>())
                     {
                         if(_printStatements)
-                            Debug.Log("Worker Portrait");
-                        _isBuilding = true;
+                            Debug.Log("Worker Portrait (building)");
                         _assignDummy = true;
                         TurnThingsoff();
 
@@ -282,9 +281,15 @@ public class MVCController : MonoBehaviour
                     }
                     else if(_owner. GetComponent<PlayerStats>())
                     {
-                        //assign to player
+                        if (_printStatements)
+                            Debug.Log("Worker Portrait (player)");
+                        _assignDummy = true;
+                        TurnThingsoff();
+
+                        _lastClicked = _owner;
+                        return _lastClicked;
                     }
-                   
+                    Debug.Log("Owner Fallthru==" + _owner);
                 }
                 if (_printStatements)
                     Debug.Log("Fall through Case 00" + _TMPlastClicked);
@@ -361,7 +366,7 @@ public class MVCController : MonoBehaviour
     }
     public void RodentAssigned(Rodent r)
     {
-        if (_printStatements)
+       // if (_printStatements)
             Debug.Log("heard rodent Assigned " + _lastClicked + " is last clicked");
 
         //Might want to do some other checks, like the building state?
@@ -395,6 +400,22 @@ public class MVCController : MonoBehaviour
                      * portrait / bworkerscript should re enabled properly
                      * If having trouble, can try turning back on */
                     //CheckClicks(true);
+                }
+            }
+            else
+            {
+                Debug.Log("Assign to PLayer");
+                PlayerStats Player = _lastClicked.GetComponent<PlayerStats>();
+                if(Player)
+                {
+                    Player.AssignWorker(r);
+
+                    //Need a check to see if he can be assigned
+                    r.setTarget(_lastClicked);
+                    clearLastClicked();
+
+                    UIAssignmentMenu.Instance.ResetButtons();
+
                 }
             }
         }

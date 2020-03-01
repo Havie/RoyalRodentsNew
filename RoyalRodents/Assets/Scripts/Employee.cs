@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Employee : MonoBehaviour
 {
+    public bool _onPlayer;
+    private Vector3 _offSet;
+    private Transform _Player;
+
     public GameObject _WorkerObj;
     public GameObject _PortraitOutline;
     public GameObject _RedX;
@@ -23,6 +27,22 @@ public class Employee : MonoBehaviour
         if (_RedX == null)
             _RedX = this.transform.GetComponentInChildren<eRedX>().gameObject;
 
+        ShowRedX(false);
+
+        if(_onPlayer)
+        {
+            _Player = GameObject.FindGameObjectWithTag("Player").transform;
+            _offSet = this.transform.position - _Player.position;
+        }
+
+    }
+
+    private void LateUpdate()
+    {
+        if(_onPlayer)
+        {
+            this.transform.position = _Player.position + _offSet;
+        }
     }
 
     public void Assign(Rodent r)

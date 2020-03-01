@@ -16,27 +16,31 @@ public class bWorkerScript : MonoBehaviour
     private GameObject _owner;
 
     [SerializeField]
-    private bool _isLocked=false;
+    private bool _isLocked = false;
 
 
     void Start()
     {
         setUpMenu();
-       
 
-        if(_onBuilding && _onPlayer)
+
+        if (_onBuilding && _onPlayer)
         {
             Debug.LogWarning("This Worker script is set to be on both Player and Building, should only be one or the other");
         }
         figureOutOwner();
         if (_owner == null)
             Debug.LogError("Owner of bWorkerScript is null  :: " + this.transform.gameObject);
-        if(_onBuilding && _owner)
-            bo = _owner.GetComponent<BuildableObject>();
-        else if(_onPlayer && _owner)
-            ps= _owner.GetComponent<PlayerStats>();
 
-        col = this.GetComponent<CircleCollider2D>();
+        if (_onBuilding && _owner)
+            bo = _owner.GetComponent<BuildableObject>();
+        else if (_onPlayer && _owner)
+            ps = _owner.GetComponent<PlayerStats>();
+
+        if (bo)
+            col = this.GetComponent<CircleCollider2D>();
+        if (ps)
+            col = this.GetComponent<BoxCollider2D>();
 
     }
     private void setUpMenu()
@@ -55,7 +59,8 @@ public class bWorkerScript : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        
+       // Debug.LogWarning("MouseDownOnOWorker");
+
         if (!isOccupied())
         {
             //Debug.Log("Heard Not Occupied");
@@ -93,7 +98,7 @@ public class bWorkerScript : MonoBehaviour
             {
                 bo.ShowRedX(true);
                 //Able to click the X
-               ToggleCollider(false);
+                ToggleCollider(false);
             }
             else if (ps)
             {
@@ -101,7 +106,7 @@ public class bWorkerScript : MonoBehaviour
                 //Able to click the X
                 ToggleCollider(false);
             }
-            
+
         }
     }
     public void dismissRodent()
@@ -116,23 +121,28 @@ public class bWorkerScript : MonoBehaviour
     }
     public void ToggleCollider(bool cond)
     {
-        if(col)
+        if (col!=null)
             col.enabled = cond;
         else
         {
-            col = this.GetComponent<CircleCollider2D>();
-            ToggleCollider(cond);
+            if(bo)
+                col = this.GetComponent<CircleCollider2D>();
+            if(ps)
+                col= this.GetComponent<BoxCollider2D>();
+
+            //IDK why this is blowing up - troubleshoot later
+            //ToggleCollider(cond);
         }
     }
     private void figureOutOwner()
     {
-        if(_onBuilding)
+        if (_onBuilding)
         {
             Transform parent = this.transform.parent;
-            if(parent)
+            if (parent)
             {
                 parent = parent.transform.parent;
-                if(parent && parent.GetComponent<BuildableObject>())
+                if (parent && parent.GetComponent<BuildableObject>())
                 {
                     _owner = parent.gameObject;
                 }
@@ -140,11 +150,11 @@ public class bWorkerScript : MonoBehaviour
         }
         else if (_onPlayer)
         {
-            Transform parent = this.transform.parent;
+            Debug.Log("Try to find player");
+            Transform parent = GameObject.FindGameObjectWithTag("Player").transform;
             if (parent)
             {
-                parent = parent.transform.parent;
-                if (parent && parent.GetComponent<PlayerStats>())
+                if (parent.GetComponent<PlayerStats>())
                 {
                     _owner = parent.gameObject;
                 }
@@ -159,10 +169,12 @@ public class bWorkerScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
+       // Debug.Log("MouseEnterWorkerScript");
         MVCController.Instance.CheckClicks(false);
     }
     private void OnMouseExit()
     {
+       // Debug.Log("MouseExitWorkerScript");
         MVCController.Instance.CheckClicks(true);
     }
 }

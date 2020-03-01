@@ -31,14 +31,14 @@ public class HealthBar : MonoBehaviour
         this.transform.parent.gameObject.SetActive(b);
     }
 
-    public void SetHealth(float ratio)
+    public void SetFillAmount(float ratio)
     {
         showBars(true);
        // Debug.Log("Heard to set fill::" + ratio);
         if (_BarFill)
             _BarFill.fillAmount = ratio;
         else
-            Debug.LogError("Cant find health bar");
+            Debug.LogError("Cant find fill bar");
 
         //every time were hit, we start a 5 second delay to turn off hp bars
         _hitTime = _displayTime;

@@ -79,7 +79,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     public void UpdateHealthBar()
     {
         if (_HealthBar)
-            _HealthBar.SetHealth(_Hp / _HpMax);
+            _HealthBar.SetFillAmount(_Hp / _HpMax);
     }
     /** End Interface Stuff */
 

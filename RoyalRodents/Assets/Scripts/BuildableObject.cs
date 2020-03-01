@@ -415,15 +415,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
     public void AssignWorker(Rodent r)
     {
-       // Debug.Log("AssignWorker!");
+       //Debug.Log("AssignWorker!" + r.getName());
         _Worker = r;
         bWorkerScript ws=_PortraitOutlineObject.GetComponent<bWorkerScript>();
-        if(ws)
+        if (ws)
         {
             ws.setWorker(_Worker);
+            r.setTarget(this.gameObject);
             _sWorker = r.GetPortrait();
-           // Debug.LogError(_sWorker.ToString());
+            // Debug.LogError(_sWorker.ToString());
         }
+        else
+            r.setTarget(null);
         //To-Do: Something not being handled here is the status of Building to Built.
 
     }
@@ -460,7 +463,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         if (cond)
         {
             _srRedX.enabled = true;
-            MVCController.Instance.setLastRedX(this);
+            MVCController.Instance.setLastRedX(this.gameObject);
         }
         else
         {

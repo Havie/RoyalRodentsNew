@@ -184,7 +184,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
                // Debug.Log("Updated State to Builder");
                 //OR
                 // Tell them to defend a location when that script arrives
-                _Status = eStatus.Army;
+               // _Status = eStatus.Army;
             }
             else if (bo.getState() == BuildableObject.BuildingState.Built || bo.getState() == BuildableObject.BuildingState.Idle)
             {
@@ -200,6 +200,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
         }
         else if (o.GetComponent<PlayerStats>())
         {
+            //Debug.Log("Was told to go to RoyalGuard");
             // Tell Subject script to behave like a bodyguard
             s.setRoyalGuard();
             _Status = eStatus.Army; // for all intensive purposes army can behave same for player and defense structure
@@ -271,7 +272,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>
         {
             if (_RecruitMenu)
             {
-                _RecruitMenu.showKingGuardMenu(true, this);
+                //No longer show this menu
+                // _RecruitMenu.showKingGuardMenu(true, this);
+
+                // Instead show the Royal guard above players head
+                // by activating the assignment menu! - might not want this
+                UIAssignmentMenu.Instance.showMenu(true);
+                UIAssignmentMenu.Instance.CreateButtons(GameManager.Instance.getPlayerRodents());
             }
 
         }

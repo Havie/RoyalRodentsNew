@@ -27,7 +27,7 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
-    private List<BuildableObject> _lastRedX = new List<BuildableObject>();
+    private List<GameObject> _lastRedX = new List<GameObject>();
 
     private bool _recruitDummy;
     private bool _assignDummy;
@@ -135,11 +135,11 @@ public class MVCController : MonoBehaviour
         }
     }
 
-    //unused currently but may need later
+
     public void CheckClicks(bool b)
     {
-        if (_printStatements)
-            Debug.Log("Were Told to check clicks::" + b);
+       // if (_printStatements)
+           // Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
     /**This function is now called by the Player
@@ -264,19 +264,32 @@ public class MVCController : MonoBehaviour
             // check if it was a portrait  
             if (_TMPlastClicked.GetComponent<bWorkerScript>())
             {
-                if (_TMPlastClicked.transform.parent)
+
+                GameObject _owner = _TMPlastClicked.GetComponent<bWorkerScript>().getOwner();
+
+                if (_owner)
                 {
-                    if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
+                    if (_owner.GetComponent<BuildableObject>())
                     {
                         if(_printStatements)
-                            Debug.Log("Worker Portrait");
-                        _isBuilding = true;
+                            Debug.Log("Worker Portrait (building)");
                         _assignDummy = true;
                         TurnThingsoff();
 
-                        _lastClicked = _TMPlastClicked.transform.parent.gameObject;
+                        _lastClicked = _owner;
                         return _lastClicked;
                     }
+                    else if(_owner. GetComponent<PlayerStats>())
+                    {
+                        if (_printStatements)
+                            Debug.Log("Worker Portrait (player)");
+                        _assignDummy = true;
+                        TurnThingsoff();
+
+                        _lastClicked = _owner;
+                        return _lastClicked;
+                    }
+                    Debug.Log("Owner Fallthru==" + _owner);
                 }
                 if (_printStatements)
                     Debug.Log("Fall through Case 00" + _TMPlastClicked);
@@ -370,7 +383,7 @@ public class MVCController : MonoBehaviour
                 else // free to assign 
                 {
                     //Rodent Things , status update etc
-                    r.setTarget(_lastClicked);
+                    //r.setTarget(_lastClicked);
                     _Building.AssignWorker(r);
 
                     clearLastClicked();
@@ -387,6 +400,23 @@ public class MVCController : MonoBehaviour
                      * portrait / bworkerscript should re enabled properly
                      * If having trouble, can try turning back on */
                     //CheckClicks(true);
+                }
+            }
+            else
+            {
+                if (_printStatements)
+                    Debug.Log("Assign to PLayer");
+                PlayerStats Player = _lastClicked.GetComponent<PlayerStats>();
+                if(Player)
+                {
+                    Player.AssignWorker(r);
+
+                    //Need a check to see if he can be assigned
+                    // r.setTarget(_lastClicked);
+                    clearLastClicked();
+
+                    UIAssignmentMenu.Instance.ResetButtons();
+
                 }
             }
         }
@@ -412,17 +442,25 @@ public class MVCController : MonoBehaviour
 
 
 
-    public void setLastRedX(BuildableObject redx)
+    public void setLastRedX(GameObject redxHolder)
     {
         if (_printStatements)
             Debug.Log("set redX");
-        _lastRedX.Add(redx);
+        _lastRedX.Add(redxHolder);
     }
     public void showRedX(bool cond)
     {
+        if (_printStatements)
+            Debug.Log("MVC::ShowRedX::" + cond);
+
         if (_lastRedX.Count > 0)
-            foreach (BuildableObject b in _lastRedX)
-            { b.ShowRedX(cond); }
+            foreach (GameObject g in _lastRedX)
+            {
+                if(g.GetComponent<BuildableObject>())
+                    g.GetComponent<BuildableObject>().ShowRedX(cond);
+                else if(g.GetComponent<PlayerStats>())
+                     g.GetComponent<PlayerStats>().ShowRedX(cond);
+            }
     }
     public void showAssignmenu(bool cond)
     {

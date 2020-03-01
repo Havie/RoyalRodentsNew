@@ -426,7 +426,7 @@ public class MVCController : MonoBehaviour
     }
     public void showAssignmenu(bool cond)
     {
-        if (_AssignmentMenu)
+        if (_AssignmentMenu && !_assignDummy)
             _AssignmentMenu.showMenu(cond);
     }
     public void showRecruitMenu(bool cond, Vector3 loc, string name, int foodCost, int popCost)
@@ -449,7 +449,10 @@ public class MVCController : MonoBehaviour
         if (_DestroyMenu)
             _DestroyMenu.showMenu(cond, loc, go, building);
     }
-
+    public void SetAssignmentDummy(bool cond)
+    {
+        _assignDummy = cond;
+    }
     //Old functionality
     public void Recruit()
     {

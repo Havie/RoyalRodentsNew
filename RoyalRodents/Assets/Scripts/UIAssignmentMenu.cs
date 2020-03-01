@@ -11,6 +11,8 @@ public class UIAssignmentMenu : MonoBehaviour
     [SerializeField]
     private GameObject _buttonTemplate;
 
+    private Quaternion _defaultRotation;
+
     private bool _active;
     private Button[] _buttons=new Button[10];
     private int _index;
@@ -36,7 +38,7 @@ public class UIAssignmentMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MVCController.Instance.SetUpAssignmentMenu(this);
+        MVCController.Instance.SetUpAssignmentMenu(this); // pointless now because were a singleton
         //We will need to actually calculate this somehow at some point
         if (_aspectHeight == 0)
             _aspectHeight = 30;
@@ -44,6 +46,9 @@ public class UIAssignmentMenu : MonoBehaviour
         //Get our prefab if it isn't manually assigned
         if(!_buttonTemplate)
             _buttonTemplate= Resources.Load<GameObject>("UI/Button_Rodent");
+
+        if (_buttonTemplate)
+            _defaultRotation = _buttonTemplate.transform.rotation;
 
         _cameraController = Camera.main.GetComponent<CameraController>();
 
@@ -56,19 +61,20 @@ public class UIAssignmentMenu : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                setActive(false);
+                //setActive(false);
                 showMenu(false);
             }
         }
     }
     public void showMenu(bool cond)
     {
-        //Debug.Log("ShowMenu::"+cond);
+       // Debug.Log("ShowMenu::"+cond);
         setActive(cond);
 
        for (int i=0; i<_index; ++i)
         {
            _buttons[i].gameObject.SetActive(cond);
+            _buttons[i].transform.rotation = _defaultRotation;
         }
 
         //If we turn off the menu, reset the index and list
@@ -223,8 +229,12 @@ public class UIAssignmentMenu : MonoBehaviour
     /** used by UI button */
     public void ToggleMenu()
     {
+        
         showMenu(!_active);
         ToggleVFX();
+
+        if (_active)
+            CreateButtons(GameManager.Instance.getPlayerRodents());
     }
     private void ToggleVFX()
     {
@@ -245,9 +255,9 @@ public class UIAssignmentMenu : MonoBehaviour
     /************************************************************************/
     /* Potential issues:
      *  Can Click and recruit random rodents while in Assignment Mode,
-     *  do we want this?
+     *  do we want this? - i vote no
      *  Can't Click buildings and build them from assignment menu
-     *  do we want this?
+     *  do we want this?  -i vote no
      */
     /************************************************************************/
 }

@@ -37,14 +37,14 @@ public class DismissalScript : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // Debug.Log("!!!heardMouse Down in Dismissal!!");
+        Debug.Log("!!!heardMouse Down in Dismissal!!");
         if (_ws)
             _ws.dismissRodent();
         else
         {
             StartCoroutine(ReSetup());
-            if (_ws)
-                _ws.dismissRodent();
+            Debug.Log("Dismall messedup");
+          
         }
     }
     private void OnMouseEnter()

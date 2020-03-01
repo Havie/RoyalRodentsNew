@@ -93,7 +93,16 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
         _PortraitOutlineObjects = new GameObject[_RoyalGuards.Length];
         _RedXObjects = new GameObject[_RoyalGuards.Length];
 
-        _RoyalGuards[0].GetComponent<Employee>().Lock(false);
+
+        for (int i=0; i<_RoyalGuards.Length; ++i)
+        {
+            if(i==0)
+                _RoyalGuards[0].GetComponent<Employee>().Lock(false);
+            else
+                _RoyalGuards[i].GetComponent<Employee>().Lock(true);
+        }
+
+        ShowRoyalGuard(false);
 
 
 
@@ -107,7 +116,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
             Employee e = g.GetComponent<Employee>();
             if (e)
             {
-                if (!e.isOccupied())
+                if (!e.isOccupied() && !e.isLocked())
                 {
                     return _count;
                 }
@@ -122,13 +131,16 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
     //I worry were gonna be passed in a employee Object, not a rodent? or both
     public void AssignWorker(Rodent r)
     {
-        Debug.Log("AssignWorker!" + r.getName());
+        //Debug.Log("AssignWorker!" + r.getName());
 
         int index = findAvailableSlot();
         if (index > -1)         //This is kind of a hack
+        {
             _RoyalGuards[index].GetComponent<Employee>().Assign(r);
-        else
-            Debug.Log("no Empty");
+            r.setTarget(this.gameObject);
+        }
+      //  else
+          //  Debug.Log("no Empty");
 
     }
     public void DismissWorker(Rodent r)
@@ -142,33 +154,27 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
                 {
                     if (e.getCurrentRodent() == r)
                     {
-                       Debug.Log("We found the right Employee");
+                       //Debug.Log("We found the right Employee");
                        e.Dismiss();
-                       // break;
+                       break;
                     }
                 }
-
-
             }
         }
-
-        //Resets the assignment window to get the available worker
-        //appears it works well enough to call here, instead of _Worker.setTarget(null)
-        UIAssignmentMenu.Instance.ResetButtons();
-
     }
     public void ShowRedX(bool cond)
     {
         bool foundAtLeastOne = false;
-        Debug.Log("Called Players Set Red x to " +cond);
 
-            //Tell any occupied Employees to show x
+       // Debug.Log("Called Players Set Red x to " +cond);
+
+            //Tell any occupied Employees to show x or tell all to not show it
             foreach (GameObject g in _RoyalGuards)
             {
                 Employee e = g.GetComponent<Employee>();
                 if (e)
                 {
-                    Debug.Log("We Found an Employee");
+
                     if (e.isOccupied() && cond == true)
                     {
                         e.ShowRedX(true);
@@ -181,6 +187,13 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
             }
             if (foundAtLeastOne)
                 MVCController.Instance.setLastRedX(this.gameObject);
-        
+    }
+
+    public void ShowRoyalGuard(bool cond)
+    {
+        foreach(GameObject g in _RoyalGuards)
+        {
+            g.SetActive(cond);
+        }
     }
 }

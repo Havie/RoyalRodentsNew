@@ -32,6 +32,7 @@ public class Employee : MonoBehaviour
         if(_onPlayer)
         {
             _Player = GameObject.FindGameObjectWithTag("Player").transform;
+            //If the player moves right away it appears the offset gets messed up
             _offSet = this.transform.position - _Player.position;
         }
 
@@ -59,7 +60,7 @@ public class Employee : MonoBehaviour
 
    public void Dismiss()
     {
-        Debug.Log("heard Dismiss In Employee");
+        //Debug.Log("heard Dismiss In Employee");
         if (_Occupied)
         {
             if (_currentRodent)
@@ -76,7 +77,7 @@ public class Employee : MonoBehaviour
     }
     public void ShowRedX(bool cond)
     {
-        Debug.Log("Employee Show Red X:" + cond);
+        //Debug.Log("Employee Show Red X:" + cond);
 
         if (cond)
         {
@@ -100,6 +101,10 @@ public class Employee : MonoBehaviour
             _WorkerObj.GetComponent<eWorkerOBJ>().Locked(true);
         else
             _WorkerObj.GetComponent<eWorkerOBJ>().Locked(false);
+    }
+    public bool isLocked()
+    {
+        return _Locked;
     }
     public Rodent getCurrentRodent()
     {

@@ -64,7 +64,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = true;
+        _printStatements = false;
     }
 
 
@@ -366,7 +366,7 @@ public class MVCController : MonoBehaviour
     }
     public void RodentAssigned(Rodent r)
     {
-       // if (_printStatements)
+        if (_printStatements)
             Debug.Log("heard rodent Assigned " + _lastClicked + " is last clicked");
 
         //Might want to do some other checks, like the building state?
@@ -383,7 +383,7 @@ public class MVCController : MonoBehaviour
                 else // free to assign 
                 {
                     //Rodent Things , status update etc
-                    r.setTarget(_lastClicked);
+                    //r.setTarget(_lastClicked);
                     _Building.AssignWorker(r);
 
                     clearLastClicked();
@@ -404,14 +404,15 @@ public class MVCController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Assign to PLayer");
+                if (_printStatements)
+                    Debug.Log("Assign to PLayer");
                 PlayerStats Player = _lastClicked.GetComponent<PlayerStats>();
                 if(Player)
                 {
                     Player.AssignWorker(r);
 
                     //Need a check to see if he can be assigned
-                    r.setTarget(_lastClicked);
+                    // r.setTarget(_lastClicked);
                     clearLastClicked();
 
                     UIAssignmentMenu.Instance.ResetButtons();
@@ -449,7 +450,8 @@ public class MVCController : MonoBehaviour
     }
     public void showRedX(bool cond)
     {
-        Debug.Log("MVC::ShowRedX::" + cond);
+        if (_printStatements)
+            Debug.Log("MVC::ShowRedX::" + cond);
 
         if (_lastRedX.Count > 0)
             foreach (GameObject g in _lastRedX)

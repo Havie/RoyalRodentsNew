@@ -111,7 +111,7 @@ public class bWorkerScript : MonoBehaviour
     }
     public void dismissRodent()
     {
-        Debug.Log("heard Dismiss");
+       // Debug.Log("heard Dismiss");
         if (bo)
             bo.DismissWorker(_worker);
        else if (ps)
@@ -150,7 +150,7 @@ public class bWorkerScript : MonoBehaviour
         }
         else if (_onPlayer)
         {
-            Debug.Log("Try to find player");
+           // Debug.Log("Try to find player");
             Transform parent = GameObject.FindGameObjectWithTag("Player").transform;
             if (parent)
             {

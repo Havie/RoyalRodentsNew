@@ -76,6 +76,14 @@ public class UIAssignmentMenu : MonoBehaviour
            _buttons[i].gameObject.SetActive(cond);
             _buttons[i].transform.rotation = _defaultRotation;
         }
+       GameObject p= GameObject.FindGameObjectWithTag("Player");
+        if(p)
+        {
+            PlayerStats ps= p.GetComponent<PlayerStats>();
+            if(ps)
+                ps.ShowRoyalGuard(cond);
+
+        }
 
         //If we turn off the menu, reset the index and list
         if (!_active)

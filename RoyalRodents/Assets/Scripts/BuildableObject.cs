@@ -71,7 +71,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     public void UpdateHealthBar()
     {
         if (_HealthBar)
-            _HealthBar.SetHealth(_hitpoints / _hitpointsMax);
+            _HealthBar.SetFillAmount(_hitpoints / _hitpointsMax);
 
         if (_hitpoints == 0)
             _HealthBar.gameObject.SetActive(false);

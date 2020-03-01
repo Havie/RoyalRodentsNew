@@ -238,15 +238,36 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    //Collect Pickup
+    //Collect Pickups and search things
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.GetComponent<CoinResource>())
+        Debug.Log("Enter Collision with" + collision.transform.gameObject);
+        if (collision.transform.GetComponent<Searchable>())
+        {
+            Searchable s = collision.transform.GetComponent<Searchable>();
+            {
+                s.setActive(true);
+            }
+        }
+
+        else if (collision.transform.GetComponent<CoinResource>())
         {
             // if (collision.transform.GetComponent<CoinResource>().isActive())
             {
                 ResourceManagerScript.Instance.incrementTrash(1);
                 Destroy(collision.gameObject);
+            }
+        }
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.GetComponent<Searchable>())
+        {
+            Searchable s = collision.transform.GetComponent<Searchable>();
+            {
+                s.setActive(false);
             }
         }
     }

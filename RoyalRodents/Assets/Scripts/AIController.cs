@@ -62,7 +62,7 @@ public class AIController : MonoBehaviour, IDamageable<float>
     public void UpdateHealthBar()
     {
         if (_HealthBar)
-            _HealthBar.SetHealth(_health / _healthMax);
+            _HealthBar.SetFillAmount(_health / _healthMax);
     }
 
     // Start is called before the first frame update

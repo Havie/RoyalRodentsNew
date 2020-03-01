@@ -121,6 +121,8 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     private void FindAvailable()
     {
+        if (_rList == null)
+            return;
         foreach (Rodent r in _rList)
         {
             if (r.GetRodentStatus() == Rodent.eStatus.Available)

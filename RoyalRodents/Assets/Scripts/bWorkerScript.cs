@@ -4,17 +4,33 @@ using UnityEngine;
 
 public class bWorkerScript : MonoBehaviour
 {
-
+    public bool _onBuilding;
+    public bool _onPlayer;
     UIAssignmentMenu _menu;
     private Rodent _worker;
     private BuildableObject bo;
     private Collider2D col;
-    // Start is called before the first frame update
+
+    [SerializeField]
+    private GameObject _owner;
+
+
     void Start()
     {
         setUpMenu();
-        bo = this.transform.parent.GetComponent<BuildableObject>();
+       
+
+        if(_onBuilding && _onPlayer)
+        {
+            Debug.LogWarning("This Worker script is set to be on both Player and Building, should only be one or the other");
+        }
+        figureOutOwner();
+        if (_owner == null)
+            Debug.LogError("Owner of bWorkerScript is null  :: " + this.transform.gameObject);
+        if(_onBuilding)
+            bo = _owner.GetComponent<BuildableObject>();
         col = this.GetComponent<CircleCollider2D>();
+
     }
     private void setUpMenu()
     {
@@ -38,7 +54,7 @@ public class bWorkerScript : MonoBehaviour
             //Debug.Log("Heard Not Occupied");
             //tell the MVC Controller which Building has been clicked
 
-            MVCController.Instance.setLastClicked(this.transform.parent.gameObject);
+            MVCController.Instance.setLastClicked(_owner);
 
             // Need to Ask GameManager for a List of Player Rodents
             List<Rodent> _PlayerRodents = GameManager.Instance.getPlayerRodents();
@@ -71,7 +87,7 @@ public class bWorkerScript : MonoBehaviour
     }
     public void dismissRodent()
     {
-        //Debug.Log("heard Dismiss");
+        Debug.Log("heard Dismiss");
         bo.DismissWorker(_worker);
         _worker = null;
         MVCController.Instance.showRedX(false);
@@ -85,6 +101,38 @@ public class bWorkerScript : MonoBehaviour
             col = this.GetComponent<CircleCollider2D>();
             ToggleCollider(cond);
         }
+    }
+    private void figureOutOwner()
+    {
+        if(_onBuilding)
+        {
+            Transform parent = this.transform.parent;
+            if(parent)
+            {
+                parent = parent.transform.parent;
+                if(parent && parent.GetComponent<BuildableObject>())
+                {
+                    _owner = parent.gameObject;
+                }
+            }
+        }
+        else if (_onPlayer)
+        {
+            Transform parent = this.transform.parent;
+            if (parent)
+            {
+                parent = parent.transform.parent;
+                if (parent && parent.GetComponent<PlayerStats>())
+                {
+                    _owner = parent.gameObject;
+                }
+            }
+        }
+    }
+
+    public GameObject getOwner()
+    {
+        return _owner;
     }
 
     private void OnMouseEnter()

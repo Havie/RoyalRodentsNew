@@ -64,7 +64,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = false;
+        _printStatements = true;
     }
 
 
@@ -264,9 +264,12 @@ public class MVCController : MonoBehaviour
             // check if it was a portrait  
             if (_TMPlastClicked.GetComponent<bWorkerScript>())
             {
-                if (_TMPlastClicked.transform.parent)
+
+                GameObject _owner = _TMPlastClicked.GetComponent<bWorkerScript>().getOwner();
+
+                if (_owner)
                 {
-                    if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
+                    if (_owner.GetComponent<BuildableObject>())
                     {
                         if(_printStatements)
                             Debug.Log("Worker Portrait");
@@ -274,9 +277,14 @@ public class MVCController : MonoBehaviour
                         _assignDummy = true;
                         TurnThingsoff();
 
-                        _lastClicked = _TMPlastClicked.transform.parent.gameObject;
+                        _lastClicked = _owner;
                         return _lastClicked;
                     }
+                    else if(_owner. GetComponent<PlayerStats>())
+                    {
+                        //assign to player
+                    }
+                   
                 }
                 if (_printStatements)
                     Debug.Log("Fall through Case 00" + _TMPlastClicked);

@@ -415,7 +415,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
     public void AssignWorker(Rodent r)
     {
-       // Debug.Log("AssignWorker!");
+       Debug.Log("AssignWorker!" + r.getName());
         _Worker = r;
         bWorkerScript ws=_PortraitOutlineObject.GetComponent<bWorkerScript>();
         if(ws)

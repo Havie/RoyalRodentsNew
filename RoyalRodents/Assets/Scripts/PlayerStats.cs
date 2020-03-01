@@ -142,9 +142,9 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
                 {
                     if (e.getCurrentRodent() == r)
                     {
-                        Debug.Log("We found the right Employee");
-                        e.Dismiss();
-                        break;
+                       Debug.Log("We found the right Employee");
+                       e.Dismiss();
+                       // break;
                     }
                 }
 
@@ -160,42 +160,27 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
     public void ShowRedX(bool cond)
     {
         bool foundAtLeastOne = false;
-        Debug.Log("Called Players Set Red x");
-        if (cond)
-        {
+        Debug.Log("Called Players Set Red x to " +cond);
+
             //Tell any occupied Employees to show x
             foreach (GameObject g in _RoyalGuards)
             {
                 Employee e = g.GetComponent<Employee>();
                 if (e)
                 {
-                    if (e.isOccupied())
+                    Debug.Log("We Found an Employee");
+                    if (e.isOccupied() && cond == true)
                     {
                         e.ShowRedX(true);
                         foundAtLeastOne = true;
                     }
+                    else
+                        e.ShowRedX(false);
 
                 }
             }
-
             if (foundAtLeastOne)
                 MVCController.Instance.setLastRedX(this.gameObject);
-        }
-        else
-        {
-            if (cond)
-            {
-                //Tell any occupied Employees to show x
-                foreach (GameObject g in _RoyalGuards)
-                {
-                    Employee e = g.GetComponent<Employee>();
-                    if (e)
-                    {
-                        e.ShowRedX(false);
-                    }
-                }
-            }
-
-        }
+        
     }
 }

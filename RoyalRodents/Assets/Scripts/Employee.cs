@@ -59,15 +59,25 @@ public class Employee : MonoBehaviour
 
    public void Dismiss()
     {
+        Debug.Log("heard Dismiss In Employee");
         if (_Occupied)
         {
-            _PortraitOutline.GetComponent<bWorkerScript>().dismissRodent();
+            if (_currentRodent)
+                _currentRodent.setTarget(null);
+            else
+                Debug.LogWarning("Trying to dismiss a rodent thats not here?");
+
+            // _PortraitOutline.GetComponent<bWorkerScript>().dismissRodent();
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = null;
             _Occupied = false;
+            _currentRodent = null;
+            UIAssignmentMenu.Instance.ResetButtons();
         }
     }
     public void ShowRedX(bool cond)
     {
+        Debug.Log("Employee Show Red X:" + cond);
+
         if (cond)
         {
             _RedX.SetActive(true);

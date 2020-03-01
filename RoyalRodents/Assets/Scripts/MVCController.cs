@@ -449,13 +449,15 @@ public class MVCController : MonoBehaviour
     }
     public void showRedX(bool cond)
     {
+        Debug.Log("MVC::ShowRedX::" + cond);
+
         if (_lastRedX.Count > 0)
             foreach (GameObject g in _lastRedX)
             {
                 if(g.GetComponent<BuildableObject>())
                     g.GetComponent<BuildableObject>().ShowRedX(cond);
                 else if(g.GetComponent<PlayerStats>())
-                    g.GetComponent<PlayerStats>().ShowRedX(cond);
+                     g.GetComponent<PlayerStats>().ShowRedX(cond);
             }
     }
     public void showAssignmenu(bool cond)

@@ -86,8 +86,8 @@ public class bWorkerScript : MonoBehaviour
             {
                 ps.ShowRedX(false);
             }
-            {
-            }
+            
+            
         }
         else
         {
@@ -114,10 +114,10 @@ public class bWorkerScript : MonoBehaviour
         Debug.Log("heard Dismiss");
         if (bo)
             bo.DismissWorker(_worker);
-        else if (ps)
-            ps.DismissWorker(_worker);
-        _worker = null;
-        MVCController.Instance.showRedX(false);
+       else if (ps)
+          ps.DismissWorker(_worker);
+       _worker = null;
+       MVCController.Instance.showRedX(false);
     }
     public void ToggleCollider(bool cond)
     {

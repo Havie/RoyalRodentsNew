@@ -299,7 +299,7 @@ public class MVCController : MonoBehaviour
                 Debug.Log("UI is On, Return Last clicked");
 
             // ??? _isBuilding = false;
-            return _lastClicked;
+            return null;
         }
         else
         {
@@ -433,8 +433,6 @@ public class MVCController : MonoBehaviour
     {
         if (_RecruitMenu)
             _RecruitMenu.showMenu(cond, loc, name, foodCost, popCost);
-        //else
-        // Debug.LogError("MVC has no RecruitMenu");
     }
     public void showKingGuardMenu(bool cond, Vector3 loc, string name)
     {

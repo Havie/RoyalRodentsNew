@@ -11,6 +11,12 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private bool _selected;
     private bool _hovering;
     private Vector3 _startLoc;
+    private Quaternion _startRot;
+
+    private float _Wiggle0= 0.1f;
+    private float _Wiggle1= 3;
+    private float _Wiggle2=-3;
+    private float _Wiggle3 = -0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +29,8 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         if (_selected)
         {
+            Wiggle(this.transform.rotation.z);
+
             Vector2 _MousePos = (Input.mousePosition);
             this.transform.position = new Vector3(_MousePos.x, _MousePos.y, 0);
 
@@ -38,7 +46,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                     {
                         if (go.GetComponent<BuildableObject>())
                         {
-                           // Debug.Log("Successful Raycast2 =" + go.gameObject);    
+                            //Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                             this.transform.position = _startLoc;
                         }
@@ -46,13 +54,17 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                         {
                            // Debug.Log("Failed Raycast =" + go.gameObject);
                             this.transform.position = _startLoc;
+                            this.transform.rotation = _startRot;
                         }
                     }
                     else
+                    {
                         this.transform.position = _startLoc;
+                        this.transform.rotation = _startRot;
+                    }
                 }
 
-
+                
 
             }
         }
@@ -63,10 +75,39 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 // Debug.Log("Selected");
                 _selected = true;
                 _startLoc = this.transform.position;
+                _startRot = this.transform.rotation;
             }
         }
 
 
+    }
+
+    private void Wiggle(float _z)
+    {
+        //Idk what kind fucking crazy ass values are coming in here ...
+       // Debug.Log("Passed in " + _z);
+
+        if (_z == _Wiggle0)
+            this.transform.eulerAngles = new Vector3(0, 0, _Wiggle1);
+        else if (_z == _Wiggle1)
+            this.transform.eulerAngles = new Vector3(0, 0, _Wiggle3);
+        else if (_z == _Wiggle2)
+            this.transform.eulerAngles = new Vector3(0, 0, _Wiggle0);
+        else if (_z == _Wiggle3)
+            this.transform.eulerAngles = new Vector3(0, 0, _Wiggle2);
+        else
+        {
+            int random = Random.Range(0, 3);
+            if(random==0)
+                this.transform.eulerAngles = new Vector3(0, 0, _Wiggle0);
+            else if (random == 1)
+                this.transform.eulerAngles = new Vector3(0, 0, _Wiggle1);
+            else if (random == 2)
+                this.transform.eulerAngles = new Vector3(0, 0, _Wiggle2);
+            else if (random == 3)
+                this.transform.eulerAngles = new Vector3(0, 0, _Wiggle3);
+        }
+            
     }
 
     //No fucking Idea why onMouseOver doesn't work for UI, leaving this here out of spite

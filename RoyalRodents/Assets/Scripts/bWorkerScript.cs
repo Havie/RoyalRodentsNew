@@ -10,9 +10,13 @@ public class bWorkerScript : MonoBehaviour
     private Rodent _worker;
     private BuildableObject bo;
     private Collider2D col;
+    private PlayerStats ps;
 
     [SerializeField]
     private GameObject _owner;
+
+    [SerializeField]
+    private bool _isLocked=false;
 
 
     void Start()
@@ -27,8 +31,11 @@ public class bWorkerScript : MonoBehaviour
         figureOutOwner();
         if (_owner == null)
             Debug.LogError("Owner of bWorkerScript is null  :: " + this.transform.gameObject);
-        if(_onBuilding)
+        if(_onBuilding && _owner)
             bo = _owner.GetComponent<BuildableObject>();
+        else if(_onPlayer && _owner)
+            ps= _owner.GetComponent<PlayerStats>();
+
         col = this.GetComponent<CircleCollider2D>();
 
     }
@@ -70,6 +77,12 @@ public class bWorkerScript : MonoBehaviour
             {
                 bo.ShowRedX(false);
             }
+            else if (ps)
+            {
+                ps.ShowRedX(false);
+            }
+            {
+            }
         }
         else
         {
@@ -82,13 +95,22 @@ public class bWorkerScript : MonoBehaviour
                 //Able to click the X
                ToggleCollider(false);
             }
+            else if (ps)
+            {
+                ps.ShowRedX(true);
+                //Able to click the X
+                ToggleCollider(false);
+            }
             
         }
     }
     public void dismissRodent()
     {
         Debug.Log("heard Dismiss");
-        bo.DismissWorker(_worker);
+        if (bo)
+            bo.DismissWorker(_worker);
+        else if (ps)
+            ps.DismissWorker(_worker);
         _worker = null;
         MVCController.Instance.showRedX(false);
     }

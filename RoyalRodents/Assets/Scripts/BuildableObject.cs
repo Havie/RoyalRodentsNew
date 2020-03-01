@@ -460,7 +460,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
         if (cond)
         {
             _srRedX.enabled = true;
-            MVCController.Instance.setLastRedX(this);
+            MVCController.Instance.setLastRedX(this.gameObject);
         }
         else
         {

@@ -12,6 +12,19 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
     public GameObject _HealthBarObj;
     private HealthBar _HealthBar;
 
+    public GameObject[] _RoyalGuards = new GameObject[3];
+
+
+
+    [SerializeField] private GameObject[] _NotificationObjects;
+    [SerializeField] private GameObject[] _WorkerObjects;
+    [SerializeField] private GameObject[] _PortraitOutlineObjects;
+    [SerializeField] private GameObject[] _RedXObjects;
+
+    [SerializeField] private Rodent _Worker;
+
+
+
     /**Begin Interface stuff*/
     public void Damage(float damageTaken)
     {
@@ -69,8 +82,93 @@ public class PlayerStats : MonoBehaviour ,IDamageable<float>
         UpdateHealthBar();
     }
 
-    void LateUpdate()
+    public void setUpRoyalGuard()
     {
-    
+        //How to check if _RoyalGuards is initialized?
+
+        //set up our arrays 
+        _NotificationObjects = new GameObject[_RoyalGuards.Length];
+        _WorkerObjects = new GameObject[_RoyalGuards.Length];
+        _PortraitOutlineObjects = new GameObject[_RoyalGuards.Length];
+        _RedXObjects = new GameObject[_RoyalGuards.Length];
+
+
+
+    }
+    private int findAvailableSlot()
+    {
+        int _count = 0;
+
+        foreach (GameObject g in _RoyalGuards)
+        {
+            Employee e = g.GetComponent<Employee>();
+            if (e)
+            {
+                if (!e.isOccupied())
+                {
+                    return _count;
+                }
+                ++_count;
+
+            }
+        }
+
+        return -1;
+    }
+
+    //I worry were gonna be passed in a employee Object, not a rodent? or both
+    public void AssignWorker(Rodent r)
+    {
+        Debug.Log("AssignWorker!" + r.getName());
+
+        int index = findAvailableSlot();
+        if (index > -1)         //This is kind of a hack
+            _RoyalGuards[index].GetComponent<Employee>().Assign(r);
+        else
+            Debug.Log("no Empty");
+
+    }
+    public void DismissWorker(Rodent r)
+    {
+       foreach(GameObject g in _RoyalGuards)
+        {
+            Employee e = g.GetComponent<Employee>();
+            if (e)
+            {
+                if (e.isOccupied())
+                {
+                    if(e.getCurrentRodent()==r)
+                    {
+                        Debug.Log("We found the right Employee");
+                        e.Dismiss();
+                        break;
+                    }
+                }
+           
+
+            }
+        }
+
+        //Resets the assignment window to get the available worker
+        //appears it works well enough to call here, instead of _Worker.setTarget(null)
+        UIAssignmentMenu.Instance.ResetButtons();
+
+    }
+    public void ShowRedX(bool cond)
+    {
+        if (cond)
+        {
+           // _srRedX.enabled = true;
+
+            //Need to solve issue of now this is a Player..not BuildableObject
+           MVCController.Instance.setLastRedX(this.gameObject);
+        }
+        else
+        {
+           // _srRedX.enabled = false;
+            //Turn back on the collider possible hack
+           // if (_PortraitOutlineObject)
+             //   _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
+        }
     }
 }

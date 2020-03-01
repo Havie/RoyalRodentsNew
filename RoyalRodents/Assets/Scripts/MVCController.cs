@@ -27,7 +27,7 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
-    private List<BuildableObject> _lastRedX = new List<BuildableObject>();
+    private List<GameObject> _lastRedX = new List<GameObject>();
 
     private bool _recruitDummy;
     private bool _assignDummy;
@@ -420,17 +420,22 @@ public class MVCController : MonoBehaviour
 
 
 
-    public void setLastRedX(BuildableObject redx)
+    public void setLastRedX(GameObject redxHolder)
     {
         if (_printStatements)
             Debug.Log("set redX");
-        _lastRedX.Add(redx);
+        _lastRedX.Add(redxHolder);
     }
     public void showRedX(bool cond)
     {
         if (_lastRedX.Count > 0)
-            foreach (BuildableObject b in _lastRedX)
-            { b.ShowRedX(cond); }
+            foreach (GameObject g in _lastRedX)
+            {
+                if(g.GetComponent<BuildableObject>())
+                    g.GetComponent<BuildableObject>().ShowRedX(cond);
+                else if(g.GetComponent<PlayerStats>())
+                    g.GetComponent<PlayerStats>().ShowRedX(cond);
+            }
     }
     public void showAssignmenu(bool cond)
     {

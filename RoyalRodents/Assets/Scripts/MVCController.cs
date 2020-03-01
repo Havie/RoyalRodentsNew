@@ -299,7 +299,7 @@ public class MVCController : MonoBehaviour
                 Debug.Log("UI is On, Return Last clicked");
 
             // ??? _isBuilding = false;
-            return _lastClicked;
+            return null;
         }
         else
         {
@@ -426,15 +426,13 @@ public class MVCController : MonoBehaviour
     }
     public void showAssignmenu(bool cond)
     {
-        if (_AssignmentMenu)
+        if (_AssignmentMenu && !_assignDummy)
             _AssignmentMenu.showMenu(cond);
     }
     public void showRecruitMenu(bool cond, Vector3 loc, string name, int foodCost, int popCost)
     {
         if (_RecruitMenu)
             _RecruitMenu.showMenu(cond, loc, name, foodCost, popCost);
-        //else
-        // Debug.LogError("MVC has no RecruitMenu");
     }
     public void showKingGuardMenu(bool cond, Vector3 loc, string name)
     {
@@ -451,7 +449,10 @@ public class MVCController : MonoBehaviour
         if (_DestroyMenu)
             _DestroyMenu.showMenu(cond, loc, go, building);
     }
-
+    public void SetAssignmentDummy(bool cond)
+    {
+        _assignDummy = cond;
+    }
     //Old functionality
     public void Recruit()
     {

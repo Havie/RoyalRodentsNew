@@ -307,10 +307,29 @@ public class SubjectScript : MonoBehaviour
     void flipDirection()
     {
         facingRight = !facingRight;
-
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
+
+        //Fix Children Health bar and RecruitMenu
+        int index = this.transform.childCount;
+        for( int i=0; i<index; ++i)
+        {
+            Transform t = this.transform.GetChild(i);
+           ScaleKeeper sk= t.GetComponent<ScaleKeeper>();
+            if (sk)
+            {
+                Vector3 _properScale = sk.getScale();
+
+                if (facingRight)
+                    _properScale = new Vector3(-_properScale.x, _properScale.y, _properScale.z);
+
+                t.localScale = _properScale;
+            }
+        }
+
+
     }
 
     // Assign rodent's current target. 

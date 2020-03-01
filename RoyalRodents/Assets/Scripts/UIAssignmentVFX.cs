@@ -84,4 +84,17 @@ public class UIAssignmentVFX : MonoBehaviour
             p.gameObject.SetActive(b);
         }
     }
+
+
+    //No Better script to put this on sadly
+    public void OnMouseEnter()
+    {
+        MVCController.Instance.CheckClicks(false);
+        MVCController.Instance.SetAssignmentDummy(true);
+    }
+    public void OnMouseExit()
+    {
+        MVCController.Instance.CheckClicks(true);
+        MVCController.Instance.SetAssignmentDummy(false);
+    }
 }

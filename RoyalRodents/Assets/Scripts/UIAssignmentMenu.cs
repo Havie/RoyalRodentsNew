@@ -115,7 +115,6 @@ public class UIAssignmentMenu : MonoBehaviour
         }
 
         ToggleVFX();
-
     }
 
     public void CreateButtons(List<Rodent> _PlayerRodents)

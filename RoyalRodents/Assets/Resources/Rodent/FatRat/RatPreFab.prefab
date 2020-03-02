@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6762324081892966867}
   - component: {fileID: 6762324081892966868}
   m_Layer: 8
-  m_Name: Chunkboy
+  m_Name: RatPreFab
   m_TagString: NeutralRodent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,9 +21,9 @@ public class SubjectScript : MonoBehaviour
     public GameObject savedTarget;
     public Vector3 IdlePos;
     private bool facingRight;
-    private bool royalGuard = true;
+    private bool royalGuard = false;
     private bool worker = false;
-    private bool builder = false;
+    private bool builder = true;
     private bool coroutineStarted = false;
     private bool ShouldIdle = false;
     private bool MovingInIdle = false;
@@ -35,6 +35,7 @@ public class SubjectScript : MonoBehaviour
     void Start()
     {
         anims = this.GetComponent<Animator>();
+        anims.runtimeAnimatorController = Resources.Load("Assets/Resources/Rodent/FatRat/PlayerRatController.controller") as RuntimeAnimatorController;
         facingRight = false;
         // a backup condition to get the right speed
         Rodent r = this.GetComponent<Rodent>();
@@ -421,6 +422,16 @@ public class SubjectScript : MonoBehaviour
 
         if (!ShouldIdle)
         {
+            GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+            savedTarget = centerLocation;
+            if (Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
+            {
+                GameObject tempTarget = currentTarget;
+                currentTarget = savedTarget;
+                savedTarget = tempTarget;
+                Debug.Log("Target changed to " + currentTarget.ToString());
+            }
+
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("WorkerMove");
@@ -434,11 +445,21 @@ public class SubjectScript : MonoBehaviour
     {
         // Walk to their assigned building
         // Future: Be able to carry resources from the town center to the building being constructed
+        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        savedTarget = centerLocation;
 
         // Move(currentTarget);
         if (!ShouldIdle)
         {
-            // Move to Town Center
+            // If close enough to target, rodent switches between building and town center
+            if(Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
+            {
+                GameObject tempTarget = currentTarget;
+                currentTarget = savedTarget;
+                savedTarget = tempTarget;
+                Debug.Log("Target changed to " + currentTarget.ToString());
+            }
+
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("BuilderMove");

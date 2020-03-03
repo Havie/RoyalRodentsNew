@@ -129,7 +129,10 @@ public class UIButtonCosts : MonoBehaviour
 		//Set Trash Cost Text
 		if (textTrashCost != null)
 		{
-			textTrashCost.text = currentTrash.ToString() + "/" + costTrash;
+			if (costTrash == 0) textTrashCost.text = "";
+			else
+				textTrashCost.text = currentTrash.ToString() + "/" + costTrash;
+
 			if (currentTrash < costTrash)
 			{
 				textTrashCost.color = bad;
@@ -140,7 +143,10 @@ public class UIButtonCosts : MonoBehaviour
 		//Set Wood Cost Text
 		if (textWoodCost != null)
 		{
-			textWoodCost.text = currentWood.ToString() + "/" + costWood;
+			if (costWood == 0) textWoodCost.text = "";
+			else
+				textWoodCost.text = currentWood.ToString() + "/" + costWood;
+
 			if (currentWood < costWood)
 			{
 				textWoodCost.color = bad;
@@ -151,7 +157,10 @@ public class UIButtonCosts : MonoBehaviour
 		//Set Metal Cost Text
 		if (textMetalCost != null)
 		{
-			textMetalCost.text = currentMetal.ToString() + "/" + costMetal;
+			if (costMetal == 0) textMetalCost.text = "";
+			else
+				textMetalCost.text = currentMetal.ToString() + "/" + costMetal;
+
 			if (currentMetal < costMetal)
 			{
 				textMetalCost.color = bad;
@@ -162,7 +171,10 @@ public class UIButtonCosts : MonoBehaviour
 		//Set Shiny Cost Text
 		if (textShinyCost != null)
 		{
-			textShinyCost.text = currentShiny.ToString() + "/" + costShiny;
+			if (costShiny == 0) textShinyCost.text = "";
+			else
+				textShinyCost.text = currentShiny.ToString() + "/" + costShiny;
+
 			if (currentShiny < costShiny)
 			{
 				textShinyCost.color = bad;
@@ -179,7 +191,9 @@ public class UIButtonCosts : MonoBehaviour
 
         if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
         {
-            MVCController.Instance.buildSomething(_type);
+            if (name == "Button_Upgrade") MVCController.Instance.MVCUpgradeSomething();
+			else
+				MVCController.Instance.MVCBuildSomething(_type);
 
 			ResourceManagerScript.Instance.incrementTrash(-costTrash);
 			ResourceManagerScript.Instance.incrementWood(-costWood);
@@ -198,6 +212,8 @@ public class UIButtonCosts : MonoBehaviour
 	{
 		_type = type;
 		_level = lvl;
+
+		Debug.Log("ChangeButton set to " + type + ", lvl " + lvl.ToString());
 
 		//update title of button
 		if (textTitle != null)
@@ -222,7 +238,7 @@ public class UIButtonCosts : MonoBehaviour
     public void Demolish()
     {
         //Debug.Log("Heard Demolish");
-        MVCController.Instance.DemolishSomething();
+        MVCController.Instance.MVCDemolishSomething();
     }
 
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/

@@ -5,7 +5,7 @@ using UnityEngine;
 /*
  * Behavior script for rats in the player base.
  * - CURRENT FUNCTIONALITY -
- *      - Rats will run to whatever object is assigned and wait there.
+ *      - Rats will run to whatever object is assigned and idle there.
  *      - Now has a function that changes targets
  *      - Rats can be assigned up to two targets, one remembered and one being acted on
  *      
@@ -35,7 +35,6 @@ public class SubjectScript : MonoBehaviour
     void Start()
     {
         anims = this.GetComponent<Animator>();
-        anims.runtimeAnimatorController = Resources.Load("Assets/Resources/Rodent/FatRat/PlayerRatController.controller") as RuntimeAnimatorController;
         facingRight = false;
         // a backup condition to get the right speed
         Rodent r = this.GetComponent<Rodent>();
@@ -93,6 +92,10 @@ public class SubjectScript : MonoBehaviour
         royalGuard = false;
         worker = true;
         builder = false;
+
+        //Get TownCenter location
+        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        savedTarget = centerLocation;
     }
 
     public void setBuilder()
@@ -100,6 +103,10 @@ public class SubjectScript : MonoBehaviour
         royalGuard = false;
         worker = false;
         builder = true;
+
+        //Get TownCenter location
+        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        savedTarget = centerLocation;
     }
     public void setIdle()
     {
@@ -137,10 +144,10 @@ public class SubjectScript : MonoBehaviour
         //LINE 133 is Bugged
         //Line 134 is bugged
         Vector3 pos = new Vector3(loc.x, 0, 0);
-        float _ranDistance = Random.Range(0.1f, 1.5f); //might make global and unique to role
+
 
         //If we are far enough away
-        if (Mathf.Abs(pos.x - transform.position.x) > _ranDistance)
+        if (Mathf.Abs(pos.x - transform.position.x) > 1.5f)
 
         {
 
@@ -194,10 +201,25 @@ public class SubjectScript : MonoBehaviour
 
             //Responsible for starting Coroutine
             if (!coroutineStarted)
+            {
                 StartCoroutine(idleDelay());
+                if (builder)
+                {
+                    //swap current loc with staged location
+                    swapTarget();
+                }
+
+                if (worker)
+                {
+                    swapTarget();
+                }
+            }
+
             //Responsible for ending Coroutine
             if (MovingInIdle)
                 MovingInIdle = false;
+
+          
 
         }
 
@@ -271,6 +293,16 @@ public class SubjectScript : MonoBehaviour
 
             float currentTime = Time.time;
             float ExitTime = currentTime + WaitDuration;
+
+            if(builder)
+            {
+                // set anim bool/trigger to true
+            }
+            else if(worker)
+            {
+                //set anim /bool trigger to true
+            }
+
 
             while (currentTime < ExitTime)
             {
@@ -353,7 +385,7 @@ public class SubjectScript : MonoBehaviour
         // Future: Attack enemies within a radius of the king
         if (!ShouldIdle)
         {
-            FindAttackTarget();
+            // FindAttackTarget();
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("RoyalMove");
@@ -363,111 +395,78 @@ public class SubjectScript : MonoBehaviour
 
     }
 
-    private void FindAttackTarget()
+    public void FindAttackTarget(Rodent collision)
     {
         // Code assumes that currentTarget will always be an enemy if it is not the player
-        float closestDistance;
-        float attackRange = 10f;
-
-        // If target is already an enemy, do not change target.
-        if (!(currentTarget.tag == "EnemyRodent"))
+        // Check if current target is not king. if so, closest distance = current target
+        float closestDistance = 10f;
+        if (currentTarget.transform.GetComponent<Rodent>() && currentTarget.transform.GetComponent<Rodent>().getTeam() == 2)
         {
-            // Find closest enemy tag
-            GameObject[] enemyList = GameObject.FindGameObjectsWithTag("EnemyRodent");
-            GameObject closest;
-
-            // Empty array check
-            if (!(enemyList.Length == 0))
+            closestDistance = currentTarget.transform.position.x;
+        }
+        // Look at the new collision, check if it's an enemy, and compare it to closest distance
+        if(collision.getTeam() == 2)
+        {
+            Debug.Log("Found Enemy.");
+            // If closer, set new target
+            if (Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) > Mathf.Abs(this.transform.position.x - collision.transform.position.x))
             {
-                
-                // Primer target for comparison
-                closest = enemyList[0];
-                closestDistance = Mathf.Abs(closest.transform.position.x - this.transform.position.x);
-                foreach (GameObject g in enemyList)
-                {
-                    float dist = Mathf.Abs(g.transform.position.x - this.transform.position.x);
-                    if ( dist <= attackRange && dist < closestDistance)
-                    {
-                        // Set new closest target
-                        closest = g;
-                        closestDistance = dist;
-                        Debug.Log("New Closest.");
-                    }
-                }
-
-                // Set savedTarget to player, and currentTarget to found enemy
-                // If primer target was out of range, this line prevents rodents from attacking
-                if (closestDistance <= attackRange)
-                {
-                    savedTarget = currentTarget;
-                    currentTarget = closest;
-                    Debug.Log("Enemy found.");
-                }
-                
+                currentTarget = collision.gameObject;
             }
         }
+
+
+        // When target dies, find new target? Or reset to king and let the collider try to find a new one
+
     }
 
     // Resets the rodent's target back to the original current, now saved in the secondary target
-    public void resetOriginalTarget()
+    public void swapTarget()
     {
+        GameObject tempTarget = currentTarget;
         currentTarget = savedTarget;
+        savedTarget = tempTarget;
+        Debug.Log("Target changed to " + currentTarget.ToString());
     }
 
     private void workerBehavior()
     {
+        
         // Walk to their assigned building
         // Idle in the area of it
         // Future: Be able to work occupy the building and deliver resources to the town center
 
         if (!ShouldIdle)
         {
-            GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
-            savedTarget = centerLocation;
-            if (Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
-            {
-                GameObject tempTarget = currentTarget;
-                currentTarget = savedTarget;
-                savedTarget = tempTarget;
-                Debug.Log("Target changed to " + currentTarget.ToString());
-            }
-
-            Move(currentTarget);
+            IdleMovetoLoc(currentTarget.transform.position);
             if (_printStatements)
                 Debug.LogError("WorkerMove");
         }
-        else
-            idleInRadius(10);
-
+        else {
+            idleInRadius(3);
+        }
     }
 
     private void builderBehavior()
     {
         // Walk to their assigned building
         // Future: Be able to carry resources from the town center to the building being constructed
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
-        savedTarget = centerLocation;
+        
 
         // Move(currentTarget);
         if (!ShouldIdle)
         {
             // If close enough to target, rodent switches between building and town center
-            if(Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
-            {
-                GameObject tempTarget = currentTarget;
-                currentTarget = savedTarget;
-                savedTarget = tempTarget;
-                Debug.Log("Target changed to " + currentTarget.ToString());
-            }
-
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("BuilderMove");
 
+
         }
-            // not sure this one will idle
-            // instead it might reach here and play an animation
-            // or Idle in radius 0 and play an anim in there?
+
+        // not sure this one will idle
+        // instead it might reach here and play an animation
+        // or Idle in radius 0 and play an anim in there?
     }
 
 

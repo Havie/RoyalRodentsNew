@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         _TownCenter = GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>();
         GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>().StartingBuildComplete();
 
-		_gold = 0;
+        _gold = 0;
         _victoryPoints = 0;
 
         //Get ResourceManagerScript from Instance

@@ -160,6 +160,7 @@ public class GameManager : MonoBehaviour
     {
         //can Lists add duplicates? should we check against this?
         _PlayerRodents.Add(r);
+        _rm.UpdateCurrentPopulation();
 
         //Keep organized in hierarchy 
         r.gameObject.transform.SetParent(_PlayerRodentDummy);

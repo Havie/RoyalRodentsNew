@@ -27,8 +27,8 @@ public class bTownCenter : MonoBehaviour
     void Start()
     {
         _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/TownCenter/wood_town_center");
+		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/stone_town_center");
 		_builtSpriteLevel4 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
 		_builtSpriteLevel5 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
 	}

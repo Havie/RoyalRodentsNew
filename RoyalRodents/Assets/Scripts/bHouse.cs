@@ -20,9 +20,9 @@ public class bHouse :MonoBehaviour
 
 	void Start()
     {
-        _builtSpriteLevel1 = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored_y");
-		_builtSpriteLevel2 = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored_y");
-		_builtSpriteLevel3 = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored_y");
+        _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/House/trash_house");
+		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/House/wood_house");
+		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/House/stone_house");
 	}
 
     // Update is called once per frame

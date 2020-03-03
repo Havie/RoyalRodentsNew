@@ -80,7 +80,7 @@ public class SpawnVolume : MonoBehaviour
                 //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
                 _spawnedRat.transform.SetParent(this.transform);
 
-                // Set Team Neutral
+                // Set Team Neutral becoming obsolete
                 _spawnedRat.tag = "NeutralRodent";
                 // Ensure Sprite is Neutral
                 _spawnedRat.GetComponent<Rodent>().setTeam(0);

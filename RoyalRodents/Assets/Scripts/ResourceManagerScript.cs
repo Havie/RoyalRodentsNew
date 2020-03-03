@@ -90,6 +90,12 @@ public class ResourceManagerScript : MonoBehaviour
         }
     }
 
+	public void UpdateCurrentPopulation()
+	{
+		_currentPopulation = GameManager.Instance.getPlayerRodentsCount();
+		UpdatePopulationText();
+	}
+
     public int getCurrentMaxPopulation()
     {
         return _currentMaxPopulation;
@@ -172,9 +178,9 @@ public class ResourceManagerScript : MonoBehaviour
     }
     public void UpdatePopulationText()
     {
-        if (_FoodText)
+        if (_PopulationText)
         {
-            _FoodText.text = _food.ToString();
+			_PopulationText.text = _currentPopulation.ToString();
         }
     }
     public void UpdateAllResourcesText()

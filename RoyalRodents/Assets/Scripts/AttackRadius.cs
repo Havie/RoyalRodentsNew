@@ -26,12 +26,8 @@ public class AttackRadius : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       // Find attack target script
 
         // Send collider, check for properties in script
-        if(collision.transform.GetComponent<Rodent>())
-        {
-            _subjectScript.FindAttackTarget(collision.transform.GetComponent<Rodent>());
-        }
+        _subjectScript.FindAttackTarget(collision); 
     }
 }

@@ -395,26 +395,33 @@ public class SubjectScript : MonoBehaviour
 
     }
 
-    public void FindAttackTarget(Rodent collision)
+    public void FindAttackTarget(Collision2D collision)
     {
-        // Code assumes that currentTarget will always be an enemy if it is not the player
-        // Check if current target is not king. if so, closest distance = current target
+        // Code assumes that currentTarget will always be an enemy rodent or building if it is not the player
         float closestDistance = 10f;
-        if (currentTarget.transform.GetComponent<Rodent>() && currentTarget.transform.GetComponent<Rodent>().getTeam() == 2)
+
+        // Check if current target is not king. if so, closest distance = current target
+        if (!(currentTarget.tag == "Player"))
         {
             closestDistance = currentTarget.transform.position.x;
         }
         // Look at the new collision, check if it's an enemy, and compare it to closest distance
-        if(collision.getTeam() == 2)
+        if (collision.transform.gameObject.GetComponent<Rodent>())
         {
-            Debug.Log("Found Enemy.");
-            // If closer, set new target
-            if (Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) > Mathf.Abs(this.transform.position.x - collision.transform.position.x))
-            {
-                currentTarget = collision.gameObject;
-            }
-        }
+            // Check for enemy team
 
+            // Compare distance
+
+            // Set new target
+        }
+        else if (collision.transform.gameObject.GetComponent<BuildableObject>())
+        {
+            // Check for enemy team
+
+            // Compare distance
+
+            // Set new target
+        }
 
         // When target dies, find new target? Or reset to king and let the collider try to find a new one
 

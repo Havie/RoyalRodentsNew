@@ -29,6 +29,7 @@ public class Employee : MonoBehaviour
 
         ShowRedX(false);
 
+        //Need to get rid of this and put on PlayerStats or fix child/multi collider issue
         if(_onPlayer)
         {
             _Player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -40,7 +41,8 @@ public class Employee : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(_onPlayer)
+        //Need to get rid of this and put on PlayerStats or fix child/multi collider issue
+        if (_onPlayer)
         {
             this.transform.position = _Player.position + _offSet;
         }

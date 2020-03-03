@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour, IDamageable<float>
+public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 {
     public float _Hp = 50f;
     public float _HpMax = 100f;
@@ -68,6 +68,12 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>
     {
         if (_HealthBar)
             _HealthBar.SetFillAmount(_Hp / _HpMax);
+    }
+
+    public void SetUpDayNight()
+    {
+        if (this.transform.gameObject.GetComponent<Register2DDN>() == null)
+            this.transform.gameObject.AddComponent<Register2DDN>();
     }
     /**End Interface stuff*/
 

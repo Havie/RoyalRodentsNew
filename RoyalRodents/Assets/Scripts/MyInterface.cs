@@ -23,3 +23,8 @@ public interface IDamageable<T>
 
     void UpdateHealthBar();
 }
+
+public interface DayNight
+{
+     void SetUpDayNight();
+}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rodent : MonoBehaviour, IDamageable<float>
+public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 {
     public GameObject _HealthBarObj;
     public GameObject _RecruitMenuPrefab;
@@ -31,13 +31,14 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
 
     public enum eRodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, Default };
-    public enum eStatus { Busy, Available, Building, Working, Army, Default};
+    public enum eStatus { Busy, Available, Building, Working, Army, Default };
 
     private SubjectScript _SubjectScript;
     private UIRecruitMenu _RecruitMenu;
 
     [SerializeField]
     private Sprite _Portrait;
+
 
 
     /**Begin Interface Stuff */
@@ -58,7 +59,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     {
         if (_HealthBarObj == null)
             _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
-        if (_HealthBarObj!=null)
+        if (_HealthBarObj != null)
         {
             //which comes first the chicken or the egg...
             _HealthBarObj = Instantiate(go);
@@ -81,9 +82,15 @@ public class Rodent : MonoBehaviour, IDamageable<float>
         if (_HealthBar)
             _HealthBar.SetFillAmount(_Hp / _HpMax);
     }
+
+   public void SetUpDayNight()
+    {
+        if(this.transform.gameObject.GetComponent<Register2DDN>() == null)
+             this.transform.gameObject.AddComponent<Register2DDN>();
+    }
     /** End Interface Stuff */
 
-    public void SetUpRecruitMenu()
+    private void SetUpRecruitMenu()
     {
         if (_RecruitMenuPrefab)
         {
@@ -106,6 +113,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>
         }
     }
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -114,30 +122,26 @@ public class Rodent : MonoBehaviour, IDamageable<float>
 
         SetUpHealthBar(_HealthBarObj.gameObject);
         SetUpRecruitMenu();
+
+        setTeam(_Team);
         _SubjectScript = this.GetComponent<SubjectScript>();
         if (_SubjectScript == null)
             Debug.LogError("Warning No SubjectScript found for Rodent");
 
         //get a name
         _Name = RodentNames.getRandomName();
+
+        //Add Day/Night Cycle Stuff
+        SetUpDayNight();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    void LateUpdate()
-    {
-       // _HealthBarObj.transform.position = this.transform.position + new Vector3(0, 1, 0);
-    }
 
     public void setHp(float val) { _Hp = val; UpdateHealthBar(); }// use sparingly, should call Damage
     public void setHpMax(float val) { _HpMax = val; UpdateHealthBar(); }
-    public void setSpeed(float val)  { _MoveSpeed = val; if(_SubjectScript)_SubjectScript.setSpeed(_MoveSpeed);  }
+    public void setSpeed(float val) { _MoveSpeed = val; if (_SubjectScript) _SubjectScript.setSpeed(_MoveSpeed); }
     public void setAttackDmg(float val) => _AttackDamage = val;
     public void setName(string s) => _Name = s;
-    public void setRodentType(eRodentType type) => _Type = type;
+    public void setRodentType(eRodentType type){_Type = type; setTeam(_Team); }
     public void setRodentStatus(eStatus status) => _Status = status;
     public void setPortrait(Sprite s) => _Portrait = s;
 
@@ -227,11 +231,22 @@ public class Rodent : MonoBehaviour, IDamageable<float>
     /**Sets the ID for the team
      * 0 = neutral
      * 1 = player
-     * 2 = enemy */
+     * 2 = enemy
+     * Also handles updating the Animator based on Type*/
     public void setTeam(int id)
     {
         if(id> -1 && id<3)
             _Team = id;
+
+        switch (_Type)
+        {
+            case (eRodentType.Rat):
+               this.GetComponent<Rat>().setAnimatorByTeam(id);
+               // Debug.Log("Rat");
+                break;
+        }
+
+    
     }
     public int getTeam()
     {
@@ -283,5 +298,6 @@ public class Rodent : MonoBehaviour, IDamageable<float>
 
         }
     }
+
 }
 

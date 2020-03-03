@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject _MoveLocation;
 
-    private GameObject _CurrentTarget;
 
 
     private bool isDead;
@@ -82,6 +81,9 @@ public class PlayerMovement : MonoBehaviour
                 // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
                 // Attack();
 
+                //Touch touch = Input.GetTouch(0);
+                //Vector2 pos= touch.position;
+
                 GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
                 if(go)
                 {
@@ -97,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
                     else
                     {
                         _MoveLocation.transform.position = go.transform.position;
-                        _CurrentTarget = go;
                         _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x;
                     }
 
@@ -291,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Enter Collision with" + collision.transform.gameObject);
 
-        if (_CurrentTarget == collision.gameObject)
+        if (_MoveLocation == collision.gameObject)
             _horizontalMove = 0;
 
         if (collision.transform.GetComponent<Searchable>())

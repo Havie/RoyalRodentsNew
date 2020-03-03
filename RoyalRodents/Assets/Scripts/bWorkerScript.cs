@@ -59,7 +59,7 @@ public class bWorkerScript : MonoBehaviour
     }
     private void OnMouseDown()
     {
-       // Debug.LogWarning("MouseDownOnOWorker");
+        Debug.LogWarning("MouseDownOnOWorker");
 
         if (!isOccupied())
         {

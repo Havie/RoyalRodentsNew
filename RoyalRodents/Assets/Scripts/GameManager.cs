@@ -147,6 +147,12 @@ public class GameManager : MonoBehaviour
         return _PlayerRodents;
     }
 
+	//Used to update amount of rodents player has
+	public int getPlayerRodentsCount()
+	{
+		return _PlayerRodents.Count;
+	}
+
 	public bTownCenter getTownCenter()
 	{
 		return _TownCenter;

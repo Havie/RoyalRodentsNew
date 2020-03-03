@@ -11928,6 +11928,7 @@ MonoBehaviour:
   _MetalText: {fileID: 984769676}
   _ShinyText: {fileID: 247588678}
   _FoodText: {fileID: 933066596}
+  _PopulationText: {fileID: 1922297173}
 --- !u!1 &1016393579
 GameObject:
   m_ObjectHideFlags: 0
@@ -14380,7 +14381,7 @@ GameObject:
   - component: {fileID: 1379950058}
   - component: {fileID: 1379950060}
   m_Layer: 5
-  m_Name: House Icon
+  m_Name: Population Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19183,7 +19184,7 @@ GameObject:
   - component: {fileID: 1922297174}
   - component: {fileID: 1922297173}
   m_Layer: 5
-  m_Name: House Display
+  m_Name: Population Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19275,7 +19276,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -16.170113, y: 0, z: 28.687958, w: 5.940033}
+  m_margin: {x: -22.468689, y: 0, z: 28.687958, w: 5.940033}
   m_textInfo:
     textComponent: {fileID: 1922297173}
     characterCount: 1
@@ -19326,7 +19327,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -656.4, y: -18.7}
+  m_AnchoredPosition: {x: -648.5, y: -18.7}
   m_SizeDelta: {x: 52.7, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1929284225

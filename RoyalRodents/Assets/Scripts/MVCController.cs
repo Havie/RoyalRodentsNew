@@ -141,6 +141,18 @@ public class MVCController : MonoBehaviour
            // Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
+
+
+    public GameObject checkClick2(Vector3 MouseRaw)
+    {
+
+
+
+
+        return null;
+    }
+
+
     /**This function is now called by the Player
     *Responsible for checking what was clicked, then notifying it if it needs to know
     */

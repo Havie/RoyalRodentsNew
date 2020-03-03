@@ -484,7 +484,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
         }
     }
+
+
+    public void OnMouseDown()
+    {
+        Debug.Log("Heard Mouse Down");
+
+        //Show Menu
+    }
 }
+
 
 
 

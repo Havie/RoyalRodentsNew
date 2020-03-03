@@ -21,9 +21,9 @@ public class SubjectScript : MonoBehaviour
     public GameObject savedTarget;
     public Vector3 IdlePos;
     private bool facingRight;
-    private bool royalGuard = true;
+    private bool royalGuard = false;
     private bool worker = false;
-    private bool builder = false;
+    private bool builder = true;
     private bool coroutineStarted = false;
     private bool ShouldIdle = false;
     private bool MovingInIdle = false;
@@ -35,6 +35,7 @@ public class SubjectScript : MonoBehaviour
     void Start()
     {
         anims = this.GetComponent<Animator>();
+        anims.runtimeAnimatorController = Resources.Load("Assets/Resources/Rodent/FatRat/PlayerRatController.controller") as RuntimeAnimatorController;
         facingRight = false;
         // a backup condition to get the right speed
         Rodent r = this.GetComponent<Rodent>();
@@ -66,7 +67,7 @@ public class SubjectScript : MonoBehaviour
             else
             {
                 //Shouldnt happen?
-                Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
+              //  Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
                 idleInRadius(IdlePos,5); 
             }
         }
@@ -307,16 +308,35 @@ public class SubjectScript : MonoBehaviour
     void flipDirection()
     {
         facingRight = !facingRight;
-
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
+
+        //Fix Children Health bar and RecruitMenu
+        int index = this.transform.childCount;
+        for( int i=0; i<index; ++i)
+        {
+            Transform t = this.transform.GetChild(i);
+           ScaleKeeper sk= t.GetComponent<ScaleKeeper>();
+            if (sk)
+            {
+                Vector3 _properScale = sk.getScale();
+
+                if (facingRight)
+                    _properScale = new Vector3(-_properScale.x, _properScale.y, _properScale.z);
+
+                t.localScale = _properScale;
+            }
+        }
+
+
     }
 
     // Assign rodent's current target. 
     public void changeTarget(GameObject nTarget)
     {
-        Debug.Log("Changing Target to " + nTarget);
+        //Debug.Log("Changing Target to " + nTarget);
         this.currentTarget = nTarget;
     }
 
@@ -402,6 +422,16 @@ public class SubjectScript : MonoBehaviour
 
         if (!ShouldIdle)
         {
+            GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+            savedTarget = centerLocation;
+            if (Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
+            {
+                GameObject tempTarget = currentTarget;
+                currentTarget = savedTarget;
+                savedTarget = tempTarget;
+                Debug.Log("Target changed to " + currentTarget.ToString());
+            }
+
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("WorkerMove");
@@ -415,11 +445,21 @@ public class SubjectScript : MonoBehaviour
     {
         // Walk to their assigned building
         // Future: Be able to carry resources from the town center to the building being constructed
+        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        savedTarget = centerLocation;
 
         // Move(currentTarget);
         if (!ShouldIdle)
         {
-            // Move to Town Center
+            // If close enough to target, rodent switches between building and town center
+            if(Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
+            {
+                GameObject tempTarget = currentTarget;
+                currentTarget = savedTarget;
+                savedTarget = tempTarget;
+                Debug.Log("Target changed to " + currentTarget.ToString());
+            }
+
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("BuilderMove");

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildableObject : MonoBehaviour, IDamageable<float>
+public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 {
     [SerializeField] private Sprite _sStatedefault;
     [SerializeField] private Sprite _sStateHighlight;
@@ -71,10 +71,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     public void UpdateHealthBar()
     {
         if (_HealthBar)
-            _HealthBar.SetHealth(_hitpoints / _hitpointsMax);
+            _HealthBar.SetFillAmount(_hitpoints / _hitpointsMax);
 
         if (_hitpoints == 0)
             _HealthBar.gameObject.SetActive(false);
+    }
+    public void SetUpDayNight()
+    {
+        if (this.transform.gameObject.GetComponent<Register2DDN>() == null)
+            this.transform.gameObject.AddComponent<Register2DDN>();
     }
     /** End interface stuff*/
 
@@ -421,15 +426,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
     }
     public void AssignWorker(Rodent r)
     {
-       // Debug.Log("AssignWorker!");
+       //Debug.Log("AssignWorker!" + r.getName());
         _Worker = r;
         bWorkerScript ws=_PortraitOutlineObject.GetComponent<bWorkerScript>();
-        if(ws)
+        if (ws)
         {
             ws.setWorker(_Worker);
+            r.setTarget(this.gameObject);
             _sWorker = r.GetPortrait();
-           // Debug.LogError(_sWorker.ToString());
+            // Debug.LogError(_sWorker.ToString());
         }
+        else
+            r.setTarget(null);
         //To-Do: Something not being handled here is the status of Building to Built.
 
     }
@@ -440,21 +448,33 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
             Debug.LogError("Rodents dont match:Uh-Oh?");
 
         //Tell the worker to fuck off
-        if(_Worker)
-             _Worker.setTarget(null);
+        if (_Worker)
+            _Worker.setTarget(null);
+        else
+            Debug.LogError("Trying to dismiss a worker thats not there??");
+
         eState = BuildingState.Idle;
         _Worker = null;
         _sWorker = _sEmptyPortrait;
-        
+        //Resets the assignment window to get the available worker
+        //appears it works well enough to call here, instead of _Worker.setTarget(null)
+        UIAssignmentMenu.Instance.ResetButtons();
 
+    }
+    public bool CheckOccupied()
+    {
+        //If we want to have multiple workers, this needs to change
+        // can always check the workScript if its occupied? 
+        // or get all children of type bWorkerScript and see if any arent occupied
 
+        return (_Worker!=null);
     }
     public void ShowRedX(bool cond)
     {
         if (cond)
         {
             _srRedX.enabled = true;
-            MVCController.Instance.setLastRedX(this);
+            MVCController.Instance.setLastRedX(this.gameObject);
         }
         else
         {

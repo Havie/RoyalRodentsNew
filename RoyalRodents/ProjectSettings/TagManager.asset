@@ -12,6 +12,10 @@ TagManager:
   - PlayerRodent
   - NeutralRodent
   - EnemyRodent
+  - UpgradeButton
+  - PlayerRodents
+  - DummyObjMVC
+  - AssignMenu
   layers:
   - Default
   - TransparentFX

@@ -27,9 +27,10 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
-    private List<BuildableObject> _lastRedX=new List<BuildableObject>();
+    private List<GameObject> _lastRedX = new List<GameObject>();
 
     private bool _recruitDummy;
+    private bool _assignDummy;
 
     private bool _printStatements;
 
@@ -86,7 +87,7 @@ public class MVCController : MonoBehaviour
     {
         if (_lastClicked == null)
         {
-            if(_printStatements)
+            if (_printStatements)
                 Debug.LogError("Last clicked is null");
             return;
         }
@@ -133,26 +134,50 @@ public class MVCController : MonoBehaviour
         }
     }
 
-    //unused currently but may need later
+
     public void CheckClicks(bool b)
     {
+       // if (_printStatements)
+           // Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
     /**This function is now called by the Player
     *Responsible for checking what was clicked, then notifying it if it needs to know
     */
-    private GameObject checkClick(Vector3 MouseRaw)
+    public GameObject checkClick(Vector3 MouseRaw)
     {
         if (_printStatements)
             Debug.Log("Check Click!");
-        if (!checkingClicks)
+
+
+        if (!checkingClicks && !UIAssignmentMenu.Instance.isActive())
+        {
+            if (_RecruitMenu)
+            {
+                if (_RecruitMenu.isActive() && !_recruitDummy)
+                {
+                    showRecruitMenu(false, Vector3.zero, null, 0, 0);
+                    _isBuilding = false;
+                    _lastClicked = null;
+
+                    if (_printStatements)
+                        Debug.Log("Case00");
+                }
+            }
+            if (_printStatements)
+                Debug.Log("Auto Return Dummy OBJ because were not checking clicks");
             return _dummyObj;
+        }
+
+
 
         if (_printStatements)
             Debug.Log("Passed");
 
-
+        //used to keep track of if a menu needs to stay open
         _recruitDummy = false;
+        _assignDummy = false;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -181,22 +206,23 @@ public class MVCController : MonoBehaviour
             if (_TMPlastClicked.GetComponent<Rodent>())
             {
                 _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
-                if(_printStatements)
+                if (_printStatements)
                     Debug.Log("Clicked a Rodent");
 
-                if (_lastRodent.tag.Equals("NeutralRodent"))
+                if (_lastRodent.getTeam() == 0)
                 {
-                    showRecruitMenu(true, MouseRaw, _lastRodent.getName());
+                    // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
                     _recruitDummy = true;
                 }
 
-                //Show a new Menu to Recruit and Feed this Thing
+                else if (_lastRodent.getTeam() == 1)
+                {
+                    _recruitDummy = true;
+                    // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
+                }
 
 
-                // clicking a rodent should also close other menus, my if/ elses are fucked up below need serious restructuring 
             }
-
-            
             else if (_TMPlastClicked.GetComponent<BuildableObject>())
             {
                 if (_printStatements)
@@ -222,105 +248,80 @@ public class MVCController : MonoBehaviour
                         ShowBuildMenu(false, MouseRaw, _TMPlastClicked, buildObj);
                     //Cant Demolish TownCenter
                     //Will need to find a solution to pull up Upgrade Button on its own
-                    if(buildObj.getType()!=BuildableObject.BuildingType.TownCenter)
+                    if (buildObj.getType() != BuildableObject.BuildingType.TownCenter)
                         ShowDestroyMenu(true, MouseRaw, _TMPlastClicked, buildObj);
 
                 }
 
                 _AssignmentMenu.showMenu(false);
                 showRedX(false);
+                showRecruitMenu(false, Vector3.zero, "", 0, 0);
 
                 _lastClicked = _TMPlastClicked;
                 return _lastClicked;
             }
-            // If a Menu is active, and we click another object, we want to close the menu
-            else if (_BuildMenu.isActive() || _DestroyMenu.isActive() || _RecruitMenu.isActive())
+            // check if it was a portrait  
+            if (_TMPlastClicked.GetComponent<bWorkerScript>())
             {
-                ShowBuildMenu(false, Vector3.zero, null, null);
-                ShowDestroyMenu(false, Vector3.zero, null, null);
-                _RecruitMenu.showMenu(false, Vector3.zero, null);
-                _isBuilding = false;
-                _lastClicked = null;
 
-                if (_printStatements)
-                    Debug.Log("Case1");
+                GameObject _owner = _TMPlastClicked.GetComponent<bWorkerScript>().getOwner();
 
-                    return null;
-            }
-            else if(_TMPlastClicked.transform.parent)
-            {
-                if (_TMPlastClicked.transform.parent.gameObject == _lastClicked)
+                if (_owner)
                 {
-                    //case that last clicked was assigned by the worker Portrait
-                    if(_printStatements)
-                         Debug.Log("Worker Portrait");
-                    _isBuilding = true;
-                    return _dummyObj;
+                    if (_owner.GetComponent<BuildableObject>())
+                    {
+                        if(_printStatements)
+                            Debug.Log("Worker Portrait (building)");
+                        _assignDummy = true;
+                        TurnThingsoff();
+
+                        _lastClicked = _owner;
+                        return _lastClicked;
+                    }
+                    else if(_owner. GetComponent<PlayerStats>())
+                    {
+                        if (_printStatements)
+                            Debug.Log("Worker Portrait (player)");
+                        _assignDummy = true;
+                        TurnThingsoff();
+
+                        _lastClicked = _owner;
+                        return _lastClicked;
+                    }
+                    Debug.Log("Owner Fallthru==" + _owner);
                 }
                 if (_printStatements)
-                    Debug.Log("Fall through Case");
+                    Debug.Log("Fall through Case 00" + _TMPlastClicked);
             }
 
-            else
-            {
-                if (_printStatements)
-                    Debug.LogError("else??");
-                _AssignmentMenu.showMenu(false);
-                _isBuilding = false;
-                _lastClicked = null;
+            if (_printStatements)
+                Debug.Log("Fall through Case1");
 
-                return null;
-            }
-
+            _isBuilding = false;
+            return TurnThingsoff();
         }
-       //else if (checkingClicks)// should only happen if we aren't hovering over a UI button
-        { 
 
-            //UI layer
-            // If a Menu is active, and we click off of the object, we want to close the menu
-            if (_BuildMenu.isActive())
-            {
-                ShowBuildMenu(false, Vector3.zero, null, null);
-                _isBuilding = false;
-                _lastClicked = null;
 
-                if (_printStatements)
-                    Debug.Log("Case2");
-            }
-            else if (_DestroyMenu.isActive())
-            {
-                ShowDestroyMenu(false, Vector3.zero, null, null);
-                _isBuilding = false;
-                _lastClicked = null;
 
-                if (_printStatements)
-                    Debug.Log("Case3");
-            }
-            else if(_AssignmentMenu.isActive())
-            {
-                _AssignmentMenu.showMenu(false);
-                _isBuilding = false;
-                _lastClicked = null;
 
-                if (_printStatements)
-                    Debug.Log("Case4");
-            }
-            else if (_RecruitMenu.isActive() && !_recruitDummy)
-            {
-                showRecruitMenu(false, Vector3.zero, null);
-                _isBuilding = false;
-                _lastClicked = null;
+        //UI layer
+        if (UIAssignmentMenu.Instance.isActive())
+        {
+            if (_printStatements)
+                Debug.Log("UI is On, Return Last clicked");
 
-                if (_printStatements)
-                    Debug.Log("Case5");
-            }
-
+            // ??? _isBuilding = false;
+            return null;
         }
-        if (_printStatements)
-            Debug.Log("Fell Through MVC");
+        else
+        {
 
-        showRedX(false);
-        return null;
+            if (_printStatements)
+                Debug.Log("Fall through Case2");
+
+            _isBuilding = false;
+            return TurnThingsoff();
+        }
     }
 
     /**
@@ -329,7 +330,7 @@ public class MVCController : MonoBehaviour
     public bool checkIfAttackable(Vector3 MouseLoc)
     {
         GameObject go = checkClick(MouseLoc);
-        if(_printStatements)
+        if (_printStatements)
             Debug.Log("Attackable checked Go is::" + go);
         if (go)
             //May need to check later on that the building is the enemies
@@ -351,6 +352,7 @@ public class MVCController : MonoBehaviour
         if (_printStatements)
             Debug.Log("setLast to" + o);
         _lastClicked = o;
+        _recruitDummy = false;
     }
     public void clearLastClicked()
     {
@@ -372,44 +374,111 @@ public class MVCController : MonoBehaviour
             BuildableObject _Building = _lastClicked.GetComponent<BuildableObject>();
             if (_Building)
             {
+                //Check if this building is occupied
+                if (_Building.CheckOccupied())
+                {
+                    
+                }
+                else // free to assign 
+                {
+                    //Rodent Things , status update etc
+                    //r.setTarget(_lastClicked);
+                    _Building.AssignWorker(r);
+
+                    clearLastClicked();
+
+                    // Dont want menu to close so we can keep assigning in the mode
+                    //_AssignmentMenu.showMenu(false);
+
+                    //instead reset the buttons
+                    UIAssignmentMenu.Instance.ResetButtons();
+
+                    /* Keeping this off allows us to click once to pull up RedX
+                     * Menu immediately after assigned
+                     * Unknown if causes any other issues, onMouseExit from 
+                     * portrait / bworkerscript should re enabled properly
+                     * If having trouble, can try turning back on */
+                    //CheckClicks(true);
+                }
+            }
+            else
+            {
                 if (_printStatements)
-                    Debug.Log("enter obj");
+                    Debug.Log("Assign to PLayer");
+                PlayerStats Player = _lastClicked.GetComponent<PlayerStats>();
+                if(Player)
+                {
+                    Player.AssignWorker(r);
 
-                //Rodent Things
-                r.setTarget(_lastClicked);
-                _Building.AssignWorker(r);
+                    //Need a check to see if he can be assigned
+                    // r.setTarget(_lastClicked);
+                    clearLastClicked();
 
-                //To:Do update Rodent Status
+                    UIAssignmentMenu.Instance.ResetButtons();
 
-
-                clearLastClicked();
-                _AssignmentMenu.showMenu(false);
-                CheckClicks(true);
+                }
             }
         }
     }
-    public void setLastRedX(BuildableObject redx)
+    public GameObject TurnThingsoff()
+    {
+        // If a Menu is active, and we click off of the object, we want to close the menu
+        if (!_recruitDummy)
+            showRecruitMenu(false, Vector3.zero, null, 0, 0);
+        if (!_assignDummy)
+            showAssignmenu(false);
+
+        ShowBuildMenu(false, Vector3.zero, null, null);
+
+        ShowDestroyMenu(false, Vector3.zero, null, null);
+
+        showRedX(false);
+
+        clearLastClicked();
+
+        return null;
+    }
+
+
+
+    public void setLastRedX(GameObject redxHolder)
     {
         if (_printStatements)
             Debug.Log("set redX");
-        _lastRedX.Add(redx);
+        _lastRedX.Add(redxHolder);
     }
     public void showRedX(bool cond)
     {
+        if (_printStatements)
+            Debug.Log("MVC::ShowRedX::" + cond);
+
         if (_lastRedX.Count > 0)
-            foreach (BuildableObject b in _lastRedX)
-            { b.ShowRedX(cond); }
+            foreach (GameObject g in _lastRedX)
+            {
+                if(g.GetComponent<BuildableObject>())
+                    g.GetComponent<BuildableObject>().ShowRedX(cond);
+                else if(g.GetComponent<PlayerStats>())
+                     g.GetComponent<PlayerStats>().ShowRedX(cond);
+            }
     }
-    public void showRecruitMenu(bool cond, Vector3 loc, string name)
+    public void showAssignmenu(bool cond)
+    {
+        if (_AssignmentMenu && !_assignDummy)
+            _AssignmentMenu.showMenu(cond);
+    }
+    public void showRecruitMenu(bool cond, Vector3 loc, string name, int foodCost, int popCost)
     {
         if (_RecruitMenu)
-            _RecruitMenu.showMenu(cond, loc, name);
-        else
-            Debug.LogError("MVC has no RecruitMenu");
+            _RecruitMenu.showMenu(cond, loc, name, foodCost, popCost);
     }
-    public void ShowBuildMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building )
+    public void showKingGuardMenu(bool cond, Vector3 loc, string name)
     {
-        if(_BuildMenu)
+        if (_RecruitMenu)
+            _RecruitMenu.showKingGuardMenu(cond, loc, name);
+    }
+    public void ShowBuildMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building)
+    {
+        if (_BuildMenu)
             _BuildMenu.showMenu(cond, loc, go, building);
     }
     public void ShowDestroyMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building)
@@ -417,12 +486,26 @@ public class MVCController : MonoBehaviour
         if (_DestroyMenu)
             _DestroyMenu.showMenu(cond, loc, go, building);
     }
+    public void SetAssignmentDummy(bool cond)
+    {
+        _assignDummy = cond;
+    }
+    //Old functionality
     public void Recruit()
     {
-       // Debug.Log("Recruit: " + _lastRodent);
-        showRecruitMenu(false, Vector3.zero, "");
+        // Debug.Log("Recruit: " + _lastRodent);
+        showRecruitMenu(false, Vector3.zero, "", 0, 0);
         _lastRodent.tag = "PlayerRodent";
         _lastRodent.Recruit();
+        CheckClicks(true);
+    }
+    public void Recruit(Rodent r, UIRecruitMenu menu)
+    {
+       // Debug.Log("MVC Rodent Recruit: " + _lastRodent);
+        menu.showMenu(false, Vector3.zero, "", 0, 0);
+        r.tag = "PlayerRodent";
+        r.Recruit();
+        CheckClicks(true);
     }
 }
 

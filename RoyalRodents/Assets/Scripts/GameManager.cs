@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     //Rodent Lists
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
+    public Transform _PlayerRodentDummy;
 
 	private bTownCenter _TownCenter;
 
@@ -63,9 +64,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //Temp way to give the player a TownCenter at start.
+        _TownCenter = GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>();
         GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>().StartingBuildComplete();
 
-		_gold = 0;
+        _gold = 0;
         _victoryPoints = 0;
 
         //Get ResourceManagerScript from Instance
@@ -152,9 +154,13 @@ public class GameManager : MonoBehaviour
     {
         //can Lists add duplicates? should we check against this?
         _PlayerRodents.Add(r);
+
+        //Keep organized in hierarchy 
+        r.gameObject.transform.SetParent(_PlayerRodentDummy);
     }
     public void AddtoRodents(Rodent r)
     {
         _AllRodents.Add(r);
     }
+   
 }

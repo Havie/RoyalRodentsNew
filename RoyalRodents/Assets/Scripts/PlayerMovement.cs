@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private bool isDead;
+    private bool _controlled;
 
     private void Awake()
     {
@@ -42,29 +43,34 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
 
-        if (Input.GetButtonDown("Jump"))
+        if (_controlled)
         {
-            jump = true;
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            crouch = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            crouch = false;
-        }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if(MVCController.Instance.checkIfAttackable(Input.mousePosition))
-                Attack();
-        }
-        if (Input.GetMouseButton(1))
-        {
-            Heal();
+            horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                jump = true;
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                crouch = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.S))
+            {
+                crouch = false;
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
+                    Attack();
+            }
+            if (Input.GetMouseButton(1))
+            {
+                Heal();
+            }
         }
     }
 
@@ -95,8 +101,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-    // A Couroutine that can set a delay that is partly responsible for howlong till we can attack again
-    // also handles our damage output via raycasting in front of us
+    // A Coroutine that can set a delay that is partly responsible for how long till we can attack again
+    // also handles our damage output via ray casting in front of us
     IEnumerator AttackRoutine()
     {
 
@@ -199,24 +205,69 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip()
     {
-        // Switch the way the player is labelled as facing.
+        // Switch the way the player is labeled as facing.
         m_FacingRight = !m_FacingRight;
 
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
+        //Fix Children HealthBar
+        int index = this.transform.childCount;
+        for (int i = 0; i < index; ++i)
+        {
+            Transform t = this.transform.GetChild(i);
+            ScaleKeeper sk = t.GetComponent<ScaleKeeper>();
+            if (sk)
+            {
+                Vector3 _properScale = sk.getScale();
+
+                if (!m_FacingRight)
+                    _properScale = new Vector3(-_properScale.x, _properScale.y, _properScale.z);
+
+                t.localScale = _properScale;
+            }
+        }
     }
 
-    //Collect Pickup
+    public void setControlled(bool cond)
+    {
+       // Debug.Log("Player Is Controlled=" + cond);
+        _controlled = cond;
+    }
+
+
+    //Collect Pickups and search things
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.GetComponent<CoinResource>())
+        Debug.Log("Enter Collision with" + collision.transform.gameObject);
+        if (collision.transform.GetComponent<Searchable>())
+        {
+            Searchable s = collision.transform.GetComponent<Searchable>();
+            {
+                s.setActive(true);
+            }
+        }
+
+        else if (collision.transform.GetComponent<CoinResource>())
         {
             // if (collision.transform.GetComponent<CoinResource>().isActive())
             {
                 ResourceManagerScript.Instance.incrementTrash(1);
                 Destroy(collision.gameObject);
+            }
+        }
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.GetComponent<Searchable>())
+        {
+            Searchable s = collision.transform.GetComponent<Searchable>();
+            {
+                s.setActive(false);
             }
         }
     }

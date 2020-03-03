@@ -11,7 +11,7 @@ public class ResourceManagerScript : MonoBehaviour
 
 	//create resource variables
 	private int _food, _trash, _wood, _metal, _shiny;
-    private int _currentPopulation, _currentMaxPopulation;
+    private int _currentPopulation, _currentCapacity;
 
     //TopPanel UI Resource Bar Text
     public TextMeshProUGUI _TrashText;
@@ -96,15 +96,17 @@ public class ResourceManagerScript : MonoBehaviour
 		UpdatePopulationText();
 	}
 
-    public int getCurrentMaxPopulation()
+    public int getPopulationCapacity()
     {
-        return _currentMaxPopulation;
+        return _currentCapacity;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-		_food = 10;
+        _currentCapacity = 0;
+        UpdateCurrentPopulation();
+        _food = 10;
 		_trash = 10;
 		_wood = 10;
 		_metal = 10;
@@ -138,6 +140,12 @@ public class ResourceManagerScript : MonoBehaviour
     {
         _food += amnt;
         UpdateFoodText();
+    }
+    public void incrementPopulationCapacity(int amnt)
+    {
+        _currentCapacity += amnt;
+        UpdatePopulationText();
+        Debug.Log("Incremented population capacity by " + amnt.ToString());
     }
 
     //Update Resource Panel UI Text
@@ -180,7 +188,7 @@ public class ResourceManagerScript : MonoBehaviour
     {
         if (_PopulationText)
         {
-			_PopulationText.text = _currentPopulation.ToString();
+			_PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
         }
     }
     public void UpdateAllResourcesText()

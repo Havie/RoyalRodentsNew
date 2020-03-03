@@ -429,7 +429,8 @@ public class SubjectScript : MonoBehaviour
                 GameObject tempTarget = currentTarget;
                 currentTarget = savedTarget;
                 savedTarget = tempTarget;
-                Debug.Log("Target changed to " + currentTarget.ToString());
+                if (_printStatements)
+                    Debug.Log("Target changed to " + currentTarget.ToString());
             }
 
             Move(currentTarget);

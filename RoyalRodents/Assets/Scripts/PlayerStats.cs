@@ -7,21 +7,17 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     public float _Hp = 50f;
     public float _HpMax = 100f;
     [Range(0, 10f)]
-    public float _MoveSpeed = 3.5f;  //used to be 2
+    public float _MoveSpeed = 40f; 
     public float _AttackDamage = 10f;
     public GameObject _HealthBarObj;
     private HealthBar _HealthBar;
 
     public GameObject[] _RoyalGuards = new GameObject[3];
+    private Transform _RoyalGuardParent;
 
 
-
-    [SerializeField] private GameObject[] _NotificationObjects;
-    [SerializeField] private GameObject[] _WorkerObjects;
-    [SerializeField] private GameObject[] _PortraitOutlineObjects;
-    [SerializeField] private GameObject[] _RedXObjects;
-
-    [SerializeField] private Rodent _Worker;
+    //Dont think we even need this
+     private Rodent _Worker;
 
 
 
@@ -88,17 +84,17 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
         UpdateHealthBar();
         setUpRoyalGuard();
     }
+    public void LateUpdate()
+    {
+        if(_RoyalGuardParent)
+             _RoyalGuardParent.position = this.transform.position;
+    }
 
     public void setUpRoyalGuard()
     {
         //How to check if _RoyalGuards is initialized?
 
-        //set up our arrays  - these are all obsolete now, i shud remove next pass
-        _NotificationObjects = new GameObject[_RoyalGuards.Length];
-        _WorkerObjects = new GameObject[_RoyalGuards.Length];
-        _PortraitOutlineObjects = new GameObject[_RoyalGuards.Length];
-        _RedXObjects = new GameObject[_RoyalGuards.Length];
-
+      
 
         for (int i=0; i<_RoyalGuards.Length; ++i)
         {
@@ -107,6 +103,9 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
             else
                 _RoyalGuards[i].GetComponent<Employee>().Lock(true);
         }
+
+        if(_RoyalGuards.Length>0)
+            _RoyalGuardParent= _RoyalGuards[0].transform.parent;
 
         ShowRoyalGuard(false);
 

@@ -96,16 +96,22 @@ public class PlayerMovement : MonoBehaviour
 
                         // if team 2 attack
                     }
-                    // if it isnt in range, move toward it normalized dir
+                   else if(go == MVCController.Instance._dummyObj)
+                    {
+                        //if the item returned is a UI element do nothing?
+                        Debug.Log("Received Dummy OBJ in playerMove");
+
+                    }
+                    // if it isn't in range, move toward it with normalized direction
                     else
                     {
                         //need to do away with this DummyObj Eventually
-                        if(go == MVCController.Instance._dummyObj)
-                            go.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
+                        //if(go == MVCController.Instance._dummyObj)
+                           // go.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
 
                         Debug.Log("Location for " + go + "   is " + go.transform.position);
                         _MoveLocation.transform.position = go.transform.position;
-                        _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x;
+                        _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x *_moveSpeed;
                     }
 
 
@@ -115,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
-                    _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x;
+                    _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
                 }
 
 
@@ -144,7 +150,10 @@ public class PlayerMovement : MonoBehaviour
         else
             _animator.SetBool("IsMoving", false);
     }
-
+    public void StopMoving()
+    {
+        _horizontalMove = 0;
+    }
     public void Attack()
     {
         
@@ -230,6 +239,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(float move, bool crouch, bool jump)
     {
+        //Debug.Log("we are moving This much:" + move);
+
         if (!_isAttacking)
         {
             // Move the character by finding the target velocity

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Employee : MonoBehaviour
 {
-    public bool _onPlayer;
     private Vector3 _offSet;
     private Transform _Player;
 
@@ -29,24 +28,10 @@ public class Employee : MonoBehaviour
 
         ShowRedX(false);
 
-        //Need to get rid of this and put on PlayerStats or fix child/multi collider issue
-        if(_onPlayer)
-        {
-            _Player = GameObject.FindGameObjectWithTag("Player").transform;
-            //If the player moves right away it appears the offset gets messed up
-            _offSet = this.transform.position - _Player.position;
-        }
+      
 
     }
 
-    private void LateUpdate()
-    {
-        //Need to get rid of this and put on PlayerStats or fix child/multi collider issue
-        if (_onPlayer)
-        {
-            this.transform.position = _Player.position + _offSet;
-        }
-    }
 
     public void Assign(Rodent r)
     {

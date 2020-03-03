@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private float _moveSpeed ;
-    private float horizontalMove = 0f;
+    private float _horizontalMove = 0f;
     private bool jump = false;
     private bool crouch = false;
     private bool _AttackDelay;
@@ -21,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D m_Rigidbody2D;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
+
+    [SerializeField]
+    private List<GameObject> _InRange = new List<GameObject>();
+    [SerializeField]
+    private GameObject _MoveLocation;
+
 
 
     private bool isDead;
@@ -46,8 +52,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (_controlled)
         {
+            //check if we've reached our current Target
+            if (_MoveLocation != null && _horizontalMove!=0)
+            {
+                // check our distance to see if weve reached it 
 
-            horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
+                // would be nice if we could get the radius from our box collider somehow
+
+                // if reached, set horiz move to 0
+            }
+            // horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
 
             if (Input.GetButtonDown("Jump"))
             {
@@ -62,13 +76,60 @@ public class PlayerMovement : MonoBehaviour
                 crouch = false;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonUp(0))
             {
-                if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
-                    Attack();
+                // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
+                // Attack();
+
+                // Check 
+                //Touch touch = Input.GetTouch(0);
+                //Vector2 pos= touch.position;
+
+                GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
+                if(go)
+                {
+                   //check if object is in range
+                   if(_InRange.Contains(go))
+                    {
+                        // if its in range , check its type / team
+                        // if team 0 / 1 pull up menus
+
+                        // if team 2 attack
+                    }
+                   else if(go == MVCController.Instance._dummyObj)
+                    {
+                        //if the item returned is a UI element do nothing?
+                        Debug.Log("Received Dummy OBJ in playerMove");
+
+                    }
+                    // if it isn't in range, move toward it with normalized direction
+                    else
+                    {
+                        //need to do away with this DummyObj Eventually
+                        //if(go == MVCController.Instance._dummyObj)
+                           // go.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
+
+                        Debug.Log("Location for " + go + "   is " + go.transform.position);
+                        _MoveLocation.transform.position = go.transform.position;
+                        _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x *_moveSpeed;
+                    }
+
+
+
+
+                }
+                else
+                {
+                    _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
+                    _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                }
+
+
+
             }
             if (Input.GetMouseButton(1))
             {
+                //old code from gamejam
                 Heal();
             }
         }
@@ -79,17 +140,20 @@ public class PlayerMovement : MonoBehaviour
         if (!isDead)
         {
             // move our character
-            if (horizontalMove != 0)
+            if (_horizontalMove != 0)
                 _animator.SetBool("IsMoving", true);
             else
                 _animator.SetBool("IsMoving", false);
 
-            Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+            Move(_horizontalMove * Time.fixedDeltaTime, crouch, jump);
         }
         else
             _animator.SetBool("IsMoving", false);
     }
-
+    public void StopMoving()
+    {
+        _horizontalMove = 0;
+    }
     public void Attack()
     {
         
@@ -175,6 +239,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(float move, bool crouch, bool jump)
     {
+        //Debug.Log("we are moving This much:" + move);
+
         if (!_isAttacking)
         {
             // Move the character by finding the target velocity
@@ -241,15 +307,32 @@ public class PlayerMovement : MonoBehaviour
     //Collect Pickups and search things
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Enter Collision with" + collision.transform.gameObject);
+        //Debug.Log("Enter Collision with" + collision.transform.gameObject);
+
+        if (_MoveLocation == collision.gameObject)
+            _horizontalMove = 0;
+
         if (collision.transform.GetComponent<Searchable>())
         {
             Searchable s = collision.transform.GetComponent<Searchable>();
             {
                 s.setActive(true);
+                //Do not add to our list of objects in range?
             }
         }
+        else if(collision.transform.GetComponent<BuildableObject>())
+        {
+            //Add to our list of interactable things in range
+            _InRange.Add(collision.gameObject);
+        }
 
+        else if(collision.transform.GetComponent<Rodent>())
+        {
+            //Add to our list of interactable things in range
+            _InRange.Add(collision.gameObject);
+        }
+
+        ///Old Game Jam code, could be reused for pickups 
         else if (collision.transform.GetComponent<CoinResource>())
         {
             // if (collision.transform.GetComponent<CoinResource>().isActive())
@@ -269,6 +352,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 s.setActive(false);
             }
+        }
+        else if (collision.transform.GetComponent<BuildableObject>())
+        {
+            _InRange.Remove(collision.gameObject);
+        }
+
+        else if (collision.transform.GetComponent<Rodent>())
+        {
+            _InRange.Remove(collision.gameObject);
         }
     }
 

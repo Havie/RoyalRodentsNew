@@ -292,7 +292,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
                 // Instead show the Royal guard above players head
                 // by activating the assignment menu! - might not want this
-                UIAssignmentMenu.Instance.showMenu(true);
+                UIAssignmentMenu.Instance.showMenu(true, this.transform.gameObject);
+
+                //TO-DO: Need to phase Out
                 UIAssignmentMenu.Instance.CreateButtons(GameManager.Instance.getPlayerRodents());
             }
 

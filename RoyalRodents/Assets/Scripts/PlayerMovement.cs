@@ -81,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
                 // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
                 // Attack();
 
+                // Check 
                 //Touch touch = Input.GetTouch(0);
                 //Vector2 pos= touch.position;
 
@@ -98,6 +99,11 @@ public class PlayerMovement : MonoBehaviour
                     // if it isnt in range, move toward it normalized dir
                     else
                     {
+                        //need to do away with this DummyObj Eventually
+                        if(go == MVCController.Instance._dummyObj)
+                            go.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
+
+                        Debug.Log("Location for " + go + "   is " + go.transform.position);
                         _MoveLocation.transform.position = go.transform.position;
                         _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x;
                     }
@@ -290,7 +296,7 @@ public class PlayerMovement : MonoBehaviour
     //Collect Pickups and search things
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Enter Collision with" + collision.transform.gameObject);
+        //Debug.Log("Enter Collision with" + collision.transform.gameObject);
 
         if (_MoveLocation == collision.gameObject)
             _horizontalMove = 0;

@@ -10,6 +10,8 @@ public class UIAssignmentMenu : MonoBehaviour
 
     [SerializeField]
     private GameObject _buttonTemplate;
+    [SerializeField]
+    private List<Rodent> _rList;
 
     private Quaternion _defaultRotation;
 
@@ -18,11 +20,11 @@ public class UIAssignmentMenu : MonoBehaviour
     private int _index;
     private int _used;
     private int _aspectHeight;
-    MVCController controller;
-    private List<Rodent> _rList;
-    private CameraController _cameraController;
 
+
+    private CameraController _cameraController;
     private UIAssignmentVFX _vfx;
+    private GameObject _owner;
 
     public static UIAssignmentMenu Instance
     {
@@ -66,10 +68,20 @@ public class UIAssignmentMenu : MonoBehaviour
             }
         }
     }
-    public void showMenu(bool cond)
+    //new Menu that will tell us which object showed menu
+    public void showMenu(bool cond, GameObject ObjectThatCalled)
+    {
+        showMenu(cond);
+        //I am not even sure we need to keep track of this as buttons can be dragged into any receiver..
+        _owner = ObjectThatCalled;
+    }
+    //used internally 
+    private void showMenu(bool cond)
     {
        // Debug.Log("ShowMenu::"+cond);
         setActive(cond);
+        Debug.Log("index is=" + _index);
+
 
        for (int i=0; i<_index; ++i)
         {
@@ -92,6 +104,8 @@ public class UIAssignmentMenu : MonoBehaviour
             _rList = null;
         }
     }
+
+
     public bool isActive()
     {
         return _active;
@@ -128,13 +142,16 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     private void FindAvailable()
     {
+
         if (_rList == null)
             return;
+
+        Debug.Log("FindAvail");
         foreach (Rodent r in _rList)
         {
             if (r.GetRodentStatus() == Rodent.eStatus.Available)
             {
-                // Debug.Log(r.getName() + "  is Available");
+                Debug.Log(r.getName() + "  is Available");
                 CreateButton(r);
             }
         }

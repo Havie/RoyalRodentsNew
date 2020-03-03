@@ -57,6 +57,7 @@ public class bWorkerScript : MonoBehaviour
     {
         return (_worker != null);
     }
+
     private void OnMouseDown()
     {
         Debug.LogWarning("MouseDownOnOWorker");
@@ -65,7 +66,7 @@ public class bWorkerScript : MonoBehaviour
         {
             //Debug.Log("Heard Not Occupied");
             //tell the MVC Controller which Building has been clicked
-
+            //Becoming obsolete
             MVCController.Instance.setLastClicked(_owner);
 
             // Need to Ask GameManager for a List of Player Rodents
@@ -86,7 +87,10 @@ public class bWorkerScript : MonoBehaviour
             {
                 ps.ShowRedX(false);
             }
-            
+
+
+            //ShowMenu Manually here
+            UIAssignmentMenu.Instance.showMenu(true, _owner);
             
         }
         else
@@ -169,12 +173,16 @@ public class bWorkerScript : MonoBehaviour
 
     private void OnMouseEnter()
     {
-       // Debug.Log("MouseEnterWorkerScript");
-        MVCController.Instance.CheckClicks(false);
+        //Need to phase this out for Mobile
+
+        //Debug.Log("MouseEnterWorkerScript");
+       // MVCController.Instance.CheckClicks(false);
     }
     private void OnMouseExit()
     {
-       // Debug.Log("MouseExitWorkerScript");
-        MVCController.Instance.CheckClicks(true);
+        //Need to phase this out for Mobile
+
+        //Debug.Log("MouseExitWorkerScript");
+        // MVCController.Instance.CheckClicks(true);
     }
 }

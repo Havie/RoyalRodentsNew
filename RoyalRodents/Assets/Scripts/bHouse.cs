@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class bHouse :MonoBehaviour
 {
-    private Sprite _built;
-    private float _hitpoints = 50;
+    private Sprite _builtSpriteLevel1;
+	private Sprite _builtSpriteLevel2;
+	private Sprite _builtSpriteLevel3;
+
+	private float _hitpoints = 50;
     private float _hitPointGrowth = 10;
 
 	//create structure costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
@@ -17,7 +20,9 @@ public class bHouse :MonoBehaviour
 
 	void Start()
     {
-        _built = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored_y");
+        _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/House/trash_house");
+		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/House/wood_house");
+		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/House/stone_house");
 	}
 
     // Update is called once per frame
@@ -39,29 +44,27 @@ public class bHouse :MonoBehaviour
 			_costLevel3.Add("Trash", 6);
 			_costLevel3.Add("Wood", 4);
 			_costLevel3.Add("Metal", 2);
+
 			_isSet = true;
 		}
 	}
 
     public float BuildingComplete(int level)
     {
-        //To:Do add new images per level
-
-       if(level==1)
-         this.transform.GetComponent<SpriteRenderer>().sprite = _built;
-       else if(level==2)
-            this.transform.GetComponent<SpriteRenderer>().sprite = _built;
-       else
-            this.transform.GetComponent<SpriteRenderer>().sprite = _built;
+       if (level == 1)
+         this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
+       else if (level == 2)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
+	   else if (level == 3)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
 
         return (_hitpoints + (_hitPointGrowth*level));
     }
-
    
 	public static Dictionary<string, int> getCost(int level)
 	{
 
-		if(_costLevel1.Count ==0)
+		if(_costLevel1.Count == 0)
 		{
 			setupCosts();
 		}

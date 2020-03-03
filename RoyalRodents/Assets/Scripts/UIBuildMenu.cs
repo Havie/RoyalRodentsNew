@@ -61,10 +61,19 @@ public class UIBuildMenu : MonoBehaviour
                         switch (type)
                         {
                             case (BuildableObject.BuildingType.House):
-                                buttonScript.ChangeButton("house", level);
+                                buttonScript.ChangeButton("house", level + 1);
                                 break;
                             case (BuildableObject.BuildingType.Farm):
-                                buttonScript.ChangeButton("farm", level);
+                                buttonScript.ChangeButton("farm", level + 1);
+                                break;
+                            case (BuildableObject.BuildingType.Tower):
+                                buttonScript.ChangeButton("tower", level + 1);
+                                break;
+                            case (BuildableObject.BuildingType.Wall):
+                                buttonScript.ChangeButton("wall", level + 1);
+                                break;
+                            case (BuildableObject.BuildingType.TownCenter):
+                                buttonScript.ChangeButton("towncenter", level + 1);
                                 break;
                         }
                     }

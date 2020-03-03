@@ -11,6 +11,7 @@ public class ResourceManagerScript : MonoBehaviour
 
 	//create resource variables
 	private int _food, _trash, _wood, _metal, _shiny;
+    private int _currentPopulation, _currentMaxPopulation;
 
     //TopPanel UI Resource Bar Text
     public TextMeshProUGUI _TrashText;
@@ -19,8 +20,10 @@ public class ResourceManagerScript : MonoBehaviour
     public TextMeshProUGUI _ShinyText;
     public TextMeshProUGUI _FoodText;
 
-	//Create Instance of GameManager
-	public static ResourceManagerScript Instance
+    public TextMeshProUGUI _PopulationText;
+
+    //Create Instance of GameManager
+    public static ResourceManagerScript Instance
 	{
 		get
 		{
@@ -47,7 +50,7 @@ public class ResourceManagerScript : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 	}
 
-	//setters and getters for resource variable properties
+	//getters for resource variable properties
 	public int Food
     {
         get
@@ -85,6 +88,11 @@ public class ResourceManagerScript : MonoBehaviour
         {
             return _shiny;
         }
+    }
+
+    public int getCurrentMaxPopulation()
+    {
+        return _currentMaxPopulation;
     }
 
     // Start is called before the first frame update
@@ -162,6 +170,13 @@ public class ResourceManagerScript : MonoBehaviour
             _FoodText.text = _food.ToString();
         }
     }
+    public void UpdatePopulationText()
+    {
+        if (_FoodText)
+        {
+            _FoodText.text = _food.ToString();
+        }
+    }
     public void UpdateAllResourcesText()
     {
         UpdateTrashText();
@@ -169,5 +184,6 @@ public class ResourceManagerScript : MonoBehaviour
         UpdateMetalText();
         UpdateShinyText();
         UpdateFoodText();
+        UpdatePopulationText();
     }
 }

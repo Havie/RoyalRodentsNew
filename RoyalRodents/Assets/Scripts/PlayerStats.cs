@@ -93,7 +93,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     {
         //How to check if _RoyalGuards is initialized?
 
-        //set up our arrays 
+        //set up our arrays  - these are all obsolete now, i shud remove next pass
         _NotificationObjects = new GameObject[_RoyalGuards.Length];
         _WorkerObjects = new GameObject[_RoyalGuards.Length];
         _PortraitOutlineObjects = new GameObject[_RoyalGuards.Length];

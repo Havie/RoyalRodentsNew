@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildableObject : MonoBehaviour, IDamageable<float>
+public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 {
     [SerializeField] private Sprite _sStatedefault;
     [SerializeField] private Sprite _sStateHighlight;
@@ -75,6 +75,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>
 
         if (_hitpoints == 0)
             _HealthBar.gameObject.SetActive(false);
+    }
+    public void SetUpDayNight()
+    {
+        if (this.transform.gameObject.GetComponent<Register2DDN>() == null)
+            this.transform.gameObject.AddComponent<Register2DDN>();
     }
     /** End interface stuff*/
 

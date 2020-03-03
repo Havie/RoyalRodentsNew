@@ -83,6 +83,7 @@ public class SpawnVolume : MonoBehaviour
                 // Set Team Neutral
                 _spawnedRat.tag = "NeutralRodent";
                 // Ensure Sprite is Neutral
+                _spawnedRat.GetComponent<Rodent>().setTeam(0);
                 // Increase some kind of count
             }
         }

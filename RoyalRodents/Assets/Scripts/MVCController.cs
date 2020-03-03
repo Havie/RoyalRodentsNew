@@ -146,7 +146,7 @@ public class MVCController : MonoBehaviour
     public GameObject checkClick2(Vector3 MouseRaw)
     {
 
-
+        Debug.Log("CheckClick2 Heard  LastClick=" + _lastClicked);
 
 
         return null;
@@ -310,7 +310,8 @@ public class MVCController : MonoBehaviour
                 Debug.Log("Fall through Case1");
 
             _isBuilding = false;
-            return TurnThingsoff();
+            //return TurnThingsoff();
+            return null;
         }
 
 

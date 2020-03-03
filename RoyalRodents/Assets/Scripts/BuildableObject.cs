@@ -12,20 +12,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField] private Sprite _sStateDestroyed;
     [SerializeField] private Sprite _sOnHover;
     [SerializeField] private Sprite _sNotification;
-    [SerializeField] private Sprite _sEmptyPortrait;
-    [SerializeField] private Sprite _sWorker;
-    [SerializeField] private Sprite _sRedX;
     [SerializeField] private Sprite _sBuildingHammer;
 
     [SerializeField] private GameObject _NotificationObject;
-    [SerializeField] private GameObject _WorkerObject;
-    [SerializeField] private GameObject _PortraitOutlineObject;
-    [SerializeField] private GameObject _RedXObject;
+
 
     [SerializeField] private Animator _animator;
     [SerializeField] private HealthBar _HealthBar;
 
-    [SerializeField] private Rodent _Worker;
+    //[SerializeField] private Rodent _Worker;
 
 
     [SerializeField]
@@ -35,6 +30,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     private BuildingType eType;
 
     private int _level = 0;
+
+    private Employee _Employee;
 
     private SpriteRenderer _sr;
     private SpriteRenderer _srNotify;
@@ -96,20 +93,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
         _srNotify.sprite = _sNotification;
 
-        //SetUp the Portrait BG
-        _srPortrait = _PortraitOutlineObject.transform.GetComponent<SpriteRenderer>();
-        _srPortrait.sprite = _sEmptyPortrait;
-
-        //Set Up Worker to be empty
-        _srWorker = _WorkerObject.transform.GetComponent<SpriteRenderer>();
-        _sWorker = _sEmptyPortrait;
-        _srWorker.sprite = _sWorker;
-
-
-        //SetUp the RedX
-        _srRedX = _RedXObject.transform.GetComponent<SpriteRenderer>();
-        _srRedX.sprite = _sRedX;
-        ShowRedX(false);
 
         if (eType != BuildingType.TownCenter)
         {
@@ -125,36 +108,30 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
 
-        o = GameObject.FindGameObjectWithTag("MVC");
-        if (o)
-        {
-            if (o.GetComponent<MVCController>())
-                _controller = o.GetComponent<MVCController>();
-            else
-                Debug.LogError("UI Costs cant find MVC Controller");
-        }
+        //little unnecessary
+        _controller = MVCController.Instance;
 
+
+        _Employee = this.transform.GetComponentInChildren<Employee>();
+        UpdateState();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateState()
     {
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            this.GetComponent<SpriteRenderer>().sprite = _sStateHighlight;
-        }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            this.GetComponent<SpriteRenderer>().sprite = _sStatedefault;
-        }
+        Debug.Log("UpdateState =" + eState);
+            //This needs to get changed to when we update the state itself
         switch (eState)
         {
             case BuildingState.Available:
                 {
                     _srNotify.sprite = _sNotification;
                     _srNotify.enabled = true;
-                    _srPortrait.enabled = false;
-                    _srWorker.enabled = false;
+                    if (_Employee)
+                    {
+                        _Employee.showPortraitOutline(false);
+                        _Employee.showWorkerPortrait(false);
+
+                    }
                     _animator.SetBool("Notify", true);
                     _animator.SetBool("Building", false);
                     break;
@@ -162,33 +139,43 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Building:
                 {
                     _srNotify.sprite = _sBuildingHammer;
-                    _srWorker.sprite = _sWorker; // update to be empty elsewhere later on
+                    //_srWorker.sprite = _sWorker; // update to be empty elsewhere later on
                     _srNotify.enabled = true;
-                    _srPortrait.enabled = true;
-                    _srWorker.enabled = true;
-                    _animator.SetBool("Building", true);
+                    if (_Employee)
+                    {
+                        _Employee.showPortraitOutline(true);
+                        _Employee.showWorkerPortrait(true);
+                    }
+
+                        //_srWorker.enabled = true;
+                        _animator.SetBool("Building", true);
                     break;
                 }
             case BuildingState.Idle:
                 {
-                    _srWorker.sprite = _sWorker;
                     _srNotify.enabled = false;
-                    _srPortrait.enabled = true;
-                    _srWorker.enabled = true;
+                    if (_Employee)
+                    {
+                        _Employee.showPortraitOutline(true);
+                        _Employee.showWorkerPortrait(true);
+                    }
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
                 }
             case BuildingState.Built:
                 {
-                    _srWorker.sprite = _sWorker;
                     _srNotify.enabled = false;
-                    _srPortrait.enabled = true;
-                    _srWorker.enabled = true;
+                    if (_Employee)
+                    {
+                        _Employee.showPortraitOutline(true);
+                        _Employee.showWorkerPortrait(true);
+                    }
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
                 }
+           
         }
 
     }
@@ -207,12 +194,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         return _level;
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Something In Collider Range");
-    }
-
-    // Called from MVC controller to let the building know its been clicked
+    // used to be from MVC controller to let the building know its been clicked
     public void imClicked()
     {
         if (eState == BuildingState.Built)
@@ -231,7 +213,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //Default
             eState = BuildingState.Idle;
         }
-  
+
+        UpdateState();
 
     }
 
@@ -285,6 +268,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case null:
                 break;
         }
+        UpdateState();
         _BuildMenu.showMenu(false, Vector3.zero,null, this);
         StartCoroutine(BuildCoroutine());
     }
@@ -347,6 +331,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
 
         }
+        UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         StartCoroutine(DemolishCoroutine());
     }
@@ -427,35 +412,42 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void AssignWorker(Rodent r)
     {
        //Debug.Log("AssignWorker!" + r.getName());
-        _Worker = r;
-        bWorkerScript ws=_PortraitOutlineObject.GetComponent<bWorkerScript>();
-        if (ws)
+       
+        //Let employee worry about this
+        //_Worker = r;
+        if (_Employee)
         {
-            ws.setWorker(_Worker);
-            r.setTarget(this.gameObject);
-            _sWorker = r.GetPortrait();
+            _Employee.Assign(r);
+           // ws.setWorker(_Worker);
+            //r.setTarget(this.gameObject);
+           // _sWorker = r.GetPortrait();
             // Debug.LogError(_sWorker.ToString());
         }
         else
             r.setTarget(null);
+
         //To-Do: Something not being handled here is the status of Building to Built.
 
     }
     public void DismissWorker(Rodent r)
     {
-       // Debug.Log("DismissWorker!");
-        if (r != _Worker)
-            Debug.LogError("Rodents dont match:Uh-Oh?");
+        // Debug.Log("DismissWorker!");
+        // if (r != _Worker)
+        //   Debug.LogError("Rodents dont match:Uh-Oh?");
 
         //Tell the worker to fuck off
-        if (_Worker)
-            _Worker.setTarget(null);
-        else
-            Debug.LogError("Trying to dismiss a worker thats not there??");
+        /// if (_Worker)
+        //  _Worker.setTarget(null);
+        // else
+        //    Debug.LogError("Trying to dismiss a worker thats not there??");
+
+
+        if (_Employee)
+            _Employee.Dismiss();
 
         eState = BuildingState.Idle;
-        _Worker = null;
-        _sWorker = _sEmptyPortrait;
+       // _Worker = null;
+       // _sWorker = _sEmptyPortrait;
         //Resets the assignment window to get the available worker
         //appears it works well enough to call here, instead of _Worker.setTarget(null)
         UIAssignmentMenu.Instance.ResetButtons();
@@ -467,30 +459,42 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         // can always check the workScript if its occupied? 
         // or get all children of type bWorkerScript and see if any arent occupied
 
-        return (_Worker!=null);
+        if(_Employee)
+        {
+            return _Employee.isOccupied();
+        }
+
+
+        Debug.LogError("Employee Missing , false positive");
+        return true;
     }
     public void ShowRedX(bool cond)
     {
-        if (cond)
-        {
-            _srRedX.enabled = true;
-            MVCController.Instance.setLastRedX(this.gameObject);
-        }
-        else
-        {
-            _srRedX.enabled = false;
-            //Turn back on the collider possible hack
-            if(_PortraitOutlineObject)
-                _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
-        }
+        if (_Employee)
+            _Employee.ShowRedX(cond);
+
+
+//         if (cond)
+//         {
+//             _srRedX.enabled = true;
+//             MVCController.Instance.setLastRedX(this.gameObject);
+//         }
+//         else
+//         {
+//             _srRedX.enabled = false;
+//             //Turn back on the collider possible hack
+//             if(_PortraitOutlineObject)
+//                 _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
+//         }
     }
 
 
     public void OnMouseDown()
     {
         Debug.Log("Heard Mouse Down");
+        _BuildMenu.showMenu(true, Input.mousePosition, this.transform.gameObject, this);
 
-        //Show Menu
+        imClicked();
     }
 }
 

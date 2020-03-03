@@ -16,8 +16,10 @@ public class eWorkerOBJ : MonoBehaviour
         else
             _Img = Resources.Load<Sprite>("TmpAssests/Locked");
 
-        if(_Locked)
+        if (_Locked)
             this.GetComponent<SpriteRenderer>().sprite = _Img;
+        else
+            this.GetComponent<SpriteRenderer>().sprite = null;
     }
 
     public void SetRectMode(bool cond)

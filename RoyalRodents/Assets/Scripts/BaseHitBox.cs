@@ -12,13 +12,19 @@ public class BaseHitBox : MonoBehaviour
         {
             Transform t = this.transform.parent;
 
-            if(t.GetComponent<BuildableObject>())
+            if (t)
             {
-                t.GetComponent<BuildableObject>().OnMouseDown();
-            }
-            else if(t.GetComponent<Rodent>())
-            {
-                t.GetComponent<Rodent>().OnMouseDown();
+                Debug.Log("Enter T");
+                if (t.GetComponent<BuildableObject>())
+                {
+                    Debug.Log("Enter BO");
+                    t.GetComponent<BuildableObject>().OnMouseDown();
+                }
+                else if (t.GetComponent<Rodent>())
+                {
+                    Debug.Log("Enter Rodent");
+                    t.GetComponent<Rodent>().OnMouseDown();
+                }
             }
         }
     }

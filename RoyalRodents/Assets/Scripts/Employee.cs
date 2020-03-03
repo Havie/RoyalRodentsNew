@@ -28,7 +28,6 @@ public class Employee : MonoBehaviour
 
         ShowRedX(false);
 
-      
 
     }
 
@@ -64,7 +63,7 @@ public class Employee : MonoBehaviour
     }
     public void ShowRedX(bool cond)
     {
-        //Debug.Log("Employee Show Red X:" + cond);
+        Debug.Log("Employee Show Red X:" + cond);
 
         if (cond)
         {
@@ -100,5 +99,18 @@ public class Employee : MonoBehaviour
     public bool isOccupied()
     {
         return _Occupied;
+    }
+
+    public void showPortraitOutline(bool cond)
+    {
+        if (_PortraitOutline)
+            _PortraitOutline.gameObject.SetActive(cond);
+    }
+
+    public void showWorkerPortrait(bool cond)
+    {
+        Debug.Log("Heard show worker port-" + cond);
+        if (_WorkerObj)
+            _WorkerObj.gameObject.SetActive(cond);
     }
 }

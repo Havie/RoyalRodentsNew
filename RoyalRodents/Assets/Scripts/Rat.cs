@@ -62,15 +62,15 @@ public class Rat : MonoBehaviour
         if (_Animator == null)
             Debug.LogWarning("Cant Find Animator on Rat??");
 
-        _NeutralController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/RatController");
+        _NeutralController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/NeutralRatController");
         if (_NeutralController == null)
             Debug.LogWarning("Cant Find Neutral Controller on Rat");
 
-        _AlliedController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/RatController");
+        _AlliedController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/AlliedRatContoller");
         if (_AlliedController == null)
             Debug.LogWarning("Cant Find Allied Controller on Rat");
 
-        _EnemyController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/RatController");
+        _EnemyController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/EnemyRatController");
         if (_EnemyController == null)
             Debug.LogWarning("Cant Find Enemy Controller on Rat");
 

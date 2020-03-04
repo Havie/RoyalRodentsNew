@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public ResourceManagerScript _rm;
 
     //Rodent Lists
+    [SerializeField]
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
     public Transform _PlayerRodentDummy;
@@ -77,17 +78,17 @@ public class GameManager : MonoBehaviour
         _WinAnimator = _WinImg.GetComponent<Animator>();
         _LoseAnimator = _LoseImg.GetComponent<Animator>();
         //Shows the splash screen (TMP till main menu?)
-       // _SplashScreen.gameObject.SetActive(true);
+        // _SplashScreen.gameObject.SetActive(true);
 
 
         // Find any Rodents starting under Players control
-        // Any rodent set up this way should have PlayerRodent Tag in Inspector
-        GameObject[] go = GameObject.FindGameObjectsWithTag("PlayerRodent");
-        foreach (GameObject g in go)
+        Rodent[] rg = GameObject.FindObjectsOfType<Rodent>();
+
+        foreach (var r in rg)
         {
-            if (g.GetComponent<Rodent>())
+            if (r.getTeam()==1)
             {
-                _PlayerRodents.Add(g.GetComponent<Rodent>());
+                _PlayerRodents.Add(r);
             }
         }
 
@@ -146,6 +147,12 @@ public class GameManager : MonoBehaviour
         return _PlayerRodents;
     }
 
+	//Used to update amount of rodents player has
+	public int getPlayerRodentsCount()
+	{
+		return _PlayerRodents.Count;
+	}
+
 	public bTownCenter getTownCenter()
 	{
 		return _TownCenter;
@@ -154,6 +161,7 @@ public class GameManager : MonoBehaviour
     {
         //can Lists add duplicates? should we check against this?
         _PlayerRodents.Add(r);
+        _rm.UpdateCurrentPopulation();
 
         //Keep organized in hierarchy 
         r.gameObject.transform.SetParent(_PlayerRodentDummy);

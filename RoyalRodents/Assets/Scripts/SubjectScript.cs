@@ -445,7 +445,18 @@ public class SubjectScript : MonoBehaviour
 
         if (!ShouldIdle)
         {
-            IdleMovetoLoc(currentTarget.transform.position);
+            GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+            savedTarget = centerLocation;
+            if (Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
+            {
+                GameObject tempTarget = currentTarget;
+                currentTarget = savedTarget;
+                savedTarget = tempTarget;
+                if (_printStatements)
+                    Debug.Log("Target changed to " + currentTarget.ToString());
+            }
+
+            Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("WorkerMove");
         }

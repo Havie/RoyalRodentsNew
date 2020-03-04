@@ -16,6 +16,9 @@ public class bHouse :MonoBehaviour
 	public static Dictionary<string, int> _costLevel2 = new Dictionary<string, int>();
 	public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
 
+	//create Housing Capacity amounts per level
+	private int[] capacityIncrementAmount = new int[4];
+
 	private static bool _isSet;
 
 	void Start()
@@ -23,13 +26,13 @@ public class bHouse :MonoBehaviour
         _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/House/trash_house");
 		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/House/wood_house");
 		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/House/stone_house");
-	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		//how much total each level contributes to the population capacity
+		capacityIncrementAmount[0] = 0;
+		capacityIncrementAmount[1] = 2;
+		capacityIncrementAmount[2] = 5;
+		capacityIncrementAmount[3] = 9;
+	}
 
 	private static void setupCosts()
 	{
@@ -51,15 +54,29 @@ public class bHouse :MonoBehaviour
 
     public float BuildingComplete(int level)
     {
-       if (level == 1)
-         this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
-       else if (level == 2)
-            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
-	   else if (level == 3)
-            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
+		//Set new structure sprite
+		if (level == 1)
+		{
+			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
+		}
+        else if (level == 2)
+		{
+			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
+		}
+	    else if (level == 3)
+		{
+			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
+		}
+		//increment Population Capacity
+		ResourceManagerScript.Instance.incrementPopulationCapacity(capacityIncrementAmount[level] - capacityIncrementAmount[level-1]);
 
-        return (_hitpoints + (_hitPointGrowth*level));
+		return (_hitpoints + (_hitPointGrowth*level));
     }
+
+	public void DemolishAction(int level)
+	{
+		ResourceManagerScript.Instance.incrementPopulationCapacity(-capacityIncrementAmount[level]);
+	}
    
 	public static Dictionary<string, int> getCost(int level)
 	{

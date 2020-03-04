@@ -10,19 +10,21 @@ public class UIAssignmentMenu : MonoBehaviour
 
     [SerializeField]
     private GameObject _buttonTemplate;
+    [SerializeField]
+    private List<Rodent> _rList;
 
     private Quaternion _defaultRotation;
 
     private bool _active;
-    private Button[] _buttons=new Button[10];
+    private Button[] _buttons = new Button[10];
     private int _index;
     private int _used;
     private int _aspectHeight;
-    MVCController controller;
-    private List<Rodent> _rList;
-    private CameraController _cameraController;
 
+
+    private CameraController _cameraController;
     private UIAssignmentVFX _vfx;
+    private GameObject _owner;
 
     public static UIAssignmentMenu Instance
     {
@@ -44,8 +46,8 @@ public class UIAssignmentMenu : MonoBehaviour
             _aspectHeight = 30;
 
         //Get our prefab if it isn't manually assigned
-        if(!_buttonTemplate)
-            _buttonTemplate= Resources.Load<GameObject>("UI/Button_Rodent");
+        if (!_buttonTemplate)
+            _buttonTemplate = Resources.Load<GameObject>("UI/Button_Rodent");
 
         if (_buttonTemplate)
             _defaultRotation = _buttonTemplate.transform.rotation;
@@ -54,34 +56,49 @@ public class UIAssignmentMenu : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        if(_active)
+        if (_active)
         {
-            if(Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 //setActive(false);
                 showMenu(false);
             }
         }
     }
-    public void showMenu(bool cond)
+    //new Menu that will tell us which object showed menu
+    public void showMenu(bool cond, GameObject ObjectThatCalled)
     {
-       // Debug.Log("ShowMenu::"+cond);
+        showMenu(cond);
+        //I am not even sure we need to keep track of this as buttons can be dragged into any receiver..
+        _owner = ObjectThatCalled;
+    }
+    //used internally 
+    private void showMenu(bool cond)
+    {
+        // Debug.Log("ShowMenu::"+cond);
         setActive(cond);
+        Debug.Log("index is=" + _index);
 
-       for (int i=0; i<_index; ++i)
+
+        for (int i = 0; i < _index; ++i)
         {
-           _buttons[i].gameObject.SetActive(cond);
+            _buttons[i].gameObject.SetActive(cond);
             _buttons[i].transform.rotation = _defaultRotation;
         }
-       GameObject p= GameObject.FindGameObjectWithTag("Player");
-        if(p)
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p)
         {
-            PlayerStats ps= p.GetComponent<PlayerStats>();
-            if(ps)
+            PlayerStats ps = p.GetComponent<PlayerStats>();
+            if (ps)
                 ps.ShowRoyalGuard(cond);
+
+
+            PlayerMovement pm = p.GetComponent<PlayerMovement>();
+            if (pm)
+                pm.StopMoving();
+
 
         }
 
@@ -90,8 +107,11 @@ public class UIAssignmentMenu : MonoBehaviour
         {
             _index = 0;
             _rList = null;
+
         }
     }
+
+
     public bool isActive()
     {
         return _active;
@@ -101,10 +121,10 @@ public class UIAssignmentMenu : MonoBehaviour
     private void setActive(bool cond)
     {
         _active = cond;
-        if(_active)
+        if (_active)
         {
             //Change Camera Control
-            if(_cameraController)
+            if (_cameraController)
                 _cameraController.setCharacterMode(false);
         }
         else
@@ -128,13 +148,16 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     private void FindAvailable()
     {
+
         if (_rList == null)
             return;
+
+        Debug.Log("FindAvail");
         foreach (Rodent r in _rList)
         {
             if (r.GetRodentStatus() == Rodent.eStatus.Available)
             {
-                // Debug.Log(r.getName() + "  is Available");
+                Debug.Log(r.getName() + "  is Available");
                 CreateButton(r);
             }
         }
@@ -143,13 +166,13 @@ public class UIAssignmentMenu : MonoBehaviour
     //Will need to send in portrait later on
     public void CreateButton(Rodent rodent)
     {
-       // Debug.Log("Make a Button for :" +rodent.getName());
+        // Debug.Log("Make a Button for :" +rodent.getName());
 
         //Make new Buttons
         if (_index >= _used)
         {
-           // Debug.Log("Make a new Button!");
-           //Make a new button from prefab
+            // Debug.Log("Make a new Button!");
+            //Make a new button from prefab
             GameObject o = Instantiate(_buttonTemplate);
             o.gameObject.transform.SetParent(this.transform);
             //offset it to stack upwards
@@ -177,7 +200,7 @@ public class UIAssignmentMenu : MonoBehaviour
                 }
                 //Assign Image 
                 t = b.transform.Find("Portrait");
-                if(t)
+                if (t)
                 {
                     Image image = t.GetComponent<Image>();
                     if (image)
@@ -190,7 +213,7 @@ public class UIAssignmentMenu : MonoBehaviour
         //Reuse Old Buttons
         else
         {
-          //  Debug.Log("Reuse a Button! for " + rodent.getName()+ " @Index:" +_index +"    used:"+ _used );
+            //  Debug.Log("Reuse a Button! for " + rodent.getName()+ " @Index:" +_index +"    used:"+ _used );
             Button b = _buttons[_index];
             if (b)
             {
@@ -198,10 +221,10 @@ public class UIAssignmentMenu : MonoBehaviour
                 if (holder)
                     holder.setRodent(rodent);
 
-                    ++_index;
+                ++_index;
 
                 Transform t = b.transform.Find("Name");
- 
+
                 TextMeshProUGUI text = t.GetComponent<TextMeshProUGUI>();
                 if (t)
                 {
@@ -238,7 +261,7 @@ public class UIAssignmentMenu : MonoBehaviour
     /** used by UI button */
     public void ToggleMenu()
     {
-        
+        MVCController.Instance.CheckClicks(false);
         showMenu(!_active);
         ToggleVFX();
 

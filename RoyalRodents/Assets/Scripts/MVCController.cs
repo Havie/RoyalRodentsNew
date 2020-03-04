@@ -18,7 +18,7 @@ public class MVCController : MonoBehaviour
     [SerializeField]
     private Rodent _lastRodent;
     [SerializeField]
-    private GameObject _dummyObj;
+    public GameObject _dummyObj;
     public bool _isBuilding;
 
     public bool checkingClicks;
@@ -64,7 +64,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = false;
+        _printStatements = true;
     }
 
 
@@ -141,6 +141,18 @@ public class MVCController : MonoBehaviour
            // Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
+
+
+    public GameObject checkClick2(Vector3 MouseRaw)
+    {
+
+
+
+
+        return null;
+    }
+
+
     /**This function is now called by the Player
     *Responsible for checking what was clicked, then notifying it if it needs to know
     */
@@ -253,7 +265,7 @@ public class MVCController : MonoBehaviour
 
                 }
 
-                _AssignmentMenu.showMenu(false);
+                _AssignmentMenu.showMenu(false,null);
                 showRedX(false);
                 showRecruitMenu(false, Vector3.zero, "", 0, 0);
 
@@ -464,7 +476,7 @@ public class MVCController : MonoBehaviour
     public void showAssignmenu(bool cond)
     {
         if (_AssignmentMenu && !_assignDummy)
-            _AssignmentMenu.showMenu(cond);
+            _AssignmentMenu.showMenu(cond, _lastClicked);  // TO-DO: NEED TO PHASE OUT?
     }
     public void showRecruitMenu(bool cond, Vector3 loc, string name, int foodCost, int popCost)
     {

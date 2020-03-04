@@ -21,9 +21,9 @@ public class SubjectScript : MonoBehaviour
     public GameObject savedTarget;
     public Vector3 IdlePos;
     private bool facingRight;
-    private bool royalGuard = false;
-    private bool worker = false;
-    private bool builder = true;
+    public bool royalGuard = true;
+    public bool worker = false;
+    public bool builder = false;
     private bool coroutineStarted = false;
     private bool ShouldIdle = false;
     private bool MovingInIdle = false;
@@ -399,6 +399,7 @@ public class SubjectScript : MonoBehaviour
     {
         // Code assumes that currentTarget will always be an enemy rodent or building if it is not the player
         float closestDistance = 10f;
+        Debug.Log("SUBJECT: Target at time of collision: " + currentTarget.ToString());
 
         // Check if current target is not king. if so, closest distance = current target
         if (!(currentTarget.tag == "Player"))
@@ -418,7 +419,7 @@ public class SubjectScript : MonoBehaviour
                 {
                     // Set new target
                     currentTarget = collision.transform.gameObject;
-                    Debug.Log("Target changed to " + currentTarget.ToString());
+                    Debug.Log("SUBJECT: Target changed to " + currentTarget.ToString());
                 }
             }
         }

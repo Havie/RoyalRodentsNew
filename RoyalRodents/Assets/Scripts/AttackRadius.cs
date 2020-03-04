@@ -12,10 +12,9 @@ public class AttackRadius : MonoBehaviour
     void Start()
     {
         _range = this.GetComponent<BoxCollider2D>();
-       if(_subjectScript == null)
-        {
-            _subjectScript = transform.parent.GetComponent<SubjectScript>();
-        }
+       
+        _subjectScript = transform.parent.GetComponent<SubjectScript>();
+        
     }
 
     // Update is called once per frame
@@ -26,7 +25,7 @@ public class AttackRadius : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
+        Debug.Log("Rat collision detected");
         // Send collider, check for properties in script
         _subjectScript.FindAttackTarget(collision); 
     }

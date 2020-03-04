@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
                 crouch = false;
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
                 // Attack();
@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
                 //Touch touch = Input.GetTouch(0);
                 //Vector2 pos= touch.position;
 
-                GameObject go = MVCController.Instance.checkClick2(Input.mousePosition);
+                GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
                 if(go)
                 {
                    //check if object is in range

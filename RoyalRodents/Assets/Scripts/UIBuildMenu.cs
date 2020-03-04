@@ -82,6 +82,7 @@ public class UIBuildMenu : MonoBehaviour
 
     public bool isActive()
     {
+        Debug.Log("BUILD MENU ACTIVE=" + _active);
         return _active;
     }
 

@@ -63,7 +63,7 @@ public class Employee : MonoBehaviour
     }
     public void ShowRedX(bool cond)
     {
-        Debug.Log("Employee Show Red X:" + cond);
+        //Debug.Log("Employee Show Red X:" + cond);
 
         if (cond)
         {
@@ -109,7 +109,7 @@ public class Employee : MonoBehaviour
 
     public void showWorkerPortrait(bool cond)
     {
-        Debug.Log("Heard show worker port-" + cond);
+      //  Debug.Log("Heard show worker port-" + cond);
         if (_WorkerObj)
             _WorkerObj.gameObject.SetActive(cond);
     }

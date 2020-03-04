@@ -14,12 +14,12 @@ public class Demolish : MonoBehaviour
     public void onMouseEnter()
     {
        // Debug.Log("HEARD ENTER");
-        MVCController.Instance.CheckClicks(false);
+       // MVCController.Instance.CheckClicks(false);
     }
     public void OnMouseExit()
     {
        // Debug.Log("HEARD EXIT");
-        MVCController.Instance.CheckClicks(true);
+       // MVCController.Instance.CheckClicks(true);
     }
 
 }

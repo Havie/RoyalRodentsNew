@@ -118,7 +118,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     private void UpdateState()
     {
-        Debug.Log("UpdateState =" + eState);
+        //Debug.Log("UpdateState =" + eState);
             //This needs to get changed to when we update the state itself
         switch (eState)
         {
@@ -270,6 +270,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
         _BuildMenu.showMenu(false, Vector3.zero,null, this);
+        TurnCollderOn(true);
         StartCoroutine(BuildCoroutine());
     }
 
@@ -280,6 +281,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _level++;
 
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
+        TurnCollderOn(true);
         StartCoroutine(BuildCoroutine());
     }
 
@@ -333,6 +335,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
+        TurnCollderOn(true);
         StartCoroutine(DemolishCoroutine());
     }
 
@@ -487,14 +490,41 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 //                 _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
 //         }
     }
-
+    public void TurnCollderOn(bool cond)
+    {
+        //hack
+        this.GetComponentInChildren<BaseHitBox>().turnOnCollider(cond);
+    }
 
     public void OnMouseDown()
     {
-        Debug.Log("Heard Mouse Down");
-        _BuildMenu.showMenu(true, Input.mousePosition, this.transform.gameObject, this);
+        //Should be turning the collider off here instead of in BaseHitBox , maybe
+
+        //Debug.Log("Heard Mouse Down");
+
+        if(eState==BuildingState.Available || eState == BuildingState.Idle)
+        {
+            StartCoroutine(ClickDelay(true, _BuildMenu));
+        }
+        else if (eState == BuildingState.Building)
+        {
+            //do nothing
+        }
+
+        else
+            StartCoroutine(ClickDelay(true, _DestroyMenu));
+
+        // MVC Dummy Not Working
+      //  MVCController.Instance.ShowDummy(true, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         imClicked();
+    }
+    //Absolute nonsense i have to do this otherwise the same click insta clicks a button on the menu opened
+    IEnumerator ClickDelay(bool cond, UIBuildMenu menu)
+    {
+        yield return new WaitForSeconds(0.05f);
+        menu.showMenu(cond, Input.mousePosition, this.transform.gameObject, this);
+
     }
 }
 

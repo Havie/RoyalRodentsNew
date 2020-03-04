@@ -198,12 +198,12 @@ public class UIRecruitMenu : MonoBehaviour
     public void MouseEnter()
     {
         // Debug.Log("HEARD ENTER");
-        MVCController.Instance.CheckClicks(false);
+       // MVCController.Instance.CheckClicks(false);
     }
     public void MouseExit()
     {
        // Debug.Log("HEARD EXIT");
-        MVCController.Instance.CheckClicks(true);
+        //MVCController.Instance.CheckClicks(true);
     }
     private void SetUpFromChildren()
     {

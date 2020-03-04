@@ -123,9 +123,14 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         if (Input.GetMouseButtonDown(0))
         {
-          //  Debug.Log("Selected");
+           Debug.Log("Selected");
             _selected = true;
         }
+    }
+    public void OnMouseDown()
+    {
+        Debug.Log("Selected");
+        _selected = true;
     }
 
     /************************************************************************/
@@ -136,15 +141,15 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log("Enter");
-        _hovering = true;
-        MVCController.Instance.CheckClicks(false);
+       // _hovering = true;
+       // MVCController.Instance.CheckClicks(false);
 
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         // Debug.Log("EXIT!!");
-        _hovering = false;
-        MVCController.Instance.CheckClicks(true);
+        //_hovering = false;
+        //MVCController.Instance.CheckClicks(true);
     }
 }

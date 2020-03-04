@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -31,6 +32,8 @@ public class MVCController : MonoBehaviour
 
     private bool _recruitDummy;
     private bool _assignDummy;
+
+    private BaseHitBox _lastColliderOFF;
 
     private bool _printStatements;
 
@@ -137,19 +140,28 @@ public class MVCController : MonoBehaviour
 
     public void CheckClicks(bool b)
     {
-       // if (_printStatements)
-           // Debug.Log("Were Told to check clicks::" + b);
+        if (_printStatements)
+            Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
 
-
-    public GameObject checkClick2(Vector3 MouseRaw)
+    IEnumerator ClickDelay()
     {
+        CheckClicks(false);
+        yield return new WaitForSeconds(0.5f);
+        CheckClicks(true);
+    }
 
-        Debug.Log("CheckClick2 Heard  LastClick=" + _lastClicked);
-
-
-        return null;
+    public void ShowDummy(bool cond, Vector3 loc)
+    {
+        _dummyObj.gameObject.SetActive(cond);
+        _dummyObj.transform.position = loc;
+    }
+    public void rememberHitBox(BaseHitBox hitbox)
+    {
+        if (_lastColliderOFF)
+            _lastColliderOFF.turnOnCollider(true);
+        _lastColliderOFF = hitbox;
     }
 
 
@@ -161,6 +173,8 @@ public class MVCController : MonoBehaviour
         if (_printStatements)
             Debug.Log("Check Click!");
 
+        //The following will detect UI Elements in the canvas
+        CheckClicks(AlternateUITest(MouseRaw));
 
         if (!checkingClicks && !UIAssignmentMenu.Instance.isActive())
         {
@@ -213,6 +227,10 @@ public class MVCController : MonoBehaviour
             if (_printStatements)
                 Debug.Log("Enter");
             GameObject _TMPlastClicked = hit.collider.gameObject;
+
+           // if (_TMPlastClicked == _dummyObj)
+               // return _dummyObj;
+
 
 
             if (_TMPlastClicked.GetComponent<Rodent>())
@@ -310,8 +328,8 @@ public class MVCController : MonoBehaviour
                 Debug.Log("Fall through Case1");
 
             _isBuilding = false;
-            //return TurnThingsoff();
-            return null;
+            return TurnThingsoff();
+            //return null;
         }
 
 
@@ -366,6 +384,7 @@ public class MVCController : MonoBehaviour
             Debug.Log("setLast to" + o);
         _lastClicked = o;
         _recruitDummy = false;
+        StartCoroutine(ClickDelay());
     }
     public void clearLastClicked()
     {
@@ -449,6 +468,9 @@ public class MVCController : MonoBehaviour
 
         clearLastClicked();
 
+        if(_lastColliderOFF)
+            _lastColliderOFF.turnOnCollider(true);
+
         return null;
     }
 
@@ -519,6 +541,56 @@ public class MVCController : MonoBehaviour
         r.tag = "PlayerRodent";
         r.Recruit();
         CheckClicks(true);
+    }
+
+
+    private bool AlternateUITest(Vector3 MouseRaw)
+    {
+        GraphicRaycaster gr = GameObject.FindGameObjectWithTag("Canvas").GetComponent<GraphicRaycaster>();
+        EventSystem es = GameManager.Instance.transform.GetComponentInChildren<EventSystem>();
+
+        if (es == null)
+            Debug.Log("NO EventSys");
+
+        //Set up the new Pointer Event
+        PointerEventData m_PointerEventData = new PointerEventData(es);
+        //Set the Pointer Event Position to that of the mouse position
+        m_PointerEventData.position = MouseRaw;
+
+        //Create a list of Raycast Results
+        List<RaycastResult> results = new List<RaycastResult>();
+        //RayCast it
+        if (gr)
+            gr.Raycast(m_PointerEventData, results);
+        else
+            Debug.Log("NO GraphicRaycaster");
+
+        //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
+        foreach (RaycastResult result in results)
+        {
+            //Debug.LogError("GraphicCaster Hit " + result.gameObject.name);
+            if(result.gameObject.GetComponent<Button>())
+            {
+                Debug.Log("Found a Button Setting clicks to false");
+
+                //Might need to check certain buttons scripts to set assignmentDummy=true;
+
+
+                return false;
+            }
+        }
+        return true;
+
+        /*
+        results.Clear();
+        EventSystem.current.RaycastAll(m_PointerEventData, results);
+        if (results.Count > 0)
+        {
+         foreach (RaycastResult result in results)
+         {
+               Debug.LogError("Alternate Hit " + result.gameObject.name);
+            }
+        }*/
     }
 }
 

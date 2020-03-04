@@ -187,7 +187,8 @@ public class UIButtonCosts : MonoBehaviour
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts()
     {
-		UpdateButton();
+        Debug.LogWarning("Heard UI ApproveCosts");
+        UpdateButton();
 
         if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
         {
@@ -245,11 +246,11 @@ public class UIButtonCosts : MonoBehaviour
     public void MouseEnter()
     {
        // Debug.Log("HEARD ENTER");
-        MVCController.Instance.CheckClicks(false);
+        //MVCController.Instance.CheckClicks(false);
     }
     public void MouseExit()
     {
        // Debug.Log("HEARD EXIT");
-        MVCController.Instance.CheckClicks(true);
+        //MVCController.Instance.CheckClicks(true);
     }
 }

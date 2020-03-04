@@ -79,8 +79,6 @@ public class UIAssignmentMenu : MonoBehaviour
     {
         // Debug.Log("ShowMenu::"+cond);
         setActive(cond);
-        Debug.Log("index is=" + _index);
-
 
         for (int i = 0; i < _index; ++i)
         {
@@ -152,12 +150,12 @@ public class UIAssignmentMenu : MonoBehaviour
         if (_rList == null)
             return;
 
-        Debug.Log("FindAvail");
+       // Debug.Log("FindAvail");
         foreach (Rodent r in _rList)
         {
             if (r.GetRodentStatus() == Rodent.eStatus.Available)
             {
-                Debug.Log(r.getName() + "  is Available");
+                //Debug.Log(r.getName() + "  is Available");
                 CreateButton(r);
             }
         }
@@ -261,7 +259,7 @@ public class UIAssignmentMenu : MonoBehaviour
     /** used by UI button */
     public void ToggleMenu()
     {
-        MVCController.Instance.CheckClicks(false);
+        //MVCController.Instance.CheckClicks(false);
         showMenu(!_active);
         ToggleVFX();
 

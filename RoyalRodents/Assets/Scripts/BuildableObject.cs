@@ -206,15 +206,19 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             // Turns off the "notification exclamation mark" as the player is now aware of obj
             eState = BuildingState.Idle;
 
+            StartCoroutine(ClickDelay(true, _BuildMenu));
+
             //Disconnect here, MVC controller is now responsible for talking to UI
         }
         else
         {
             //Default
             eState = BuildingState.Idle;
+            StartCoroutine(ClickDelay(true, _DestroyMenu));
         }
 
         UpdateState();
+
 
     }
 
@@ -496,7 +500,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         this.GetComponentInChildren<BaseHitBox>().turnOnCollider(cond);
     }
 
-    public void OnMouseDown()
+    public void OnMouseDownPHASEDOUT()
     {
         //Should be turning the collider off here instead of in BaseHitBox , maybe
 

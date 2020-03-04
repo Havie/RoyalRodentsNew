@@ -15,21 +15,23 @@ public class BaseHitBox : MonoBehaviour
             if (t)
             {
                // Debug.Log("Enter T");
+               // No longer control clicks here, will all be done through MVC so we can pass in touch input in one single location
+               // these mouse down methods will not work on Touch Screen
                 if (t.GetComponent<BuildableObject>())
                 {
                    // Debug.Log("Enter BO");
-                    t.GetComponent<BuildableObject>().OnMouseDown();
+                   // t.GetComponent<BuildableObject>().OnMouseDown();
                 }
                 else if (t.GetComponent<Rodent>())
                 {
                   //  Debug.Log("Enter Rodent");
-                    t.GetComponent<Rodent>().OnMouseDown();
+                   // t.GetComponent<Rodent>().OnMouseDown();
                 }
             }
         }
 
-        MVCController.Instance.rememberHitBox(this);
-        turnOnCollider(false);
+       // MVCController.Instance.rememberHitBox(this);
+       // turnOnCollider(false);
     }
 
     public void turnOnCollider(bool cond)

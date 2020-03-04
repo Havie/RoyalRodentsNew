@@ -266,7 +266,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         return _PopulationCost;
     }
 
-    public void OnMouseDown()
+    public void imClicked()
     {
         // Debug.Log("HeardMouseDown  " + _Name);
 

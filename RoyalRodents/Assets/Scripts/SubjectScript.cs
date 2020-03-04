@@ -406,21 +406,37 @@ public class SubjectScript : MonoBehaviour
             closestDistance = currentTarget.transform.position.x;
         }
         // Look at the new collision, check if it's an enemy, and compare it to closest distance
+
+        // Rodent case
         if (collision.transform.gameObject.GetComponent<Rodent>())
         {
             // Check for enemy team
-
-            // Compare distance
-
-            // Set new target
+            if (collision.transform.gameObject.GetComponent<Rodent>().getTeam() == 2)
+            {
+                // Compare distance
+                if (Mathf.Abs(this.transform.position.x - collision.transform.position.x) < Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x))
+                {
+                    // Set new target
+                    currentTarget = collision.transform.gameObject;
+                    Debug.Log("Target changed to " + currentTarget.ToString());
+                }
+            }
         }
+
+        //Building case
         else if (collision.transform.gameObject.GetComponent<BuildableObject>())
         {
             // Check for enemy team
-
+            //if (collision.transform.gameObject.GetComponent<BuildableObject>().getTeam() == 2)
+            //{
             // Compare distance
+                //if (Mathf.Abs(this.transform.position.x - collision.transform.position.x) < Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x))
+                //{
+                //// Set new target
+                //currentTarget = collision.transform.gameObject;
+                //}
+            //}
 
-            // Set new target
         }
 
         // When target dies, find new target? Or reset to king and let the collider try to find a new one
@@ -444,17 +460,7 @@ public class SubjectScript : MonoBehaviour
         // Future: Be able to work occupy the building and deliver resources to the town center
 
         if (!ShouldIdle)
-        {
-            GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
-            savedTarget = centerLocation;
-            if (Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x) < 1f)
-            {
-                GameObject tempTarget = currentTarget;
-                currentTarget = savedTarget;
-                savedTarget = tempTarget;
-                if (_printStatements)
-                    Debug.Log("Target changed to " + currentTarget.ToString());
-            }
+        { 
 
             Move(currentTarget);
             if (_printStatements)
@@ -474,7 +480,7 @@ public class SubjectScript : MonoBehaviour
         // Move(currentTarget);
         if (!ShouldIdle)
         {
-            // If close enough to target, rodent switches between building and town center
+            
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("BuilderMove");

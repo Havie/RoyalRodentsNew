@@ -46,28 +46,33 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                     {
                         if (go.GetComponent<BuildableObject>())
                         {
-                           // Debug.Log("Successful Raycast1 =" + go.gameObject);
+                            _selected = false;
+                            Debug.Log("Successful Raycast1 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
-                            this.transform.position = _startLoc;
+                            this.transform.localPosition = _startLoc;
+                            Debug.Log("Start Loc =" + _startLoc);
                         }
                         else if(go.GetComponent<PlayerStats>())
                         {
-                            //Debug.Log("Successful Raycast2 =" + go.gameObject);
+                            _selected = false;
+                            Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                             this.transform.position = _startLoc;
                         }
                         else
                         {
-                           //Debug.Log("Failed Raycast =" + go.gameObject);
+                            _selected = false;
+                            Debug.Log("Failed Raycast =" + go.gameObject);
                             this.transform.position = _startLoc;
                             this.transform.rotation = _startRot;
                         }
                     }
                     else
                     {
+                        _selected = false;
                         this.transform.position = _startLoc;
                         this.transform.rotation = _startRot;
-                       // Debug.Log("Go Is NULL");
+                        Debug.Log("Go Is NULL");
                     }
                 }
 
@@ -75,17 +80,9 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
             }
         }
-        else if (_hovering)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                // Debug.Log("Selected");
-                _selected = true;
-                _startLoc = this.transform.position;
-                _startRot = this.transform.rotation;
-            }
-        }
-
+        if (_startLoc!=null)
+            if(_startLoc != Vector3.zero)
+                Debug.LogWarning(_startLoc);
 
     }
 
@@ -127,10 +124,14 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
             _selected = true;
         }
     }
+    // Actually called on Click event 
     public void OnMouseDown()
     {
         Debug.Log("Selected");
         _selected = true;
+
+        _startLoc = this.transform.localPosition;
+        _startRot = this.transform.rotation;
     }
 
     /************************************************************************/

@@ -31,13 +31,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     private int _level = 0;
 
-    private Employee _Employee;
+    private Employee _Employee; // handles all the portrait worker stuff
 
     private SpriteRenderer _sr;
     private SpriteRenderer _srNotify;
-    private SpriteRenderer _srWorker;
-    private SpriteRenderer _srPortrait;
-    private SpriteRenderer _srRedX;
+
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
     private MVCController _controller;
@@ -49,7 +47,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public enum BuildingState { Available, Idle, Building, Built };
     public enum BuildingType { House, Farm, Tower, Wall, TownCenter, Vacant}
 
-
+    [SerializeField]
+    private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
 
 
     /**Begin Interface stuff*/
@@ -114,6 +113,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         _Employee = this.transform.GetComponentInChildren<Employee>();
         UpdateState();
+        SetUpTeam();
     }
 
     private void UpdateState()
@@ -179,6 +179,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
 
     }
+    private void SetUpTeam()
+    {
+        //To-Do:
+        //method will need a way to findout which team this building should be on
+        //either via tag, starting team inspector, or world map/state loaded from game manager
+
+        //for now buildings are players
+        setTeam(1);
+    }
+
 
     //Getters
     public BuildingState getState()
@@ -192,6 +202,21 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public int getLevel()
     {
         return _level;
+    }
+    /**Sets the ID for the team
+    * 0 = neutral
+    * 1 = player
+    * 2 = enemy
+    * Also handles updating the Animator based on Type*/
+    public void setTeam(int id)
+    {
+        if (id > -1 && id < 3)
+            _Team = id;
+
+    }
+    public int getTeam()
+    {
+        return _Team;
     }
 
     // used to be from MVC controller to let the building know its been clicked
@@ -487,8 +512,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     IEnumerator ClickDelay(bool cond, UIBuildMenu menu)
     {
         yield return new WaitForSeconds(0.05f);
-
-        Debug.Log("Will need to get click location from somewhere for Mobile");
+        // To-Do: update for touch
+       // Debug.Log("Will need to get click location from somewhere for Mobile");
         Vector3 Location = Input.mousePosition;
 
         menu.showMenu(cond, Location, this.transform.gameObject, this);

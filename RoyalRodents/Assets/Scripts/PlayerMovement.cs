@@ -50,18 +50,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-
-        //check if we've reached our current Target
-        if (_MoveLocation != null && _horizontalMove != 0)
-        {
-            // check our distance to see if weve reached it 
-
-            // would be nice if we could get the radius from our box collider somehow
-
-            // if reached, set horiz move to 0
-        }
-        // horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
-
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
@@ -89,44 +77,114 @@ public class PlayerMovement : MonoBehaviour
             //Touch touch = Input.GetTouch(0);
             //Vector2 pos= touch.position;
 
-            GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
+            Vector3 input = Input.mousePosition;
+
+            int count = Input.touchCount;
+            if(count>0)
+            {
+               
+               Touch touch = Input.GetTouch(0);
+
+               if( touch.phase == TouchPhase.Began )
+                    input = touch.position;
+            }
+
+            GameObject go = MVCController.Instance.checkClick(input);
             if (go && _controlled)
             {
-                //check if object is in range
-                if (_InRange.Contains(go))
-                {
-                    // if its in range , check its type / team
-                    // if team 0 / 1 pull up menus
-
-                    // if team 2 attack
-                }
-                else if (go == MVCController.Instance._dummyObj)
+               
+                if (go == MVCController.Instance._dummyObj)
                 {
                     //if the item returned is a UI element do nothing?
                     Debug.Log("Received Dummy OBJ in playerMove");
 
                 }
-                // if it isn't in range, move toward it with normalized direction
+                // possibly move toward it with normalized direction
                 else
                 {
-                    //need to do away with this DummyObj Eventually
-                    //if(go == MVCController.Instance._dummyObj)
-                    // go.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
 
                     Debug.Log("Location for " + go + "   is " + go.transform.position);
-                    _MoveLocation.transform.position = go.transform.position;
-                    _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+
+                    //figure out if the collider is on a building we own
+                    if(go.transform.parent)
+                    {
+                        //check if its a building
+                        if(go.transform.parent.GetComponent<BuildableObject>())
+                        {
+                            Debug.Log("Found a BuildableObject");
+                            //check team
+                            //player team - do not move
+                            if(go.transform.parent.GetComponent<BuildableObject>().getTeam()==1)
+                            {
+                                //do nothing 
+                            }
+                            else // enemy team move to it ( no such thing as neutral buildings?)
+                            {
+                                _MoveLocation.transform.position = go.transform.position;
+                                _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                            }
+                        }
+                        //check if its a rodent place 1 - parent could be the spawn volume or Player Rodent list
+                        else if (go.GetComponent<Rodent>())
+                        {
+
+                            Debug.Log("Found a Rodent w parent");
+                            //check team
+                            //player team - do not move
+                            if (go.GetComponent<Rodent>().getTeam() == 1 || go.GetComponent<Rodent>().getTeam() == 0)
+                            {
+                                //do nothing 
+                            }
+                            else //enemy
+                            {
+                                //check in range
+
+                                // else move toward it? 
+                                Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
+
+                                _MoveLocation.transform.position = go.transform.position;
+                                _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                            }
+                        }
+                    }
+                    //check if its a rodent Place 2 - no parent? possible?
+                    else if (go.GetComponent<Rodent>())
+                    {
+                        Debug.LogWarning("Found a Rodent no parent shouldnt happen"); 
+                    }
+
+
                 }
             }
             else if (_controlled)
             {
-
-                _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
-                _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+                //make sure the click is far enough away from us 
+                StartCoroutine(MoveDelay());
+               
             }
 
         }
 
+    }
+
+    IEnumerator MoveDelay()
+    {
+        //Keep track of old Y
+        float _oldY = _MoveLocation.transform.position.y;
+        //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
+        _MoveLocation.transform.position = new Vector3(0, 3200, 0);
+        //wait a split second to reset collision
+        yield return new WaitForSeconds(0.1f);
+        // pick the actual correct location to move
+        _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _oldY, 0);
+        float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
+       
+        // Debug.Log("MoveDis:: " + _moveDis);
+
+        // an extra layer so we dont move if the click is too close
+        if (Mathf.Abs(_moveDis) > 0.6f)
+            _horizontalMove = _moveDis * _moveSpeed;
     }
 
     private void FixedUpdate()

@@ -84,7 +84,6 @@ public class MVCController : MonoBehaviour
     {
         _RecruitMenu = rm;
     }
-
     /* * Called from "Approve Costs" in UIButtonCosts Script* */
     public void MVCBuildSomething(string type)
     {
@@ -102,7 +101,6 @@ public class MVCController : MonoBehaviour
             CheckClicks(true);
         }
     }
-
     public void MVCUpgradeSomething()
     {
         if (_lastClicked == null)
@@ -119,7 +117,6 @@ public class MVCController : MonoBehaviour
             CheckClicks(true);
         }
     }
-
     public void MVCDemolishSomething()
     {
         if (_lastClicked == null)
@@ -136,36 +133,24 @@ public class MVCController : MonoBehaviour
             CheckClicks(true);
         }
     }
-
-
     public void CheckClicks(bool b)
     {
         if (_printStatements)
             Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
-
     IEnumerator ClickDelay()
     {
         CheckClicks(false);
         yield return new WaitForSeconds(0.5f);
         CheckClicks(true);
     }
-
     public void ShowDummy(bool cond, Vector3 loc)
     {
         _dummyObj.gameObject.SetActive(cond);
         _dummyObj.transform.position = loc;
     }
-    public void rememberHitBox(BaseHitBox hitbox)
-    {
-        if (_lastColliderOFF)
-            _lastColliderOFF.turnOnCollider(true);
-        _lastColliderOFF = hitbox;
-    }
-
-
-    /**This function is now called by the Player
+    /**This function is now called by the Player in PlayerMovement
     *Responsible for checking what was clicked, then notifying it if it needs to know
     */
     public GameObject checkClick(Vector3 MouseRaw)
@@ -385,25 +370,6 @@ public class MVCController : MonoBehaviour
         }
     }
 
-    /**
-     * Returns True if the object is not a building or Button
-     */
-    public bool checkIfAttackable(Vector3 MouseLoc)
-    {
-        GameObject go = checkClick(MouseLoc);
-        if (_printStatements)
-            Debug.Log("Attackable checked Go is::" + go);
-        if (go)
-            //May need to check later on that the building is the enemies
-            //Could add a check here if go==dummyobj then to turn off last redX if I wanted to go back to single variable instead of List<>
-            if (go.GetComponent<BuildableObject>() || go == _dummyObj)
-                return false;
-            else
-                return true;
-
-        return true;
-    }
-
     public GameObject getLastClicked()
     {
         return _lastClicked;
@@ -421,10 +387,6 @@ public class MVCController : MonoBehaviour
         _lastClicked = null;
     }
 
-    public UIAssignmentMenu getAssignmentMenu()
-    {
-        return _AssignmentMenu;
-    }
     public void RodentAssigned(Rodent r)
     {
         if (_printStatements)
@@ -439,7 +401,8 @@ public class MVCController : MonoBehaviour
                 //Check if this building is occupied
                 if (_Building.CheckOccupied())
                 {
-                    
+                    //To-Do:
+                    //play negative sound?
                 }
                 else // free to assign 
                 {
@@ -454,13 +417,6 @@ public class MVCController : MonoBehaviour
 
                     //instead reset the buttons
                     UIAssignmentMenu.Instance.ResetButtons();
-
-                    /* Keeping this off allows us to click once to pull up RedX
-                     * Menu immediately after assigned
-                     * Unknown if causes any other issues, onMouseExit from 
-                     * portrait / bworkerscript should re enabled properly
-                     * If having trouble, can try turning back on */
-                    //CheckClicks(true);
                 }
             }
             else
@@ -552,15 +508,6 @@ public class MVCController : MonoBehaviour
     public void SetAssignmentDummy(bool cond)
     {
         _assignDummy = cond;
-    }
-    //Old functionality
-    public void Recruit()
-    {
-        // Debug.Log("Recruit: " + _lastRodent);
-        showRecruitMenu(false, Vector3.zero, "", 0, 0);
-        _lastRodent.tag = "PlayerRodent";
-        _lastRodent.Recruit();
-        CheckClicks(true);
     }
     public void Recruit(Rodent r, UIRecruitMenu menu)
     {

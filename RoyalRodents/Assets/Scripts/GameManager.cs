@@ -59,6 +59,13 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        //Set the screen to be correct on mobile
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+        Screen.autorotateToPortrait = false;
+        Screen.autorotateToLandscapeRight = false;
+        Screen.autorotateToPortraitUpsideDown = false;
+
     }
 
     // Start is called before the first frame update

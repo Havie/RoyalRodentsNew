@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: b6186d4790654b544820e24a603a3bae
+guid: 00986133f973de24a8a3c62c00606482
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6953113392188354337
-    second: Blue_MouseSprite_Walk_0
+      213: -8969001092999745661
+    second: Red_MouseSprite_Farming 1_0
   - first:
-      213: -9173975311135244718
-    second: Blue_MouseSprite_Walk_1
+      213: 4184424198469559965
+    second: Red_MouseSprite_Farming 1_1
   - first:
-      213: 3965371579398185758
-    second: Blue_MouseSprite_Walk_2
+      213: 2742234844694888469
+    second: Red_MouseSprite_Farming 1_2
   - first:
-      213: 1016182662274529194
-    second: Blue_MouseSprite_Walk_3
+      213: 5771261341183276082
+    second: Red_MouseSprite_Farming 1_3
   - first:
-      213: -969617213736522528
-    second: Blue_MouseSprite_Walk_4
+      213: -3956853335992149701
+    second: Red_MouseSprite_Farming 1_4
   - first:
-      213: -6431400190248630916
-    second: Blue_MouseSprite_Walk_5
+      213: 544919467596081814
+    second: Red_MouseSprite_Farming 1_5
   - first:
-      213: -6249005060083210632
-    second: Blue_MouseSprite_Walk_6
+      213: -1448893515910580935
+    second: Red_MouseSprite_Farming 1_6
   - first:
-      213: -8781389718981133579
-    second: Blue_MouseSprite_Walk_7
+      213: -2798419217928219812
+    second: Red_MouseSprite_Farming 1_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -182,7 +182,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_0
+      name: Red_MouseSprite_Farming 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -190,20 +190,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4875368f059b59e4ab768f5a8cf65804
-      internalID: -6953113392188354337
+      spriteID: 19e6af4365b087040815bf5ef9f752b9
+      internalID: -8969001092999745661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_1
+      name: Red_MouseSprite_Farming 1_1
       rect:
         serializedVersion: 2
         x: 90
@@ -211,20 +211,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e73ee896e8ecf84a8431b00e0befe53
-      internalID: -9173975311135244718
+      spriteID: 7aaa0589e950f0c4aba86adbd41b8955
+      internalID: 4184424198469559965
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_2
+      name: Red_MouseSprite_Farming 1_2
       rect:
         serializedVersion: 2
         x: 180
@@ -232,20 +232,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03b1ac38ca1f6724aa5a4eadbeb67b74
-      internalID: 3965371579398185758
+      spriteID: b066d3dcb7a4fce4e800e22857707000
+      internalID: 2742234844694888469
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_3
+      name: Red_MouseSprite_Farming 1_3
       rect:
         serializedVersion: 2
         x: 270
@@ -253,20 +253,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65f228e9e1f7c6d448dc7ba9c351a010
-      internalID: 1016182662274529194
+      spriteID: 60b82a7df4016a7479eaba5e66ce1cda
+      internalID: 5771261341183276082
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_4
+      name: Red_MouseSprite_Farming 1_4
       rect:
         serializedVersion: 2
         x: 0
@@ -274,20 +274,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 922169f80797c87408ab3af45117f6f6
-      internalID: -969617213736522528
+      spriteID: 2e33609f1e6d2f640953dcd61b1aa3cc
+      internalID: -3956853335992149701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_5
+      name: Red_MouseSprite_Farming 1_5
       rect:
         serializedVersion: 2
         x: 90
@@ -295,20 +295,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8bbcaaba53c6a540a982647ef5c6c4b
-      internalID: -6431400190248630916
+      spriteID: 0b2b57ad8334cfe41ace0c7d0299c607
+      internalID: 544919467596081814
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_6
+      name: Red_MouseSprite_Farming 1_6
       rect:
         serializedVersion: 2
         x: 180
@@ -316,35 +316,14 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9e5ec5f94c3d894bb8beb6322ad36dd
-      internalID: -6249005060083210632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_7
-      rect:
-        serializedVersion: 2
-        x: 270
-        y: 0
-        width: 90
-        height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 391aab9161236d7468a95b6cf00565a0
-      internalID: -8781389718981133579
+      spriteID: 173d9d50793dbdd4f9583a848e4ead10
+      internalID: -1448893515910580935
       vertices: []
       indices: 
       edges: []

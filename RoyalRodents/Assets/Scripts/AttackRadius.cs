@@ -23,10 +23,15 @@ public class AttackRadius : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void onCollisionEnter(Collision2D collision)
     {
-        Debug.Log("Rat collision detected");
+        Debug.Log("Collided with " + collision.transform.gameObject.ToString());
+
         // Send collider, check for properties in script
         _subjectScript.FindAttackTarget(collision); 
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        _subjectScript.removefromRange(collision);
     }
 }

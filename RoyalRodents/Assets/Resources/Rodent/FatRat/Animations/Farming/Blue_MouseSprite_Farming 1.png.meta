@@ -1,28 +1,28 @@
 fileFormatVersion: 2
-guid: a0c4c509512d5b34f863f7249302d2b3
+guid: 4005a54e763719b46a7fd7b08fea60e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 275522066616012134
-    second: PlayerRatSprite_0
+      213: -586867057764391410
+    second: Blue_MouseSprite_Farming 1_0
   - first:
-      213: 4104114182061248663
-    second: PlayerRatSprite_1
+      213: -8448711062856746327
+    second: Blue_MouseSprite_Farming 1_1
   - first:
-      213: 7148216229264084570
-    second: PlayerRatSprite_2
+      213: 7050890764746217833
+    second: Blue_MouseSprite_Farming 1_2
   - first:
-      213: -8607792283995553610
-    second: PlayerRatSprite_3
+      213: -6937325306207008171
+    second: Blue_MouseSprite_Farming 1_3
   - first:
-      213: -6532555098661595748
-    second: PlayerRatSprite_4
+      213: 2428786921731215644
+    second: Blue_MouseSprite_Farming 1_4
   - first:
-      213: 7149655309187386196
-    second: PlayerRatSprite_5
+      213: -1639026636245334107
+    second: Blue_MouseSprite_Farming 1_5
   - first:
-      213: 6630184838004707179
-    second: PlayerRatSprite_6
+      213: 5119247222174377287
+    second: Blue_MouseSprite_Farming 1_6
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -104,6 +104,54 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Lumin
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -131,91 +179,91 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerRatSprite_0
+      name: Blue_MouseSprite_Farming 1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 90
+        y: 91
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 319679853eb99444b99f0f9e5ed3ea12
-      internalID: 275522066616012134
+      spriteID: c08908623d1ed0a409c5d4f76ed92b37
+      internalID: -586867057764391410
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRatSprite_1
+      name: Blue_MouseSprite_Farming 1_1
       rect:
         serializedVersion: 2
         x: 90
-        y: 90
+        y: 91
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 117020c2bf11cc4439959d83fd9612f5
-      internalID: 4104114182061248663
+      spriteID: 8ff428d6c2e593646bc656eab4aab3c2
+      internalID: -8448711062856746327
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRatSprite_2
+      name: Blue_MouseSprite_Farming 1_2
       rect:
         serializedVersion: 2
         x: 180
-        y: 90
+        y: 91
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1ff626cd0d2ee7d469ac58d93536cdc5
-      internalID: 7148216229264084570
+      spriteID: 3df4147626198284bb527c41dc751c12
+      internalID: 7050890764746217833
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRatSprite_3
+      name: Blue_MouseSprite_Farming 1_3
       rect:
         serializedVersion: 2
         x: 270
-        y: 90
+        y: 91
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d0a7e59d72a504743b931a8b238fd1d1
-      internalID: -8607792283995553610
+      spriteID: 98ccf01b46f3a114f85cd324015a5307
+      internalID: -6937325306207008171
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRatSprite_4
+      name: Blue_MouseSprite_Farming 1_4
       rect:
         serializedVersion: 2
         x: 0
@@ -223,20 +271,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d7550bb83f0fee4b9ae86b79aeeebca
-      internalID: -6532555098661595748
+      spriteID: 6375fac9fc9aef94cb657edf8e64abb5
+      internalID: 2428786921731215644
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRatSprite_5
+      name: Blue_MouseSprite_Farming 1_5
       rect:
         serializedVersion: 2
         x: 90
@@ -244,20 +292,20 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 362d5321fb0bf1a49b65a0d1ddad9be3
-      internalID: 7149655309187386196
+      spriteID: 9f64f486da023984795ea9b5da3eb88d
+      internalID: -1639026636245334107
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRatSprite_6
+      name: Blue_MouseSprite_Farming 1_6
       rect:
         serializedVersion: 2
         x: 180
@@ -265,14 +313,14 @@ TextureImporter:
         width: 90
         height: 90
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2724adf89ed60b94cb9f89d303a14a0d
-      internalID: 6630184838004707179
+      spriteID: 8fc923dc3d06bed4287be309d61969c2
+      internalID: 5119247222174377287
       vertices: []
       indices: 
       edges: []

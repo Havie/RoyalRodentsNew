@@ -301,6 +301,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             case (BuildingType.House):
                 bHouse house = this.GetComponent<bHouse>();
+                house.DemolishAction(_level);
                 Destroy(house);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Available;
@@ -368,7 +369,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
        eState = BuildingState.Built;
        if(eType == BuildingType.House)
        {
-            _hitpoints +=  this.GetComponent<bHouse>().BuildingComplete(_level);
+            _hitpoints += this.GetComponent<bHouse>().BuildingComplete(_level);
        }
        else if (eType == BuildingType.Farm)
         {

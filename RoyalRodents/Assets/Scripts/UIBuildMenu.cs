@@ -20,8 +20,6 @@ public class UIBuildMenu : MonoBehaviour
         showMenu(false, Vector3.zero, null, null);
     }
 
-
-
     public void showMenu(bool cond, Vector2 loc, GameObject o, BuildableObject building)
     {
         _active = cond;
@@ -46,35 +44,46 @@ public class UIBuildMenu : MonoBehaviour
             //Dont want to do this if were turning them off 
             if (cond && building != null)
             {
-                //When Enabling Upgrade Buttons, change the button based on the type and level of last structure clicked
-                if (b.name == "Button_Upgrade")
-                {
-                    UIButtonCosts buttonScript = b.GetComponent<UIButtonCosts>();
-                    if (buttonScript != null)
-                    {
-                        BuildableObject.BuildingType type = building.getType();
-                        int level = building.getLevel();
+				//When Enabling Upgrade Buttons, change the button based on the type and level of last structure clicked
+				if (b.name == "Button_Upgrade")
+				{
+					UIButtonCosts buttonScript = b.GetComponent<UIButtonCosts>();
+					if (buttonScript != null)
+					{
+						BuildableObject.BuildingType type = building.getType();
+						int level = building.getLevel();
 
-                        switch (type)
-                        {
-                            case (BuildableObject.BuildingType.House):
-                                buttonScript.ChangeButton("house", level + 1);
-                                break;
-                            case (BuildableObject.BuildingType.Farm):
-                                buttonScript.ChangeButton("farm", level + 1);
-                                break;
-                            case (BuildableObject.BuildingType.Tower):
-                                buttonScript.ChangeButton("tower", level + 1);
-                                break;
-                            case (BuildableObject.BuildingType.Wall):
-                                buttonScript.ChangeButton("wall", level + 1);
-                                break;
-                            case (BuildableObject.BuildingType.TownCenter):
-                                buttonScript.ChangeButton("towncenter", level + 1);
-                                break;
-                        }
-                    }
-                }
+						switch (type)
+						{
+							case (BuildableObject.BuildingType.House):
+								buttonScript.ChangeButton("house", level + 1);
+								break;
+							case (BuildableObject.BuildingType.Farm):
+								buttonScript.ChangeButton("farm", level + 1);
+								break;
+							case (BuildableObject.BuildingType.Outpost):
+								buttonScript.ChangeButton("outpost", level + 1);
+								break;
+							case (BuildableObject.BuildingType.Banner):
+								buttonScript.ChangeButton("banner", level + 1);
+								break;
+							case (BuildableObject.BuildingType.TownCenter):
+								buttonScript.ChangeButton("towncenter", level + 1);
+								break;
+						}
+					}
+				}
+				//If building clicked is town hall, disable demolish button, else enable it
+				if (b.name == "Button_Demolish")
+				{
+					BuildableObject.BuildingType type = building.getType();
+					if (type == BuildableObject.BuildingType.TownCenter)
+					{
+						b.GetComponent<Button>().interactable = false;
+					}
+					else
+						b.GetComponent<Button>().interactable = true;
+				}
             }
         }
     }

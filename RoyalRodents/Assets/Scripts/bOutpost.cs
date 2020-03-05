@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bTower : MonoBehaviour
+public class bOutpost : MonoBehaviour
 {
 	private Sprite _builtSpriteLevel1;
 	private Sprite _builtSpriteLevel2;
@@ -21,9 +21,9 @@ public class bTower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _builtSpriteLevel1 = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored5");
-		_builtSpriteLevel2 = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored5");
-		_builtSpriteLevel3 = Resources.Load<Sprite>("TmpAssests/Alex/monolith restored5");
+        _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost");
+		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Outpost/wood_outpost");
+		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/Outpost/stone_outpost");
 	}
 
     // Update is called once per frame

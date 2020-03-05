@@ -31,7 +31,7 @@ public class bHouse :MonoBehaviour
 		capacityIncrementAmount[0] = 0;
 		capacityIncrementAmount[1] = 2;
 		capacityIncrementAmount[2] = 5;
-		capacityIncrementAmount[3] = 9;
+		capacityIncrementAmount[3] = 8;
 	}
 
 	private static void setupCosts()

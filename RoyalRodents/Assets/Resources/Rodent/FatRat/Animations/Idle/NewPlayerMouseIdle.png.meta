@@ -1,31 +1,28 @@
 fileFormatVersion: 2
-guid: b6186d4790654b544820e24a603a3bae
+guid: 590a73fc6f73db34ebd6c8564bd3a666
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6953113392188354337
-    second: Blue_MouseSprite_Walk_0
+      213: 2364157260964436542
+    second: NewPlayerMouseIdle_0
   - first:
-      213: -9173975311135244718
-    second: Blue_MouseSprite_Walk_1
+      213: 7957848360710349899
+    second: NewPlayerMouseIdle_1
   - first:
-      213: 3965371579398185758
-    second: Blue_MouseSprite_Walk_2
+      213: -7805555102735543262
+    second: NewPlayerMouseIdle_2
   - first:
-      213: 1016182662274529194
-    second: Blue_MouseSprite_Walk_3
+      213: 1547007890719162684
+    second: NewPlayerMouseIdle_3
   - first:
-      213: -969617213736522528
-    second: Blue_MouseSprite_Walk_4
+      213: -3271903927365562389
+    second: NewPlayerMouseIdle_4
   - first:
-      213: -6431400190248630916
-    second: Blue_MouseSprite_Walk_5
+      213: -4636230012545784717
+    second: NewPlayerMouseIdle_5
   - first:
-      213: -6249005060083210632
-    second: Blue_MouseSprite_Walk_6
-  - first:
-      213: -8781389718981133579
-    second: Blue_MouseSprite_Walk_7
+      213: -5827305816150536193
+    second: NewPlayerMouseIdle_6
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -182,7 +179,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_0
+      name: NewPlayerMouseIdle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -196,14 +193,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4875368f059b59e4ab768f5a8cf65804
-      internalID: -6953113392188354337
+      spriteID: 4e0658f6b5cf4d742b5c9ff32d982fe4
+      internalID: 2364157260964436542
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_1
+      name: NewPlayerMouseIdle_1
       rect:
         serializedVersion: 2
         x: 90
@@ -217,14 +214,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e73ee896e8ecf84a8431b00e0befe53
-      internalID: -9173975311135244718
+      spriteID: e773d59a6b03da04bbcf2d7dd8f3c02e
+      internalID: 7957848360710349899
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_2
+      name: NewPlayerMouseIdle_2
       rect:
         serializedVersion: 2
         x: 180
@@ -238,14 +235,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03b1ac38ca1f6724aa5a4eadbeb67b74
-      internalID: 3965371579398185758
+      spriteID: 25d865ed844bf2b4a891282151bae611
+      internalID: -7805555102735543262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_3
+      name: NewPlayerMouseIdle_3
       rect:
         serializedVersion: 2
         x: 270
@@ -259,14 +256,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65f228e9e1f7c6d448dc7ba9c351a010
-      internalID: 1016182662274529194
+      spriteID: dd0e8c76179975343930ab91c0af4841
+      internalID: 1547007890719162684
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_4
+      name: NewPlayerMouseIdle_4
       rect:
         serializedVersion: 2
         x: 0
@@ -280,14 +277,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 922169f80797c87408ab3af45117f6f6
-      internalID: -969617213736522528
+      spriteID: 71200a993e17f5e4eb576a8b2c54a4bc
+      internalID: -3271903927365562389
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_5
+      name: NewPlayerMouseIdle_5
       rect:
         serializedVersion: 2
         x: 90
@@ -301,14 +298,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8bbcaaba53c6a540a982647ef5c6c4b
-      internalID: -6431400190248630916
+      spriteID: 91173f88e6b0e5e46b82570c9d3a4311
+      internalID: -4636230012545784717
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_6
+      name: NewPlayerMouseIdle_6
       rect:
         serializedVersion: 2
         x: 180
@@ -322,29 +319,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9e5ec5f94c3d894bb8beb6322ad36dd
-      internalID: -6249005060083210632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_7
-      rect:
-        serializedVersion: 2
-        x: 270
-        y: 0
-        width: 90
-        height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 391aab9161236d7468a95b6cf00565a0
-      internalID: -8781389718981133579
+      spriteID: fcb4630d09839a24789592b1f648ca18
+      internalID: -5827305816150536193
       vertices: []
       indices: 
       edges: []

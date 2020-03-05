@@ -45,8 +45,6 @@ public class bWorkerScript : MonoBehaviour
     private void setUpMenu()
     {
         //this seems unnecessary
-        _menu = MVCController.Instance.getAssignmentMenu();
-        if (_menu == null)
             _menu = UIAssignmentMenu.Instance;
     }
     public void setWorker(Rodent r)

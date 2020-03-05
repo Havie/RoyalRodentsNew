@@ -11,12 +11,12 @@ public class bFarm : MonoBehaviour
 	private float _hitpoints = 50;
 	private float _hitPointGrowth = 10;
 
+	private static bool _isSet;
+
 	//create strucutre costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
 	public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
     public static Dictionary<string, int> _costLevel2 = new Dictionary<string, int>();
     public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
-
-	private static bool _isSet;
 
 	// Start is called before the first frame update
 	void Start()

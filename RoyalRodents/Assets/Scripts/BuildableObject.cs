@@ -47,7 +47,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     private float _hitpointsMax = 0;
 
     public enum BuildingState { Available, Idle, Building, Built };
-    public enum BuildingType { House, Farm, Tower, Wall, TownCenter, Vacant}
+    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant}
 
 
 
@@ -250,21 +250,21 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 _level = 1;
                 // Debug.Log("Made a Farm");
                 break;
-            case ("wall"):
-                this.gameObject.AddComponent<bWall>();
-                eType = BuildingType.Wall;
+            case ("banner"):
+                this.gameObject.AddComponent<bBanner>();
+                eType = BuildingType.Banner;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
                 _level = 1;
-                // Debug.Log("Made a Wall");
+                // Debug.Log("Made a Banner");
                 break;
-            case ("tower"):
-                this.gameObject.AddComponent<bTower>();
-                eType = BuildingType.Tower;
+            case ("outpost"):
+                this.gameObject.AddComponent<bOutpost>();
+                eType = BuildingType.Outpost;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
                 _level = 1;
-                // Debug.Log("Made a Tower");
+                // Debug.Log("Made an Outpost");
                 break;
             case ("towncenter"):
                 this.gameObject.AddComponent<bTownCenter>();
@@ -316,21 +316,21 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 _sr.sprite = _sStateConstruction;
                 // Debug.Log("Destroyed a Farm");
                 break;
-            case (BuildingType.Wall):
-                bWall wall = this.GetComponent<bWall>();
-                Destroy(wall);
+            case (BuildingType.Banner):
+				bBanner banner = this.GetComponent<bBanner>();
+                Destroy(banner);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
-                // Debug.Log("Destroyed a Wall");
+                // Debug.Log("Destroyed a Banner");
                 break;
-            case (BuildingType.Tower):
-                bTower tower = this.GetComponent<bTower>();
-                Destroy(tower);
+            case (BuildingType.Outpost):
+                bOutpost outpost = this.GetComponent<bOutpost>();
+                Destroy(outpost);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
-                // Debug.Log("Destroyed a Tower");
+                // Debug.Log("Destroyed an Outpost");
                 break;
             case (BuildingType.TownCenter):
                 bTownCenter btc = this.GetComponent<bTownCenter>();
@@ -375,13 +375,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             _hitpoints += this.GetComponent<bFarm>().BuildingComplete(_level);
         }
-       else if (eType == BuildingType.Wall)
+       else if (eType == BuildingType.Banner)
         {
-            _hitpoints += this.GetComponent<bWall>().BuildingComplete(_level);
+            _hitpoints += this.GetComponent<bBanner>().BuildingComplete(_level);
         }
-       else if (eType == BuildingType.Tower)
+       else if (eType == BuildingType.Outpost)
         {
-            _hitpoints += this.GetComponent<bTower>().BuildingComplete(_level);
+            _hitpoints += this.GetComponent<bOutpost>().BuildingComplete(_level);
         }
        else if (eType == BuildingType.TownCenter)
         {

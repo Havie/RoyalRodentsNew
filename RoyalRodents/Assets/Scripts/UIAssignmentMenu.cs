@@ -77,7 +77,7 @@ public class UIAssignmentMenu : MonoBehaviour
     //used internally 
     private void showMenu(bool cond)
     {
-        // Debug.Log("ShowMenu::"+cond);
+        //Debug.Log("ShowMenu::"+cond + "  and index is:" +_index );
         setActive(cond);
 
         for (int i = 0; i < _index; ++i)
@@ -260,11 +260,14 @@ public class UIAssignmentMenu : MonoBehaviour
     public void ToggleMenu()
     {
         //MVCController.Instance.CheckClicks(false);
+      //  Debug.Log("ToggleMenu");
         showMenu(!_active);
         ToggleVFX();
 
         if (_active)
             CreateButtons(GameManager.Instance.getPlayerRodents());
+
+        MVCController.Instance.showRedX(false);
     }
     private void ToggleVFX()
     {

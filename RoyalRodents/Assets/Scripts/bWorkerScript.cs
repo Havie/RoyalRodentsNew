@@ -58,9 +58,9 @@ public class bWorkerScript : MonoBehaviour
         return (_worker != null);
     }
 
-    private void OnMouseDown()
+    public void imClicked()
     {
-        Debug.LogWarning("MouseDownOnOWorker");
+        //Debug.LogWarning("MouseDownOnOWorker");
 
         if (!isOccupied())
         {

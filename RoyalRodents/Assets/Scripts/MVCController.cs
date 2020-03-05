@@ -28,7 +28,7 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
-    private List<GameObject> _lastRedX = new List<GameObject>();
+    private List<Employee> _lastRedX = new List<Employee>();
 
     private bool _recruitDummy;
     private bool _assignDummy;
@@ -67,7 +67,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = true;
+        _printStatements = false;
     }
 
 
@@ -257,7 +257,30 @@ public class MVCController : MonoBehaviour
                         _recruitDummy = true;
                     }
 
+                    return _lastRodent.gameObject;
 
+                }
+                else if(_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>())
+                {
+                    _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
+                    if (_printStatements)
+                        Debug.Log("Clicked a Rodent through spawn volume");
+
+                    if (_lastRodent.getTeam() == 0)
+                    {
+                        // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
+                        _lastRodent.imClicked();
+                        _recruitDummy = true;
+                    }
+
+                    else if (_lastRodent.getTeam() == 1)
+                    {
+                        // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
+                        _lastRodent.imClicked();   // can probably combine now
+                        _recruitDummy = true;
+                    }
+
+                    return _lastRodent.gameObject;
                 }
                else if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
                 {
@@ -271,7 +294,7 @@ public class MVCController : MonoBehaviour
 
                     //We have found an building Object that is not the last one clicked
                     // check the state of the building clicked 
-                    if (buildObj.getState() != BuildableObject.BuildingState.Built)
+                   /* if (buildObj.getState() != BuildableObject.BuildingState.Built)
                     {
                         if (_DestroyMenu.isActive())
                             ShowDestroyMenu(false, MouseRaw, _TMPlastClicked, buildObj);
@@ -287,7 +310,7 @@ public class MVCController : MonoBehaviour
                         if (buildObj.getType() != BuildableObject.BuildingType.TownCenter)
                             ShowDestroyMenu(true, MouseRaw, _TMPlastClicked, buildObj);
 
-                    }
+                    } */
 
                     _AssignmentMenu.showMenu(false, null);
                     showRedX(false);
@@ -483,10 +506,10 @@ public class MVCController : MonoBehaviour
 
 
 
-    public void setLastRedX(GameObject redxHolder)
+    public void setLastRedX(Employee redxHolder)
     {
-        if (_printStatements)
-            Debug.Log("set redX");
+       if (_printStatements)
+            Debug.Log("set redX in MVC ::" + redxHolder);
         _lastRedX.Add(redxHolder);
     }
     public void showRedX(bool cond)
@@ -495,13 +518,11 @@ public class MVCController : MonoBehaviour
             Debug.Log("MVC::ShowRedX::" + cond);
 
         if (_lastRedX.Count > 0)
-            foreach (GameObject g in _lastRedX)
+            foreach (Employee e in _lastRedX)
             {
-                if(g.GetComponent<BuildableObject>())
-                    g.GetComponent<BuildableObject>().ShowRedX(cond);
-                else if(g.GetComponent<PlayerStats>())
-                     g.GetComponent<PlayerStats>().ShowRedX(cond);
-            }
+                 if (e.GetComponent<Employee>())
+                     e.GetComponent<Employee>().ShowRedX(cond);
+        }
     }
     public void showAssignmenu(bool cond)
     {
@@ -557,7 +578,7 @@ public class MVCController : MonoBehaviour
         EventSystem es = GameManager.Instance.transform.GetComponentInChildren<EventSystem>();
 
         if (es == null)
-            Debug.Log("NO EventSys");
+            Debug.LogError("NO EventSys");
 
         //Set up the new Pointer Event
         PointerEventData m_PointerEventData = new PointerEventData(es);
@@ -570,35 +591,38 @@ public class MVCController : MonoBehaviour
         if (gr)
             gr.Raycast(m_PointerEventData, results);
         else
-            Debug.Log("NO GraphicRaycaster");
+            Debug.LogError("NO GraphicRaycaster");
 
         //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
         foreach (RaycastResult result in results)
         {
-            Debug.LogError("GraphicCaster Hit " + result.gameObject.name);
+            if(_printStatements)
+                Debug.LogError("GraphicCaster Hit " + result.gameObject.name);
             if(result.gameObject.GetComponent<Button>())
             {
-                Debug.Log("Found a Button Setting clicks to false");
+                if (_printStatements)
+                    Debug.Log("Found a Button Setting clicks to false");
 
                 if (result.gameObject.GetComponent<UIDraggableButton>())
                 {
 
-                    Debug.Log("FOUND THE DRAGGABLE!!!!!!!");
                     if (!result.gameObject.GetComponent<UIDraggableButton>().isSelected())
                     {
-                        Debug.Log("Is Not Selected");
                         result.gameObject.GetComponent<UIDraggableButton>().imClicked();
                     }
 
                 }
+                else if (result.gameObject.GetComponent<UIAssignmentVFX>())
+                {
+                    result.gameObject.GetComponent<UIAssignmentVFX>().imClicked();
+                }
 
-                    //Might need to check certain buttons scripts to set assignmentDummy=true;
-
-
-                    return false;
+                //Might need to check certain buttons scripts to set assignmentDummy=true;
+                return false;
             }
+            
         }
-       if(results.Count<=0)
+       if(results.Count<=0 && (_printStatements))
             Debug.LogError("We tried to GraphicRaycast UI and failed @" + m_PointerEventData.position);
 
 
@@ -611,19 +635,25 @@ public class MVCController : MonoBehaviour
         {
             foreach (RaycastResult result in results)
             {
-                Debug.LogError("Alternate Hit " + result.gameObject.name);
+                if (_printStatements)
+                    Debug.LogError("Alternate Hit " + result.gameObject.name);
                 if (result.gameObject.GetComponent<Button>())
                 {
-                    Debug.Log("Found a Button Setting clicks to false");
+                    if (_printStatements)
+                        Debug.Log("Found a Button Setting clicks to false");
 
                     //Might need to check certain buttons scripts to set assignmentDummy=true;
 
 
                     return false;
                 }
+                else if(result.gameObject.GetComponent<bWorkerScript>())
+                {
+                    result.gameObject.GetComponent<bWorkerScript>().imClicked();
+                }
             }
         }
-        else
+        else if (_printStatements)
             Debug.LogError("We tried to ALLRaycast UI and failed @" + m_PointerEventData.position);
 
         return true;

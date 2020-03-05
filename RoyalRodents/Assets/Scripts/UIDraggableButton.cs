@@ -9,7 +9,6 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public bool _AssignmentButton = true;
 
     private bool _selected;
-    private bool _hovering;
     private Vector3 _startLoc;
     private Quaternion _startRot;
 
@@ -18,7 +17,6 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private float _Wiggle2=-3;
     private float _Wiggle3 = -0.1f;
 
-    private bool DebugMODE = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,19 +45,19 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                         if (go.GetComponent<BuildableObject>())
                         {
                             _selected = false;
-                            Debug.Log("Successful Raycast1 =" + go.gameObject);
+                           // Debug.Log("Successful Raycast1 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                         }
                         else if(go.GetComponent<PlayerStats>())
                         {
                             _selected = false;
-                            Debug.Log("Successful Raycast2 =" + go.gameObject);
+                          //  Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                         }
                         else
                         {
                             _selected = false;
-                            Debug.Log("Failed Raycast =" + go.gameObject);
+                           // Debug.Log("Failed Raycast =" + go.gameObject);
 
                         }
                     }
@@ -69,6 +67,8 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 this.transform.localPosition = _startLoc;
                 this.transform.rotation = _startRot;
 
+                UIAssignmentMenu.Instance.ResetButtons();
+
 
             }
         }
@@ -76,16 +76,10 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
         //             if(_startLoc != Vector3.zero)
         //                 Debug.LogWarning(_startLoc);
 
-        if(DebugMODE)
-        {
-            Debug.Log("STARTLOC IS:" + _startLoc);
-            Debug.Log("Selected IS:" + _selected);
-        }
 
     }
     public bool isSelected()
     {
-        Debug.Log("Returning _" + _selected);
         return _selected;
     }
 
@@ -120,13 +114,12 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     // Called by MVC
     public void imClicked()
     {
-        Debug.Log("Selected @" + this.transform.localPosition);
+       // Debug.Log("Selected @" + this.transform.localPosition);
         _selected = true;
 
         _startLoc = this.transform.localPosition;
         _startRot = this.transform.rotation;
 
-        DebugMODE = true;
     }
 
     /************************************************************************/

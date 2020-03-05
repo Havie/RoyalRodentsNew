@@ -197,24 +197,30 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // used to be from MVC controller to let the building know its been clicked
     public void imClicked()
     {
+
+        Debug.Log("Building is Clicked state is" + eState);
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
+            StartCoroutine(ClickDelay(true, _DestroyMenu));
+            StartCoroutine(ClickDelay(false, _BuildMenu));
         }
        else if (eState == BuildingState.Available || eState == BuildingState.Idle)
         {
             // Turns off the "notification exclamation mark" as the player is now aware of obj
             eState = BuildingState.Idle;
 
-            StartCoroutine(ClickDelay(true, _BuildMenu));
+           StartCoroutine(ClickDelay(true, _BuildMenu));
+            StartCoroutine(ClickDelay(false, _DestroyMenu));
 
             //Disconnect here, MVC controller is now responsible for talking to UI
         }
         else
         {
             //Default
+            Debug.LogWarning("Does this Happen?");
             eState = BuildingState.Idle;
-            StartCoroutine(ClickDelay(true, _DestroyMenu));
+           // StartCoroutine(ClickDelay(true, _DestroyMenu));
         }
 
         UpdateState();
@@ -274,7 +280,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
         _BuildMenu.showMenu(false, Vector3.zero,null, this);
-        TurnCollderOn(true);
         StartCoroutine(BuildCoroutine());
     }
 
@@ -285,7 +290,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _level++;
 
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
-        TurnCollderOn(true);
         StartCoroutine(BuildCoroutine());
     }
 
@@ -339,7 +343,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
-        TurnCollderOn(true);
         StartCoroutine(DemolishCoroutine());
     }
 
@@ -418,16 +421,17 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void AssignWorker(Rodent r)
     {
-       //Debug.Log("AssignWorker!" + r.getName());
+      // Debug.Log("AssignWorker!" + r.getName());
        
         //Let employee worry about this
         //_Worker = r;
         if (_Employee)
         {
             _Employee.Assign(r);
-           // ws.setWorker(_Worker);
-            //r.setTarget(this.gameObject);
-           // _sWorker = r.GetPortrait();
+            r.setTarget(this.gameObject);
+
+            // ws.setWorker(_Worker);
+            // _sWorker = r.GetPortrait();
             // Debug.LogError(_sWorker.ToString());
         }
         else
@@ -439,18 +443,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void DismissWorker(Rodent r)
     {
         // Debug.Log("DismissWorker!");
-        // if (r != _Worker)
-        //   Debug.LogError("Rodents dont match:Uh-Oh?");
-
-        //Tell the worker to fuck off
-        /// if (_Worker)
-        //  _Worker.setTarget(null);
-        // else
-        //    Debug.LogError("Trying to dismiss a worker thats not there??");
 
 
         if (_Employee)
-            _Employee.Dismiss();
+            _Employee.Dismiss(r);
+
+        r.setTarget(null);
 
         eState = BuildingState.Idle;
        // _Worker = null;
@@ -477,57 +475,22 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void ShowRedX(bool cond)
     {
+      //  Debug.LogWarning("ShowRedX Building" + cond);
+
         if (_Employee)
             _Employee.ShowRedX(cond);
 
-
-//         if (cond)
-//         {
-//             _srRedX.enabled = true;
-//             MVCController.Instance.setLastRedX(this.gameObject);
-//         }
-//         else
-//         {
-//             _srRedX.enabled = false;
-//             //Turn back on the collider possible hack
-//             if(_PortraitOutlineObject)
-//                 _PortraitOutlineObject.GetComponent<bWorkerScript>().ToggleCollider(true);
-//         }
-    }
-    public void TurnCollderOn(bool cond)
-    {
-        //hack
-        this.GetComponentInChildren<BaseHitBox>().turnOnCollider(cond);
     }
 
-    public void OnMouseDownPHASEDOUT()
-    {
-        //Should be turning the collider off here instead of in BaseHitBox , maybe
-
-        //Debug.Log("Heard Mouse Down");
-
-        if(eState==BuildingState.Available || eState == BuildingState.Idle)
-        {
-            StartCoroutine(ClickDelay(true, _BuildMenu));
-        }
-        else if (eState == BuildingState.Building)
-        {
-            //do nothing
-        }
-
-        else
-            StartCoroutine(ClickDelay(true, _DestroyMenu));
-
-        // MVC Dummy Not Working
-      //  MVCController.Instance.ShowDummy(true, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
-        imClicked();
-    }
     //Absolute nonsense i have to do this otherwise the same click insta clicks a button on the menu opened
     IEnumerator ClickDelay(bool cond, UIBuildMenu menu)
     {
         yield return new WaitForSeconds(0.05f);
-        menu.showMenu(cond, Input.mousePosition, this.transform.gameObject, this);
+
+        Debug.Log("Will need to get click location from somewhere for Mobile");
+        Vector3 Location = Input.mousePosition;
+
+        menu.showMenu(cond, Location, this.transform.gameObject, this);
 
     }
 }

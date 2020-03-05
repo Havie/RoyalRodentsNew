@@ -214,7 +214,7 @@ public class UIButtonCosts : MonoBehaviour
 		_type = type;
 		_level = lvl;
 
-		Debug.Log("ChangeButton set to " + type + ", lvl " + lvl.ToString());
+		//Debug.Log("ChangeButton set to " + type + ", lvl " + lvl.ToString());
 
 		//update title of button
 		if (textTitle != null)

@@ -68,7 +68,7 @@ public class UIAssignmentVFX : MonoBehaviour
             Debug.LogError("SpawnClicked Failed");
     }
 
-    public void PlayClickAnim()
+    private void PlayClickAnim()
     {
         foreach (ParticleSystem p in _onClicked)
         {
@@ -83,6 +83,12 @@ public class UIAssignmentVFX : MonoBehaviour
         {
             p.gameObject.SetActive(b);
         }
+    }
+
+    public void imClicked()
+    {
+        UIAssignmentMenu.Instance.ToggleMenu();
+        PlayClickAnim();
     }
 
 

@@ -95,11 +95,16 @@ public class ResourceManagerScript : MonoBehaviour
 		_currentPopulation = GameManager.Instance.getPlayerRodentsCount();
 		UpdatePopulationText();
 	}
-
+	
+	//Population Getters
     public int getPopulationCapacity()
     {
         return _currentCapacity;
     }
+	public int getCurrentPopulation()
+	{
+		return _currentPopulation;
+	}
 
     // Start is called before the first frame update
     void Start()

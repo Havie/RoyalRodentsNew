@@ -90,6 +90,8 @@ public class bTownCenter : MonoBehaviour
         this.transform.GetComponent<BuildableObject>().SetType("TownCenter");
         this.transform.GetComponent<BuildableObject>().Damage(0 - _hitpoints);
         this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
+        //MEGA hack of all Hacks
+        this.transform.GetComponentInChildren<Employee>().gameObject.GetComponentInChildren<eWorkerOBJ>().gameObject.GetComponent<SpriteRenderer>().sprite = null;
        // Debug.Log("Created Initial TownCenter with Sprite:::" + _built);
     }
 

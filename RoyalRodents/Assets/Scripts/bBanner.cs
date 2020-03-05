@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bFarm : MonoBehaviour
+public class bBanner : MonoBehaviour
 {
 	private Sprite _builtSpriteLevel1;
 	private Sprite _builtSpriteLevel2;
@@ -18,12 +18,12 @@ public class bFarm : MonoBehaviour
     public static Dictionary<string, int> _costLevel2 = new Dictionary<string, int>();
     public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Farm/trash_farm");
-		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Farm/wood_farm");
-		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/Farm/stone_farm");
+        _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Banner/trash_banner");
+		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Banner/wood_banner");
+		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/Banner/stone_banner");
 	}
 
     // Update is called once per frame

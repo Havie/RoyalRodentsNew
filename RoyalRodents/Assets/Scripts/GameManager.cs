@@ -59,6 +59,13 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        //Set the screen to be correct on mobile
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+        Screen.autorotateToPortrait = false;
+        Screen.autorotateToLandscapeRight = false;
+        Screen.autorotateToPortraitUpsideDown = false;
+
     }
 
     // Start is called before the first frame update
@@ -66,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         //Temp way to give the player a TownCenter at start.
         _TownCenter = GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>();
-        GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>().StartingBuildComplete();
+        _TownCenter.StartingBuildComplete();
 
         _gold = 0;
         _victoryPoints = 0;

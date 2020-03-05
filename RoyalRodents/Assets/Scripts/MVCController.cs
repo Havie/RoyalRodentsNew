@@ -67,7 +67,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = false;
+        _printStatements = true;
     }
 
 
@@ -580,10 +580,22 @@ public class MVCController : MonoBehaviour
             {
                 Debug.Log("Found a Button Setting clicks to false");
 
-                //Might need to check certain buttons scripts to set assignmentDummy=true;
+                if (result.gameObject.GetComponent<UIDraggableButton>())
+                {
+
+                    Debug.Log("FOUND THE DRAGGABLE!!!!!!!");
+                    if (!result.gameObject.GetComponent<UIDraggableButton>().isSelected())
+                    {
+                        Debug.Log("Is Not Selected");
+                        result.gameObject.GetComponent<UIDraggableButton>().imClicked();
+                    }
+
+                }
+
+                    //Might need to check certain buttons scripts to set assignmentDummy=true;
 
 
-               return false;
+                    return false;
             }
         }
        if(results.Count<=0)

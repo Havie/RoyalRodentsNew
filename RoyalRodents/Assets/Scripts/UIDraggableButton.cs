@@ -18,6 +18,8 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private float _Wiggle2=-3;
     private float _Wiggle3 = -0.1f;
 
+    private bool DebugMODE = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +38,6 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
             if (Input.GetMouseButtonUp(0))
             {
-                _hovering = false;
-                _selected = false;
 
                 if (_AssignmentButton)
                 {
@@ -49,41 +49,44 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                             _selected = false;
                             Debug.Log("Successful Raycast1 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
-                            this.transform.localPosition = _startLoc;
-                            Debug.Log("Start Loc =" + _startLoc);
                         }
                         else if(go.GetComponent<PlayerStats>())
                         {
                             _selected = false;
                             Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
-                            this.transform.position = _startLoc;
                         }
                         else
                         {
                             _selected = false;
                             Debug.Log("Failed Raycast =" + go.gameObject);
-                            this.transform.position = _startLoc;
-                            this.transform.rotation = _startRot;
+
                         }
                     }
-                    else
-                    {
-                        _selected = false;
-                        this.transform.position = _startLoc;
-                        this.transform.rotation = _startRot;
-                        Debug.Log("Go Is NULL");
-                    }
-                }
 
-                
+                }
+                _selected = false;
+                this.transform.localPosition = _startLoc;
+                this.transform.rotation = _startRot;
+
 
             }
         }
-        if (_startLoc!=null)
-            if(_startLoc != Vector3.zero)
-                Debug.LogWarning(_startLoc);
+        //         if (_startLoc!=null)
+        //             if(_startLoc != Vector3.zero)
+        //                 Debug.LogWarning(_startLoc);
 
+        if(DebugMODE)
+        {
+            Debug.Log("STARTLOC IS:" + _startLoc);
+            Debug.Log("Selected IS:" + _selected);
+        }
+
+    }
+    public bool isSelected()
+    {
+        Debug.Log("Returning _" + _selected);
+        return _selected;
     }
 
     private void Wiggle(float _z)
@@ -114,24 +117,16 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
             
     }
 
-    //No fucking Idea why onMouseOver doesn't work for UI, leaving this here out of spite
-    // completely unused 
-    public void onMouseOver()
+    // Called by MVC
+    public void imClicked()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-           Debug.Log("Selected");
-            _selected = true;
-        }
-    }
-    // Actually called on Click event 
-    public void OnMouseDown()
-    {
-        Debug.Log("Selected");
+        Debug.Log("Selected @" + this.transform.localPosition);
         _selected = true;
 
         _startLoc = this.transform.localPosition;
         _startRot = this.transform.rotation;
+
+        DebugMODE = true;
     }
 
     /************************************************************************/

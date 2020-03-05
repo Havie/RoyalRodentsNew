@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         //Temp way to give the player a TownCenter at start.
         _TownCenter = GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>();
-        GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>().StartingBuildComplete();
+        _TownCenter.StartingBuildComplete();
 
         _gold = 0;
         _victoryPoints = 0;

@@ -28,7 +28,6 @@ public class Employee : MonoBehaviour
 
         ShowRedX(false);
 
-      
 
     }
 
@@ -37,28 +36,31 @@ public class Employee : MonoBehaviour
     {
         if(!_Locked && !_Occupied)
         {
+           // Debug.Log("Assign in Employee" +r.getName());
             //This script is on the portrait outline because its the visible clickable thing
             _PortraitOutline.GetComponent<bWorkerScript>().setWorker(r);
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = r.GetPortrait();
             _Occupied = true;
             _currentRodent = r;
+            
         }
     }
 
-   public void Dismiss()
+   public void Dismiss(Rodent r)
     {
         //Debug.Log("heard Dismiss In Employee");
         if (_Occupied)
         {
-            if (_currentRodent)
+            if (_currentRodent && _currentRodent==r)
                 _currentRodent.setTarget(null);
             else
-                Debug.LogWarning("Trying to dismiss a rodent thats not here?");
+                Debug.LogWarning("Trying to dismiss a rodent thats not here? Or doesnt match");
 
             // _PortraitOutline.GetComponent<bWorkerScript>().dismissRodent();
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = null;
             _Occupied = false;
             _currentRodent = null;
+            ShowRedX(false);
             UIAssignmentMenu.Instance.ResetButtons();
         }
     }
@@ -69,7 +71,7 @@ public class Employee : MonoBehaviour
         if (cond)
         {
             _RedX.SetActive(true);
-            MVCController.Instance.setLastRedX(this.gameObject);
+            MVCController.Instance.setLastRedX(this);
         }
         else
         {
@@ -100,5 +102,18 @@ public class Employee : MonoBehaviour
     public bool isOccupied()
     {
         return _Occupied;
+    }
+
+    public void showPortraitOutline(bool cond)
+    {
+        if (_PortraitOutline)
+            _PortraitOutline.gameObject.SetActive(cond);
+    }
+
+    public void showWorkerPortrait(bool cond)
+    {
+      //  Debug.Log("Heard show worker port-" + cond);
+        if (_WorkerObj)
+            _WorkerObj.gameObject.SetActive(cond);
     }
 }

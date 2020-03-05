@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator _animator;
 
 
-    private float _moveSpeed ;
+    private float _moveSpeed;
     private float _horizontalMove = 0f;
     private bool jump = false;
     private bool crouch = false;
@@ -50,89 +50,83 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        if (_controlled)
+
+        //check if we've reached our current Target
+        if (_MoveLocation != null && _horizontalMove != 0)
         {
-            //check if we've reached our current Target
-            if (_MoveLocation != null && _horizontalMove!=0)
+            // check our distance to see if weve reached it 
+
+            // would be nice if we could get the radius from our box collider somehow
+
+            // if reached, set horiz move to 0
+        }
+        // horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            crouch = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+        {
+            crouch = false;
+        }
+        if (Input.GetMouseButton(1))
+        {
+            //old code from gamejam
+            Heal();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
+            // Attack();
+
+            // Check 
+            //Touch touch = Input.GetTouch(0);
+            //Vector2 pos= touch.position;
+
+            GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
+            if (go && _controlled)
             {
-                // check our distance to see if weve reached it 
-
-                // would be nice if we could get the radius from our box collider somehow
-
-                // if reached, set horiz move to 0
-            }
-            // horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
-
-            if (Input.GetButtonDown("Jump"))
-            {
-                jump = true;
-            }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                crouch = true;
-            }
-            else if (Input.GetKeyUp(KeyCode.S))
-            {
-                crouch = false;
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
-                // Attack();
-
-                // Check 
-                //Touch touch = Input.GetTouch(0);
-                //Vector2 pos= touch.position;
-
-                GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
-                if(go)
+                //check if object is in range
+                if (_InRange.Contains(go))
                 {
-                   //check if object is in range
-                   if(_InRange.Contains(go))
-                    {
-                        // if its in range , check its type / team
-                        // if team 0 / 1 pull up menus
+                    // if its in range , check its type / team
+                    // if team 0 / 1 pull up menus
 
-                        // if team 2 attack
-                    }
-                   else if(go == MVCController.Instance._dummyObj)
-                    {
-                        //if the item returned is a UI element do nothing?
-                        Debug.Log("Received Dummy OBJ in playerMove");
-
-                    }
-                    // if it isn't in range, move toward it with normalized direction
-                    else
-                    {
-                        //need to do away with this DummyObj Eventually
-                        //if(go == MVCController.Instance._dummyObj)
-                           // go.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
-
-                        Debug.Log("Location for " + go + "   is " + go.transform.position);
-                        _MoveLocation.transform.position = go.transform.position;
-                        _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x *_moveSpeed;
-                    }
-
-
-
+                    // if team 2 attack
+                }
+                else if (go == MVCController.Instance._dummyObj)
+                {
+                    //if the item returned is a UI element do nothing?
+                    Debug.Log("Received Dummy OBJ in playerMove");
 
                 }
+                // if it isn't in range, move toward it with normalized direction
                 else
                 {
-                    _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
+                    //need to do away with this DummyObj Eventually
+                    //if(go == MVCController.Instance._dummyObj)
+                    // go.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
+
+                    Debug.Log("Location for " + go + "   is " + go.transform.position);
+                    _MoveLocation.transform.position = go.transform.position;
                     _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
                 }
-
-
-
             }
-            if (Input.GetMouseButton(1))
+            else if (_controlled)
             {
-                //old code from gamejam
-                Heal();
+
+                _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _MoveLocation.transform.position.y, 0);
+                _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
             }
+
         }
+
     }
 
     private void FixedUpdate()
@@ -156,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Attack()
     {
-        
+
         if (!_AttackDelay)
         {
             _isAttacking = true;
@@ -176,14 +170,14 @@ public class PlayerMovement : MonoBehaviour
         //Add to the starting pos so we dont target ourself
         Vector3 _startPos = this.transform.position;
         Vector3 _ourDir = Vector2.left;
-       
-            if (m_FacingRight)
-            {
-                _startPos += new Vector3(1, 0, 0);
-                _ourDir = -Vector2.left;
-            }
-            else
-                _startPos -= new Vector3(1, 0, 0);
+
+        if (m_FacingRight)
+        {
+            _startPos += new Vector3(1, 0, 0);
+            _ourDir = -Vector2.left;
+        }
+        else
+            _startPos -= new Vector3(1, 0, 0);
 
 
         // Defines a layer mask that only looks at the "buildings" and "Player" Layer(s)
@@ -197,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (hit.collider != null)
         {
-           // Debug.Log("Found :" + hit.collider.gameObject.name);
+            // Debug.Log("Found :" + hit.collider.gameObject.name);
             AIController ai = hit.collider.GetComponent<AIController>();
             if (ai)
             {
@@ -249,7 +243,7 @@ public class PlayerMovement : MonoBehaviour
             // m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
 
-            this.transform.position += new Vector3( move , 0, 0);
+            this.transform.position += new Vector3(move, 0, 0);
 
 
             // If the input is moving the player right and the player is facing left...
@@ -299,7 +293,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void setControlled(bool cond)
     {
-       // Debug.Log("Player Is Controlled=" + cond);
+        // Debug.Log("Player Is Controlled=" + cond);
         _controlled = cond;
     }
 
@@ -320,13 +314,13 @@ public class PlayerMovement : MonoBehaviour
                 //Do not add to our list of objects in range?
             }
         }
-        else if(collision.transform.GetComponent<BuildableObject>())
+        else if (collision.transform.GetComponent<BuildableObject>())
         {
             //Add to our list of interactable things in range
             _InRange.Add(collision.gameObject);
         }
 
-        else if(collision.transform.GetComponent<Rodent>())
+        else if (collision.transform.GetComponent<Rodent>())
         {
             //Add to our list of interactable things in range
             _InRange.Add(collision.gameObject);
@@ -341,7 +335,7 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(collision.gameObject);
             }
         }
-        
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)

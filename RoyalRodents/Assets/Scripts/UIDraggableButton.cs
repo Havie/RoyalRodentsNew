@@ -9,7 +9,6 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public bool _AssignmentButton = true;
 
     private bool _selected;
-    private bool _hovering;
     private Vector3 _startLoc;
     private Quaternion _startRot;
 
@@ -17,6 +16,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private float _Wiggle1= 3;
     private float _Wiggle2=-3;
     private float _Wiggle3 = -0.1f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +36,6 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
             if (Input.GetMouseButtonUp(0))
             {
-                _hovering = false;
-                _selected = false;
 
                 if (_AssignmentButton)
                 {
@@ -46,47 +44,43 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                     {
                         if (go.GetComponent<BuildableObject>())
                         {
+                            _selected = false;
                            // Debug.Log("Successful Raycast1 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
-                            this.transform.position = _startLoc;
                         }
                         else if(go.GetComponent<PlayerStats>())
                         {
-                            //Debug.Log("Successful Raycast2 =" + go.gameObject);
+                            _selected = false;
+                          //  Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
-                            this.transform.position = _startLoc;
                         }
                         else
                         {
-                           //Debug.Log("Failed Raycast =" + go.gameObject);
-                            this.transform.position = _startLoc;
-                            this.transform.rotation = _startRot;
+                            _selected = false;
+                           // Debug.Log("Failed Raycast =" + go.gameObject);
+
                         }
                     }
-                    else
-                    {
-                        this.transform.position = _startLoc;
-                        this.transform.rotation = _startRot;
-                       // Debug.Log("Go Is NULL");
-                    }
+
                 }
+                _selected = false;
+                this.transform.localPosition = _startLoc;
+                this.transform.rotation = _startRot;
 
-                
+                UIAssignmentMenu.Instance.ResetButtons();
+
 
             }
         }
-        else if (_hovering)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                // Debug.Log("Selected");
-                _selected = true;
-                _startLoc = this.transform.position;
-                _startRot = this.transform.rotation;
-            }
-        }
+        //         if (_startLoc!=null)
+        //             if(_startLoc != Vector3.zero)
+        //                 Debug.LogWarning(_startLoc);
 
 
+    }
+    public bool isSelected()
+    {
+        return _selected;
     }
 
     private void Wiggle(float _z)
@@ -117,15 +111,15 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
             
     }
 
-    //No fucking Idea why onMouseOver doesn't work for UI, leaving this here out of spite
-    // completely unused 
-    public void onMouseOver()
+    // Called by MVC
+    public void imClicked()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-          //  Debug.Log("Selected");
-            _selected = true;
-        }
+       // Debug.Log("Selected @" + this.transform.localPosition);
+        _selected = true;
+
+        _startLoc = this.transform.localPosition;
+        _startRot = this.transform.rotation;
+
     }
 
     /************************************************************************/
@@ -136,15 +130,15 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         //Debug.Log("Enter");
-        _hovering = true;
-        MVCController.Instance.CheckClicks(false);
+       // _hovering = true;
+       // MVCController.Instance.CheckClicks(false);
 
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         // Debug.Log("EXIT!!");
-        _hovering = false;
-        MVCController.Instance.CheckClicks(true);
+        //_hovering = false;
+        //MVCController.Instance.CheckClicks(true);
     }
 }

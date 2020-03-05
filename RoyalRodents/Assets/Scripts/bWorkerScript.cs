@@ -23,7 +23,6 @@ public class bWorkerScript : MonoBehaviour
     {
         setUpMenu();
 
-
         if (_onBuilding && _onPlayer)
         {
             Debug.LogWarning("This Worker script is set to be on both Player and Building, should only be one or the other");
@@ -45,6 +44,7 @@ public class bWorkerScript : MonoBehaviour
     }
     private void setUpMenu()
     {
+        //this seems unnecessary
         _menu = MVCController.Instance.getAssignmentMenu();
         if (_menu == null)
             _menu = UIAssignmentMenu.Instance;
@@ -58,9 +58,9 @@ public class bWorkerScript : MonoBehaviour
         return (_worker != null);
     }
 
-    private void OnMouseDown()
+    public void imClicked()
     {
-        Debug.LogWarning("MouseDownOnOWorker");
+        //Debug.LogWarning("MouseDownOnOWorker");
 
         if (!isOccupied())
         {

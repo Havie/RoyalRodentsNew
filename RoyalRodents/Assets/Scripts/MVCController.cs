@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -27,10 +28,12 @@ public class MVCController : MonoBehaviour
     private UIBuildMenu _DestroyMenu;
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
-    private List<GameObject> _lastRedX = new List<GameObject>();
+    private List<Employee> _lastRedX = new List<Employee>();
 
     private bool _recruitDummy;
     private bool _assignDummy;
+
+    private BaseHitBox _lastColliderOFF;
 
     private bool _printStatements;
 
@@ -64,7 +67,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = true;
+        _printStatements = false;
     }
 
 
@@ -137,19 +140,28 @@ public class MVCController : MonoBehaviour
 
     public void CheckClicks(bool b)
     {
-       // if (_printStatements)
-           // Debug.Log("Were Told to check clicks::" + b);
+        if (_printStatements)
+            Debug.Log("Were Told to check clicks::" + b);
         checkingClicks = b;
     }
 
-
-    public GameObject checkClick2(Vector3 MouseRaw)
+    IEnumerator ClickDelay()
     {
+        CheckClicks(false);
+        yield return new WaitForSeconds(0.5f);
+        CheckClicks(true);
+    }
 
-
-
-
-        return null;
+    public void ShowDummy(bool cond, Vector3 loc)
+    {
+        _dummyObj.gameObject.SetActive(cond);
+        _dummyObj.transform.position = loc;
+    }
+    public void rememberHitBox(BaseHitBox hitbox)
+    {
+        if (_lastColliderOFF)
+            _lastColliderOFF.turnOnCollider(true);
+        _lastColliderOFF = hitbox;
     }
 
 
@@ -161,6 +173,8 @@ public class MVCController : MonoBehaviour
         if (_printStatements)
             Debug.Log("Check Click!");
 
+        //The following will detect UI Elements in the canvas
+        CheckClicks(AlternateUITest(MouseRaw));
 
         if (!checkingClicks && !UIAssignmentMenu.Instance.isActive())
         {
@@ -214,63 +228,97 @@ public class MVCController : MonoBehaviour
                 Debug.Log("Enter");
             GameObject _TMPlastClicked = hit.collider.gameObject;
 
-
-            if (_TMPlastClicked.GetComponent<Rodent>())
-            {
-                _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
-                if (_printStatements)
-                    Debug.Log("Clicked a Rodent");
-
-                if (_lastRodent.getTeam() == 0)
-                {
-                    // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
-                    _recruitDummy = true;
-                }
-
-                else if (_lastRodent.getTeam() == 1)
-                {
-                    _recruitDummy = true;
-                    // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
-                }
+           // if (_TMPlastClicked == _dummyObj)
+               // return _dummyObj;
 
 
-            }
-            else if (_TMPlastClicked.GetComponent<BuildableObject>())
+            if (_TMPlastClicked.transform.parent)
             {
                 if (_printStatements)
-                    Debug.Log("Case0");
-                // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
-                BuildableObject buildObj = _TMPlastClicked.GetComponent<BuildableObject>();
-                buildObj.imClicked();
-                _isBuilding = true;
+                    Debug.LogWarning(_TMPlastClicked.transform.parent.gameObject + "   is parent clicked");
 
-
-                //We have found an building Object that is not the last one clicked
-                // check the state of the building clicked 
-                if (buildObj.getState() != BuildableObject.BuildingState.Built)
+                if (_TMPlastClicked.transform.parent.GetComponent<Rodent>())
                 {
-                    if (_DestroyMenu.isActive())
-                        ShowDestroyMenu(false, MouseRaw, _TMPlastClicked, buildObj);
+                    _lastRodent = _TMPlastClicked.transform.parent.GetComponent<Rodent>();
+                    if (_printStatements)
+                        Debug.Log("Clicked a Rodent");
 
-                    ShowBuildMenu(true, MouseRaw, _TMPlastClicked, buildObj);
+                    if (_lastRodent.getTeam() == 0)
+                    {
+                        // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
+                        _lastRodent.imClicked();
+                        _recruitDummy = true;
+                    }
+
+                    else if (_lastRodent.getTeam() == 1)
+                    {
+                        // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
+                        _lastRodent.imClicked();   // can probably combine now
+                        _recruitDummy = true;
+                    }
+
+                    return _lastRodent.gameObject;
+
                 }
-                else
+                else if(_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>())
                 {
-                    if (_BuildMenu.isActive())
-                        ShowBuildMenu(false, MouseRaw, _TMPlastClicked, buildObj);
-                    //Cant Demolish TownCenter
-                    //Will need to find a solution to pull up Upgrade Button on its own
-                    if (buildObj.getType() != BuildableObject.BuildingType.TownCenter)
-                        ShowDestroyMenu(true, MouseRaw, _TMPlastClicked, buildObj);
+                    _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
+                    if (_printStatements)
+                        Debug.Log("Clicked a Rodent through spawn volume");
 
+                    if (_lastRodent.getTeam() == 0)
+                    {
+                        // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
+                        _lastRodent.imClicked();
+                        _recruitDummy = true;
+                    }
+
+                    else if (_lastRodent.getTeam() == 1)
+                    {
+                        // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
+                        _lastRodent.imClicked();   // can probably combine now
+                        _recruitDummy = true;
+                    }
+
+                    return _lastRodent.gameObject;
                 }
+               else if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
+                {
+                    if (_printStatements)
+                        Debug.Log("Case0");
+                    // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
+                    BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
+                    buildObj.imClicked();
+                    _isBuilding = true;
 
-                _AssignmentMenu.showMenu(false,null);
-                showRedX(false);
-                showRecruitMenu(false, Vector3.zero, "", 0, 0);
 
-                _lastClicked = _TMPlastClicked;
-                return _lastClicked;
+                    //We have found an building Object that is not the last one clicked
+                    // check the state of the building clicked 
+                   /* if (buildObj.getState() != BuildableObject.BuildingState.Built)
+                    {
+                        if (_DestroyMenu.isActive())
+                            ShowDestroyMenu(false, MouseRaw, _TMPlastClicked, buildObj);
+
+                        ShowBuildMenu(true, MouseRaw, _TMPlastClicked, buildObj);
+                    }
+                    else
+                    {
+                        if (_BuildMenu.isActive())
+                            ShowBuildMenu(false, MouseRaw, _TMPlastClicked, buildObj);
+                        //Cant Demolish TownCenter
+                        //Will need to find a solution to pull up Upgrade Button on its own
+                        if (buildObj.getType() != BuildableObject.BuildingType.TownCenter)
+                            ShowDestroyMenu(true, MouseRaw, _TMPlastClicked, buildObj);
+
+                    } */
+
+                    _AssignmentMenu.showMenu(false, null);
+                    showRedX(false);
+                    showRecruitMenu(false, Vector3.zero, "", 0, 0);
+
+                    _lastClicked = _TMPlastClicked;
+                    return _lastClicked;
+                }
             }
             // check if it was a portrait  
             if (_TMPlastClicked.GetComponent<bWorkerScript>())
@@ -311,6 +359,7 @@ public class MVCController : MonoBehaviour
 
             _isBuilding = false;
             return TurnThingsoff();
+            //return null;
         }
 
 
@@ -365,6 +414,7 @@ public class MVCController : MonoBehaviour
             Debug.Log("setLast to" + o);
         _lastClicked = o;
         _recruitDummy = false;
+        StartCoroutine(ClickDelay());
     }
     public void clearLastClicked()
     {
@@ -448,15 +498,18 @@ public class MVCController : MonoBehaviour
 
         clearLastClicked();
 
+        if(_lastColliderOFF)
+            _lastColliderOFF.turnOnCollider(true);
+
         return null;
     }
 
 
 
-    public void setLastRedX(GameObject redxHolder)
+    public void setLastRedX(Employee redxHolder)
     {
-        if (_printStatements)
-            Debug.Log("set redX");
+       if (_printStatements)
+            Debug.Log("set redX in MVC ::" + redxHolder);
         _lastRedX.Add(redxHolder);
     }
     public void showRedX(bool cond)
@@ -465,13 +518,11 @@ public class MVCController : MonoBehaviour
             Debug.Log("MVC::ShowRedX::" + cond);
 
         if (_lastRedX.Count > 0)
-            foreach (GameObject g in _lastRedX)
+            foreach (Employee e in _lastRedX)
             {
-                if(g.GetComponent<BuildableObject>())
-                    g.GetComponent<BuildableObject>().ShowRedX(cond);
-                else if(g.GetComponent<PlayerStats>())
-                     g.GetComponent<PlayerStats>().ShowRedX(cond);
-            }
+                 if (e.GetComponent<Employee>())
+                     e.GetComponent<Employee>().ShowRedX(cond);
+        }
     }
     public void showAssignmenu(bool cond)
     {
@@ -518,6 +569,94 @@ public class MVCController : MonoBehaviour
         r.tag = "PlayerRodent";
         r.Recruit();
         CheckClicks(true);
+    }
+
+
+    private bool AlternateUITest(Vector3 MouseRaw)
+    {
+        GraphicRaycaster gr = GameObject.FindGameObjectWithTag("Canvas").GetComponent<GraphicRaycaster>();
+        EventSystem es = GameManager.Instance.transform.GetComponentInChildren<EventSystem>();
+
+        if (es == null)
+            Debug.LogError("NO EventSys");
+
+        //Set up the new Pointer Event
+        PointerEventData m_PointerEventData = new PointerEventData(es);
+        //Set the Pointer Event Position to that of the mouse position
+        m_PointerEventData.position = MouseRaw;
+
+        //Create a list of Raycast Results
+        List<RaycastResult> results = new List<RaycastResult>();
+        //RayCast it
+        if (gr)
+            gr.Raycast(m_PointerEventData, results);
+        else
+            Debug.LogError("NO GraphicRaycaster");
+
+        //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
+        foreach (RaycastResult result in results)
+        {
+            if(_printStatements)
+                Debug.LogError("GraphicCaster Hit " + result.gameObject.name);
+            if(result.gameObject.GetComponent<Button>())
+            {
+                if (_printStatements)
+                    Debug.Log("Found a Button Setting clicks to false");
+
+                if (result.gameObject.GetComponent<UIDraggableButton>())
+                {
+
+                    if (!result.gameObject.GetComponent<UIDraggableButton>().isSelected())
+                    {
+                        result.gameObject.GetComponent<UIDraggableButton>().imClicked();
+                    }
+
+                }
+                else if (result.gameObject.GetComponent<UIAssignmentVFX>())
+                {
+                    result.gameObject.GetComponent<UIAssignmentVFX>().imClicked();
+                }
+
+                //Might need to check certain buttons scripts to set assignmentDummy=true;
+                return false;
+            }
+            
+        }
+       if(results.Count<=0 && (_printStatements))
+            Debug.LogError("We tried to GraphicRaycast UI and failed @" + m_PointerEventData.position);
+
+
+
+
+        m_PointerEventData.position = (MouseRaw);
+        results.Clear();
+        EventSystem.current.RaycastAll(m_PointerEventData, results);
+        if (results.Count > 0)
+        {
+            foreach (RaycastResult result in results)
+            {
+                if (_printStatements)
+                    Debug.LogError("Alternate Hit " + result.gameObject.name);
+                if (result.gameObject.GetComponent<Button>())
+                {
+                    if (_printStatements)
+                        Debug.Log("Found a Button Setting clicks to false");
+
+                    //Might need to check certain buttons scripts to set assignmentDummy=true;
+
+
+                    return false;
+                }
+                else if(result.gameObject.GetComponent<bWorkerScript>())
+                {
+                    result.gameObject.GetComponent<bWorkerScript>().imClicked();
+                }
+            }
+        }
+        else if (_printStatements)
+            Debug.LogError("We tried to ALLRaycast UI and failed @" + m_PointerEventData.position);
+
+        return true;
     }
 }
 

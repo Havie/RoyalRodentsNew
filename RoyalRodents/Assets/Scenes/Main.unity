@@ -19424,6 +19424,9 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   savedTarget: {fileID: 0}
   IdlePos: {x: 0, y: 0, z: 0}
+  royalGuard: 1
+  worker: 0
+  builder: 0
 --- !u!114 &1832155492
 MonoBehaviour:
   m_ObjectHideFlags: 0

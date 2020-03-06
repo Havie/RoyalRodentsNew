@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CoinResource : MonoBehaviour
 {
-    int value = 1;
     bool active = false;
 
     public void Awake()

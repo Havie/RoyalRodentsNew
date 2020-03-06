@@ -36,14 +36,19 @@ public class UIButtonCosts : MonoBehaviour
 
 	public TextMeshProUGUI textTitle; //displays name of button
 
+	//Set Text Colors
 	private Color bad = Color.red;
 	private Color good = Color.black;
 
-    // Start is called before the first frame update
-    void Start()
+	//Get Resource Manager Instance
+	ResourceManagerScript _rm;
+
+	// Start is called before the first frame update
+	void Start()
     {
-        //text = this.gameObject.transform.GetComponent<TextMeshProUGUI>();
-        UpdateButton();
+		//text = this.gameObject.transform.GetComponent<TextMeshProUGUI>();
+		_rm = ResourceManagerScript.Instance;
+		UpdateButton();
 	}
 
      void Update()
@@ -66,10 +71,10 @@ public class UIButtonCosts : MonoBehaviour
 		currentGold = GameManager.Instance._gold;
 
 		//update local vars from player resources
-		currentTrash = ResourceManagerScript.Instance.Trash;
-		currentWood = ResourceManagerScript.Instance.Wood;
-		currentMetal = ResourceManagerScript.Instance.Metal;
-		currentShiny = ResourceManagerScript.Instance.Shiny;
+		currentTrash = _rm.Trash;
+		currentWood = _rm.Wood;
+		currentMetal = _rm.Metal;
+		currentShiny = _rm.Shiny;
 	}
 
     public void UpdateCosts()
@@ -82,13 +87,13 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			_cost = bFarm.getCost(_level);
 		}
-		else if (_type.Equals("wall"))
+		else if (_type.Equals("banner"))
 		{
-			_cost = bWall.getCost(_level);
+			_cost = bBanner.getCost(_level);
 		}
-		else if (_type.Equals("tower"))
+		else if (_type.Equals("outpost"))
 		{
-			_cost = bTower.getCost(_level);
+			_cost = bOutpost.getCost(_level);
 		}
 		else if (_type.Equals("towncenter"))
 		{
@@ -187,7 +192,8 @@ public class UIButtonCosts : MonoBehaviour
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts()
     {
-		UpdateButton();
+        Debug.LogWarning("Heard UI ApproveCosts");
+        UpdateButton();
 
         if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
         {
@@ -195,10 +201,10 @@ public class UIButtonCosts : MonoBehaviour
 			else
 				MVCController.Instance.MVCBuildSomething(_type);
 
-			ResourceManagerScript.Instance.incrementTrash(-costTrash);
-			ResourceManagerScript.Instance.incrementWood(-costWood);
-			ResourceManagerScript.Instance.incrementMetal(-costMetal);
-			ResourceManagerScript.Instance.incrementShiny(-costShiny);
+			_rm.incrementTrash(-costTrash);
+			_rm.incrementWood(-costWood);
+			_rm.incrementMetal(-costMetal);
+			_rm.incrementShiny(-costShiny);
 			// Debug.Log("Cost Approved");
 		}
         else
@@ -213,7 +219,7 @@ public class UIButtonCosts : MonoBehaviour
 		_type = type;
 		_level = lvl;
 
-		Debug.Log("ChangeButton set to " + type + ", lvl " + lvl.ToString());
+		//Debug.Log("ChangeButton set to " + type + ", lvl " + lvl.ToString());
 
 		//update title of button
 		if (textTitle != null)
@@ -222,10 +228,10 @@ public class UIButtonCosts : MonoBehaviour
 				textTitle.text = "House (LVL " + _level.ToString() + ")";
 			else if (_type == "farm")
 				textTitle.text = "Farm (LVL " + _level.ToString() + ")";
-			else if (_type == "wall")
-				textTitle.text = "Wall (LVL " + _level.ToString() + ")";
-			else if (_type == "tower")
-				textTitle.text = "Tower (LVL " + _level.ToString() + ")";
+			else if (_type == "banner")
+				textTitle.text = "Banner (LVL " + _level.ToString() + ")";
+			else if (_type == "outpost")
+				textTitle.text = "Outpost (LVL " + _level.ToString() + ")";
 			else if (_type == "towncenter")
 				textTitle.text = "Town Center (LVL " + _level.ToString() + ")";
 			else
@@ -245,11 +251,11 @@ public class UIButtonCosts : MonoBehaviour
     public void MouseEnter()
     {
        // Debug.Log("HEARD ENTER");
-        MVCController.Instance.CheckClicks(false);
+        //MVCController.Instance.CheckClicks(false);
     }
     public void MouseExit()
     {
        // Debug.Log("HEARD EXIT");
-        MVCController.Instance.CheckClicks(true);
+        //MVCController.Instance.CheckClicks(true);
     }
 }

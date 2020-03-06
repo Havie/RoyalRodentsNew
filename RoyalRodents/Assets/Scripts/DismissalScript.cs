@@ -49,11 +49,11 @@ public class DismissalScript : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        MVCController.Instance.CheckClicks(false);
+       // MVCController.Instance.CheckClicks(false);
     }
     private void OnMouseExit()
     {
-        MVCController.Instance.CheckClicks(true);
+        //MVCController.Instance.CheckClicks(true);
     }
     //if bo is never used, this is irrelevant.. 
     private void FigureOutMode()

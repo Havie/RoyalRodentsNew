@@ -70,10 +70,15 @@ public class UIRecruitMenu : MonoBehaviour
             else
                 _CostFood.color = good;
 
-            //To-Do : Add Population check
+			//To-Do : Add Population check
+			if (ResourceManagerScript.Instance.getCurrentPopulation() >= ResourceManagerScript.Instance.getPopulationCapacity())
+			{
+				_CostPop.color = bad;
+			}
+			else
+				_CostPop.color = good;
 
-
-            _Name.text = r.getName();
+			_Name.text = r.getName();
         }
         else // will turn off all buttons
         {
@@ -121,10 +126,15 @@ public class UIRecruitMenu : MonoBehaviour
             else
                 _CostFood.color = good;
 
-            //To-Do : Add Population check
+			//To-Do : Add Population check
+			if (ResourceManagerScript.Instance.getCurrentPopulation() >= ResourceManagerScript.Instance.getPopulationCapacity())
+			{
+				_CostPop.color = bad;
+			}
+			else
+				_CostPop.color = good;
 
-
-            _Name.text = name;
+			_Name.text = name;
         }
         else // will turn off all buttons
         {
@@ -174,15 +184,19 @@ public class UIRecruitMenu : MonoBehaviour
             return;
         }
 
-        //Check RM if we have enough Pop   // Sound
-        //To-Do
+        //Check RM if we have enough Pop
+        if (ResourceManagerScript.Instance.getCurrentPopulation() >= ResourceManagerScript.Instance.getPopulationCapacity())
+		{
+			//To-Do: Play Sound
+			return;
+		}
 
         //Tell MVC to go ahead
         MVCController.Instance.Recruit(_Rodent, this);
         //Update Resource Manager
         ResourceManagerScript.Instance.incrementFood(0 - _FoodCost);
-
-    }
+		ResourceManagerScript.Instance.UpdateCurrentPopulation();
+	}
 
     public void JoinGuard()
     {
@@ -198,12 +212,12 @@ public class UIRecruitMenu : MonoBehaviour
     public void MouseEnter()
     {
         // Debug.Log("HEARD ENTER");
-        MVCController.Instance.CheckClicks(false);
+       // MVCController.Instance.CheckClicks(false);
     }
     public void MouseExit()
     {
        // Debug.Log("HEARD EXIT");
-        MVCController.Instance.CheckClicks(true);
+        //MVCController.Instance.CheckClicks(true);
     }
     private void SetUpFromChildren()
     {

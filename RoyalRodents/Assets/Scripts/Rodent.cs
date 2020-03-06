@@ -266,12 +266,12 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         return _PopulationCost;
     }
 
-    public void OnMouseDown()
+    public void imClicked()
     {
-        // Debug.Log("HeardMouseDown  " + _Name);
+       // Debug.Log("Heard Click Rodent:  " + _Name);
 
         //Tell any old Menu To close
-        MVCController.Instance.showRecruitMenu(false, Vector3.zero, null, 0, 0);
+        _RecruitMenu.showMenu(false, Vector3.zero, null, 0, 0);
 
 
         if (_Status == eStatus.Available && _Team == 0)
@@ -285,18 +285,17 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         }
         else if (_Status == eStatus.Available && _Team == 1)
         {
-            if (_RecruitMenu)
-            {
-                //No longer show this menu
-                // _RecruitMenu.showKingGuardMenu(true, this);
 
-                // Instead show the Royal guard above players head
+               // Debug.Log("Show AssignmentMenu");
+
+
+                // Show the Royal guard above players head
                 // by activating the assignment menu! - might not want this
                 UIAssignmentMenu.Instance.showMenu(true, this.transform.gameObject);
 
                 //TO-DO: Need to phase Out
                 UIAssignmentMenu.Instance.CreateButtons(GameManager.Instance.getPlayerRodents());
-            }
+            
 
         }
     }

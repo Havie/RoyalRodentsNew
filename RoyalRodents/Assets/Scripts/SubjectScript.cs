@@ -29,6 +29,8 @@ public class SubjectScript : MonoBehaviour
     private bool MovingInIdle = false;
     private float WaitDuration;
 
+    private List<GameObject> _inRange = new List<GameObject>();
+
     private bool _printStatements = false;
 
     // Start is called before the first frame update
@@ -84,7 +86,9 @@ public class SubjectScript : MonoBehaviour
         worker = false;
         builder = false;
 
+        // Always should have the king in Saved Target if it is not the current target
         currentTarget = GameObject.FindGameObjectWithTag("Player");
+        savedTarget = currentTarget;
     }
 
     public void setWorker()
@@ -154,6 +158,7 @@ public class SubjectScript : MonoBehaviour
             if (anims)
             {
                 anims.SetBool("isMoving", true);
+              
             }
 
             if (transform.position.x > pos.x)
@@ -197,6 +202,7 @@ public class SubjectScript : MonoBehaviour
             {
                 // On finishing movement, return to idle
                 anims.SetBool("isMoving", false);
+                
             }
 
             //Responsible for starting Coroutine
@@ -300,7 +306,10 @@ public class SubjectScript : MonoBehaviour
             }
             else if(worker)
             {
-                //set anim /bool trigger to true
+                if (anims)
+                {
+                    anims.SetTrigger("doFarming");
+                }
             }
 
 
@@ -311,6 +320,8 @@ public class SubjectScript : MonoBehaviour
             }
             yield return new WaitForSeconds(WaitDuration);
             ShouldIdle = false;
+
+            //set false
 
             if (_printStatements)
                 Debug.Log("Exit Idle Timer");
@@ -397,52 +408,66 @@ public class SubjectScript : MonoBehaviour
 
     public void FindAttackTarget(Collision2D collision)
     {
-        // Code assumes that currentTarget will always be an enemy rodent or building if it is not the player
-        float closestDistance = 10f;
-        Debug.Log("SUBJECT: Target at time of collision: " + currentTarget.ToString());
+        // Bruh
 
-        // Check if current target is not king. if so, closest distance = current target
-        if (!(currentTarget.tag == "Player"))
-        {
-            closestDistance = currentTarget.transform.position.x;
-        }
-        // Look at the new collision, check if it's an enemy, and compare it to closest distance
+        // Add a target to the list based on collisions
 
         // Rodent case
         if (collision.transform.gameObject.GetComponent<Rodent>())
         {
-            // Check for enemy team
-            if (collision.transform.gameObject.GetComponent<Rodent>().getTeam() == 2)
-            {
-                // Compare distance
-                if (Mathf.Abs(this.transform.position.x - collision.transform.position.x) < Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x))
-                {
-                    // Set new target
-                    currentTarget = collision.transform.gameObject;
-                    Debug.Log("SUBJECT: Target changed to " + currentTarget.ToString());
-                }
-            }
+            GameObject r = collision.transform.gameObject;
+            _inRange.Add(r);
         }
-
-        //Building case
-        else if (collision.transform.gameObject.GetComponent<BuildableObject>())
-        {
-            // Check for enemy team
-            //if (collision.transform.gameObject.GetComponent<BuildableObject>().getTeam() == 2)
-            //{
-            // Compare distance
-                //if (Mathf.Abs(this.transform.position.x - collision.transform.position.x) < Mathf.Abs(this.transform.position.x - currentTarget.transform.position.x))
-                //{
-                //// Set new target
-                //currentTarget = collision.transform.gameObject;
-                //}
-            //}
-
-        }
-
-        // When target dies, find new target? Or reset to king and let the collider try to find a new one
 
     }
+
+
+    public void removefromRange(Collision c)
+    {
+        
+            GameObject go = c.gameObject;
+            if (_inRange.Contains(go))
+            {
+
+                if(go==currentTarget || currentTarget==null)
+            {
+                FindNextTargetInRange();
+            }
+                
+                _inRange.Remove(go);
+            }
+            //else debug error 
+        
+    }
+
+    private void FindNextTargetInRange()
+    {
+        //parse the list for closest target and make next target
+        if(_inRange.Count > 0)
+        {
+            // Priming read
+            GameObject currentClosest = _inRange[0];
+            float closestDist = Mathf.Abs(transform.position.x - _inRange[0].transform.position.x);
+
+            foreach (GameObject go in _inRange)
+            {
+                float tempDist = Mathf.Abs(transform.position.x - go.transform.position.x);
+                if (tempDist < closestDist)
+                {
+                    closestDist = tempDist;
+                    currentClosest = go;
+                }
+            }
+
+            currentTarget = currentClosest;
+        }
+        // If no valid targets, set to King
+        else
+        {
+            currentTarget = savedTarget;
+        }
+    }
+
 
     // Resets the rodent's target back to the original current, now saved in the secondary target
     public void swapTarget()

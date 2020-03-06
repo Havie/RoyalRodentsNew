@@ -27,12 +27,12 @@ public class UIRodentHolder : MonoBehaviour
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/
     public void MouseEnter()
     {
-       // Debug.Log("HEARD ENTER");
-        MVCController.Instance.CheckClicks(false);
+      // Debug.Log("HEARD ENTER");
+       // MVCController.Instance.CheckClicks(false);
     }
     public void MouseExit()
     {
-       // Debug.Log("HEARD EXIT");
-        MVCController.Instance.CheckClicks(true);
+        //Debug.Log("HEARD EXIT");
+        //MVCController.Instance.CheckClicks(true);
     }
 }

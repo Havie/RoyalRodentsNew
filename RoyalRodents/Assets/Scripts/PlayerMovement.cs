@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
                 if (go != MVCController.Instance._dummyObj)
                 {
 
-                   Debug.Log("Location for " + go + "   is " + go.transform.position);
+                  // Debug.Log("Location for " + go + "   is " + go.transform.position);
 
                     //figure out if the collider is on a building we own
                     if(go.transform.parent)
@@ -141,13 +141,13 @@ public class PlayerMovement : MonoBehaviour
                                     //decide if we need to flip to face incase we walked past
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
 
-                                    Debug.Log("Attack!");
+                                   // Debug.Log("Attack!");
                                     Attack();
                                 }
                                 else
                                 {
                                     //move towards it
-                                    Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
+                                   // Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
                                     //and set goal to attack it
                                     _wantToAttack = true;
                                     _AttackTarget = go.gameObject;
@@ -164,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
                     //check if its a rodent Place 2 - no parent? possible?
                     else if (go.GetComponent<Rodent>())
                     {
-                        Debug.LogWarning("Found a Rodent no parent shouldnt happen"); 
+                        Debug.LogWarning("Found a Rodent no parent shouldn't happen"); 
                     }
 
 
@@ -172,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_controlled)
             {
-                Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+              //  Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
                 _wantToAttack = false;
@@ -226,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         // pick the actual correct location to move
         _MoveLocation.transform.position = _movePos;
-        float _MoveAmnt = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+        float _MoveAmnt = (_MoveLocation.transform.position - this.transform.position).normalized.x; // if we add a multiply here we get a charge speed effect
 
         // Debug.Log("MoveDis:: " + _moveDis);
 

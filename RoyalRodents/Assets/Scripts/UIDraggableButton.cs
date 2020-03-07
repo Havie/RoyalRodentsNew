@@ -45,19 +45,19 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                         if (go.GetComponent<BuildableObject>())
                         {
                             _selected = false;
-                           // Debug.Log("Successful Raycast1 =" + go.gameObject);
+                            Debug.Log("Successful Raycast1 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                         }
                         else if(go.GetComponent<PlayerStats>())
                         {
                             _selected = false;
-                          //  Debug.Log("Successful Raycast2 =" + go.gameObject);
+                            Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                         }
                         else
                         {
                             _selected = false;
-                           // Debug.Log("Failed Raycast =" + go.gameObject);
+                            Debug.Log("Failed Raycast =" + go.gameObject);
 
                         }
                     }
@@ -70,7 +70,8 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 UIAssignmentMenu.Instance.ResetButtons();
 
                 //Safe to Reshow Hidden arrows
-                UIAssignmentMenu.Instance.ShowArrowButtons(true);
+                if(UIAssignmentMenu.Instance.isActive())
+                     UIAssignmentMenu.Instance.ShowArrowButtons(true);
             }
         }
         //         if (_startLoc!=null)
@@ -115,7 +116,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     // Called by MVC
     public void imClicked()
     {
-       // Debug.Log("Selected @" + this.transform.localPosition);
+        Debug.Log("Selected @" + this.transform.localPosition);
         _selected = true;
 
         _startLoc = this.transform.localPosition;

@@ -20,9 +20,8 @@ public class MVCController : MonoBehaviour
     private Rodent _lastRodent;
     [SerializeField]
     public GameObject _dummyObj;
-    public bool _isBuilding;
 
-    public bool checkingClicks;
+    public bool IgnoreClicks;
 
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
@@ -55,7 +54,7 @@ public class MVCController : MonoBehaviour
         _BuildMenu = o.GetComponent<UIBuildMenu>();
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
-        checkingClicks = true;
+        IgnoreClicks = true;
 
         if (_dummyObj == null)
         {
@@ -67,7 +66,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = true;
+        _printStatements = false;
     }
 
 
@@ -137,7 +136,7 @@ public class MVCController : MonoBehaviour
     {
         if (_printStatements)
             Debug.Log("Were Told to check clicks::" + b);
-        checkingClicks = b;
+        IgnoreClicks = b;
     }
     IEnumerator ClickDelay()
     {
@@ -150,25 +149,24 @@ public class MVCController : MonoBehaviour
         _dummyObj.gameObject.SetActive(cond);
         _dummyObj.transform.position = loc;
     }
-    /**This function is now called by the Player in PlayerMovement
-    *Responsible for checking what was clicked, then notifying it if it needs to know
+    /** This function is now called by the Player in PlayerMovement
+    *   Responsible for checking what was clicked
     */
     public GameObject checkClick(Vector3 MouseRaw)
     {
         if (_printStatements)
             Debug.Log("Check Click!");
 
-        //The following will detect UI Elements in the canvas
+        // Will detect UI Elements in the canvas
         CheckClicks(AlternateUITest(MouseRaw));
-
-        if (!checkingClicks && !UIAssignmentMenu.Instance.isActive())
+        // Chance we dont want to do anything
+        if (!IgnoreClicks && !UIAssignmentMenu.Instance.isActive())
         {
-            if (_RecruitMenu)
+            if (_RecruitMenu) // if the menus open, conditions to close it becuz we clicked off it
             {
                 if (_RecruitMenu.isActive() && !_recruitDummy)
                 {
                     showRecruitMenu(false, Vector3.zero, null, 0, 0);
-                    _isBuilding = false;
                     _lastClicked = null;
 
                     if (_printStatements)
@@ -180,36 +178,31 @@ public class MVCController : MonoBehaviour
             return _dummyObj;
         }
 
-
-
         if (_printStatements)
             Debug.Log("Passed");
 
         //used to keep track of if a menu needs to stay open
         _recruitDummy = false;
         _assignDummy = false;
-
+        //perform a ray cast on player and buildings layer 
         RaycastHit2D hit=  RayCastPlayerAndBuildings(MouseRaw);
-
+        //We found something
         if (hit.collider != null)
         {
-           
             GameObject _TMPlastClicked = InspectHit(hit);
 
-           // if (_TMPlastClicked == _dummyObj)
-               // return _dummyObj;
-
-
+            //Alot of colliders are on the children, Need to check parent to get proper scripts
             if (_TMPlastClicked.transform.parent)
             {
                 if (_printStatements)
                     Debug.LogWarning(_TMPlastClicked.transform.parent.gameObject + "   is parent clicked");
 
 
-                //To-Do: If Click Player Do a new RayCast here to avoid player/player Layer? so we can click through the player
+                //If Click Player Do a new RayCast here to avoid player/player Layer, so we can click through the player and ago radius - worried what will happen if we have multiple agro radius
                 if (_TMPlastClicked.transform.parent.GetComponentInChildren<PlayerMovement>() || _TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
-                    Debug.Log("Found a warning click");
+                    if(_printStatements)
+                         Debug.LogWarning("Found a warning click");
                     hit = RayCastBehindPlayer(MouseRaw);
                     if (hit.collider != null)
                     {
@@ -217,8 +210,19 @@ public class MVCController : MonoBehaviour
                     }
 
                 }
+                //Clicked the Portrait Employee Object - collider isn't on child, but it has a parent so its safe to do this in here
+                if(CheckWorkerObject(_TMPlastClicked))
+                {
+                    GameObject go = FoundWorkerObj(_TMPlastClicked);
+                    if (go)
+                        return go;
+                }
+                // We clicked something tangible, not an agro collider 
                 if (!_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
+                    //prevents us from opening a menu accidentally
+                    if (UIAssignmentMenu.Instance.isActive())
+                        return null;
 
                     if (CheckRodent(_TMPlastClicked))
                     {
@@ -232,70 +236,27 @@ public class MVCController : MonoBehaviour
                     {
                         return FoundBuilding(_TMPlastClicked);
                     }
-                    
                 }
             }
-            // check if it was a portrait  
-            if (_TMPlastClicked.GetComponent<bWorkerScript>())
-            {
-
-                GameObject _owner = _TMPlastClicked.GetComponent<bWorkerScript>().getOwner();
-
-                if (_owner)
-                {
-                    if (_owner.GetComponent<BuildableObject>())
-                    {
-                        if(_printStatements)
-                            Debug.Log("Worker Portrait (building)");
-                        _assignDummy = true;
-                        TurnThingsoff();
-
-                        _lastClicked = _owner;
-                        return _lastClicked;
-                    }
-                    else if(_owner. GetComponent<PlayerStats>())
-                    {
-                        if (_printStatements)
-                            Debug.Log("Worker Portrait (player)");
-                        _assignDummy = true;
-                        TurnThingsoff();
-
-                        _lastClicked = _owner;
-                        return _lastClicked;
-                    }
-                    Debug.Log("Owner Fallthru==" + _owner);
-                }
-                if (_printStatements)
-                    Debug.Log("Fall through Case 00" + _TMPlastClicked);
-            }
-
+            //we fell through the list of available objects, turn menus off
             if (_printStatements)
                 Debug.Log("Fall through Case1");
 
-            _isBuilding = false;
             return TurnThingsoff();
-            //return null;
         }
 
-
-
-
-        //UI layer
+        //We clicked nothing, but if the assignment menu is active, do nothing
         if (UIAssignmentMenu.Instance.isActive())
         {
             if (_printStatements)
                 Debug.Log("UI is On, Return Last clicked");
-
-            // ??? _isBuilding = false;
             return null;
         }
         else
         {
-
+            //we clicked absolutely nothing, turn everything off 
             if (_printStatements)
                 Debug.Log("Fall through Case2");
-
-            _isBuilding = false;
             return TurnThingsoff();
         }
     }
@@ -316,7 +277,6 @@ public class MVCController : MonoBehaviour
     {
         _lastClicked = null;
     }
-
     public void RodentAssigned(Rodent r)
     {
         if (_printStatements)
@@ -389,9 +349,6 @@ public class MVCController : MonoBehaviour
 
         return null;
     }
-
-
-
     public void setLastRedX(Employee redxHolder)
     {
        if (_printStatements)
@@ -412,6 +369,7 @@ public class MVCController : MonoBehaviour
     }
     public void showAssignmenu(bool cond)
     {
+       // Debug.Log("ShowAssignMenu in MVC " + cond);
         if (_AssignmentMenu && !_assignDummy)
             _AssignmentMenu.showMenu(cond, _lastClicked);  // TO-DO: NEED TO PHASE OUT?
     }
@@ -443,7 +401,7 @@ public class MVCController : MonoBehaviour
     {
        // Debug.Log("MVC Rodent Recruit: " + _lastRodent);
         menu.showMenu(false, Vector3.zero, "", 0, 0);
-        r.tag = "PlayerRodent";
+        r.tag = "PlayerRodent"; //obsolete now
         r.Recruit();
         CheckClicks(true);
     }
@@ -534,7 +492,7 @@ public class MVCController : MonoBehaviour
                 }
                 else if(result.gameObject.GetComponent<bWorkerScript>())
                 {
-                    Debug.Log("Found Bworker");
+                    Debug.Log("Found B Worker Script");
                     result.gameObject.GetComponent<bWorkerScript>().imClicked();
                 }
             }
@@ -558,14 +516,21 @@ public class MVCController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
         RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 19f, _LayerMask);
 
-        //Drawing a Ray doesnt work?
+        //Drawing a Ray doesn't work?
         //Debug.DrawRay(_startPos, _ourDir, Color.red);
         if (hit.collider!=null && _printStatements)
              Debug.Log("Initial Hit Found:" + hit.collider.gameObject);
 
-        foreach( var h in hits)
+        //Might be possible to write something here that ignores agro spheres and somehow
+        //gets a better more valuable hit from hits
+
+        if (hits.Length > 1)
         {
-            Debug.Log("Found" + h.collider.gameObject);
+            Debug.LogWarning("Possible to Hit more than 1 thing??");
+            foreach (var h in hits)
+            {
+                 Debug.Log("Found" + h.collider.gameObject);
+            }
         }
 
         return hit;
@@ -588,11 +553,12 @@ public class MVCController : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
 
-        Debug.Log("Hit Dis:" + hit.distance);
+        //Debug.Log("Hit Dis:" + hit.distance);
 
         if (hit.collider != null)
         {
-            Debug.Log("Secondary Hit Found:" + hit.collider.gameObject);
+            if(_printStatements)
+                Debug.Log("Secondary Hit Found:" + hit.collider.gameObject);
         }
 
         return hit;
@@ -624,22 +590,25 @@ public class MVCController : MonoBehaviour
         return (_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>());
 
     }
+    private bool CheckWorkerObject(GameObject _TMPlastClicked)
+    {
+        return (_TMPlastClicked.transform.GetComponentInChildren<bWorkerScript>());
+
+    }
     private GameObject FoundBuilding( GameObject _TMPlastClicked)
     {
-        if (_printStatements)
-            Debug.Log("Case0");
-        // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
-        BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
-        buildObj.imClicked();
+            if (_printStatements)
+                Debug.Log("Clicked a Building");
+            // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
+            BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
+            buildObj.imClicked();
 
-        _isBuilding = true;
+            _AssignmentMenu.showMenu(false, null);
+            showRedX(false);
+            showRecruitMenu(false, Vector3.zero, "", 0, 0);
 
-        _AssignmentMenu.showMenu(false, null);
-        showRedX(false);
-        showRecruitMenu(false, Vector3.zero, "", 0, 0);
-
-        _lastClicked = _TMPlastClicked;
-        return _lastClicked;
+            _lastClicked = _TMPlastClicked;
+            return _lastClicked;
     }
     private GameObject FoundRodent(GameObject _TMPlastClicked)
     {
@@ -680,6 +649,39 @@ public class MVCController : MonoBehaviour
         }
 
         return _lastRodent.gameObject;
+    }
+    private GameObject FoundWorkerObj(GameObject _TMPlastClicked)
+    {
+        GameObject _owner = _TMPlastClicked.GetComponent<bWorkerScript>().getOwner();
+
+        if (_owner)
+        {
+            if (_owner.GetComponent<BuildableObject>())
+            {
+                if (_printStatements)
+                    Debug.Log("Clicked Worker Portrait (building)");
+                _assignDummy = true;
+                TurnThingsoff();
+
+                _lastClicked = _owner;
+                return _lastClicked;
+            }
+            else if (_owner.GetComponent<PlayerStats>())
+            {
+                if (_printStatements)
+                    Debug.Log("Worker Portrait (player)");
+                _assignDummy = true;
+                TurnThingsoff();
+
+                _lastClicked = _owner;
+                return _lastClicked;
+            }
+            Debug.Log("Owner Fallthru==" + _owner);
+        }
+        if (_printStatements)
+            Debug.Log("Fall through Case 00" + _TMPlastClicked);
+
+        return null;
     }
 }
 

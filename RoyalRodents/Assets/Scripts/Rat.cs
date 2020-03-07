@@ -99,4 +99,9 @@ public class Rat : MonoBehaviour
         else
             Debug.LogWarning("Wrong team passed in");
     }
+
+    private void setUpProperBoxCollider()
+    {
+        //To-Do: Figure out the proper size for this species box Collider, then set it
+    }
 }

@@ -139,7 +139,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Building:
                 {
                     _srNotify.sprite = _sBuildingHammer;
-                    //_srWorker.sprite = _sWorker; // update to be empty elsewhere later on
                     _srNotify.enabled = true;
                     if (_Employee)
                     {
@@ -182,7 +181,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     private void SetUpTeam()
     {
         //To-Do:
-        //method will need a way to findout which team this building should be on
+        //method will need a way to find out which team this building should be on
         //either via tag, starting team inspector, or world map/state loaded from game manager
 
         //for now buildings are players
@@ -223,7 +222,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void imClicked()
     {
 
-        Debug.Log("Building is Clicked state is" + eState);
+      //  Debug.Log("Building is Clicked state is" + eState);
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
@@ -310,10 +309,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     public void UpgradeSomething()
     {
+        //We need to Upgrade this but NOT kick the worker rodent off 
         eState = BuildingState.Building;
         _sr.sprite = _sStateConstruction;
         _level++;
-
+        UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         StartCoroutine(BuildCoroutine());
     }
@@ -412,11 +412,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete(_level);
         }
-
+        UpdateState();
         //Debug.Log("Built a level " + _level + " structure");
 
         //Resets it so we can click again without clicking off first
-        if(_controller.getLastClicked()==this.gameObject)
+        if (_controller.getLastClicked()==this.gameObject)
             _controller.clearLastClicked();
     }
     public void DemolishComplete()

@@ -48,7 +48,7 @@ public class UIAssignmentMenu : MonoBehaviour
         MVCController.Instance.SetUpAssignmentMenu(this); // pointless now because were a singleton
         //We will need to actually calculate this somehow at some point
         if (_aspectHeight == 0)
-            _aspectHeight = 30;
+            _aspectHeight = 15;
 
         //Get our prefab if it isn't manually assigned
         if (!_buttonTemplate)
@@ -83,7 +83,7 @@ public class UIAssignmentMenu : MonoBehaviour
     //used internally 
     private void showMenu(bool cond)
     {
-        //Debug.Log("ShowMenu::"+cond + "  and index is:" +_index );
+       // Debug.Log("ShowMenu::"+cond + "  and index is:" +_index );
         setActive(cond);
 
         for (int i = 0; i < _index; ++i)
@@ -264,6 +264,7 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void ShowArrowButtons(bool cond)
     {
+        //Debug.Log("Show Arrow COND???=" + cond);
         _ButtonLeft.gameObject.SetActive(cond);
         _ButtonRight.gameObject.SetActive(cond);
     }

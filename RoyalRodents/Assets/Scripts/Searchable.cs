@@ -27,9 +27,13 @@ public class Searchable : MonoBehaviour
     private HealthBar _ProgressBar;
 
     private GameObject _MainCharacter;
+    private bool _MobileMode;
 
     private void Start()
     {
+
+        _MobileMode = GameManager.Instance.getMobileMode();
+
         _MainCharacter = GameObject.FindGameObjectWithTag("Player");
         if (_MainCharacter == null)
             Debug.LogError("Cant Find Player Tag");
@@ -92,10 +96,12 @@ public class Searchable : MonoBehaviour
     {
         if(_SearchMe)
         {
-            if (Input.GetMouseButtonUp(0))
-            {
+
+            if (!_MobileMode && Input.GetMouseButtonUp(0))
                 _SearchMe = false;
-            }
+
+            else if (_MobileMode && Input.touchCount == 0)
+                _SearchMe = false;
 
             if (!_Searching && !_Empty)
                 StartCoroutine(Search());

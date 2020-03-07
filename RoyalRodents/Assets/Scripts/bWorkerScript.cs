@@ -108,6 +108,9 @@ public class bWorkerScript : MonoBehaviour
                 //Able to click the X
                 ToggleCollider(false);
             }
+            //still activate the assignment menu for now
+            UIAssignmentMenu.Instance.showMenu(true, _owner);
+            // To-Do: in future might want to instead display info about the Rodent assigned?
 
         }
     }

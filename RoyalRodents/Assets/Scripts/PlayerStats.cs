@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 {
-    public float _Hp = 50f;
-    public float _HpMax = 100f;
-    [Range(0, 10f)]
-    public float _MoveSpeed = 40f; 
-    public float _AttackDamage = 10f;
+
+    [SerializeField] private float _Hp = 50f;
+    [SerializeField] private float _HpMax = 100f;
+    [SerializeField] [Range(0, 10f)] private float _MoveSpeed = 40f;
+    [SerializeField] private float _AttackDamage = 10f;
+    [SerializeField] private float _Stamina = 60f;
+    [SerializeField] private float _StaminaMax = 100f;
+
+
+
     public GameObject _HealthBarObj;
     private HealthBar _HealthBar;
+    private HealthBar _StaminaBar;
 
     public GameObject[] _RoyalGuards = new GameObject[3];
     private Transform _RoyalGuardParent;
@@ -24,19 +30,26 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     /**Begin Interface stuff*/
     public void Damage(float damageTaken)
     {
-        if (_Hp - damageTaken > 0)
+        if (_Hp - damageTaken > 0 && _Hp- damageTaken <= _HpMax)
             _Hp -= damageTaken;
         else
         {
-            _Hp = 0;
-            //Sloppy?
-            PlayerMovement pm = this.GetComponent<PlayerMovement>();
-            if (pm)
-                pm.Die();
-            else
-                Debug.LogError("Should have died but cant find PlayerMovement");
+            if (_Hp - damageTaken < 0)
+            {
+                _Hp = 0;
+                //Sloppy?
+                PlayerMovement pm = this.GetComponent<PlayerMovement>();
+                if (pm)
+                    pm.Die();
+                else
+                    Debug.LogError("Should have died but cant find PlayerMovement");
+            }
+            else if (_Hp - damageTaken >= _HpMax)
+                _Hp = _HpMax;
 
         }
+
+
         //Debug.LogWarning("HP=" + _Hp);
         UpdateHealthBar();
     }
@@ -82,12 +95,64 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
             _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
         SetUpHealthBar(_HealthBarObj.gameObject);
         UpdateHealthBar();
+        SetUpStaminaBar();
         setUpRoyalGuard();
     }
     public void LateUpdate()
     {
         if(_RoyalGuardParent)
              _RoyalGuardParent.position = this.transform.position;
+
+        //Player will trickle restore HP based on stamina
+        if(InOwnTerritory())
+        {
+            if(_Hp<_HpMax)
+                 Damage(-_Stamina/5000f);
+        }
+    }
+    public void SetUpStaminaBar()
+    {
+        GameObject sb=GameObject.FindGameObjectWithTag("StaminaBar");
+        if (sb)
+            _StaminaBar = sb.GetComponentInChildren<HealthBar>();
+
+        if (_StaminaBar == null)
+            Debug.LogError("Stamina Bar is not found");
+
+        UpdateStaminaBar();
+    }
+    public void UpdateStaminaBar()
+    {
+        if (_StaminaBar)
+            _StaminaBar.SetFillAmount(_Stamina / _StaminaMax);
+    }
+    public void IncrementStamina(float amnt)
+    {
+        if (amnt > 0)
+        {
+            if (_Stamina + amnt < _StaminaMax)
+                _Stamina += amnt;
+            else
+                _Stamina = _StaminaMax;
+        }
+        else
+        {
+            if(_Stamina +amnt > 0)
+                _Stamina += amnt;
+            else
+                _Stamina = 0;
+        }
+
+        UpdateStaminaBar();
+    }
+    //getters
+    public float getMoveSpeed()
+    {
+        return _MoveSpeed;
+    }
+    public float getAttackDamage()
+    {
+        return _AttackDamage;
     }
 
     public void setUpRoyalGuard()
@@ -132,8 +197,6 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 
         return -1;
     }
-
-    //I worry were gonna be passed in a employee Object, not a rodent? or both
     public void AssignWorker(Rodent r)
     {
         //Debug.Log("AssignWorker!" + r.getName());
@@ -193,12 +256,16 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
             }
 
     }
-
     public void ShowRoyalGuard(bool cond)
     {
         foreach(GameObject g in _RoyalGuards)
         {
             g.SetActive(cond);
         }
+    }
+    private bool InOwnTerritory()
+    {
+        //To-Do: implement 
+        return true;
     }
 }

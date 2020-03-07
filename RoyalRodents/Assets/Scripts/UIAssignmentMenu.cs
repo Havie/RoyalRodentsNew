@@ -8,6 +8,11 @@ public class UIAssignmentMenu : MonoBehaviour
 {
     private static UIAssignmentMenu _instance;
 
+
+
+    public GameObject _ButtonLeft;
+    public GameObject _ButtonRight;
+
     [SerializeField]
     private GameObject _buttonTemplate;
     [SerializeField]
@@ -43,7 +48,7 @@ public class UIAssignmentMenu : MonoBehaviour
         MVCController.Instance.SetUpAssignmentMenu(this); // pointless now because were a singleton
         //We will need to actually calculate this somehow at some point
         if (_aspectHeight == 0)
-            _aspectHeight = 30;
+            _aspectHeight = 15;
 
         //Get our prefab if it isn't manually assigned
         if (!_buttonTemplate)
@@ -53,6 +58,7 @@ public class UIAssignmentMenu : MonoBehaviour
             _defaultRotation = _buttonTemplate.transform.rotation;
 
         _cameraController = Camera.main.GetComponent<CameraController>();
+        showMenu(false);
 
     }
 
@@ -77,7 +83,7 @@ public class UIAssignmentMenu : MonoBehaviour
     //used internally 
     private void showMenu(bool cond)
     {
-        //Debug.Log("ShowMenu::"+cond + "  and index is:" +_index );
+       // Debug.Log("ShowMenu::"+cond + "  and index is:" +_index );
         setActive(cond);
 
         for (int i = 0; i < _index; ++i)
@@ -99,6 +105,8 @@ public class UIAssignmentMenu : MonoBehaviour
 
 
         }
+        ShowArrowButtons(cond);
+
 
         //If we turn off the menu, reset the index and list
         if (!_active)
@@ -161,7 +169,7 @@ public class UIAssignmentMenu : MonoBehaviour
         }
     }
 
-    //Will need to send in portrait later on
+    //Will need to send in portrait later on?
     public void CreateButton(Rodent rodent)
     {
         // Debug.Log("Make a Button for :" +rodent.getName());
@@ -243,7 +251,6 @@ public class UIAssignmentMenu : MonoBehaviour
         }
         showMenu(true);
     }
-
     public void ResetButtons()
     {
 
@@ -254,6 +261,12 @@ public class UIAssignmentMenu : MonoBehaviour
 
         _index = 0;
         FindAvailable();
+    }
+    public void ShowArrowButtons(bool cond)
+    {
+        //Debug.Log("Show Arrow COND???=" + cond);
+        _ButtonLeft.gameObject.SetActive(cond);
+        _ButtonRight.gameObject.SetActive(cond);
     }
 
     /** used by UI button */

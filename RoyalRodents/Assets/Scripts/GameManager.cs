@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
 
 	private bTownCenter _TownCenter;
 
+    private bool _IsMobileMode;
+
     //Create Instance of GameManager
     public static GameManager Instance
     {
@@ -98,6 +100,9 @@ public class GameManager : MonoBehaviour
                 _PlayerRodents.Add(r);
             }
         }
+
+        //Figure out if on mobile device
+       _IsMobileMode= Application.isMobilePlatform;
 
     }
 
@@ -176,6 +181,10 @@ public class GameManager : MonoBehaviour
     public void AddtoRodents(Rodent r)
     {
         _AllRodents.Add(r);
+    }
+    public bool getMobileMode()
+    {
+        return _IsMobileMode;
     }
    
 }

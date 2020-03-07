@@ -5,7 +5,7 @@ using System.Collections;
 
 public class HealthBar : MonoBehaviour
 {
-
+    public bool _isStaminaBar;
     public Image _BarFill;
     private float _FillAmnt;
 
@@ -28,7 +28,8 @@ public class HealthBar : MonoBehaviour
 
     public void showBars(bool b)
     {
-        this.transform.parent.gameObject.SetActive(b);
+        if(!_isStaminaBar)
+            this.transform.parent.gameObject.SetActive(b);
     }
 
     public void SetFillAmount(float ratio)

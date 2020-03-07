@@ -126,6 +126,8 @@ public class SubjectScript : MonoBehaviour
         royalGuard = false;
         worker = false;
         builder = false;
+        if (anims)
+            anims.SetBool("isArmed", false);
         //changeTarget(this.gameObject);  // shouldnt need to do this
         IdlePos = this.transform.position;
 

@@ -189,29 +189,12 @@ public class MVCController : MonoBehaviour
         _recruitDummy = false;
         _assignDummy = false;
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
-        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-        //Old single way
-        // LayerMask _LayerMask = (LayerMask.GetMask("Buildings"));
-
-        // Gets the layer Mask Via Bitwise operations, then OR combines them.
-        // This gets the "buildings" and "Player" Layer
-        LayerMask _LayerMask = (1 << 8) | (1 << 9) | (1 << 5);
-
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
-
+        RaycastHit2D hit=  RayCastPlayerAndBuildings(MouseRaw);
 
         if (hit.collider != null)
         {
-            if (_printStatements)
-                Debug.Log("Hit result:" + hit.collider.gameObject);
-            if (_lastClicked == hit.collider.gameObject)
-                return _lastClicked;
-
-            if (_printStatements)
-                Debug.Log("Enter");
-            GameObject _TMPlastClicked = hit.collider.gameObject;
+           
+            GameObject _TMPlastClicked = InspectHit(hit);
 
            // if (_TMPlastClicked == _dummyObj)
                // return _dummyObj;
@@ -224,69 +207,32 @@ public class MVCController : MonoBehaviour
 
 
                 //To-Do: If Click Player Do a new RayCast here to avoid player/player Layer? so we can click through the player
-                RayCastBehindPlayer(MouseRaw);
+                if (_TMPlastClicked.transform.parent.GetComponentInChildren<PlayerMovement>() || _TMPlastClicked.transform.GetComponent<AttackRadius>())
+                {
+                    Debug.Log("Found a warning click");
+                    hit = RayCastBehindPlayer(MouseRaw);
+                    if (hit.collider != null)
+                    {
+                        _TMPlastClicked = InspectHit(hit);
+                    }
 
+                }
                 if (!_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
 
-                    if (_TMPlastClicked.transform.parent.GetComponent<Rodent>())
+                    if (CheckRodent(_TMPlastClicked))
                     {
-                        _lastRodent = _TMPlastClicked.transform.parent.GetComponent<Rodent>();
-                        if (_printStatements)
-                            Debug.Log("Clicked a Rodent");
-
-                        if (_lastRodent.getTeam() == 0)
-                        {
-                            // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
-                            _lastRodent.imClicked();
-                            _recruitDummy = true;
-                        }
-
-                        else if (_lastRodent.getTeam() == 1)
-                        {
-                            // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
-                            _lastRodent.imClicked();   // can probably combine now
-                            _recruitDummy = true;
-                        }
-
-                        return _lastRodent.gameObject;
+                        return FoundRodent(_TMPlastClicked);
                     }
-                    else if (_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>())
+                    else if (CheckSpawnVolume(_TMPlastClicked))
                     {
-                        _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
-                        if (_printStatements)
-                            Debug.Log("Clicked a Rodent through spawn volume");
-
-                        if (_lastRodent.getTeam() == 0)
-                        {
-                            _lastRodent.imClicked();
-                            _recruitDummy = true;
-                        }
-
-                        else if (_lastRodent.getTeam() == 1)
-                        {
-                            _lastRodent.imClicked();   // can probably combine now
-                            _recruitDummy = true;
-                        }
-
-                        return _lastRodent.gameObject;
+                        return FoundSpawnVolume(_TMPlastClicked);
                     }
-                    else if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
+                    else if(CheckBuilding(_TMPlastClicked))
                     {
-                        if (_printStatements)
-                            Debug.Log("Case0");
-                        // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
-                        BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
-                        buildObj.imClicked();
-                        _isBuilding = true;
-
-                        _AssignmentMenu.showMenu(false, null);
-                        showRedX(false);
-                        showRecruitMenu(false, Vector3.zero, "", 0, 0);
-
-                        _lastClicked = _TMPlastClicked;
-                        return _lastClicked;
+                        return FoundBuilding(_TMPlastClicked);
                     }
+                    
                 }
             }
             // check if it was a portrait  
@@ -554,7 +500,7 @@ public class MVCController : MonoBehaviour
             
         }
        if(results.Count<=0 && (_printStatements))
-            Debug.LogError("We tried to GraphicRaycast UI and failed @" + m_PointerEventData.position);
+            Debug.LogWarning("We tried to GraphicRaycast UI and failed @" + m_PointerEventData.position);
 
 
 
@@ -585,16 +531,47 @@ public class MVCController : MonoBehaviour
             }
         }
         else if (_printStatements)
-            Debug.LogError("We tried to ALLRaycast UI and failed @" + m_PointerEventData.position);
+            Debug.LogWarning("We tried to ALLRaycast UI and failed @" + m_PointerEventData.position);
 
         return true;
     }
-
-    private void RayCastBehindPlayer(Vector3 MouseRaw)
+    private RaycastHit2D RayCastPlayerAndBuildings(Vector3 MouseRaw)
     {
+        if (_printStatements)
+            Debug.Log("RayCastPlayerAndBuildings");
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        // Gets the layer Mask Via Bitwise operations
+        // This gets the "player" and "buildings" layer, and fails at the UI layer
+        LayerMask _LayerMask = (1 << 8) | (1 << 9) | (1 << 5);
+
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 19f, _LayerMask);
+
+        //Drawing a Ray doesnt work?
+        //Debug.DrawRay(_startPos, _ourDir, Color.red);
+        if (hit.collider!=null && _printStatements)
+             Debug.Log("Initial Hit Found:" + hit.collider.gameObject);
+
+        foreach( var h in hits)
+        {
+            Debug.Log("Found" + h.collider.gameObject);
+        }
+
+        return hit;
+    }
+    private RaycastHit2D RayCastBehindPlayer(Vector3 MouseRaw)
+    {
+        if (_printStatements)
+            Debug.Log("RayCastBehindPlayer");
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+
+        //Old single way
+        // LayerMask _LayerMask = (LayerMask.GetMask("Buildings"));
 
         // Gets the layer Mask Via Bitwise operations
         // This gets the "buildings"
@@ -602,22 +579,98 @@ public class MVCController : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
 
-
-        //Drawing a Ray doesnt work?
-        //Debug.DrawRay(_startPos, _ourDir, Color.red);
-
-
         Debug.Log("Hit Dis:" + hit.distance);
 
         if (hit.collider != null)
         {
             Debug.Log("Secondary Hit Found:" + hit.collider.gameObject);
         }
-        
+
+        return hit;
     }
-    private GameObject CheckBuilding(BuildableObject building)
+    private GameObject InspectHit(RaycastHit2D hit)
     {
-        return null;
+        if (_printStatements)
+            Debug.Log("Hit result:" + hit.collider.gameObject);
+        if (_lastClicked == hit.collider.gameObject)
+            return _lastClicked;
+
+        if (_printStatements)
+            Debug.Log("Enter");
+
+       return hit.collider.gameObject;
+    }
+    private bool CheckBuilding(GameObject _TMPlastClicked)
+    {
+        return (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>());
+            
+    }
+    private bool CheckRodent(GameObject _TMPlastClicked)
+    {
+        return (_TMPlastClicked.transform.parent.GetComponent<Rodent>());
+
+    }
+    private bool CheckSpawnVolume(GameObject _TMPlastClicked)
+    {
+        return (_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>());
+
+    }
+    private GameObject FoundBuilding( GameObject _TMPlastClicked)
+    {
+        if (_printStatements)
+            Debug.Log("Case0");
+        // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
+        BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
+        buildObj.imClicked();
+
+        _isBuilding = true;
+
+        _AssignmentMenu.showMenu(false, null);
+        showRedX(false);
+        showRecruitMenu(false, Vector3.zero, "", 0, 0);
+
+        _lastClicked = _TMPlastClicked;
+        return _lastClicked;
+    }
+    private GameObject FoundRodent(GameObject _TMPlastClicked)
+    {
+        _lastRodent = _TMPlastClicked.transform.parent.GetComponent<Rodent>();
+        if (_printStatements)
+            Debug.Log("Clicked a Rodent");
+
+        if (_lastRodent.getTeam() == 0)
+        {
+            _lastRodent.imClicked();
+            _recruitDummy = true;
+        }
+
+        else if (_lastRodent.getTeam() == 1)
+        {
+            _lastRodent.imClicked();   
+            _recruitDummy = true;
+        }
+
+        return _lastRodent.gameObject;
+    }
+    private GameObject FoundSpawnVolume(GameObject _TMPlastClicked)
+    {
+        _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
+        if (_printStatements)
+            Debug.Log("Clicked a Rodent through spawn volume");
+
+        if (_lastRodent.getTeam() == 0)
+        {
+            _lastRodent.imClicked();
+            _recruitDummy = true;
+        }
+
+        else if (_lastRodent.getTeam() == 1)
+        {
+            _lastRodent.imClicked(); 
+            _recruitDummy = true;
+        }
+
+        return _lastRodent.gameObject;
     }
 }
 

@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
                 if (go != MVCController.Instance._dummyObj)
                 {
 
-                    //Debug.Log("Location for " + go + "   is " + go.transform.position);
+                   Debug.Log("Location for " + go + "   is " + go.transform.position);
 
                     //figure out if the collider is on a building we own
                     if(go.transform.parent)
@@ -447,7 +447,7 @@ public class PlayerMovement : MonoBehaviour
     //Collect Pickups and search things
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Enter Collision with" + collision.transform.gameObject);
+       // Debug.Log("Enter Collision with" + collision.transform.gameObject);
 
         if(_wantToAttack && _AttackTarget!=null)
         {

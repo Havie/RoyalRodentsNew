@@ -359,7 +359,7 @@ public class PlayerMovement : MonoBehaviour
     //Collect Pickups and search things
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Enter Collision with" + collision.transform.gameObject);
+       // Debug.Log("Enter Collision with" + collision.transform.gameObject);
 
         if (_MoveLocation == collision.gameObject)
             _horizontalMove = 0;

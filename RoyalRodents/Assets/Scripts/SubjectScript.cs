@@ -435,6 +435,7 @@ public class SubjectScript : MonoBehaviour
     public void FindAttackTarget(Collision2D collision)
     {
         // Bruh
+        Debug.Log("BRUHHH");
 
         // Add a target to the list based on collisions
 
@@ -482,6 +483,7 @@ public class SubjectScript : MonoBehaviour
                 {
                     closestDist = tempDist;
                     currentClosest = go;
+                    Debug.Log("Found new target.");
                 }
             }
 

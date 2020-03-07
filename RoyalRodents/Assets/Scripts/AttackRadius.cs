@@ -32,6 +32,7 @@ public class AttackRadius : MonoBehaviour
     }
     private void OnCollisionExit(Collision collision)
     {
+        Debug.Log("Target exited aggro range");
         _subjectScript.removefromRange(collision);
     }
 }

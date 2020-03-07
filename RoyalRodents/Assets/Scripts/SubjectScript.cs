@@ -86,6 +86,9 @@ public class SubjectScript : MonoBehaviour
         worker = false;
         builder = false;
 
+        if (anims)
+            anims.SetBool("isArmed", true);
+
         // Always should have the king in Saved Target if it is not the current target
         currentTarget = GameObject.FindGameObjectWithTag("Player");
         savedTarget = currentTarget;
@@ -96,6 +99,9 @@ public class SubjectScript : MonoBehaviour
         royalGuard = false;
         worker = true;
         builder = false;
+        if (anims)
+            anims.SetBool("isArmed", false);
+
 
         //Get TownCenter location
         GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
@@ -107,6 +113,9 @@ public class SubjectScript : MonoBehaviour
         royalGuard = false;
         worker = false;
         builder = true;
+        if (anims)
+            anims.SetBool("isArmed", false);
+
 
         //Get TownCenter location
         GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
@@ -300,15 +309,18 @@ public class SubjectScript : MonoBehaviour
             float currentTime = Time.time;
             float ExitTime = currentTime + WaitDuration;
 
+            
+
             if(builder)
             {
                 // set anim bool/trigger to true
+                
             }
             else if(worker)
             {
                 if (anims)
                 {
-                    anims.SetTrigger("doFarming");
+                    anims.SetBool("isWorking", true);
                 }
             }
 
@@ -322,6 +334,18 @@ public class SubjectScript : MonoBehaviour
             ShouldIdle = false;
 
             //set false
+
+            if (builder)
+            {
+                // set anim bool/trigger to true
+            }
+            else if (worker)
+            {
+                if (anims)
+                {
+                    anims.SetBool("isWorking", false);
+                }
+            }
 
             if (_printStatements)
                 Debug.Log("Exit Idle Timer");
@@ -394,6 +418,8 @@ public class SubjectScript : MonoBehaviour
     {
         // Follow the king at all times.
         // Future: Attack enemies within a radius of the king
+        if (anims)
+            anims.SetBool("isArmed", true);
         if (!ShouldIdle)
         {
             // FindAttackTarget();
@@ -409,6 +435,7 @@ public class SubjectScript : MonoBehaviour
     public void FindAttackTarget(Collision2D collision)
     {
         // Bruh
+        Debug.Log("BRUHHH");
 
         // Add a target to the list based on collisions
 
@@ -456,6 +483,7 @@ public class SubjectScript : MonoBehaviour
                 {
                     closestDist = tempDist;
                     currentClosest = go;
+                    Debug.Log("Found new target.");
                 }
             }
 
@@ -475,16 +503,15 @@ public class SubjectScript : MonoBehaviour
         GameObject tempTarget = currentTarget;
         currentTarget = savedTarget;
         savedTarget = tempTarget;
-        Debug.Log("Target changed to " + currentTarget.ToString());
+        
     }
 
     private void workerBehavior()
     {
-        
+
         // Walk to their assigned building
         // Idle in the area of it
         // Future: Be able to work occupy the building and deliver resources to the town center
-
         if (!ShouldIdle)
         { 
 

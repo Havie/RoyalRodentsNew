@@ -1,31 +1,28 @@
 fileFormatVersion: 2
-guid: b6186d4790654b544820e24a603a3bae
+guid: 051d03cb866759f4993a37972fd12e9b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6953113392188354337
-    second: Blue_MouseSprite_Walk_0
+      213: -6478649747663110239
+    second: Red_MouseSprite_Building_0
   - first:
-      213: -9173975311135244718
-    second: Blue_MouseSprite_Walk_1
+      213: 3381987949290365402
+    second: Red_MouseSprite_Building_1
   - first:
-      213: 3965371579398185758
-    second: Blue_MouseSprite_Walk_2
+      213: 5455931610285482840
+    second: Red_MouseSprite_Building_2
   - first:
-      213: 1016182662274529194
-    second: Blue_MouseSprite_Walk_3
+      213: 8457308110563018948
+    second: Red_MouseSprite_Building_3
   - first:
-      213: -969617213736522528
-    second: Blue_MouseSprite_Walk_4
+      213: -4242053231270216406
+    second: Red_MouseSprite_Building_4
   - first:
-      213: -6431400190248630916
-    second: Blue_MouseSprite_Walk_5
+      213: -8830361806692951683
+    second: Red_MouseSprite_Building_5
   - first:
-      213: -6249005060083210632
-    second: Blue_MouseSprite_Walk_6
-  - first:
-      213: -8781389718981133579
-    second: Blue_MouseSprite_Walk_7
+      213: 4183709522885804613
+    second: Red_MouseSprite_Building_6
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -182,13 +179,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_0
+      name: Red_MouseSprite_Building_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 90
-        width: 90
-        height: 90
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,20 +193,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4875368f059b59e4ab768f5a8cf65804
-      internalID: -6953113392188354337
+      spriteID: 9c2c5ad09b6bf1e4da8247635eaac574
+      internalID: -6478649747663110239
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_1
+      name: Red_MouseSprite_Building_1
       rect:
         serializedVersion: 2
-        x: 90
-        y: 90
-        width: 90
-        height: 90
+        x: 128
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -217,20 +214,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e73ee896e8ecf84a8431b00e0befe53
-      internalID: -9173975311135244718
+      spriteID: 87da9e581e2d52c4cadb21f53a4f2bf3
+      internalID: 3381987949290365402
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_2
+      name: Red_MouseSprite_Building_2
       rect:
         serializedVersion: 2
-        x: 180
-        y: 90
-        width: 90
-        height: 90
+        x: 256
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,20 +235,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03b1ac38ca1f6724aa5a4eadbeb67b74
-      internalID: 3965371579398185758
+      spriteID: aae7732271a9e8c46b27576d778dbec6
+      internalID: 5455931610285482840
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_3
+      name: Red_MouseSprite_Building_3
       rect:
         serializedVersion: 2
-        x: 270
-        y: 90
-        width: 90
-        height: 90
+        x: 384
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -259,20 +256,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65f228e9e1f7c6d448dc7ba9c351a010
-      internalID: 1016182662274529194
+      spriteID: 8ff6ed109787ec943bd88c5e9710db4b
+      internalID: 8457308110563018948
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_4
+      name: Red_MouseSprite_Building_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 90
-        height: 90
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -280,20 +277,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 922169f80797c87408ab3af45117f6f6
-      internalID: -969617213736522528
+      spriteID: bbcca33472510c64e8f8abebf890511c
+      internalID: -4242053231270216406
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_5
+      name: Red_MouseSprite_Building_5
       rect:
         serializedVersion: 2
-        x: 90
+        x: 128
         y: 0
-        width: 90
-        height: 90
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -301,20 +298,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8bbcaaba53c6a540a982647ef5c6c4b
-      internalID: -6431400190248630916
+      spriteID: f57221adc800576498c9281488ee6649
+      internalID: -8830361806692951683
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_6
+      name: Red_MouseSprite_Building_6
       rect:
         serializedVersion: 2
-        x: 180
+        x: 256
         y: 0
-        width: 90
-        height: 90
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -322,29 +319,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9e5ec5f94c3d894bb8beb6322ad36dd
-      internalID: -6249005060083210632
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_7
-      rect:
-        serializedVersion: 2
-        x: 270
-        y: 0
-        width: 90
-        height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 391aab9161236d7468a95b6cf00565a0
-      internalID: -8781389718981133579
+      spriteID: ec84270cd3912a340b993fee0b3208dc
+      internalID: 4183709522885804613
       vertices: []
       indices: 
       edges: []

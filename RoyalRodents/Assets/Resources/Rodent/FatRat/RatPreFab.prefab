@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3573480380083649773}
   - component: {fileID: 3573480380083649772}
   m_Layer: 8
-  m_Name: ChunkyBoy
+  m_Name: RatPreFab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 3573480380083649770}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2a9b04537545e9b45b30eb0440ee48dd, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: b6186d4790654b544820e24a603a3bae
+guid: 300b3edf13d60c744894876f2c977e8c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6953113392188354337
-    second: Blue_MouseSprite_Walk_0
+      213: 3062448740558228383
+    second: Red_MouseSprite_FightWalk_0
   - first:
-      213: -9173975311135244718
-    second: Blue_MouseSprite_Walk_1
+      213: -2705814692248810871
+    second: Red_MouseSprite_FightWalk_1
   - first:
-      213: 3965371579398185758
-    second: Blue_MouseSprite_Walk_2
+      213: 1355433880714122785
+    second: Red_MouseSprite_FightWalk_2
   - first:
-      213: 1016182662274529194
-    second: Blue_MouseSprite_Walk_3
+      213: -9140911002593080120
+    second: Red_MouseSprite_FightWalk_3
   - first:
-      213: -969617213736522528
-    second: Blue_MouseSprite_Walk_4
+      213: -8083590127716569365
+    second: Red_MouseSprite_FightWalk_4
   - first:
-      213: -6431400190248630916
-    second: Blue_MouseSprite_Walk_5
+      213: 8525017675941703955
+    second: Red_MouseSprite_FightWalk_5
   - first:
-      213: -6249005060083210632
-    second: Blue_MouseSprite_Walk_6
+      213: 2923965460481564658
+    second: Red_MouseSprite_FightWalk_6
   - first:
-      213: -8781389718981133579
-    second: Blue_MouseSprite_Walk_7
+      213: -1974574425398940683
+    second: Red_MouseSprite_FightWalk_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -107,54 +107,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: tvOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Lumin
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -182,7 +134,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_0
+      name: Red_MouseSprite_FightWalk_0
       rect:
         serializedVersion: 2
         x: 0
@@ -196,14 +148,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4875368f059b59e4ab768f5a8cf65804
-      internalID: -6953113392188354337
+      spriteID: 3d572db099e84244ba238242b6cc20ad
+      internalID: 3062448740558228383
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_1
+      name: Red_MouseSprite_FightWalk_1
       rect:
         serializedVersion: 2
         x: 90
@@ -217,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e73ee896e8ecf84a8431b00e0befe53
-      internalID: -9173975311135244718
+      spriteID: d320f642f410bfe478e64d90bdddaf14
+      internalID: -2705814692248810871
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_2
+      name: Red_MouseSprite_FightWalk_2
       rect:
         serializedVersion: 2
         x: 180
@@ -238,14 +190,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03b1ac38ca1f6724aa5a4eadbeb67b74
-      internalID: 3965371579398185758
+      spriteID: 4fdf37adebfedef4591f7cc2d3771c3b
+      internalID: 1355433880714122785
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_3
+      name: Red_MouseSprite_FightWalk_3
       rect:
         serializedVersion: 2
         x: 270
@@ -259,14 +211,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65f228e9e1f7c6d448dc7ba9c351a010
-      internalID: 1016182662274529194
+      spriteID: 70d1f7c816d01ed42a434987e69d95a9
+      internalID: -9140911002593080120
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_4
+      name: Red_MouseSprite_FightWalk_4
       rect:
         serializedVersion: 2
         x: 0
@@ -280,14 +232,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 922169f80797c87408ab3af45117f6f6
-      internalID: -969617213736522528
+      spriteID: a7d8dd98415981f4ab606e552fd7bc32
+      internalID: -8083590127716569365
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_5
+      name: Red_MouseSprite_FightWalk_5
       rect:
         serializedVersion: 2
         x: 90
@@ -301,14 +253,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8bbcaaba53c6a540a982647ef5c6c4b
-      internalID: -6431400190248630916
+      spriteID: a4692726c8f2d89498a2eeecb20fb90e
+      internalID: 8525017675941703955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_6
+      name: Red_MouseSprite_FightWalk_6
       rect:
         serializedVersion: 2
         x: 180
@@ -322,14 +274,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9e5ec5f94c3d894bb8beb6322ad36dd
-      internalID: -6249005060083210632
+      spriteID: 1b22865193659e8479146cbdc2fbf032
+      internalID: 2923965460481564658
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_MouseSprite_Walk_7
+      name: Red_MouseSprite_FightWalk_7
       rect:
         serializedVersion: 2
         x: 270
@@ -343,8 +295,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 391aab9161236d7468a95b6cf00565a0
-      internalID: -8781389718981133579
+      spriteID: 71276ff022806a745bd88f4b6a4262b6
+      internalID: -1974574425398940683
       vertices: []
       indices: 
       edges: []

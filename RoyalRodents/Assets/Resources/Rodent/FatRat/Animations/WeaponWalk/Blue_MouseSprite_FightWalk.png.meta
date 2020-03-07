@@ -1,28 +1,31 @@
 fileFormatVersion: 2
-guid: 633c65f0401349148b427ab925de5d51
+guid: 22d518d290af0f8449578f3e79c92acc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8831475841756754030
-    second: MouseIdleSprite_0
+      213: 8001291051176804499
+    second: Blue_MouseSprite_FightWalk_0
   - first:
-      213: -5796294514634839934
-    second: MouseIdleSprite_1
+      213: -732758261183434963
+    second: Blue_MouseSprite_FightWalk_1
   - first:
-      213: 1328361638391020602
-    second: MouseIdleSprite_2
+      213: 4428677514098065307
+    second: Blue_MouseSprite_FightWalk_2
   - first:
-      213: -413802099253736949
-    second: MouseIdleSprite_3
+      213: 510338464963397583
+    second: Blue_MouseSprite_FightWalk_3
   - first:
-      213: -8782111526938737275
-    second: MouseIdleSprite_4
+      213: -7032076237348848243
+    second: Blue_MouseSprite_FightWalk_4
   - first:
-      213: -1633098240009483380
-    second: MouseIdleSprite_5
+      213: -3296891905823921364
+    second: Blue_MouseSprite_FightWalk_5
   - first:
-      213: -7175549352173314083
-    second: MouseIdleSprite_6
+      213: -7408239508852305970
+    second: Blue_MouseSprite_FightWalk_6
+  - first:
+      213: -8408551853076765457
+    second: Blue_MouseSprite_FightWalk_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -52,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -84,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,55 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: tvOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Lumin
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -156,7 +111,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -168,7 +123,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -179,7 +134,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MouseIdleSprite_0
+      name: Blue_MouseSprite_FightWalk_0
       rect:
         serializedVersion: 2
         x: 0
@@ -193,14 +148,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a76e5a2029627ed4c81e28ab9de9275c
-      internalID: 8831475841756754030
+      spriteID: 613690b6dfe220e4baa89eb1a106f747
+      internalID: 8001291051176804499
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MouseIdleSprite_1
+      name: Blue_MouseSprite_FightWalk_1
       rect:
         serializedVersion: 2
         x: 90
@@ -214,14 +169,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a7891cb2ce0b7b4681e44d17df3a67e
-      internalID: -5796294514634839934
+      spriteID: 01cf20d86beedf040a680db82c000f4f
+      internalID: -732758261183434963
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MouseIdleSprite_2
+      name: Blue_MouseSprite_FightWalk_2
       rect:
         serializedVersion: 2
         x: 180
@@ -235,14 +190,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73e47458f932a6b47b545a31a4e53215
-      internalID: 1328361638391020602
+      spriteID: c63403cb2a9dfd6429407363c2527eba
+      internalID: 4428677514098065307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MouseIdleSprite_3
+      name: Blue_MouseSprite_FightWalk_3
       rect:
         serializedVersion: 2
         x: 270
@@ -256,14 +211,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b279728739cfbbf4cba4c3294e9f2438
-      internalID: -413802099253736949
+      spriteID: 636b52d7e48d2b44984944c4a9630bf1
+      internalID: 510338464963397583
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MouseIdleSprite_4
+      name: Blue_MouseSprite_FightWalk_4
       rect:
         serializedVersion: 2
         x: 0
@@ -277,14 +232,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4adad5ad9c3739409778b7fc6e7f727
-      internalID: -8782111526938737275
+      spriteID: 91528837ba1f8ce47bf9ea19534dab65
+      internalID: -7032076237348848243
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MouseIdleSprite_5
+      name: Blue_MouseSprite_FightWalk_5
       rect:
         serializedVersion: 2
         x: 90
@@ -298,14 +253,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91de0480a19f5cd4fb9762acd672b7db
-      internalID: -1633098240009483380
+      spriteID: 062148ba386cc7c4cbbc63a79bdf70da
+      internalID: -3296891905823921364
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MouseIdleSprite_6
+      name: Blue_MouseSprite_FightWalk_6
       rect:
         serializedVersion: 2
         x: 180
@@ -319,8 +274,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9957c35ecd895d544855a8ed15af467b
-      internalID: -7175549352173314083
+      spriteID: 7434120977e992d4d8b78eaa567ec1e3
+      internalID: -7408239508852305970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_MouseSprite_FightWalk_7
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 0
+        width: 90
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bceb9b3fdd3591c44a787de6e4947ad4
+      internalID: -8408551853076765457
       vertices: []
       indices: 
       edges: []

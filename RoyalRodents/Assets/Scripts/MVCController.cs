@@ -67,7 +67,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = false;
+        _printStatements = true;
     }
 
 
@@ -222,87 +222,71 @@ public class MVCController : MonoBehaviour
                 if (_printStatements)
                     Debug.LogWarning(_TMPlastClicked.transform.parent.gameObject + "   is parent clicked");
 
-                if (_TMPlastClicked.transform.parent.GetComponent<Rodent>())
+
+                //To-Do: If Click Player Do a new RayCast here to avoid player/player Layer? so we can click through the player
+                RayCastBehindPlayer(MouseRaw);
+
+                if (!_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
-                    _lastRodent = _TMPlastClicked.transform.parent.GetComponent<Rodent>();
-                    if (_printStatements)
-                        Debug.Log("Clicked a Rodent");
 
-                    if (_lastRodent.getTeam() == 0)
+                    if (_TMPlastClicked.transform.parent.GetComponent<Rodent>())
                     {
-                        // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
-                        _lastRodent.imClicked();
-                        _recruitDummy = true;
+                        _lastRodent = _TMPlastClicked.transform.parent.GetComponent<Rodent>();
+                        if (_printStatements)
+                            Debug.Log("Clicked a Rodent");
+
+                        if (_lastRodent.getTeam() == 0)
+                        {
+                            // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
+                            _lastRodent.imClicked();
+                            _recruitDummy = true;
+                        }
+
+                        else if (_lastRodent.getTeam() == 1)
+                        {
+                            // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
+                            _lastRodent.imClicked();   // can probably combine now
+                            _recruitDummy = true;
+                        }
+
+                        return _lastRodent.gameObject;
                     }
-
-                    else if (_lastRodent.getTeam() == 1)
+                    else if (_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>())
                     {
-                        // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
-                        _lastRodent.imClicked();   // can probably combine now
-                        _recruitDummy = true;
+                        _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
+                        if (_printStatements)
+                            Debug.Log("Clicked a Rodent through spawn volume");
+
+                        if (_lastRodent.getTeam() == 0)
+                        {
+                            _lastRodent.imClicked();
+                            _recruitDummy = true;
+                        }
+
+                        else if (_lastRodent.getTeam() == 1)
+                        {
+                            _lastRodent.imClicked();   // can probably combine now
+                            _recruitDummy = true;
+                        }
+
+                        return _lastRodent.gameObject;
                     }
-
-                    return _lastRodent.gameObject;
-
-                }
-                else if(_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>())
-                {
-                    _lastRodent = _TMPlastClicked.GetComponent<Rodent>();
-                    if (_printStatements)
-                        Debug.Log("Clicked a Rodent through spawn volume");
-
-                    if (_lastRodent.getTeam() == 0)
+                    else if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
                     {
-                        // showRecruitMenu(true, MouseRaw, _lastRodent.getName(), _lastRodent.getRecruitmentCost(), _lastRodent.getPopulationCost());
-                        _lastRodent.imClicked();
-                        _recruitDummy = true;
+                        if (_printStatements)
+                            Debug.Log("Case0");
+                        // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
+                        BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
+                        buildObj.imClicked();
+                        _isBuilding = true;
+
+                        _AssignmentMenu.showMenu(false, null);
+                        showRedX(false);
+                        showRecruitMenu(false, Vector3.zero, "", 0, 0);
+
+                        _lastClicked = _TMPlastClicked;
+                        return _lastClicked;
                     }
-
-                    else if (_lastRodent.getTeam() == 1)
-                    {
-                        // showKingGuardMenu(true, MouseRaw, _lastRodent.getName());
-                        _lastRodent.imClicked();   // can probably combine now
-                        _recruitDummy = true;
-                    }
-
-                    return _lastRodent.gameObject;
-                }
-               else if (_TMPlastClicked.transform.parent.GetComponent<BuildableObject>())
-                {
-                    if (_printStatements)
-                        Debug.Log("Case0");
-                    // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
-                    BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
-                    buildObj.imClicked();
-                    _isBuilding = true;
-
-
-                    //We have found an building Object that is not the last one clicked
-                    // check the state of the building clicked 
-                   /* if (buildObj.getState() != BuildableObject.BuildingState.Built)
-                    {
-                        if (_DestroyMenu.isActive())
-                            ShowDestroyMenu(false, MouseRaw, _TMPlastClicked, buildObj);
-
-                        ShowBuildMenu(true, MouseRaw, _TMPlastClicked, buildObj);
-                    }
-                    else
-                    {
-                        if (_BuildMenu.isActive())
-                            ShowBuildMenu(false, MouseRaw, _TMPlastClicked, buildObj);
-                        //Cant Demolish TownCenter
-                        //Will need to find a solution to pull up Upgrade Button on its own
-                        if (buildObj.getType() != BuildableObject.BuildingType.TownCenter)
-                            ShowDestroyMenu(true, MouseRaw, _TMPlastClicked, buildObj);
-
-                    } */
-
-                    _AssignmentMenu.showMenu(false, null);
-                    showRedX(false);
-                    showRecruitMenu(false, Vector3.zero, "", 0, 0);
-
-                    _lastClicked = _TMPlastClicked;
-                    return _lastClicked;
                 }
             }
             // check if it was a portrait  
@@ -604,6 +588,36 @@ public class MVCController : MonoBehaviour
             Debug.LogError("We tried to ALLRaycast UI and failed @" + m_PointerEventData.position);
 
         return true;
+    }
+
+    private void RayCastBehindPlayer(Vector3 MouseRaw)
+    {
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        // Gets the layer Mask Via Bitwise operations
+        // This gets the "buildings"
+        LayerMask _LayerMask = (1 << 9);
+
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
+
+
+        //Drawing a Ray doesnt work?
+        //Debug.DrawRay(_startPos, _ourDir, Color.red);
+
+
+        Debug.Log("Hit Dis:" + hit.distance);
+
+        if (hit.collider != null)
+        {
+            Debug.Log("Secondary Hit Found:" + hit.collider.gameObject);
+        }
+        
+    }
+    private GameObject CheckBuilding(BuildableObject building)
+    {
+        return null;
     }
 }
 

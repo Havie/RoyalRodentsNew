@@ -413,7 +413,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete(_level);
         }
 
-        Debug.Log("Built a level " + _level + " structure");
+        //Debug.Log("Built a level " + _level + " structure");
 
         //Resets it so we can click again without clicking off first
         if(_controller.getLastClicked()==this.gameObject)

@@ -192,7 +192,7 @@ public class UIButtonCosts : MonoBehaviour
     //Makes sure if the button is clicked, we can afford the cost, Then we let the MVC controller know were good to go
     public void ApproveCosts()
     {
-        Debug.LogWarning("Heard UI ApproveCosts");
+        //Debug.LogWarning("Heard UI ApproveCosts");
         UpdateButton();
 
         if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))

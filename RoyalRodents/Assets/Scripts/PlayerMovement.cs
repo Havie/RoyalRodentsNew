@@ -43,8 +43,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _moveSpeed = this.GetComponent<PlayerStats>()._MoveSpeed;
-        _damage = this.GetComponent<PlayerStats>()._AttackDamage;
+        _moveSpeed = this.GetComponent<PlayerStats>().getMoveSpeed();
+        _damage = this.GetComponent<PlayerStats>().getAttackDamage();
         _animator = this.GetComponent<Animator>();
 
     }

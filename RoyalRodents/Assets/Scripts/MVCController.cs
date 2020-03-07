@@ -493,6 +493,10 @@ public class MVCController : MonoBehaviour
                 {
                     result.gameObject.GetComponent<UIAssignmentVFX>().imClicked();
                 }
+                else if (result.gameObject.GetComponent<UIStaminaButton>())
+                {
+                    result.gameObject.GetComponent<UIStaminaButton>().imClicked();
+                }
 
                 //Might need to check certain buttons scripts to set assignmentDummy=true;
                 return false;
@@ -526,6 +530,7 @@ public class MVCController : MonoBehaviour
                 }
                 else if(result.gameObject.GetComponent<bWorkerScript>())
                 {
+                    Debug.Log("Found Bworker");
                     result.gameObject.GetComponent<bWorkerScript>().imClicked();
                 }
             }

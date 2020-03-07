@@ -16,6 +16,7 @@ TagManager:
   - PlayerRodents
   - DummyObjMVC
   - AssignMenu
+  - StaminaBar
   layers:
   - Default
   - TransparentFX

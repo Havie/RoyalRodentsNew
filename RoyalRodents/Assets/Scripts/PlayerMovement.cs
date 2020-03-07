@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject _MoveLocation;
 
+    private bool _wantToAttack;
+    private GameObject _AttackTarget;
+
 
 
     private bool isDead;
@@ -68,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
             Heal();
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.touchCount>0)
         {
             // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
             // Attack();
@@ -93,17 +96,11 @@ public class PlayerMovement : MonoBehaviour
             if (go && _controlled)
             {
                
-                if (go == MVCController.Instance._dummyObj)
-                {
-                    //if the item returned is a UI element do nothing?
-                    Debug.Log("Received Dummy OBJ in playerMove");
-
-                }
                 // possibly move toward it with normalized direction
-                else
+                if (go != MVCController.Instance._dummyObj)
                 {
 
-                    Debug.Log("Location for " + go + "   is " + go.transform.position);
+                   Debug.Log("Location for " + go + "   is " + go.transform.position);
 
                     //figure out if the collider is on a building we own
                     if(go.transform.parent)
@@ -111,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
                         //check if its a building
                         if(go.transform.parent.GetComponent<BuildableObject>())
                         {
-                            Debug.Log("Found a BuildableObject");
+                           // Debug.Log("Found a BuildableObject");
                             //check team
                             //player team - do not move
                             if(go.transform.parent.GetComponent<BuildableObject>().getTeam()==1)
@@ -128,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
                         else if (go.GetComponent<Rodent>())
                         {
 
-                            Debug.Log("Found a Rodent w parent");
+                            //Debug.Log("Found a Rodent w parent");
                             //check team
                             //player team - do not move
                             if (go.GetComponent<Rodent>().getTeam() == 1 || go.GetComponent<Rodent>().getTeam() == 0)
@@ -138,12 +135,29 @@ public class PlayerMovement : MonoBehaviour
                             else //enemy
                             {
                                 //check in range
+                                if (_InRange.Contains(go.gameObject))
+                                {
 
-                                // else move toward it? 
-                                Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
+                                    //decide if we need to flip to face incase we walked past
+                                    DecideIfNeedToFlip(go.gameObject.transform.position);
 
-                                _MoveLocation.transform.position = go.transform.position;
-                                _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                    Debug.Log("Attack!");
+                                    Attack();
+                                }
+                                else
+                                {
+                                    //move towards it
+                                    Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
+                                    //and set goal to attack it
+                                    _wantToAttack = true;
+                                    _AttackTarget = go.gameObject;
+
+                                    StartCoroutine(MoveDelay(input, go.transform.position));
+
+                                    _MoveLocation.transform.position = go.transform.position;
+                                    float _MoveAmnt= (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                   
+                                }
                             }
                         }
                     }
@@ -160,33 +174,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
-                StartCoroutine(MoveDelay());
-               
+                StartCoroutine(MoveDelay(input));
+                _wantToAttack = false;
+
             }
 
         }
 
     }
-
-    IEnumerator MoveDelay()
-    {
-        //Keep track of old Y
-        float _oldY = _MoveLocation.transform.position.y;
-        //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
-        _MoveLocation.transform.position = new Vector3(0, 3200, 0);
-        //wait a split second to reset collision
-        yield return new WaitForSeconds(0.1f);
-        // pick the actual correct location to move
-        _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, _oldY, 0);
-        float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
-       
-        // Debug.Log("MoveDis:: " + _moveDis);
-
-        // an extra layer so we dont move if the click is too close
-        if (Mathf.Abs(_moveDis) > 0.6f)
-            _horizontalMove = _moveDis * _moveSpeed;
-    }
-
     private void FixedUpdate()
     {
         if (!isDead)
@@ -202,13 +197,50 @@ public class PlayerMovement : MonoBehaviour
         else
             _animator.SetBool("IsMoving", false);
     }
+
+    IEnumerator MoveDelay(Vector3 input)
+    {
+        //Keep track of old Y
+        float _oldY = _MoveLocation.transform.position.y;
+        //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
+        _MoveLocation.transform.position = new Vector3(0, 3200, 0);
+        //wait a split second to reset collision
+        yield return new WaitForSeconds(0.1f);
+        // pick the actual correct location to move
+        _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(input).x, _oldY, 0);
+        float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
+       
+        // Debug.Log("MoveDis:: " + _moveDis);
+
+        // an extra layer so we dont move if the click is too close
+        if (Mathf.Abs(_moveDis) > 0.6f)
+            _horizontalMove = _moveDis * _moveSpeed;
+    }
+    IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
+    {
+        //Keep track of old Y
+        float _oldY = _MoveLocation.transform.position.y;
+        //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
+        _MoveLocation.transform.position = new Vector3(0, 3200, 0);
+        //wait a split second to reset collision
+        yield return new WaitForSeconds(0.1f);
+        // pick the actual correct location to move
+        _MoveLocation.transform.position = _movePos;
+        float _MoveAmnt = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+
+        // Debug.Log("MoveDis:: " + _moveDis);
+
+        // an extra layer so we dont move if the click is too close
+        if (Mathf.Abs(_MoveAmnt) > 0.6f)
+            _horizontalMove = _MoveAmnt * _moveSpeed;
+    }
     public void StopMoving()
     {
         _horizontalMove = 0;
     }
     public void Attack()
     {
-
+        StopMoving();
         if (!_AttackDelay)
         {
             _isAttacking = true;
@@ -217,8 +249,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-    // A Coroutine that can set a delay that is partly responsible for how long till we can attack again
-    // also handles our damage output via ray casting in front of us
+    /** A Coroutine that can set a delay that is partly responsible for how long till we can attack again
+    * also handles our damage output via ray casting in front of us */
     IEnumerator AttackRoutine()
     {
 
@@ -237,26 +269,60 @@ public class PlayerMovement : MonoBehaviour
         else
             _startPos -= new Vector3(1, 0, 0);
 
+        if (_AttackTarget !=null)
+        {
+            if (_AttackTarget.GetComponent<Rodent>())
+            {
+                _AttackTarget.GetComponent<Rodent>().Damage(_damage);
+            }
+            else if (_AttackTarget.GetComponent<BuildableObject>())
+            {
+                _AttackTarget.GetComponent<BuildableObject>().Damage(_damage);
+            }
+        }
 
+
+        /* This logic is only finding the portrait outline?? perhaps my transform height is off
         // Defines a layer mask that only looks at the "buildings" and "Player" Layer(s)
         LayerMask _LayerMask = (1 << 8) | (1 << 9);
-        RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 0.75f, _LayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 3.75f, _LayerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(_startPos, _ourDir, 3.75f, _LayerMask);
 
         //Drawing a Ray doesnt work?
         //Debug.DrawRay(_startPos, _ourDir, Color.red);
 
-        //Debug.Log("Hit Dis:" + hit.distance);
+        foreach (var h in hits)
+        {
+            Debug.Log(h.collider.gameObject);
+
+        }
+
+        Debug.Log("Hit Dis:" + hit.distance);
 
         if (hit.collider != null)
         {
-            // Debug.Log("Found :" + hit.collider.gameObject.name);
+            Debug.Log("Found :" + hit.collider.gameObject.name);
+            GameObject go = hit.collider.gameObject;
+            if (go == _AttackTarget)
+            {
+               if(go.GetComponent<Rodent>())
+                {
+                    go.GetComponent<Rodent>().Damage(_damage);
+                }
+               else if (go.GetComponent<BuildableObject>())
+                {
+                    go.GetComponent<BuildableObject>().Damage(_damage);
+                }
+            }
+
+           
             AIController ai = hit.collider.GetComponent<AIController>();
             if (ai)
             {
                 ai.Damage(_damage);
             }
         }
-
+        */
         yield return new WaitForSeconds(0.85f);
         _AttackDelay = false;
     }
@@ -308,20 +374,42 @@ public class PlayerMovement : MonoBehaviour
             if (move > 0 && !m_FacingRight)
             {
                 // ... flip the player.
-                Flip();
+                FlipDirection();
             }
             // Otherwise if the input is moving the player left and the player is facing right...
             else if (move < 0 && m_FacingRight)
             {
                 // ... flip the player.
-                Flip();
+                FlipDirection();
             }
         }
         else
             _animator.SetBool("IsMoving", false);
     }
 
-    private void Flip()
+    private void DecideIfNeedToFlip(Vector3 targetPos)
+    {
+        if (transform.position.x > targetPos.x)
+        {
+            // Flip if facing right
+            if (m_FacingRight)
+            {
+                FlipDirection();
+            }
+        
+        }
+        else
+        {
+            // Flip if facing left
+            if (!m_FacingRight)
+            {
+                FlipDirection();
+            }
+          
+        }
+    }
+
+    private void FlipDirection()
     {
         // Switch the way the player is labeled as facing.
         m_FacingRight = !m_FacingRight;
@@ -361,7 +449,15 @@ public class PlayerMovement : MonoBehaviour
     {
        // Debug.Log("Enter Collision with" + collision.transform.gameObject);
 
-        if (_MoveLocation == collision.gameObject)
+        if(_wantToAttack && _AttackTarget!=null)
+        {
+            if (collision.gameObject.transform.parent)
+            {
+                if (collision.gameObject.transform.parent.gameObject == _AttackTarget)
+                    Attack();
+            }
+        }
+        else if (_MoveLocation == collision.gameObject)
             _horizontalMove = 0;
 
         if (collision.transform.GetComponent<Searchable>())
@@ -372,18 +468,25 @@ public class PlayerMovement : MonoBehaviour
                 //Do not add to our list of objects in range?
             }
         }
-        else if (collision.transform.GetComponent<BuildableObject>())
+        else if (collision.transform.parent)
         {
-            //Add to our list of interactable things in range
-            _InRange.Add(collision.gameObject);
-        }
+            // handle if collider is agro range or base range
+            if (collision.transform.GetComponent<BaseHitBox>())
+            {
 
-        else if (collision.transform.GetComponent<Rodent>())
-        {
-            //Add to our list of interactable things in range
-            _InRange.Add(collision.gameObject);
-        }
+                if (collision.transform.parent.GetComponent<BuildableObject>())
+                {
+                    //Add to our list of interactable things in range
+                    _InRange.Add(collision.transform.parent.gameObject);
+                }
 
+                else if (collision.transform.parent.GetComponent<Rodent>())
+                {
+                    //Add to our list of interactable things in range
+                    _InRange.Add(collision.transform.parent.gameObject);
+                }
+            }
+        }
         ///Old Game Jam code, could be reused for pickups 
         else if (collision.transform.GetComponent<CoinResource>())
         {
@@ -405,14 +508,21 @@ public class PlayerMovement : MonoBehaviour
                 s.setActive(false);
             }
         }
-        else if (collision.transform.GetComponent<BuildableObject>())
+        if (collision.transform.parent)
         {
-            _InRange.Remove(collision.gameObject);
-        }
+            // handle if collider is agro range or base range
+            if (collision.transform.GetComponent<BaseHitBox>())
+            {
+                if (collision.transform.parent.GetComponent<BuildableObject>())
+                {
+                    _InRange.Remove(collision.transform.parent.gameObject);
+                }
 
-        else if (collision.transform.GetComponent<Rodent>())
-        {
-            _InRange.Remove(collision.gameObject);
+                else if (collision.transform.parent.GetComponent<Rodent>())
+                {
+                    _InRange.Remove(collision.transform.parent.gameObject);
+                }
+            }
         }
     }
 

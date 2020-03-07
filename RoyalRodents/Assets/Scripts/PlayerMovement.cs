@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameObject _MoveLocation;
 
+    private bool _wantToAttack;
+    private GameObject _AttackTarget;
+
 
 
     private bool isDead;
@@ -134,6 +137,10 @@ public class PlayerMovement : MonoBehaviour
                                 //check in range
                                 if (_InRange.Contains(go.gameObject))
                                 {
+
+                                    //decide if we need to flip to face incase we walked past
+                                    DecideIfNeedToFlip(go.gameObject.transform.position);
+
                                     Debug.Log("Attack!");
                                     Attack();
                                 }
@@ -141,6 +148,9 @@ public class PlayerMovement : MonoBehaviour
                                 {
                                     //move towards it
                                     Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
+                                    //and set goal to attack it
+                                    _wantToAttack = true;
+                                    _AttackTarget = go.gameObject;
 
                                     StartCoroutine(MoveDelay(input, go.transform.position));
 
@@ -165,11 +175,27 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
-               
+                _wantToAttack = false;
+
             }
 
         }
 
+    }
+    private void FixedUpdate()
+    {
+        if (!isDead)
+        {
+            // move our character
+            if (_horizontalMove != 0)
+                _animator.SetBool("IsMoving", true);
+            else
+                _animator.SetBool("IsMoving", false);
+
+            Move(_horizontalMove * Time.fixedDeltaTime, crouch, jump);
+        }
+        else
+            _animator.SetBool("IsMoving", false);
     }
 
     IEnumerator MoveDelay(Vector3 input)
@@ -208,29 +234,13 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(_MoveAmnt) > 0.6f)
             _horizontalMove = _MoveAmnt * _moveSpeed;
     }
-
-    private void FixedUpdate()
-    {
-        if (!isDead)
-        {
-            // move our character
-            if (_horizontalMove != 0)
-                _animator.SetBool("IsMoving", true);
-            else
-                _animator.SetBool("IsMoving", false);
-
-            Move(_horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        }
-        else
-            _animator.SetBool("IsMoving", false);
-    }
     public void StopMoving()
     {
         _horizontalMove = 0;
     }
     public void Attack()
     {
-
+        StopMoving();
         if (!_AttackDelay)
         {
             _isAttacking = true;
@@ -239,8 +249,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-    // A Coroutine that can set a delay that is partly responsible for how long till we can attack again
-    // also handles our damage output via ray casting in front of us
+    /** A Coroutine that can set a delay that is partly responsible for how long till we can attack again
+    * also handles our damage output via ray casting in front of us */
     IEnumerator AttackRoutine()
     {
 
@@ -259,26 +269,60 @@ public class PlayerMovement : MonoBehaviour
         else
             _startPos -= new Vector3(1, 0, 0);
 
+        if (_AttackTarget !=null)
+        {
+            if (_AttackTarget.GetComponent<Rodent>())
+            {
+                _AttackTarget.GetComponent<Rodent>().Damage(_damage);
+            }
+            else if (_AttackTarget.GetComponent<BuildableObject>())
+            {
+                _AttackTarget.GetComponent<BuildableObject>().Damage(_damage);
+            }
+        }
 
+
+        /* This logic is only finding the portrait outline?? perhaps my transform height is off
         // Defines a layer mask that only looks at the "buildings" and "Player" Layer(s)
         LayerMask _LayerMask = (1 << 8) | (1 << 9);
-        RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 0.75f, _LayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 3.75f, _LayerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(_startPos, _ourDir, 3.75f, _LayerMask);
 
         //Drawing a Ray doesnt work?
         //Debug.DrawRay(_startPos, _ourDir, Color.red);
 
-        //Debug.Log("Hit Dis:" + hit.distance);
+        foreach (var h in hits)
+        {
+            Debug.Log(h.collider.gameObject);
+
+        }
+
+        Debug.Log("Hit Dis:" + hit.distance);
 
         if (hit.collider != null)
         {
-            // Debug.Log("Found :" + hit.collider.gameObject.name);
+            Debug.Log("Found :" + hit.collider.gameObject.name);
+            GameObject go = hit.collider.gameObject;
+            if (go == _AttackTarget)
+            {
+               if(go.GetComponent<Rodent>())
+                {
+                    go.GetComponent<Rodent>().Damage(_damage);
+                }
+               else if (go.GetComponent<BuildableObject>())
+                {
+                    go.GetComponent<BuildableObject>().Damage(_damage);
+                }
+            }
+
+           
             AIController ai = hit.collider.GetComponent<AIController>();
             if (ai)
             {
                 ai.Damage(_damage);
             }
         }
-
+        */
         yield return new WaitForSeconds(0.85f);
         _AttackDelay = false;
     }
@@ -330,20 +374,42 @@ public class PlayerMovement : MonoBehaviour
             if (move > 0 && !m_FacingRight)
             {
                 // ... flip the player.
-                Flip();
+                FlipDirection();
             }
             // Otherwise if the input is moving the player left and the player is facing right...
             else if (move < 0 && m_FacingRight)
             {
                 // ... flip the player.
-                Flip();
+                FlipDirection();
             }
         }
         else
             _animator.SetBool("IsMoving", false);
     }
 
-    private void Flip()
+    private void DecideIfNeedToFlip(Vector3 targetPos)
+    {
+        if (transform.position.x > targetPos.x)
+        {
+            // Flip if facing right
+            if (m_FacingRight)
+            {
+                FlipDirection();
+            }
+        
+        }
+        else
+        {
+            // Flip if facing left
+            if (!m_FacingRight)
+            {
+                FlipDirection();
+            }
+          
+        }
+    }
+
+    private void FlipDirection()
     {
         // Switch the way the player is labeled as facing.
         m_FacingRight = !m_FacingRight;
@@ -383,8 +449,15 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("Enter Collision with" + collision.transform.gameObject);
 
-
-        if (_MoveLocation == collision.gameObject)
+        if(_wantToAttack && _AttackTarget!=null)
+        {
+            if (collision.gameObject.transform.parent)
+            {
+                if (collision.gameObject.transform.parent.gameObject == _AttackTarget)
+                    Attack();
+            }
+        }
+        else if (_MoveLocation == collision.gameObject)
             _horizontalMove = 0;
 
         if (collision.transform.GetComponent<Searchable>())

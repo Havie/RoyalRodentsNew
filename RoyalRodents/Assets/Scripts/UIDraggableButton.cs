@@ -69,7 +69,8 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
                 UIAssignmentMenu.Instance.ResetButtons();
 
-
+                //Safe to Reshow Hidden arrows
+                UIAssignmentMenu.Instance.ShowArrowButtons(true);
             }
         }
         //         if (_startLoc!=null)
@@ -119,6 +120,9 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         _startLoc = this.transform.localPosition;
         _startRot = this.transform.rotation;
+
+        //Turn off the Arrows so we dont activate camera
+        UIAssignmentMenu.Instance.ShowArrowButtons(false);
 
     }
 

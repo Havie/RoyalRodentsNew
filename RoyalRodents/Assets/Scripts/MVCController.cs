@@ -497,6 +497,10 @@ public class MVCController : MonoBehaviour
                 {
                     result.gameObject.GetComponent<UIStaminaButton>().imClicked();
                 }
+                else if (result.gameObject.GetComponent<UIAssignmentMovement>())
+                {
+                    result.gameObject.GetComponent<UIAssignmentMovement>().imClicked();
+                }
 
                 //Might need to check certain buttons scripts to set assignmentDummy=true;
                 return false;

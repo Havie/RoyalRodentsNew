@@ -40,16 +40,20 @@ public class CameraController : MonoBehaviour
             this.transform.position = new Vector3(_target.position.x, transform.position.y, transform.position.z);
         else // move freely
         {
+            /* old way
             //To-Do: Need some kind of bounds check for Fog of War 
-
-
             horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
             this.transform.position += new Vector3(horizontalMove, 0, 0);
+            */
         }
 
     }
-
-
+    //AssignmentMode
+    public void MoveCamera(float amount)
+    {
+        if(!_CharacterMode)
+         this.transform.position += new Vector3(amount, 0, 0);
+    }
 
 
     public void setCharacterMode(bool cond)

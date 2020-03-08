@@ -39,6 +39,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private Sprite _Portrait;
 
+    [SerializeField]
+    private GameObject _NotificationObject;
+    [SerializeField]
+    private Animator _NotifyAnimator;
 
 
     /**Begin Interface Stuff */
@@ -112,7 +116,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                 Debug.LogError("Cant Find RecruitMenu Prefab");
         }
     }
-
+    private void setUpNotifyObj()
+    { 
+        // done via inspector 
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -133,6 +140,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
         //Add Day/Night Cycle Stuff
         SetUpDayNight();
+
+        setUpNotifyObj();
+        setTarget(null);
     }
 
 
@@ -172,6 +182,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         {
             _Status = eStatus.Available;
             s.setIdle();
+            _NotificationObject.SetActive(true);
+            _NotifyAnimator.SetBool("Notify", true);
             return;
         }
 
@@ -185,15 +197,18 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                 //Tell subject script to behave like a builder
                 s.setBuilder();
                 _Status = eStatus.Building;
-               // Debug.Log("Updated State to Builder");
+
+                _NotificationObject.SetActive(false);
+                // Debug.Log("Updated State to Builder");
                 //OR
                 // Tell them to defend a location when that script arrives
-               // _Status = eStatus.Army;
+                // _Status = eStatus.Army;
             }
             else if (bo.getState() == BuildableObject.BuildingState.Built || bo.getState() == BuildableObject.BuildingState.Idle)
             {
                 //Unknown if state IDLE could cause a unique problem, can a building be
                 // idle but not built? i forget
+                _NotificationObject.SetActive(false);
 
                 // Tell Subject Script to behave like a Worker 
                 s.setWorker();
@@ -206,6 +221,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         {
             //Debug.Log("Was told to go to RoyalGuard");
             // Tell Subject script to behave like a bodyguard
+            _NotificationObject.SetActive(false);
             s.setRoyalGuard();
             _Status = eStatus.Army; // for all intensive purposes army can behave same for player and defense structure
 

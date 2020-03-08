@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
                                 if (_InRange.Contains(go.gameObject))
                                 {
 
-                                    //decide if we need to flip to face incase we walked past
+                                    //decide if we need to flip to face in case we walked past
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
 
                                    // Debug.Log("Attack!");

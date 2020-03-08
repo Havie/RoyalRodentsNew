@@ -246,6 +246,8 @@ public class PlayerMovement : MonoBehaviour
             _isAttacking = true;
             _animator.SetTrigger("Attack");
             StartCoroutine(AttackRoutine());
+
+            //To-Do: Drain stamina
         }
 
     }

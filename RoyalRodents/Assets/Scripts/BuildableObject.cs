@@ -19,9 +19,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     [SerializeField] private Animator _animator;
     [SerializeField] private HealthBar _HealthBar;
-
-    //[SerializeField] private Rodent _Worker;
-
+    
 
     [SerializeField]
     private BuildingState eState;

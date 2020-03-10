@@ -316,7 +316,8 @@ public class SubjectScript : MonoBehaviour
                 if (anims)
                 {
                     // Fix for builder
-                    //anims.SetBool("isBuilding", true);
+                    flipDirection();
+                    anims.SetBool("isBuilding", true);
                 }
 
             }
@@ -341,7 +342,8 @@ public class SubjectScript : MonoBehaviour
 
             if (builder)
             {
-                // set anim bool/trigger to true
+                flipDirection();
+                anims.SetBool("isBuilding", false);
             }
             else if (worker)
             {

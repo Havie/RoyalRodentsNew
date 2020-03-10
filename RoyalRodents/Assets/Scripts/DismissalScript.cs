@@ -52,7 +52,7 @@ public class DismissalScript : MonoBehaviour
         else
         {
             StartCoroutine(ReSetup());
-            Debug.Log("Dismal messed up");
+            //Debug.Log("Dismal messed up");
           
         }
     }

@@ -42,6 +42,7 @@ public class Employee : MonoBehaviour
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = r.GetPortrait();
             _Occupied = true;
             _currentRodent = r;
+			r.SetJob(this);
             
         }
     }

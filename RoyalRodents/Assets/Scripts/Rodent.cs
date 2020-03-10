@@ -35,6 +35,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
     private SubjectScript _SubjectScript;
     private UIRecruitMenu _RecruitMenu;
+	[SerializeField] private Employee _Job;
 
     [SerializeField]
     private Sprite _Portrait;
@@ -172,9 +173,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
     {
-        
-        //need proper getter/setter someday
-       SubjectScript s= this.GetComponent<SubjectScript>();
+	
+	   //need proper getter/setter someday
+	   SubjectScript s= this.GetComponent<SubjectScript>();
         if (s)
             s.changeTarget(o);
 
@@ -243,7 +244,14 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
         //What if not in Zone?
     }
-
+	public Employee GetJob()
+	{
+		return _Job;
+	}
+	public void SetJob(Employee e)
+	{
+		_Job = e;
+	}
     /**Sets the ID for the team
      * 0 = neutral
      * 1 = player
@@ -299,7 +307,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             else
                 Debug.LogError("No RecruitMenu");
         }
-        else if (_Status == eStatus.Available && _Team == 1)
+		else if (_Status != eStatus.Available && _Team == 1)
+		{
+			//Show Dismiss Button
+			if (_RecruitMenu)
+				_RecruitMenu.showDismissMenu(true, this);
+		}
+		else if (_Status == eStatus.Available && _Team == 1)
         {
 
                // Debug.Log("Show AssignmentMenu");

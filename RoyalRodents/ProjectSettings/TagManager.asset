@@ -17,6 +17,8 @@ TagManager:
   - DummyObjMVC
   - AssignMenu
   - StaminaBar
+  - NeutralRodents
+  - EnemyRodents
   layers:
   - Default
   - TransparentFX

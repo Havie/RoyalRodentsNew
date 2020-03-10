@@ -31,7 +31,7 @@ public class AttackRadius : MonoBehaviour
         // Send collider, check for properties in script
         _subjectScript.FindAttackTarget(collision); 
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         Debug.Log("Target exited aggro range");
         _subjectScript.removefromRange(collision);

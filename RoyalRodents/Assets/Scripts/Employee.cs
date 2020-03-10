@@ -57,7 +57,7 @@ public class Employee : MonoBehaviour
             else
                 Debug.LogWarning("Trying to dismiss a rodent thats not here? Or doesnt match");
 
-            // _PortraitOutline.GetComponent<bWorkerScript>().dismissRodent();
+            _PortraitOutline.GetComponent<bWorkerScript>().setWorker(null);
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = null;
             _Occupied = false;
             _currentRodent = null;

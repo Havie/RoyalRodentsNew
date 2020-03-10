@@ -118,8 +118,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         }
     }
     private void setUpNotifyObj()
-    { 
+    {
         // done via inspector 
+        if (_NotificationObject == null)
+            Debug.Log("NotifyObj not set from inspector");
     }
 
     // Start is called before the first frame update

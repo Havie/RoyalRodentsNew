@@ -211,7 +211,7 @@ public class UIRecruitMenu : MonoBehaviour
 
     public void JoinGuard()
     {
-        Debug.Log("Heard Join Guard");
+        //Debug.Log("Heard Join Guard");
 
         //To-Do -everything
 
@@ -220,7 +220,7 @@ public class UIRecruitMenu : MonoBehaviour
 
     public void DismissRodent()
     {
-		Debug.Log("Dismiss rodent button pressed");
+		//Debug.Log("Dismiss rodent button pressed");
 
 		//Unassign from its assigned structure
 		Employee _Job= _Rodent.GetJob();

@@ -18,9 +18,11 @@ public class DismissalScript : MonoBehaviour
         Transform t = this.transform.parent;
         if (t)
         {
+            //Debug.Log("Found parent");
             _ws = t.GetComponentInChildren<bWorkerScript>();
             if (_ws)
             {
+               // Debug.Log("Found WS");
                 GameObject go = _ws.getOwner();
                 if (go)
                     _bo = go.GetComponent<BuildableObject>();
@@ -28,8 +30,14 @@ public class DismissalScript : MonoBehaviour
                 {
                     // bWorker hasn't finished its start setup, need delay
                     StartCoroutine(ReSetup());
+                   // Debug.Log("ReSetup");
                 }
                 FigureOutMode();
+            }
+            else
+            {
+                //Debug.Log("Cant find ws in children so Resetup2");
+                StartCoroutine(ReSetup2());
             }
         }
 
@@ -67,6 +75,7 @@ public class DismissalScript : MonoBehaviour
         yield return new WaitForSeconds(1f);
         if (_ws)
         {
+            Debug.Log("ReSetup Found WS");
             GameObject go = _ws.getOwner();
             if (go)
                 _bo = go.GetComponent<BuildableObject>();
@@ -74,5 +83,31 @@ public class DismissalScript : MonoBehaviour
                 Debug.LogError("Still Cant find the damn Owner");
         }
         FigureOutMode();
+    }
+
+    IEnumerator ReSetup2()
+    {
+        yield return new WaitForSeconds(1f);
+        Transform t = this.transform.parent;
+        if (t)
+        {
+           // Debug.Log("Found parent");
+            _ws = t.GetComponentInChildren<bWorkerScript>();
+            if (_ws)
+            {
+               // Debug.Log("Found WS");
+                GameObject go = _ws.getOwner();
+                if (go)
+                    _bo = go.GetComponent<BuildableObject>();
+                else
+                {
+                    // bWorker hasn't finished its start setup, need delay
+                    StartCoroutine(ReSetup());
+                    //Debug.Log("ReSetup");
+                }
+                FigureOutMode();
+            }
+
+        }
     }
 }

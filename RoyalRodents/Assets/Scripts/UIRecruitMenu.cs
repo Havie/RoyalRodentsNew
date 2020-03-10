@@ -70,7 +70,7 @@ public class UIRecruitMenu : MonoBehaviour
             else
                 _CostFood.color = good;
 
-			//To-Do : Add Population check
+			//Check if there is enough population capacity
 			if (ResourceManagerScript.Instance.getCurrentPopulation() >= ResourceManagerScript.Instance.getPopulationCapacity())
 			{
 				_CostPop.color = bad;
@@ -107,6 +107,7 @@ public class UIRecruitMenu : MonoBehaviour
         {
             buttons[0].gameObject.SetActive(true);
             buttons[1].gameObject.SetActive(false);
+            buttons[2].gameObject.SetActive(false);
 
             //Move the location up a bit?
             loc.y = loc.y + 30;
@@ -126,8 +127,8 @@ public class UIRecruitMenu : MonoBehaviour
             else
                 _CostFood.color = good;
 
-			//To-Do : Add Population check
-			if (ResourceManagerScript.Instance.getCurrentPopulation() >= ResourceManagerScript.Instance.getPopulationCapacity())
+            //Check if there is enough population capacity
+            if (ResourceManagerScript.Instance.getCurrentPopulation() >= ResourceManagerScript.Instance.getPopulationCapacity())
 			{
 				_CostPop.color = bad;
 			}
@@ -205,6 +206,17 @@ public class UIRecruitMenu : MonoBehaviour
         //To-Do -everything
 
         showMenu(false, Vector3.zero, null, 1, 0);
+    }
+
+    public void DismissRodent()
+    {
+        //Unassign from its assigned structure
+
+        //remove from player rodent list (in gamemanager)
+
+        //make rodent available again (no hat)
+
+
     }
 
 

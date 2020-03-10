@@ -10,6 +10,7 @@ public class bTownCenter : MonoBehaviour
 	private Sprite _builtSpriteLevel3;
 	private Sprite _builtSpriteLevel4;
 	private Sprite _builtSpriteLevel5;
+	private static int maxLevel = 5;
 
 	private float _hitpoints = 250;
 	private float _hitPointGrowth = 10;
@@ -129,5 +130,10 @@ public class bTownCenter : MonoBehaviour
 		}
 		else
 			return null;
+	}
+
+	public static int getMaxLevel()
+	{
+		return maxLevel;
 	}
 }

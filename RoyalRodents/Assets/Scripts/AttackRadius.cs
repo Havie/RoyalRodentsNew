@@ -23,9 +23,10 @@ public class AttackRadius : MonoBehaviour
         
     }
 
-    private void onCollisionEnter(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collided with " + collision.transform.gameObject.ToString());
+        //Debug.Log("Collided with " + collision.transform.gameObject.ToString());
 
         // Send collider, check for properties in script
         _subjectScript.FindAttackTarget(collision); 

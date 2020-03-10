@@ -173,11 +173,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
     {
-
-		if (o != null)
-			_Job = o.GetComponentInChildren<Employee>();
 	
-
 	   //need proper getter/setter someday
 	   SubjectScript s= this.GetComponent<SubjectScript>();
         if (s)
@@ -252,7 +248,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 	{
 		return _Job;
 	}
-
+	public void SetJob(Employee e)
+	{
+		_Job = e;
+	}
     /**Sets the ID for the team
      * 0 = neutral
      * 1 = player

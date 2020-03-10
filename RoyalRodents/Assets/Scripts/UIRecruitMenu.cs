@@ -230,6 +230,8 @@ public class UIRecruitMenu : MonoBehaviour
 		//make rodent available again (no hat)
 		_Rodent.setTeam(0);
 
+		showMenu(false, null);
+
 
 	}
 

@@ -28,6 +28,7 @@ public class SubjectScript : MonoBehaviour
     private bool ShouldIdle = false;
     private bool MovingInIdle = false;
     private float WaitDuration;
+    private bool canAttack = true;
 
     private List<GameObject> _inRange = new List<GameObject>();
 
@@ -154,8 +155,6 @@ public class SubjectScript : MonoBehaviour
         if (_printStatements)
             Debug.Log("Told to Move to Loc  " + loc);
 
-        //LINE 133 is Bugged
-        //Line 134 is bugged
         Vector3 pos = new Vector3(loc.x, 0, 0);
 
 
@@ -314,7 +313,12 @@ public class SubjectScript : MonoBehaviour
             if(builder)
             {
                 // set anim bool/trigger to true
-                
+                if (anims)
+                {
+                    // Fix for builder
+                    //anims.SetBool("isBuilding", true);
+                }
+
             }
             else if(worker)
             {
@@ -359,7 +363,6 @@ public class SubjectScript : MonoBehaviour
         //Debug.LogWarning("Enter Actual Move Coroutine");
         MovingInIdle = true;
         coroutineStarted = true;
-        //No Print Statements Here 290
         while (MovingInIdle)
         {
             Move(pos);
@@ -422,13 +425,19 @@ public class SubjectScript : MonoBehaviour
             anims.SetBool("isArmed", true);
         if (!ShouldIdle)
         {
-            // FindAttackTarget();
+            FindNextTargetInRange();
             Move(currentTarget);
+            // If target is enemy, attack. Add coroutine for attacking
+            if(currentTarget.tag != "Player") // And can attack
+            {
+                Attack();
+            }
+
             if (_printStatements)
                 Debug.LogError("RoyalMove");
         }
         else
-            idleInRadius(8);
+            idleInRadius(2);
 
     }
 
@@ -452,8 +461,24 @@ public class SubjectScript : MonoBehaviour
 
     }
 
+    // Handles the rat attacking an enemy
+    public void Attack()
+    {
+        // Play animation
+        // Reduce enemy health
+        if (canAttack)
+        {
+            if (anims)
+            {
+                //Debug.Log("he's goin crazy yo");
+            }
+        }
+        // else, yield return a very small amount?
+       
+    }
 
-    public void removefromRange(Collision c)
+    // Removes a target from the list if it exits the rodent's range
+    public void removefromRange(Collider2D c)
     {
         // Remove objects from the list
             GameObject go = c.gameObject;
@@ -471,6 +496,8 @@ public class SubjectScript : MonoBehaviour
         
     }
 
+    // Parses the list and finds the next suitable target
+    // Sets back to king if none
     private void FindNextTargetInRange()
     {
         //parse the list for closest target and make next target
@@ -559,7 +586,7 @@ public class SubjectScript : MonoBehaviour
             if (worker)
                 return Random.Range(4, 10);
             else if (royalGuard)
-                return Random.Range(1, 4f);
+                return Random.Range(1, 2.5f);
             else if (builder)
                 return Random.Range(5, 10f);
         }

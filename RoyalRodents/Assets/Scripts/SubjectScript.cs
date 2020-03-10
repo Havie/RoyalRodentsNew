@@ -434,26 +434,30 @@ public class SubjectScript : MonoBehaviour
 
     }
 
-    public void FindAttackTarget(Collision2D collision)
+    public void FindAttackTarget(Collider2D collision)
     {
-        // Bruh
-        Debug.Log("BRUHHH");
 
         // Add a target to the list based on collisions
+        //Debug.Log("Collided with " + collision.gameObject.ToString());
+        //check that it HAS a parent
 
         // Rodent case
-        if (collision.transform.gameObject.GetComponent<Rodent>())
+        if (collision.transform.parent.gameObject.GetComponent<Rodent>() && collision.transform.parent.gameObject.GetComponent<Rodent>().getTeam() == 2)
         {
-            GameObject r = collision.transform.gameObject;
+
+            GameObject r = collision.transform.parent.gameObject;
             _inRange.Add(r);
+            Debug.Log("Rodent added to targets in range");
         }
+
+        // Do building case when functional
 
     }
 
 
     public void removefromRange(Collision c)
     {
-        
+        // Remove objects from the list
             GameObject go = c.gameObject;
             if (_inRange.Contains(go))
             {

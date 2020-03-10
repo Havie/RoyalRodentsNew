@@ -15,7 +15,6 @@ public class DismissalScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Start Dismall Script");
         Transform t = this.transform.parent;
         if (t)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RodentNames : MonoBehaviour
 {
-    private static string[] _Names = new string[33];
+    private static string[] _Names = new string[59];
     private static bool _Initialized;
 
 
@@ -56,8 +56,34 @@ public class RodentNames : MonoBehaviour
         _Names[28] = "Furball";
         _Names[29] = "Almond";
         _Names[30] = "Potato";
-        _Names[31] = "Jiff";
-        _Names[32] = "Chad";
+        _Names[31] = "Lloyd";
+        _Names[32] = "Norman";
+        _Names[33] = "Reginald";
+        _Names[34] = "Humphrey";
+        _Names[35] = "Dudley";
+        _Names[36] = "Marvin";
+        _Names[37] = "Chester";
+        _Names[38] = "Frank";
+        _Names[39] = "Ralph";
+        _Names[40] = "Eddie";
+        _Names[41] = "Otis";
+        _Names[42] = "Dinky";
+        _Names[43] = "Pickles";
+        _Names[44] = "Pistachio";
+        _Names[45] = "Gustav";
+        _Names[46] = "Nugget";
+        _Names[47] = "Orville";
+        _Names[48] = "Squirt";
+        _Names[49] = "Chauncy";
+        _Names[50] = "Donut";
+        _Names[51] = "Smudge";
+        _Names[52] = "Willard";
+        _Names[53] = "Jimbo";
+        _Names[54] = "Brain";
+        _Names[55] = "Roger";
+        _Names[56] = "Igor";
+        _Names[57] = "Jiff";
+        _Names[58] = "Chad";
         _Initialized = true;
     }
 }

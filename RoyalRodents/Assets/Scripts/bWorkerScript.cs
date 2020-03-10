@@ -79,6 +79,7 @@ public class bWorkerScript : MonoBehaviour
             }
             if (bo)
             {
+                Debug.Log("We have a BO - show false");
                 bo.ShowRedX(false);
             }
             else if (ps)
@@ -98,6 +99,7 @@ public class bWorkerScript : MonoBehaviour
             //Pull Up red X
             if (bo)
             {
+                Debug.Log("We have a BO - show True");
                 bo.ShowRedX(true);
                 //Able to click the X
                 ToggleCollider(false);
@@ -114,6 +116,7 @@ public class bWorkerScript : MonoBehaviour
 
         }
     }
+    //unused, logic handled elsewhere in Employee now
     public void dismissRodent()
     {
        // Debug.Log("heard Dismiss");

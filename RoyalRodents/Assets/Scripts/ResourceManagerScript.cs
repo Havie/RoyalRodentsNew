@@ -150,7 +150,7 @@ public class ResourceManagerScript : MonoBehaviour
     {
         _currentCapacity += amnt;
         UpdatePopulationText();
-        Debug.Log("Incremented population capacity by " + amnt.ToString());
+       // Debug.Log("Incremented population capacity by " + amnt.ToString());
     }
 
     //Update Resource Panel UI Text

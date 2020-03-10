@@ -131,7 +131,7 @@ public class Searchable : MonoBehaviour
     private void OnMouseDown()
     {
 
-        Debug.Log("Search on mouse down");
+       // Debug.Log("Search on mouse down");
         //This work for gestures?
         if(_MainCharacterInRange)
         {

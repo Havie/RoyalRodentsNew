@@ -73,13 +73,13 @@ public class bWorkerScript : MonoBehaviour
                 _menu.CreateButtons(_PlayerRodents);
             else
             {
-                Debug.LogWarning("No AssignmentMenu, attempting to re-setup");
+                //Debug.LogWarning("No AssignmentMenu, attempting to re-setup");
                 setUpMenu();
                 _menu.CreateButtons(_PlayerRodents);
             }
             if (bo)
             {
-                Debug.Log("We have a BO - show false");
+               // Debug.Log("We have a BO - show false");
                 bo.ShowRedX(false);
             }
             else if (ps)
@@ -99,7 +99,7 @@ public class bWorkerScript : MonoBehaviour
             //Pull Up red X
             if (bo)
             {
-                Debug.Log("We have a BO - show True");
+              //  Debug.Log("We have a BO - show True");
                 bo.ShowRedX(true);
                 //Able to click the X
                 ToggleCollider(false);

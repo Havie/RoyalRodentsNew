@@ -496,7 +496,7 @@ public class MVCController : MonoBehaviour
                 }
                 else if(result.gameObject.GetComponent<bWorkerScript>())
                 {
-                    Debug.Log("Found B Worker Script");
+                    //Debug.Log("Found B Worker Script");
                     result.gameObject.GetComponent<bWorkerScript>().imClicked();
                 }
             }
@@ -530,10 +530,10 @@ public class MVCController : MonoBehaviour
 
         if (hits.Length > 1)
         {
-            Debug.LogWarning("Possible to Hit more than 1 thing??");
+           // Debug.LogWarning("Possible to Hit more than 1 thing??");
             foreach (var h in hits)
             {
-                 Debug.Log("Found" + h.collider.gameObject);
+               //  Debug.Log("Found" + h.collider.gameObject);
             }
         }
 

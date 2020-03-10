@@ -109,7 +109,7 @@ public class ResourceManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _currentCapacity = 0;
+        _currentCapacity = 1;
         UpdateCurrentPopulation();
         _food = 10;
 		_trash = 10;

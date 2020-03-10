@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIButtonCosts : MonoBehaviour
 {
@@ -197,10 +198,12 @@ public class UIButtonCosts : MonoBehaviour
 
         if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
         {
-            if (name == "Button_Upgrade") MVCController.Instance.MVCUpgradeSomething();
+            //call different method if building or upgrading
+			if (name == "Button_Upgrade") MVCController.Instance.MVCUpgradeSomething();
 			else
 				MVCController.Instance.MVCBuildSomething(_type);
 
+			//decrement resources based on cost
 			_rm.incrementTrash(-costTrash);
 			_rm.incrementWood(-costWood);
 			_rm.incrementMetal(-costMetal);
@@ -219,23 +222,57 @@ public class UIButtonCosts : MonoBehaviour
 		_type = type;
 		_level = lvl;
 
-		//Debug.Log("ChangeButton set to " + type + ", lvl " + lvl.ToString());
-
 		//update title of button
+		string txt = "";
+		int _maxlevel = 10;
 		if (textTitle != null)
 		{
 			if (_type == "house")
-				textTitle.text = "House (LVL " + _level.ToString() + ")";
+			{
+				txt = "House (LVL ";
+				_maxlevel = bHouse.getMaxLevel();
+			}
 			else if (_type == "farm")
-				textTitle.text = "Farm (LVL " + _level.ToString() + ")";
+			{
+				txt = "Farm (LVL ";
+				_maxlevel = bFarm.getMaxLevel();
+			}
 			else if (_type == "banner")
-				textTitle.text = "Banner (LVL " + _level.ToString() + ")";
+			{
+				txt = "Banner (LVL ";
+				_maxlevel = bBanner.getMaxLevel();
+			}
 			else if (_type == "outpost")
-				textTitle.text = "Outpost (LVL " + _level.ToString() + ")";
+			{
+				txt = "Outpost (LVL ";
+				_maxlevel = bOutpost.getMaxLevel();
+			}
+				
 			else if (_type == "towncenter")
-				textTitle.text = "Town Center (LVL " + _level.ToString() + ")";
+			{
+				txt = "Town Center (LVL ";
+				_maxlevel = bTownCenter.getMaxLevel();
+			}
 			else
-				textTitle.text = "not specified (LVL " + _level.ToString() + ")";
+			{
+				txt = "not specified (LVL ";
+				_maxlevel = 0;
+			}
+			
+			//determine if level is greater than max level, then disable button, otherwise enable
+			if (lvl > _maxlevel)
+			{
+				txt += "MAX)";
+				GetComponent<Button>().interactable = false;
+			}
+			else
+			{
+				txt += _level.ToString() + ")";
+				GetComponent<Button>().interactable = true;
+			}
+
+			//set title of button
+			textTitle.text = txt;
 		}
 
 		UpdateButton();

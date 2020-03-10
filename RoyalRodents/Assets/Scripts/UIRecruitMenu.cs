@@ -11,7 +11,7 @@ public class UIRecruitMenu : MonoBehaviour
     private TextMeshProUGUI _CostPop;
     private TextMeshProUGUI _Name;
     private TextMeshProUGUI _Name2;
-    private Rodent _Rodent;
+   [SerializeField] private Rodent _Rodent;
 
     private bool _active;
 
@@ -48,8 +48,9 @@ public class UIRecruitMenu : MonoBehaviour
             _Rodent = r;
             buttons[0].gameObject.SetActive(true);
             buttons[1].gameObject.SetActive(false);
+			buttons[2].gameObject.SetActive(false);
 
-            Vector3 loc = r.transform.position;
+			Vector3 loc = r.transform.position;
             loc.y = loc.y + 1;
             this.transform.position = loc;
 
@@ -164,7 +165,16 @@ public class UIRecruitMenu : MonoBehaviour
         _Name2.text = name;
     }
     
+	public void showDismissMenu(bool cond, Rodent r)
+	{
+		// Tell the MVC were the active menu
+		MVCController.Instance.SetUpRecruitMenu(this);
+		_Rodent = r;
 
+		_active = cond;
+		buttons[2].gameObject.SetActive(cond);
+		_Name2.text = r.getName();
+	}
 
     public bool isActive()
     {
@@ -210,14 +220,18 @@ public class UIRecruitMenu : MonoBehaviour
 
     public void DismissRodent()
     {
-        //Unassign from its assigned structure
+		Debug.Log("Dismiss rodent button pressed");
 
-        //remove from player rodent list (in gamemanager)
+		//Unassign from its assigned structure
+		Employee _Job= _Rodent.GetJob();
+		_Job.Dismiss(_Rodent);
+		//remove from player rodent list (in gamemanager)
+		GameManager.Instance.RemovePlayerRodent(_Rodent);
+		//make rodent available again (no hat)
+		_Rodent.setTeam(0);
 
-        //make rodent available again (no hat)
 
-
-    }
+	}
 
 
     /**Called by "Event Trigger Pointer Enter/Exit on Button*/

@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
     public Transform _PlayerRodentDummy;
+	public Transform _NeutralRodentDummy;
+	public Transform _EnemyRodentDummy;
 
 	private bTownCenter _TownCenter;
 
@@ -178,7 +180,16 @@ public class GameManager : MonoBehaviour
         //Keep organized in hierarchy 
         r.gameObject.transform.SetParent(_PlayerRodentDummy);
     }
-    public void AddtoRodents(Rodent r)
+	public void RemovePlayerRodent(Rodent r)
+	{
+		if (_PlayerRodents.Contains(r))
+			_PlayerRodents.Remove(r);
+		_rm.UpdateCurrentPopulation();
+
+		//Keep organized in hierarchy 
+		r.gameObject.transform.SetParent(_NeutralRodentDummy);
+	}
+	public void AddtoRodents(Rodent r)
     {
         _AllRodents.Add(r);
     }

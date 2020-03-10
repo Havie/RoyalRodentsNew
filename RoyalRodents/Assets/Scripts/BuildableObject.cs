@@ -82,7 +82,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     void Start()
     {
         _sr = this.transform.GetComponent<SpriteRenderer>();
-        _sStatedefault= Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_concept");
+        _sStatedefault= Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_final");
         if (eType != BuildingType.TownCenter)
             _sr.sprite = _sStatedefault;
 

@@ -7,6 +7,7 @@ public class bHouse :MonoBehaviour
     private Sprite _builtSpriteLevel1;
 	private Sprite _builtSpriteLevel2;
 	private Sprite _builtSpriteLevel3;
+	private static int maxLevel = 3;
 
 	private float _hitpoints = 50;
     private float _hitPointGrowth = 10;
@@ -102,4 +103,8 @@ public class bHouse :MonoBehaviour
 			return null;
 	}
 
+	public static int getMaxLevel()
+	{
+		return maxLevel;
+	}
 }

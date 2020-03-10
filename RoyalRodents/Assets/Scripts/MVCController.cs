@@ -405,6 +405,10 @@ public class MVCController : MonoBehaviour
         r.Recruit();
         CheckClicks(true);
     }
+    public void Dismiss(Rodent r, UIRecruitMenu menu)
+    {
+        
+    }
 
 
     private bool AlternateUITest(Vector3 MouseRaw)

@@ -434,7 +434,7 @@ public class SubjectScript : MonoBehaviour
             // If target is enemy, attack. Add coroutine for attacking
             if(currentTarget.tag != "Player") // And can attack
             {
-                Attack();
+                StartCoroutine(Attack());
             }
 
             if (_printStatements)
@@ -453,12 +453,11 @@ public class SubjectScript : MonoBehaviour
         //check that it HAS a parent
 
         // Rodent case
-        if (collision.transform.parent.gameObject.GetComponent<Rodent>() && collision.transform.parent.gameObject.GetComponent<Rodent>().getTeam() == 2)
+        if (collision.transform.parent.gameObject.GetComponent<Rodent>() && collision.transform.parent.gameObject.GetComponent<Rodent>().getTeam() == 0)
         {
 
             GameObject r = collision.transform.parent.gameObject;
             _inRange.Add(r);
-            Debug.Log("Rodent added to targets in range");
         }
 
         // Do building case when functional
@@ -466,19 +465,23 @@ public class SubjectScript : MonoBehaviour
     }
 
     // Handles the rat attacking an enemy
-    public void Attack()
+    IEnumerator Attack()
     {
         // Play animation
         // Reduce enemy health
         if (canAttack)
         {
+            canAttack = false;
+            Debug.Log("he's goin crazy yo");
+            yield return new WaitForSeconds(1f);
+            canAttack = true;
             if (anims)
             {
-                //Debug.Log("he's goin crazy yo");
+                
             }
         }
         // else, yield return a very small amount?
-       
+        
     }
 
     // Removes a target from the list if it exits the rodent's range
@@ -495,6 +498,7 @@ public class SubjectScript : MonoBehaviour
             }
                 
                 _inRange.Remove(go);
+            Debug.Log("Rodent removed from targets");
             }
             //else debug error 
         

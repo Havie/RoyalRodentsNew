@@ -34,8 +34,10 @@ public class Employee : MonoBehaviour
 
     public void Assign(Rodent r)
     {
+        Debug.Log("ASsign in Employee");
         if(!_Locked && !_Occupied)
         {
+            Debug.Log("Pass");
            // Debug.Log("Assign in Employee" +r.getName());
             //This script is on the portrait outline because its the visible clickable thing
             _PortraitOutline.GetComponent<bWorkerScript>().setWorker(r);

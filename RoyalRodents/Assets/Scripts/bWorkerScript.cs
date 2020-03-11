@@ -150,9 +150,13 @@ public class bWorkerScript : MonoBehaviour
             if (parent)
             {
                 parent = parent.transform.parent;
-                if (parent && parent.GetComponent<BuildableObject>())
+                if (parent)
                 {
-                    _owner = parent.gameObject;
+                    parent = parent.transform.parent;
+                    if (parent && parent.GetComponent<BuildableObject>())
+                    {
+                        _owner = parent.gameObject;
+                    }
                 }
             }
         }

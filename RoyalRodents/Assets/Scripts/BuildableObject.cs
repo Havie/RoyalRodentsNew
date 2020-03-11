@@ -29,7 +29,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     private int _level = 0;
 
+    //OLD
     private Employee _Employee; // handles all the portrait worker stuff
+    // NEW
+    public GameObject[] _Workers = new GameObject[1];
+    private Transform _WorkerParent;
 
     private SpriteRenderer _sr;
     private SpriteRenderer _srNotify;
@@ -112,8 +116,29 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _Employee = this.transform.GetComponentInChildren<Employee>();
         UpdateState();
         SetUpTeam();
+        setUpWorkers();
     }
+    public void setUpWorkers()
+    {
+        if (_Workers.Length != 0)
+        {
+            //How to check if is initialized?
+            for (int i = 0; i < _Workers.Length; ++i)
+            {
+                if (i == 0)
+                    _Workers[0].GetComponent<Employee>().Lock(false);
+                else
+                    _Workers[i].GetComponent<Employee>().Lock(true);
+            }
 
+            if (_Workers.Length > 0)
+                _WorkerParent = _Workers[0].transform.parent;
+
+            ShowWorkers(false);
+        }
+        else
+            Debug.LogWarning("Building has No Workers");
+    }
     private void UpdateState()
     {
         //Debug.Log("UpdateState =" + eState);
@@ -124,12 +149,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 {
                     _srNotify.sprite = _sNotification;
                     _srNotify.enabled = true;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(false);
-                        _Employee.showWorkerPortrait(false);
-
-                    }
+                    ShowWorkers(false);
                     _animator.SetBool("Notify", true);
                     _animator.SetBool("Building", false);
                     break;
@@ -138,24 +158,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 {
                     _srNotify.sprite = _sBuildingHammer;
                     _srNotify.enabled = true;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(true);
-                        _Employee.showWorkerPortrait(true);
-                    }
+                    ShowWorkers(true);
 
-                        //_srWorker.enabled = true;
-                        _animator.SetBool("Building", true);
+                    //_srWorker.enabled = true;
+                    _animator.SetBool("Building", true);
                     break;
                 }
             case BuildingState.Idle:
                 {
                     _srNotify.enabled = false;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(true);
-                        _Employee.showWorkerPortrait(true);
-                    }
+                    ShowWorkers(true);
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
@@ -163,11 +175,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Built:
                 {
                     _srNotify.enabled = false;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(true);
-                        _Employee.showWorkerPortrait(true);
-                    }
+                    ShowWorkers(true);
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
@@ -443,7 +451,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         eState = BuildingState.Built;
     }
-    public void AssignWorker(Rodent r)
+    public void AssignWorkerOLD(Rodent r)
     {
       // Debug.Log("AssignWorker!" + r.getName());
        
@@ -464,7 +472,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //To-Do: Something not being handled here is the status of Building to Built.
 
     }
-    public void DismissWorker(Rodent r)
+    public void DismissWorkerOLD(Rodent r)
     {
         // Debug.Log("DismissWorker!");
 
@@ -497,7 +505,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         Debug.LogError("Employee Missing , false positive");
         return true;
     }
-    public void ShowRedX(bool cond)
+    public void ShowRedXOLD(bool cond)
     {
       //  Debug.LogWarning("ShowRedX Building" + cond);
 
@@ -515,6 +523,91 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         Vector3 Location = Input.mousePosition;
 
         menu.showMenu(cond, Location, this.transform.gameObject, this);
+
+    }
+
+    public void ShowWorkers(bool cond)
+    {
+        foreach (GameObject g in _Workers)
+        {
+            g.SetActive(cond);
+        }
+    }
+    private int findAvailableSlot()
+    {
+        int _count = 0;
+
+        foreach (GameObject g in _Workers)
+        {
+            Employee e = g.GetComponent<Employee>();
+            if (e)
+            {
+                if (!e.isOccupied() && !e.isLocked())
+                {
+                    Debug.Log("Returned index= " + _count);
+                    return _count;
+                }
+                ++_count;
+
+            }
+        }
+
+        return -1;
+    }
+    public void AssignWorker(Rodent r)
+    {
+        Debug.Log("AssignWorker!" + r.getName());
+
+        int index = findAvailableSlot();
+        if (index > -1)         //This is kind of a hack
+        {
+            _Workers[index].GetComponent<Employee>().Assign(r);
+            r.setTarget(this.gameObject);
+        }
+        //  else
+        //  Debug.Log("no Empty");
+
+    }
+    public void DismissWorker(Rodent r)
+    {
+        foreach (GameObject g in _Workers)
+        {
+            Employee e = g.GetComponent<Employee>();
+            if (e)
+            {
+                if (e.isOccupied())
+                {
+                    if (e.getCurrentRodent() == r)
+                    {
+                        //Debug.Log("We found the right Employee");
+                        e.Dismiss(r);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    public void ShowRedX(bool cond)
+    {
+      //  Debug.Log("Told to show RedX in Building");
+
+
+        //Tell any occupied Employees to show x or tell all to not show it
+        foreach (GameObject g in _Workers)
+        {
+            Employee e = g.GetComponent<Employee>();
+            if (e)
+            {
+
+                if (e.isOccupied() && cond == true)
+                {
+                    e.ShowRedX(true);
+                }
+                else
+                    e.ShowRedX(false);
+
+            }
+        }
 
     }
 }

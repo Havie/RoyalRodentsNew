@@ -289,12 +289,14 @@ public class MVCController : MonoBehaviour
             if (_Building)
             {
                 //Check if this building is occupied
-                if (_Building.CheckOccupied())
+               // if (_Building.CheckOccupied())
                 {
                     //To-Do:
                     //play negative sound?
+
+                    //No Longer able to check this way
                 }
-                else // free to assign 
+               // else // free to assign 
                 {
                     //Rodent Things , status update etc
                     //r.setTarget(_lastClicked);
@@ -340,7 +342,7 @@ public class MVCController : MonoBehaviour
 
         ShowDestroyMenu(false, Vector3.zero, null, null);
 
-        showRedX(false);
+        //showRedX(false);
 
         clearLastClicked();
 
@@ -496,7 +498,7 @@ public class MVCController : MonoBehaviour
                 }
                 else if(result.gameObject.GetComponent<bWorkerScript>())
                 {
-                    //Debug.Log("Found B Worker Script");
+                   // Debug.Log("Found B Worker Script");
                     result.gameObject.GetComponent<bWorkerScript>().imClicked();
                 }
             }

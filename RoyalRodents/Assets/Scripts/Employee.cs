@@ -38,7 +38,7 @@ public class Employee : MonoBehaviour
         //Debug.Log("ASsign in Employee");
         if(!_Locked && !_Occupied)
         {
-            Debug.Log("Pass");
+           // Debug.Log("Pass");
            // Debug.Log("Assign in Employee" +r.getName());
             //This script is on the portrait outline because its the visible clickable thing
             _PortraitOutline.GetComponent<bWorkerScript>().setWorker(r);
@@ -97,7 +97,6 @@ public class Employee : MonoBehaviour
     }
     public bool isLocked()
     {
-        Debug.Log(this.gameObject + " is Locked=" + _Locked);
         return _Locked;
     }
     public Rodent getCurrentRodent()

@@ -359,6 +359,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
+
+                //Need to Reset Worker Object to Base
+                ResetWorkers();
                 // Debug.Log("Destroyed an Outpost");
                 break;
             case (BuildingType.TownCenter):
@@ -411,7 +414,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
        else if (eType == BuildingType.Outpost)
         {
             _hitpoints += this.GetComponent<bOutpost>().BuildingComplete(_level);
-            //To-Do: Tell someone this is an outpost and Needs to have it Employees Shown On "Assignment Mode Toggle"
+            // Tell someone this is an outpost and Needs to have it Employees Shown On "Assignment Mode Toggle"
+            UIAssignmentMenu.Instance.SetOutpostWorkers(_Workers);
         }
        else if (eType == BuildingType.TownCenter)
         {
@@ -434,7 +438,20 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         ShowRedX(false);
         //To-Do : Kick the worker rodent off
     }
+    /** Used to undo the Outpost Structure */
+    public void ResetWorkers()
+    {
+        UIAssignmentMenu.Instance.SetOutpostWorkers(null);
+        GameObject _Worker1Prefab = Resources.Load<GameObject>("UI/Workers1");
+        _Worker1Prefab = Instantiate(_Worker1Prefab);
+        _Worker1Prefab.transform.SetParent(this.transform);
+        _Worker1Prefab.transform.localPosition = new Vector3(0, 0, 0);
+        _Worker1Prefab.transform.localScale = new Vector3(2.3f, 2.3f, 2.3f);
 
+        //Hack Lazy
+        Employee[] workers = _Worker1Prefab.GetComponent<eWorkers>().getWorkers();
+        this.transform.GetComponent<BuildableObject>().ChangeWorkers(workers);
+    }
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on
     public void SetType(string type)
     {
@@ -489,7 +506,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
                 if (!e.isOccupied() && !e.isLocked())
                 {
-                    Debug.Log("Returned index= " + _count);
+                   // Debug.Log("Returned index= " + _count);
                     return _count;
                 }
                 ++_count;
@@ -500,7 +517,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void AssignWorker(Rodent r)
     {
-        Debug.Log("AssignWorker!" + r.getName());
+       // Debug.Log("AssignWorker!" + r.getName());
 
         int index = findAvailableSlot();
         if (index > -1)         //This is kind of a hack

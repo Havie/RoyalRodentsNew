@@ -66,7 +66,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = false;
+        _printStatements = true;
     }
 
 
@@ -368,6 +368,11 @@ public class MVCController : MonoBehaviour
                  if (e.GetComponent<Employee>())
                      e.GetComponent<Employee>().ShowRedX(cond);
         }
+    }
+    public void RemoveRedX(Employee e)
+    {
+        if (_lastRedX.Contains(e))
+            _lastRedX.Remove(e);
     }
     public void showAssignmenu(bool cond)
     {

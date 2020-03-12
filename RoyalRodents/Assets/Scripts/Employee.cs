@@ -11,6 +11,7 @@ public class Employee : MonoBehaviour
     public GameObject _PortraitOutline;
     public GameObject _RedX;
 
+    [SerializeField]
     private bool _Locked;
     private bool _Occupied;
     private Rodent _currentRodent;
@@ -34,7 +35,7 @@ public class Employee : MonoBehaviour
 
     public void Assign(Rodent r)
     {
-        Debug.Log("ASsign in Employee");
+        //Debug.Log("ASsign in Employee");
         if(!_Locked && !_Occupied)
         {
             Debug.Log("Pass");
@@ -96,6 +97,7 @@ public class Employee : MonoBehaviour
     }
     public bool isLocked()
     {
+        Debug.Log(this.gameObject + " is Locked=" + _Locked);
         return _Locked;
     }
     public Rodent getCurrentRodent()

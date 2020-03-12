@@ -171,6 +171,19 @@ public class GameManager : MonoBehaviour
 	{
 		return _TownCenter;
 	}
+    public int GetBuildingCap()
+    {
+        if (_TownCenter)
+        {
+            BuildableObject bo = _TownCenter.transform.GetComponent<BuildableObject>();
+            if (bo)
+            {
+                return (bo.getLevel() * 2);
+            }
+        }
+        Debug.LogWarning("No TownCenter");
+        return 0;
+    }
     public void addToPlayerRodents(Rodent r)
     {
         //can Lists add duplicates? should we check against this?

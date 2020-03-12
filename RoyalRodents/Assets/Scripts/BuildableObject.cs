@@ -26,8 +26,17 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     [SerializeField]
     private BuildingType eType;
-
     private int _level = 0;
+
+    [SerializeField]
+    private float _hitpoints = 0;
+    private float _hitpointsMax = 0;
+
+    private int _construction = 0;
+    private int _constructionMax = 100;
+
+    private int _gathering = 0;
+    private int _gatheringMax = 100;
 
     // NEW
     public Employee[] _Workers = new Employee[1];
@@ -39,12 +48,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     private UIBuildMenu _DestroyMenu;
     private MVCController _controller;
 
-    [SerializeField]
-    private float _hitpoints = 0;
-    private float _hitpointsMax = 0;
-
     public enum BuildingState { Available, Idle, Building, Built };
-    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant}
+    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant, GarbageCan, WoodPile, StonePile}
 
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
@@ -302,6 +307,27 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 _level = 1;
                 // Debug.Log("Made a TownCenter");
                 break;
+            case ("garbagecan"):
+                this.gameObject.AddComponent<bGarbageCan>();
+                eType = BuildingType.GarbageCan;
+                eState = BuildingState.Building;
+                _sr.sprite = _sStateConstruction;
+                _level = 1;
+                break;
+            case ("woodpile"):
+                this.gameObject.AddComponent<bWoodPile>();
+                eType = BuildingType.WoodPile;
+                eState = BuildingState.Building;
+                _sr.sprite = _sStateConstruction;
+                _level = 1;
+                break;
+            case ("stonepile"):
+                this.gameObject.AddComponent<bStonePile>();
+                eType = BuildingType.StonePile;
+                eState = BuildingState.Building;
+                _sr.sprite = _sStateConstruction;
+                _level = 1;
+                break;
 
             case null:
                 break;
@@ -372,7 +398,27 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 _sr.sprite = _sStateConstruction;
                 // Debug.Log("Destroyed a TownCenter");
                 break;
-
+            case (BuildingType.GarbageCan):
+                bGarbageCan garbagecan = this.GetComponent<bGarbageCan>();
+                Destroy(garbagecan);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                _sr.sprite = _sStateConstruction;
+                break;
+            case (BuildingType.WoodPile):
+                bWoodPile wp = this.GetComponent<bWoodPile>();
+                Destroy(wp);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                _sr.sprite = _sStateConstruction;
+                break;
+            case (BuildingType.StonePile):
+                bStonePile sp = this.GetComponent<bStonePile>();
+                Destroy(sp);
+                eType = BuildingType.Vacant;
+                eState = BuildingState.Building;
+                _sr.sprite = _sStateConstruction;
+                break;
         }
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
@@ -421,6 +467,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete(_level);
         }
+        else if (eType == BuildingType.GarbageCan)
+        {
+            _hitpoints += this.GetComponent<bGarbageCan>().BuildingComplete(_level);
+        }
+        else if (eType == BuildingType.WoodPile)
+        {
+            _hitpoints += this.GetComponent<bWoodPile>().BuildingComplete(_level);
+        }
+        else if (eType == BuildingType.StonePile)
+        {
+            _hitpoints += this.GetComponent<bStonePile>().BuildingComplete(_level);
+        }
         UpdateState();
         //Debug.Log("Built a level " + _level + " structure");
 
@@ -466,6 +524,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
 
         eState = BuildingState.Built;
+    }
+
+    public void SetLevel(int lvl)
+    {
+        _level = lvl;
     }
 
     //unused Atm, was used in MVC but commented out i believe

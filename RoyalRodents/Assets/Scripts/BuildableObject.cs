@@ -29,11 +29,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     private int _level = 0;
 
-    //OLD
-    private Employee _Employee; // handles all the portrait worker stuff
     // NEW
     public Employee[] _Workers = new Employee[1];
-    private Transform _WorkerParent;
 
     private SpriteRenderer _sr;
     private SpriteRenderer _srNotify;
@@ -113,7 +110,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _controller = MVCController.Instance;
 
 
-        _Employee = this.transform.GetComponentInChildren<Employee>();
         UpdateState();
         SetUpTeam();
         setUpWorkers();
@@ -131,8 +127,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     _Workers[i].GetComponent<Employee>().Lock(true);
             }
 
-            if (_Workers.Length > 0)
-                _WorkerParent = _Workers[0].transform.parent;
 
             ShowWorkers(false);
         }
@@ -165,7 +159,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Idle:
                 {
                     _srNotify.enabled = false;
-                    if (eType != BuildingType.TownCenter && eType != BuildingType.House)
+                    if (eType != BuildingType.TownCenter && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
                     else
                         ShowWorkers(false);
@@ -176,7 +170,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Built:
                 {
                     _srNotify.enabled = false;
-                    if (eType != BuildingType.TownCenter && eType != BuildingType.House)
+                    if (eType != BuildingType.TownCenter && eType != BuildingType.House && eType!= BuildingType.Outpost)
                         ShowWorkers(true);
                     else
                         ShowWorkers(false);
@@ -263,7 +257,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
 
     // Called from MVC controller to Build or Upgrade a building
-    public virtual void BuildSomething(string type)
+    public void BuildSomething(string type)
     {
        // Debug.Log("Time to Build Something type=" + type);
         switch (type)
@@ -417,6 +411,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
        else if (eType == BuildingType.Outpost)
         {
             _hitpoints += this.GetComponent<bOutpost>().BuildingComplete(_level);
+            //To-Do: Tell someone this is an outpost and Needs to have it Employees Shown On "Assignment Mode Toggle"
         }
        else if (eType == BuildingType.TownCenter)
         {
@@ -455,68 +450,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         eState = BuildingState.Built;
     }
-    //Old Ways pre-Employee update, unused but here for reference
-    public void AssignWorkerOLD(Rodent r)
-    {
-      // Debug.Log("AssignWorker!" + r.getName());
-       
-        //Let employee worry about this
-        //_Worker = r;
-        if (_Employee)
-        {
-            _Employee.Assign(r);
-            r.setTarget(this.gameObject);
 
-            // ws.setWorker(_Worker);
-            // _sWorker = r.GetPortrait();
-            // Debug.LogError(_sWorker.ToString());
-        }
-        else
-            r.setTarget(null);
-
-        //To-Do: Something not being handled here is the status of Building to Built.
-
-    }
-    public void DismissWorkerOLD(Rodent r)
-    {
-        // Debug.Log("DismissWorker!");
-
-
-        if (_Employee)
-            _Employee.Dismiss(r);
-
-        r.setTarget(null);
-
-        eState = BuildingState.Idle;
-       // _Worker = null;
-       // _sWorker = _sEmptyPortrait;
-        //Resets the assignment window to get the available worker
-        //appears it works well enough to call here, instead of _Worker.setTarget(null)
-        UIAssignmentMenu.Instance.ResetButtons();
-
-    }
+    //unused Atm, was used in MVC but commented out i believe
     public bool CheckOccupied()
     {
-        //If we want to have multiple workers, this needs to change
-        // can always check the workScript if its occupied? 
-        // or get all children of type bWorkerScript and see if any arent occupied
+        //Not Tested
+        int _index = findAvailableSlot();
+        if (_index != -1)
+            return true;
 
-        if(_Employee)
-        {
-            return _Employee.isOccupied();
-        }
-
-
-        Debug.LogError("Employee Missing , false positive");
-        return true;
-    }
-    public void ShowRedXOLD(bool cond)
-    {
-      //  Debug.LogWarning("ShowRedX Building" + cond);
-
-        if (_Employee)
-            _Employee.ShowRedX(cond);
-
+        return false;
     }
 
     //Absolute nonsense i have to do this otherwise the same click insta clicks a button on the menu opened

@@ -32,8 +32,6 @@ public class MVCController : MonoBehaviour
     private bool _recruitDummy;
     private bool _assignDummy;
 
-    private BaseHitBox _lastColliderOFF;
-
     private bool _printStatements;
 
     public static MVCController Instance
@@ -66,7 +64,7 @@ public class MVCController : MonoBehaviour
         }
 
         //Debug Mode:
-        _printStatements = true;
+        _printStatements = false;
     }
 
 
@@ -345,9 +343,6 @@ public class MVCController : MonoBehaviour
         //showRedX(false);
 
         clearLastClicked();
-
-        if(_lastColliderOFF)
-            _lastColliderOFF.turnOnCollider(true);
 
         return null;
     }

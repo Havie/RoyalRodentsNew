@@ -11,6 +11,7 @@ public class Employee : MonoBehaviour
     public GameObject _PortraitOutline;
     public GameObject _RedX;
 
+    [SerializeField]
     private bool _Locked;
     private bool _Occupied;
     private Rodent _currentRodent;
@@ -34,8 +35,10 @@ public class Employee : MonoBehaviour
 
     public void Assign(Rodent r)
     {
+        //Debug.Log("ASsign in Employee");
         if(!_Locked && !_Occupied)
         {
+           // Debug.Log("Pass");
            // Debug.Log("Assign in Employee" +r.getName());
             //This script is on the portrait outline because its the visible clickable thing
             _PortraitOutline.GetComponent<bWorkerScript>().setWorker(r);

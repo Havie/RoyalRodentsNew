@@ -93,7 +93,10 @@ public class bTownCenter : MonoBehaviour
         this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
         //MEGA hack of all Hacks
         this.transform.GetComponentInChildren<Employee>().gameObject.GetComponentInChildren<eWorkerOBJ>().gameObject.GetComponent<SpriteRenderer>().sprite = null;
-       // Debug.Log("Created Initial TownCenter with Sprite:::" + _built);
+        // Debug.Log("Created Initial TownCenter with Sprite:::" + _built);
+
+        //this gets called before RM initializes.. fml
+        ResourceManagerScript.Instance.incrementPopulationCapacity(5);
     }
 
 	public static Dictionary<string, int> getCost(int level)

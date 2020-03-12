@@ -109,7 +109,7 @@ public class ResourceManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _currentCapacity = 1;
+        _currentCapacity = 5;
         UpdateCurrentPopulation();
         _food = 10;
 		_trash = 10;
@@ -150,7 +150,7 @@ public class ResourceManagerScript : MonoBehaviour
     {
         _currentCapacity += amnt;
         UpdatePopulationText();
-       // Debug.Log("Incremented population capacity by " + amnt.ToString());
+      // Debug.Log("Incremented population capacity by " + amnt.ToString());
     }
 
     //Update Resource Panel UI Text

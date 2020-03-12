@@ -100,7 +100,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void LateUpdate()
     {
-        if(_RoyalGuardParent)
+       if(_RoyalGuardParent)
              _RoyalGuardParent.position = this.transform.position;
 
         //Player will trickle restore HP based on stamina

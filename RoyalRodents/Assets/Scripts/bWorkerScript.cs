@@ -119,7 +119,7 @@ public class bWorkerScript : MonoBehaviour
     //unused, logic handled elsewhere in Employee now
     public void dismissRodent()
     {
-       // Debug.Log("heard Dismiss");
+       Debug.Log("heard Dismiss");
         if (bo)
             bo.DismissWorker(_worker);
        else if (ps)
@@ -150,9 +150,13 @@ public class bWorkerScript : MonoBehaviour
             if (parent)
             {
                 parent = parent.transform.parent;
-                if (parent && parent.GetComponent<BuildableObject>())
+                if (parent)
                 {
-                    _owner = parent.gameObject;
+                    parent = parent.transform.parent;
+                    if (parent && parent.GetComponent<BuildableObject>())
+                    {
+                        _owner = parent.gameObject;
+                    }
                 }
             }
         }

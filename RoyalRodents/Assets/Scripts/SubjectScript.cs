@@ -122,6 +122,11 @@ public class SubjectScript : MonoBehaviour
         GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
         savedTarget = centerLocation;
     }
+    public void setDefender()
+    {
+        //To-Do:
+        Debug.Log("Rodent Assigned to Defender");
+    }
     public void setIdle()
     {
         royalGuard = false;

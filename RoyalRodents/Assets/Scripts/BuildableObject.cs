@@ -217,7 +217,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
 
     // used to be from MVC controller to let the building know its been clicked
-    public void imClicked()
+     public void imClicked()
     {
 
       //  Debug.Log("Building is Clicked state is" + eState);

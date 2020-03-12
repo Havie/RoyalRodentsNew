@@ -3896,12 +3896,12 @@ GameObject:
   - component: {fileID: 541410284}
   - component: {fileID: 541410283}
   m_Layer: 5
-  m_Name: Button_TownCenter
+  m_Name: Button_GarbageCan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &541410282
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4030,7 +4030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b7eb6bf290d4644a7f95a7785fa9be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: towncenter
+  _type: garbagecan
   _level: 1
   textTrashCost: {fileID: 603163986}
   textWoodCost: {fileID: 0}
@@ -15811,9 +15811,9 @@ MonoBehaviour:
     type: 3}
   eState: 0
   eType: 5
+  _hitpoints: 0
   _Workers:
   - {fileID: 1674734002}
-  _hitpoints: 0
   _Team: 0
 --- !u!212 &1687040300
 SpriteRenderer:
@@ -19469,7 +19469,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Town Center
+  m_text: GarbageCans
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -19540,8 +19540,8 @@ MonoBehaviour:
     textComponent: {fileID: 2009086906}
     characterCount: 11
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -19722,6 +19722,7 @@ MonoBehaviour:
   - {fileID: 1540142694}
   - {fileID: 1307117209}
   - {fileID: 1827123473}
+  - {fileID: 541410283}
 --- !u!1 &2047285144
 GameObject:
   m_ObjectHideFlags: 0
@@ -20473,9 +20474,9 @@ MonoBehaviour:
     type: 3}
   eState: 0
   eType: 5
+  _hitpoints: 0
   _Workers:
   - {fileID: 1660533454}
-  _hitpoints: 0
   _Team: 0
 --- !u!1 &873172393346750042
 GameObject:

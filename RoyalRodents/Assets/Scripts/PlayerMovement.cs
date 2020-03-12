@@ -243,11 +243,19 @@ public class PlayerMovement : MonoBehaviour
         StopMoving();
         if (!_AttackDelay)
         {
-            _isAttacking = true;
-            _animator.SetTrigger("Attack");
-            StartCoroutine(AttackRoutine());
-
-            //To-Do: Drain stamina
+            //To-Do: Drain stamina && CHECK if enough
+            PlayerStats ps = this.transform.GetComponent<PlayerStats>();
+            if(ps)
+            {
+                if (ps.getStamina() > 3)
+                {
+                    ps.IncrementStamina(-3f);
+                    _isAttacking = true;
+                    _animator.SetTrigger("Attack");
+                    StartCoroutine(AttackRoutine());
+                }
+            }
+           
         }
 
     }

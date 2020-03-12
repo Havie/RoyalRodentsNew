@@ -100,6 +100,18 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			_cost = bTownCenter.getCost(_level);
 		}
+		else if (_type.Equals("garbagecan"))
+		{
+			_cost = bGarbageCan.getCost(_level);
+		}
+		else if (_type.Equals("woodpile"))
+		{
+			_cost = bWoodPile.getCost(_level);
+		}
+		else if (_type.Equals("stonepile"))
+		{
+			_cost = bStonePile.getCost(_level);
+		}
 		else
 			Debug.LogError("Build button not defined with type or level, or couldn't get cost dictionary from building script");
 
@@ -247,11 +259,25 @@ public class UIButtonCosts : MonoBehaviour
 				txt = "Outpost (LVL ";
 				_maxlevel = bOutpost.getMaxLevel();
 			}
-				
 			else if (_type == "towncenter")
 			{
 				txt = "Town Center (LVL ";
 				_maxlevel = bTownCenter.getMaxLevel();
+			}
+			else if (_type == "garbagecan")
+			{
+				txt = "Garbage Can (LVL ";
+				_maxlevel = bGarbageCan.getMaxLevel();
+			}
+			else if (_type == "woodpile")
+			{
+				txt = "Wood Pile (LVL ";
+				_maxlevel = bWoodPile.getMaxLevel();
+			}
+			else if (_type == "stonepile")
+			{
+				txt = "Stone Pile (LVL ";
+				_maxlevel = bStonePile.getMaxLevel();
 			}
 			else
 			{

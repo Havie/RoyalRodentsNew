@@ -29,7 +29,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     private int _level = 0;
 
-    private Employee _Employee; // handles all the portrait worker stuff
+    // NEW
+    public Employee[] _Workers = new Employee[1];
 
     private SpriteRenderer _sr;
     private SpriteRenderer _srNotify;
@@ -109,27 +110,39 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _controller = MVCController.Instance;
 
 
-        _Employee = this.transform.GetComponentInChildren<Employee>();
         UpdateState();
         SetUpTeam();
+        setUpWorkers();
     }
+    public void setUpWorkers()
+    {
+        if (_Workers.Length != 0)
+        {
+            //How to check if is initialized?
+            for (int i = 0; i < _Workers.Length; ++i)
+            {
+                if (i == 0)
+                    _Workers[0].GetComponent<Employee>().Lock(false);
+                else
+                    _Workers[i].GetComponent<Employee>().Lock(true);
+            }
 
+
+            ShowWorkers(false);
+        }
+        else
+            Debug.LogWarning("Building has No Workers");
+    }
     private void UpdateState()
     {
         //Debug.Log("UpdateState =" + eState);
-            //This needs to get changed to when we update the state itself
         switch (eState)
         {
             case BuildingState.Available:
                 {
                     _srNotify.sprite = _sNotification;
                     _srNotify.enabled = true;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(false);
-                        _Employee.showWorkerPortrait(false);
-
-                    }
+                    ShowWorkers(false);
                     _animator.SetBool("Notify", true);
                     _animator.SetBool("Building", false);
                     break;
@@ -138,24 +151,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 {
                     _srNotify.sprite = _sBuildingHammer;
                     _srNotify.enabled = true;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(true);
-                        _Employee.showWorkerPortrait(true);
-                    }
-
-                        //_srWorker.enabled = true;
-                        _animator.SetBool("Building", true);
+                    //need special case for Outpost
+                    ShowWorkers(true); //_srWorker.enabled = true;
+                    _animator.SetBool("Building", true);
                     break;
                 }
             case BuildingState.Idle:
                 {
                     _srNotify.enabled = false;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(true);
-                        _Employee.showWorkerPortrait(true);
-                    }
+                    if (eType != BuildingType.TownCenter && eType != BuildingType.House && eType != BuildingType.Outpost)
+                        ShowWorkers(true);
+                    else
+                        ShowWorkers(false);
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
@@ -163,11 +170,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Built:
                 {
                     _srNotify.enabled = false;
-                    if (_Employee)
-                    {
-                        _Employee.showPortraitOutline(true);
-                        _Employee.showWorkerPortrait(true);
-                    }
+                    if (eType != BuildingType.TownCenter && eType != BuildingType.House && eType!= BuildingType.Outpost)
+                        ShowWorkers(true);
+                    else
+                        ShowWorkers(false);
                     _animator.SetBool("Notify", false);
                     _animator.SetBool("Building", false);
                     break;
@@ -251,7 +257,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
 
     // Called from MVC controller to Build or Upgrade a building
-    public virtual void BuildSomething(string type)
+    public void BuildSomething(string type)
     {
        // Debug.Log("Time to Build Something type=" + type);
         switch (type)
@@ -353,6 +359,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
+
+                //Need to Reset Worker Object to Base
+                ResetWorkers();
                 // Debug.Log("Destroyed an Outpost");
                 break;
             case (BuildingType.TownCenter):
@@ -405,6 +414,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
        else if (eType == BuildingType.Outpost)
         {
             _hitpoints += this.GetComponent<bOutpost>().BuildingComplete(_level);
+            // Tell someone this is an outpost and Needs to have it Employees Shown On "Assignment Mode Toggle"
+            UIAssignmentMenu.Instance.SetOutpostWorkers(_Workers);
         }
        else if (eType == BuildingType.TownCenter)
         {
@@ -427,7 +438,20 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         ShowRedX(false);
         //To-Do : Kick the worker rodent off
     }
+    /** Used to undo the Outpost Structure */
+    public void ResetWorkers()
+    {
+        UIAssignmentMenu.Instance.SetOutpostWorkers(null);
+        GameObject _Worker1Prefab = Resources.Load<GameObject>("UI/Workers1");
+        _Worker1Prefab = Instantiate(_Worker1Prefab);
+        _Worker1Prefab.transform.SetParent(this.transform);
+        _Worker1Prefab.transform.localPosition = new Vector3(0, 0, 0);
+        _Worker1Prefab.transform.localScale = new Vector3(2.3f, 2.3f, 2.3f);
 
+        //Hack Lazy
+        Employee[] workers = _Worker1Prefab.GetComponent<eWorkers>().getWorkers();
+        this.transform.GetComponent<BuildableObject>().ChangeWorkers(workers);
+    }
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on
     public void SetType(string type)
     {
@@ -443,67 +467,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         eState = BuildingState.Built;
     }
-    public void AssignWorker(Rodent r)
-    {
-      // Debug.Log("AssignWorker!" + r.getName());
-       
-        //Let employee worry about this
-        //_Worker = r;
-        if (_Employee)
-        {
-            _Employee.Assign(r);
-            r.setTarget(this.gameObject);
 
-            // ws.setWorker(_Worker);
-            // _sWorker = r.GetPortrait();
-            // Debug.LogError(_sWorker.ToString());
-        }
-        else
-            r.setTarget(null);
-
-        //To-Do: Something not being handled here is the status of Building to Built.
-
-    }
-    public void DismissWorker(Rodent r)
-    {
-        // Debug.Log("DismissWorker!");
-
-
-        if (_Employee)
-            _Employee.Dismiss(r);
-
-        r.setTarget(null);
-
-        eState = BuildingState.Idle;
-       // _Worker = null;
-       // _sWorker = _sEmptyPortrait;
-        //Resets the assignment window to get the available worker
-        //appears it works well enough to call here, instead of _Worker.setTarget(null)
-        UIAssignmentMenu.Instance.ResetButtons();
-
-    }
+    //unused Atm, was used in MVC but commented out i believe
     public bool CheckOccupied()
     {
-        //If we want to have multiple workers, this needs to change
-        // can always check the workScript if its occupied? 
-        // or get all children of type bWorkerScript and see if any arent occupied
+        //Not Tested
+        int _index = findAvailableSlot();
+        if (_index != -1)
+            return true;
 
-        if(_Employee)
-        {
-            return _Employee.isOccupied();
-        }
-
-
-        Debug.LogError("Employee Missing , false positive");
-        return true;
-    }
-    public void ShowRedX(bool cond)
-    {
-      //  Debug.LogWarning("ShowRedX Building" + cond);
-
-        if (_Employee)
-            _Employee.ShowRedX(cond);
-
+        return false;
     }
 
     //Absolute nonsense i have to do this otherwise the same click insta clicks a button on the menu opened
@@ -516,6 +489,106 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         menu.showMenu(cond, Location, this.transform.gameObject, this);
 
+    }
+
+    public void ShowWorkers(bool cond)
+    {
+        foreach (Employee e in _Workers)
+        {
+            e.transform.gameObject.SetActive(cond);
+        }
+    }
+    private int findAvailableSlot()
+    {
+        int _count = 0;
+
+        foreach (Employee e in _Workers)
+        {
+                if (!e.isOccupied() && !e.isLocked())
+                {
+                   // Debug.Log("Returned index= " + _count);
+                    return _count;
+                }
+                ++_count;
+
+        }
+
+        return -1;
+    }
+    public void AssignWorker(Rodent r)
+    {
+       // Debug.Log("AssignWorker!" + r.getName());
+
+        int index = findAvailableSlot();
+        if (index > -1)         //This is kind of a hack
+        {
+            _Workers[index].Assign(r);
+            r.setTarget(this.gameObject);
+        }
+        //  else
+        //  Debug.Log("no Empty");
+
+    }
+    public void DismissWorker(Rodent r)
+    {
+        foreach (Employee e in _Workers)
+        {
+                if (e.isOccupied())
+                {
+                    if (e.getCurrentRodent() == r)
+                    {
+                        //Debug.Log("We found the right Employee");
+                        e.Dismiss(r);
+                        break;
+                    }
+                }
+            }
+    }
+    public void ShowRedX(bool cond)
+    {
+      //  Debug.Log("Told to show RedX in Building");
+
+        //Tell any occupied Employees to show x or tell all to not show it
+        foreach (Employee e in _Workers)
+        {
+            if (e)
+            {
+
+                if (e.isOccupied() && cond == true)
+                {
+                    e.ShowRedX(true);
+                }
+                else
+                    e.ShowRedX(false);
+
+            }
+        }
+
+    }
+    public void ChangeWorkers(Employee[] workers)
+    {
+        //Delete old workers no matter what?
+        //When this is called there Shouldnt be anyone working here?
+        //No need to handle dismissals etc
+        //Destroying Parent, destroys children
+        foreach(Employee e in _Workers)
+            MVCController.Instance.RemoveRedX(e);
+        Destroy(_Workers[0].transform.parent.gameObject);
+        _Workers = null;
+        _Workers = workers;
+        UpdateState();
+    }
+    public void UnlockWorkers(int number)
+    {
+        int _count = 0;
+        foreach(Employee e in _Workers)
+        {
+            if (e.isLocked() && _count < number)
+            {
+                e.Lock(false);
+                ++_count;
+            }
+        }
     }
 }
 

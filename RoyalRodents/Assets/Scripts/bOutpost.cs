@@ -14,7 +14,7 @@ public class bOutpost : MonoBehaviour
 
 	private static bool _isSet;
 
-	//create strucutre costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
+	//create structure costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
 	public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
     public static Dictionary<string, int> _costLevel2 = new Dictionary<string, int>();
     public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
@@ -53,14 +53,32 @@ public class bOutpost : MonoBehaviour
 
 	public float BuildingComplete(int level)
 	{
-		if (level == 1)
-			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
-		else if (level == 2)
-			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
-		else if (level == 3)
-			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
+        if (level == 1)
+        {
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
+            //SetUp New Employees
+            GameObject _Worker6Prefab = Resources.Load<GameObject>("UI/Workers6");
+            _Worker6Prefab = Instantiate(_Worker6Prefab);
+            _Worker6Prefab.transform.SetParent(this.transform);
+            _Worker6Prefab.transform.localPosition = new Vector3(0, 0, 0);
+            _Worker6Prefab.transform.localScale = new Vector3(2.3f, 2.3f, 2.3f);
 
-		return (_hitpoints + (_hitPointGrowth * level));
+            //Hack Lazy
+            Employee[] workers = _Worker6Prefab.GetComponent<eWorkers>().getWorkers();
+            this.transform.GetComponent<BuildableObject>().ChangeWorkers(workers);
+            // *MIGHT* have to change them to locked here incase inspector is wrong
+
+        }
+        else if (level == 2)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
+        else if (level == 3)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
+
+
+        BuildableObject bo = this.transform.GetComponent<BuildableObject>();
+        bo.UnlockWorkers(2);
+
+        return (_hitpoints + (_hitPointGrowth * level));
 	}
 
 	public static Dictionary<string, int> getCost(int level)

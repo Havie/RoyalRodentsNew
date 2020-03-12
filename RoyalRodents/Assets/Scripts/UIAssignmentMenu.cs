@@ -30,6 +30,9 @@ public class UIAssignmentMenu : MonoBehaviour
     private CameraController _cameraController;
     private UIAssignmentVFX _vfx;
     private GameObject _owner;
+    [SerializeField]
+    private Employee[] _OutpostWorkers;
+
 
     public static UIAssignmentMenu Instance
     {
@@ -106,7 +109,7 @@ public class UIAssignmentMenu : MonoBehaviour
 
         }
         ShowArrowButtons(cond);
-
+        ShowOutpostWorkers(cond);
 
         //If we turn off the menu, reset the index and list
         if (!_active)
@@ -135,7 +138,7 @@ public class UIAssignmentMenu : MonoBehaviour
         }
         else
         {
-            // Change Camera Control back
+            // Change Camera Control back - which way is better, make expensive call rarely or store variable
             if (_cameraController)
                 Camera.main.GetComponent<CameraController>().setCharacterMode(true);
         }
@@ -267,6 +270,19 @@ public class UIAssignmentMenu : MonoBehaviour
         //Debug.Log("Show Arrow COND???=" + cond);
         _ButtonLeft.gameObject.SetActive(cond);
         _ButtonRight.gameObject.SetActive(cond);
+    }
+    private void ShowOutpostWorkers(bool cond)
+    {
+        if (_OutpostWorkers == null)
+            return;
+        foreach( Employee e in _OutpostWorkers)
+        {
+            e.transform.gameObject.SetActive(cond);
+        }
+    }
+    public void SetOutpostWorkers(Employee[] workers)
+    {
+        _OutpostWorkers = workers;
     }
 
     /** used by UI button */

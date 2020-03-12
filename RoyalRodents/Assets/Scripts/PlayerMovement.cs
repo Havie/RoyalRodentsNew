@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float _moveSpeed;
     private float _horizontalMove = 0f;
     private bool jump = false;
-    private bool crouch = false;
+    private bool _InGround = false;
     private bool _AttackDelay;
     private bool _isAttacking;
     private bool _isHealing;
@@ -60,11 +60,11 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            crouch = true;
+            _InGround = true;
         }
         else if (Input.GetKeyUp(KeyCode.S))
         {
-            crouch = false;
+            _InGround = false;
         }
         if (Input.GetMouseButton(1))
         {
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Done in Check Dig which is WEIRD..but yeah do nothing here
         }
-        else if (Input.GetMouseButtonDown(0) || Input.touchCount>0)
+        else if ((Input.GetMouseButtonDown(0) || Input.touchCount>0)&& !_InGround)
         {
             // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
             // Attack();
@@ -197,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
             else
                 _animator.SetBool("IsMoving", false);
 
-            Move(_horizontalMove * Time.fixedDeltaTime, crouch, jump);
+            Move(_horizontalMove * Time.fixedDeltaTime, _InGround, jump);
         }
         else
             _animator.SetBool("IsMoving", false);
@@ -247,6 +247,7 @@ public class PlayerMovement : MonoBehaviour
     {
          if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            _InGround = true;
             if (_CurrentTile)
             {
                 _CurrentTile.DigDown();
@@ -256,8 +257,9 @@ public class PlayerMovement : MonoBehaviour
 
                 //Calculate Depth Down because of weird anchor points?
                 float newY = (this.transform.position.y - _CurrentTile.transform.position.y) / 2;
+               // float newX = (this.transform.position.x - _CurrentTile.transform.position.x) / 2;
 
-                this.transform.position = new Vector3(_CurrentTile.transform.position.x, this.transform.position.y - newY, 0);
+                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
                 return true;
             }
            
@@ -506,6 +508,11 @@ public class PlayerMovement : MonoBehaviour
                 //Do not add to our list of objects in range?
             }
         }
+        else if (collision.transform.GetComponent<DiggableTile>())
+        {
+           // Debug.Log("Collider w diggable tile");
+            _CurrentTile = collision.transform.GetComponent<DiggableTile>();
+        }
         else if (collision.transform.parent)
         {
             // handle if collider is agro range or base range
@@ -547,7 +554,16 @@ public class PlayerMovement : MonoBehaviour
                 s.setActive(false);
             }
         }
-       else if (collision.transform.parent)
+        else if (collision.transform.GetComponent<DiggableTile>())
+        {
+           // Debug.Log("Exited Collision w diggable tile");
+
+            //Possible to collided with a New Tile Before Exit is called so need this check
+            if (_CurrentTile == collision.transform.GetComponent<DiggableTile>())
+                _CurrentTile = null;
+
+        }
+        else if (collision.transform.parent)
         {
             // handle if collider is agro range or base range
             if (collision.transform.GetComponent<BaseHitBox>())
@@ -568,27 +584,13 @@ public class PlayerMovement : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log("ENTER Collision with " + collision.gameObject);
-        if (collision.transform.GetComponent<DiggableTile>())
-        {
-            Debug.Log("Collider w diggable tile");
-            _CurrentTile = collision.transform.GetComponent<DiggableTile>();
-        }
+
 
     }
-
-
     public void OnCollisionExit2D(Collision2D collision)
     {
        // Debug.Log("EXIT Collision with " + collision.gameObject);
-        if (collision.transform.GetComponent<DiggableTile>())
-        {
-            Debug.Log("Exited Collision w diggable tile");
 
-            //Possible to collided with a New Tile Before Exit is called so need this check
-            if (_CurrentTile == collision.transform.GetComponent<DiggableTile>())
-                _CurrentTile = null;
-
-        }
     }
 }
 

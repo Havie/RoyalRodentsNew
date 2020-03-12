@@ -29,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _wantToAttack;
     private GameObject _AttackTarget;
-
+    [SerializeField]
+    private DiggableTile _CurrentTile;
 
 
     private bool isDead;
@@ -70,8 +71,11 @@ public class PlayerMovement : MonoBehaviour
             //old code from gamejam
             Heal();
         }
-
-        if (Input.GetMouseButtonDown(0) || Input.touchCount>0)
+        if(CheckDig())
+        {
+            // Done in Check Dig which is WEIRD..but yeah do nothing here
+        }
+        else if (Input.GetMouseButtonDown(0) || Input.touchCount>0)
         {
             // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
             // Attack();
@@ -180,7 +184,8 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-
+        
+        
     }
     private void FixedUpdate()
     {
@@ -237,6 +242,27 @@ public class PlayerMovement : MonoBehaviour
     public void StopMoving()
     {
         _horizontalMove = 0;
+    }
+    private bool CheckDig()
+    {
+         if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (_CurrentTile)
+            {
+                _CurrentTile.DigDown();
+
+                //Stop Moving
+                StopMoving();
+
+                //Calculate Depth Down because of weird anchor points?
+                float newY = (this.transform.position.y - _CurrentTile.transform.position.y) / 2;
+
+                this.transform.position = new Vector3(_CurrentTile.transform.position.x, this.transform.position.y - newY, 0);
+                return true;
+            }
+           
+        }
+        return false;
     }
     public void Attack()
     {
@@ -455,11 +481,11 @@ public class PlayerMovement : MonoBehaviour
 
 
     //Collect Pickups and search things
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-       // Debug.Log("Enter Collision with" + collision.transform.gameObject);
+      //Debug.Log("Enter Trigger with" + collision.transform.gameObject);
 
-        if(_wantToAttack && _AttackTarget!=null)
+        if (_wantToAttack && _AttackTarget != null)
         {
             if (collision.gameObject.transform.parent)
             {
@@ -468,7 +494,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         else if (_MoveLocation == collision.gameObject)
+        {
             _horizontalMove = 0;
+        }
 
         if (collision.transform.GetComponent<Searchable>())
         {
@@ -497,6 +525,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+       
         ///Old Game Jam code, could be reused for pickups 
         else if (collision.transform.GetComponent<CoinResource>())
         {
@@ -509,7 +538,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.transform.GetComponent<Searchable>())
         {
@@ -518,7 +547,7 @@ public class PlayerMovement : MonoBehaviour
                 s.setActive(false);
             }
         }
-        if (collision.transform.parent)
+       else if (collision.transform.parent)
         {
             // handle if collider is agro range or base range
             if (collision.transform.GetComponent<BaseHitBox>())
@@ -534,10 +563,36 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+       
+    }
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log("ENTER Collision with " + collision.gameObject);
+        if (collision.transform.GetComponent<DiggableTile>())
+        {
+            Debug.Log("Collider w diggable tile");
+            _CurrentTile = collision.transform.GetComponent<DiggableTile>();
+        }
+
     }
 
 
+    public void OnCollisionExit2D(Collision2D collision)
+    {
+       // Debug.Log("EXIT Collision with " + collision.gameObject);
+        if (collision.transform.GetComponent<DiggableTile>())
+        {
+            Debug.Log("Exited Collision w diggable tile");
 
+            //Possible to collided with a New Tile Before Exit is called so need this check
+            if (_CurrentTile == collision.transform.GetComponent<DiggableTile>())
+                _CurrentTile = null;
+
+        }
+    }
 }
+
+
+
 
 

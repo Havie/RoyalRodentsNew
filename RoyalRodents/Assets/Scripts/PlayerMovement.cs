@@ -247,23 +247,120 @@ public class PlayerMovement : MonoBehaviour
     {
          if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _InGround = true;
             if (_CurrentTile)
             {
-                _CurrentTile.DigDown();
-
+               
                 //Stop Moving
                 StopMoving();
-
-                //Calculate Depth Down because of weird anchor points?
-                float newY = (this.transform.position.y - _CurrentTile.transform.position.y) / 2;
-               // float newX = (this.transform.position.x - _CurrentTile.transform.position.x) / 2;
-
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
+                 StartCoroutine(DigDelay((_CurrentTile.isTopSoil())));
+            
                 return true;
             }
            
         }
+         else if(_InGround)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                //Need to check tile to the right
+                if(CheckTile("right"))
+                {
+                    _horizontalMove = 1f;
+                }
+            }
+           else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                //Need to check tile to the left
+                if (CheckTile("left"))
+                {
+                    _horizontalMove = -1f;
+                }
+            }
+        }
+        return false;
+    }
+    IEnumerator DigDelay(bool delay)
+    {
+
+        if (delay)
+        {
+            //play Anim
+            _animator.SetTrigger("doDig");
+            yield return new WaitForSeconds(2f);
+        }
+        _CurrentTile.DigTile();
+        _animator.SetBool("InGround", true);
+        _InGround = true;
+        //Calculate Depth Down because of weird anchor points?
+        float newY = (this.transform.position.y - _CurrentTile.transform.position.y) / 2;
+        // float newX = (this.transform.position.x - _CurrentTile.transform.position.x) / 2;
+
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
+    }
+    public bool CheckTile(string Direction)
+    {
+       // Debug.Log("ourPos:" + this.transform.position);
+
+        Vector3 location = this.transform.position;
+        Vector3 DirectionVector = Vector2.zero;
+
+        if (Direction.Equals("right"))
+        {
+            DirectionVector = Vector2.right;
+            location += new Vector3(-1f, 0, 0);
+        }
+        else if (Direction.Equals("left"))
+        {
+            DirectionVector = Vector2.left;
+            //Character is oddly offset due to tail?
+            location += new Vector3(1, 0, 0);
+        }
+
+        LayerMask _LayerMask = (1 << 11);
+
+        // initial hit has to stay right.. or it misses left.. idk wtf its doing
+        RaycastHit2D initialHit = Physics2D.Raycast(location, DirectionVector, 2f, _LayerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(location, DirectionVector, 8f, _LayerMask);
+
+        //Debug stuff
+
+        Vector3 LocRaised = new Vector3(location.x, location.y + 0.2f, location.z);
+        Vector3 pos = (LocRaised + (DirectionVector * 2));
+        Debug.DrawLine(LocRaised, pos, Color.blue, 3f);
+       Vector3 pos2 = (location + (DirectionVector * 8));
+       Debug.DrawLine(location, pos2, Color.red, 3f);
+        
+
+
+
+        GameObject localCurrentTile;
+        //Have to be able to find the current tile were on first (Note: _CurrentTile Global is next tile at this point)
+        if(initialHit.collider)
+        {
+            Debug.Log("Local current tile=" + initialHit.collider.gameObject);
+            localCurrentTile = initialHit.collider.gameObject;
+
+            foreach (RaycastHit2D h in hits)
+            {
+                if (h.collider.gameObject != localCurrentTile)
+                {
+                    Debug.Log("Found True:" + h.collider.gameObject);
+                   if(h.collider.gameObject.GetComponent<DiggableTile>())
+                    {
+                        DiggableTile dt = h.collider.gameObject.GetComponent<DiggableTile>();
+                        if (!dt.isTopSoil())
+                        {
+                            dt.DigTile();
+                            _MoveLocation.transform.position = h.collider.gameObject.transform.position;
+                            return true;
+                        }
+                    }
+
+                }
+            }
+        }
+
+
         return false;
     }
     public void Attack()
@@ -480,9 +577,12 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log("Player Is Controlled=" + cond);
         _controlled = cond;
     }
+    public GameObject getDummy()
+    {
+        return _MoveLocation;
+    }
 
-
-    //Collect Pickups and search things
+    //Collect Pickups and search and attack things
     public void OnTriggerEnter2D(Collider2D collision)
     {
       //Debug.Log("Enter Trigger with" + collision.transform.gameObject);

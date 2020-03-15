@@ -5,8 +5,8 @@ using UnityEngine;
 public class DiggableTile : MonoBehaviour
 {
     [SerializeField] private bool _TopSoil;
-
-    [SerializeField] private Sprite _TunnelSprite;
+    [SerializeField] private bool _isOpen;
+    private Sprite _TunnelSprite;
 
     private void Awake()
     {
@@ -24,9 +24,14 @@ public class DiggableTile : MonoBehaviour
         {
             sr.sprite = _TunnelSprite;
         }
+        _isOpen = true;
     }
     public bool isTopSoil()
     {
         return _TopSoil;
+    }
+    public bool isOpen()
+    {
+        return _isOpen;
     }
 }

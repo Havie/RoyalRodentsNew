@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float _moveSpeed;
     private float _horizontalMove = 0f;
     private bool jump = false;
+    [SerializeField]
     private bool _InGround = false;
     private bool _AttackDelay;
     private bool _isAttacking;
@@ -106,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
                 if (go != MVCController.Instance._dummyObj)
                 {
 
-                    // Debug.Log("Location for " + go + "   is " + go.transform.position);
+                     Debug.Log("Location for " + go + "   is " + go.transform.position);
 
                     //figure out if the collider is on a building we own
                     if (go.transform.parent)
@@ -178,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_controlled)
             {
-                //  Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+                 Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
                 _wantToAttack = false;
@@ -212,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
         //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
         _MoveLocation.transform.position = new Vector3(0, 3200, 0);
         //wait a split second to reset collision
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         // pick the actual correct location to move
         _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(input).x, _oldY, 0);
         float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
@@ -222,6 +223,8 @@ public class PlayerMovement : MonoBehaviour
         // an extra layer so we dont move if the click is too close
         if (Mathf.Abs(_moveDis) > 0.6f)
             _horizontalMove = _moveDis * _moveSpeed;
+        else
+            Debug.Log("Not Far enough away");
     }
     IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
     {
@@ -247,12 +250,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool CheckDig()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (!_InGround && Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (_CurrentTile)
+            if (_CurrentTile )
             {
-                StartCoroutine(DigDelay(Vector2.down, _CurrentTile));
-                return true;
+              StartCoroutine(DigDelay(Vector2.down, _CurrentTile));
             }
 
         }
@@ -283,6 +285,17 @@ public class PlayerMovement : MonoBehaviour
 
                 }
                 return true;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (_CurrentTile)
+                {
+                    if (CheckTile("down"))
+                    {
+
+                    }
+                     return true;
+                }
 
             }
         }
@@ -303,7 +316,7 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("InGround", true);
             _InGround = true;
         }
-
+        _LastTile = dt;
         if (dir == Vector2.right)
         {
             _horizontalMove = 0.75f;
@@ -311,57 +324,60 @@ public class PlayerMovement : MonoBehaviour
         else if (dir == Vector2.left)
         {
             _horizontalMove = -0.75f;
-
         }
-        else if (dir==Vector2.down)
+        else if (dir==Vector2.down || dir == Vector2.up)
         {
-            //Calculate Depth Down because of weird anchor points?
-            float newY = (this.transform.position.y - dt.transform.position.y) / 2;
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
-        }
-        else if(dir==Vector2.up)
-        {
-            //Calculate Depth up because of weird anchor points?
-            float newY = (this.transform.position.y - dt.transform.position.y);
+            //Calculate Depth Down because of weird anchor points? 
+            float newY = (this.transform.position.y - dt.transform.position.y); //can Div by 2 to alter if sprite is wrong pos
             this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
         }
     }
     public bool CheckTile(string Direction)
     {
         // Debug.Log("ourPos:" + this.transform.position);
+        Vector3 location;
+        Vector2 directionVector = Vector2.zero;
+        if (_LastTile != null)
+            location = _LastTile.transform.position;
+        else
+            location = _CurrentTile.transform.position;
 
-        Vector3 location = this.transform.position;
-        Vector2 DirectionVector = Vector2.zero;
+
+
 
         if (Direction.Equals("right"))
         {
-            DirectionVector = Vector2.right;
-            location += new Vector3(-1f, 0, 0);
+            directionVector = Vector2.right;
+           // location += new Vector3(-1f, 0, 0);
         }
         else if (Direction.Equals("left"))
         {
-            DirectionVector = Vector2.left;
+            directionVector = Vector2.left;
             //Character is oddly offset due to tail?
-            location += new Vector3(1, 0, 0);
+            //location += new Vector3(1, 0, 0);
         }
         else if (Direction.Equals("up"))
         {
-            DirectionVector = Vector2.up;
-           location += new Vector3(0.8f, 0, 0);
+            directionVector = Vector2.up;
+          // location += new Vector3(0.8f, 0, 0);
         }
-
+        else if (Direction.Equals("down"))
+        {
+            directionVector = Vector2.down;
+            // location += new Vector3(0.8f, 0, 0);
+        }
         LayerMask _LayerMask = (1 << 11);
 
         // initial hit has to stay right.. or it misses left.. idk wtf its doing
-        RaycastHit2D initialHit = Physics2D.Raycast(location, DirectionVector, 2f, _LayerMask);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(location, DirectionVector, 8f, _LayerMask);
+        RaycastHit2D initialHit = Physics2D.Raycast(location, directionVector, 2f, _LayerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(location, directionVector, 8f, _LayerMask);
 
         //Debug stuff
 
         Vector2 LocRaised = new Vector2(location.x -0.1f, location.y + 0.2f);
-        Vector3 pos = (LocRaised + (DirectionVector * 2));
+        Vector3 pos = (LocRaised + (directionVector * 2));
         Debug.DrawLine(LocRaised, pos, Color.blue, 3f);
-        Vector3 pos2 = (new Vector2(location.x, location.y) + (DirectionVector * 8));
+        Vector3 pos2 = (new Vector2(location.x, location.y) + (directionVector * 8));
         Debug.DrawLine(location, pos2, Color.red, 3f);
 
 
@@ -382,30 +398,32 @@ public class PlayerMovement : MonoBehaviour
                     if (h.collider.gameObject.GetComponent<DiggableTile>())
                     {
                         DiggableTile dt = h.collider.gameObject.GetComponent<DiggableTile>();
-                        if ((DirectionVector == Vector2.right || DirectionVector == Vector2.left))
+                        if ((directionVector == Vector2.right || directionVector == Vector2.left))
                         {
                             if (!dt.isTopSoil())
                             {
-                                StartCoroutine(DigDelay(DirectionVector, dt));
+                                StartCoroutine(DigDelay(directionVector, dt));
                                 _MoveLocation.transform.position = h.collider.gameObject.transform.position;
                                 return true;
                             }
                         }
-                        else //Up
+                        else //if(DirectionVector==Vector2.up) up and down
                         {
-                            StartCoroutine(DigDelay(DirectionVector, dt));
+                            StartCoroutine(DigDelay(directionVector, dt));
                             return true;
                         }
+
                     }
 
                 }
             }
         }
 
-            if(DirectionVector == Vector2.up)
+            if(directionVector == Vector2.up && _CurrentTile.isTopSoil())
             {
                 //go up to initial ground level
                 this.transform.position = new Vector3(this.transform.position.x, _YHeight, 0);
+                _MoveLocation.transform.position= new Vector3(this.transform.position.x, _YHeight, 0);
                 _InGround = false;
                 _animator.SetBool("InGround", false);
             }
@@ -662,7 +680,8 @@ public class PlayerMovement : MonoBehaviour
         else if (collision.transform.GetComponent<DiggableTile>())
         {
             // Debug.Log("Collider w diggable tile");
-            _CurrentTile = collision.transform.GetComponent<DiggableTile>();
+            if(!_InGround) // only keep track of top soil tiles
+              _CurrentTile = collision.transform.GetComponent<DiggableTile>();
         }
         else if (collision.transform.parent)
         {
@@ -710,8 +729,11 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log("Exited Collision w diggable tile");
 
             //Possible to collided with a New Tile Before Exit is called so need this check
-            if (_CurrentTile == collision.transform.GetComponent<DiggableTile>())
-                _CurrentTile = null;
+            if (!_InGround) // only keep track of top soil tiles
+            {
+                if (_CurrentTile == collision.transform.GetComponent<DiggableTile>())
+                    _CurrentTile = null;
+            }
 
         }
         else if (collision.transform.parent)

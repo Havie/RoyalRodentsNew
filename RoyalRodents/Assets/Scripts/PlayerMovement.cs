@@ -31,10 +31,14 @@ public class PlayerMovement : MonoBehaviour
     private bool _wantToAttack;
     private GameObject _AttackTarget;
     [SerializeField]
-    private DiggableTile _CurrentTile;
+    private DiggableTile _CurrentTopTile;
     [SerializeField]
-    private DiggableTile _LastTile;
+    private DiggableTile _CurrentTunnelTile;
     private float _YHeight;
+
+    PlayerStats _PlayerStats;
+    private int _AttackCost = 4;
+    private int _TunnelCost = 15;
 
     private bool isDead;
     private bool _controlled;
@@ -47,8 +51,15 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _moveSpeed = this.GetComponent<PlayerStats>().getMoveSpeed();
-        _damage = this.GetComponent<PlayerStats>().getAttackDamage();
+        _PlayerStats = this.GetComponent<PlayerStats>();
+        if (_PlayerStats)
+        {
+            _moveSpeed = _PlayerStats.getMoveSpeed();
+            _damage = _PlayerStats.getAttackDamage();
+        }
+        else
+            Debug.LogError("NoPlayerStatsFound");
+
         _animator = this.GetComponent<Animator>();
         _YHeight = this.transform.position.y;
     }
@@ -61,31 +72,13 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
         }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            _InGround = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            _InGround = false;
-        }
         if (Input.GetMouseButton(1))
         {
-            //old code from gamejam
+            //old code from game jam
             Heal();
         }
-        if (CheckDig())
+        if (!CheckDig() && (Input.GetMouseButtonDown(0) || Input.touchCount > 0) && !_InGround)
         {
-            // Done in Check Dig which is WEIRD..but yeah do nothing here
-        }
-        else if ((Input.GetMouseButtonDown(0) || Input.touchCount > 0) && !_InGround)
-        {
-            // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
-            // Attack();
-
-            // Check 
-            //Touch touch = Input.GetTouch(0);
-            //Vector2 pos= touch.position;
 
             Vector3 input = Input.mousePosition;
 
@@ -106,9 +99,7 @@ public class PlayerMovement : MonoBehaviour
                 // possibly move toward it with normalized direction
                 if (go != MVCController.Instance._dummyObj)
                 {
-
-                     Debug.Log("Location for " + go + "   is " + go.transform.position);
-
+                    // Debug.Log("Location for " + go + "   is " + go.transform.position);
                     //figure out if the collider is on a building we own
                     if (go.transform.parent)
                     {
@@ -120,7 +111,8 @@ public class PlayerMovement : MonoBehaviour
                             //player team - do not move
                             if (go.transform.parent.GetComponent<BuildableObject>().getTeam() == 1)
                             {
-                                //do nothing 
+                                //do nothing - this is our building
+                                StopMoving();
                             }
                             else // enemy team move to it ( no such thing as neutral buildings?)
                             {
@@ -131,34 +123,30 @@ public class PlayerMovement : MonoBehaviour
                         //check if its a rodent place 1 - parent could be the spawn volume or Player Rodent list
                         else if (go.GetComponent<Rodent>())
                         {
-
                             //Debug.Log("Found a Rodent w parent");
                             //check team
-                            //player team - do not move
                             if (go.GetComponent<Rodent>().getTeam() == 1 || go.GetComponent<Rodent>().getTeam() == 0)
                             {
-                                //do nothing 
+                                //do nothing  //player team - do not move
+                                StopMoving();
                             }
                             else //enemy
                             {
                                 //check in range
                                 if (_InRange.Contains(go.gameObject))
                                 {
-
                                     //decide if we need to flip to face in case we walked past
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
-
                                     // Debug.Log("Attack!");
                                     Attack();
                                 }
                                 else
                                 {
-                                    //move towards it
                                     // Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
                                     //and set goal to attack it
                                     _wantToAttack = true;
                                     _AttackTarget = go.gameObject;
-
+                                    //move towards it
                                     StartCoroutine(MoveDelay(input, go.transform.position));
 
                                     _MoveLocation.transform.position = go.transform.position;
@@ -171,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
                     //check if its a rodent Place 2 - no parent? possible?
                     else if (go.GetComponent<Rodent>())
                     {
-                        Debug.LogWarning("Found a Rodent no parent shouldn't happen");
+                        Debug.LogWarning("Found a Rodent with no parent shouldn't happen, check Inspector");
                     }
 
 
@@ -179,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_controlled)
             {
-                 Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+                // Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
                 _wantToAttack = false;
@@ -223,8 +211,6 @@ public class PlayerMovement : MonoBehaviour
         // an extra layer so we dont move if the click is too close
         if (Mathf.Abs(_moveDis) > 0.6f)
             _horizontalMove = _moveDis * _moveSpeed;
-        else
-            Debug.Log("Not Far enough away");
     }
     IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
     {
@@ -250,15 +236,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool CheckDig()
     {
+       
         if (!_InGround && Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (_CurrentTile )
+            if (_CurrentTopTile )
             {
-              StartCoroutine(DigDelay(Vector2.down, _CurrentTile));
+              StartCoroutine(DigDelay(Vector2.down, _CurrentTopTile));
             }
 
         }
-        else if (_InGround)
+        else if (_InGround && _horizontalMove==0)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -288,7 +275,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                if (_CurrentTile)
+                if (_CurrentTopTile)
                 {
                     if (CheckTile("down"))
                     {
@@ -303,33 +290,46 @@ public class PlayerMovement : MonoBehaviour
     }
     IEnumerator DigDelay(Vector2 dir, DiggableTile dt)
     {
+        bool _okayToMove=true;
         StopMoving();
-        if (!dt.isOpen())
+        if (dt.isDiggable())
         {
-            //play Anim
-            _animator.SetTrigger("doDig");
-            yield return new WaitForSeconds(2f);
-            dt.DigTile();
-        }
-        if (!_InGround)
-        {
-            _animator.SetBool("InGround", true);
-            _InGround = true;
-        }
-        _LastTile = dt;
-        if (dir == Vector2.right)
-        {
-            _horizontalMove = 0.75f;
-        }
-        else if (dir == Vector2.left)
-        {
-            _horizontalMove = -0.75f;
-        }
-        else if (dir==Vector2.down || dir == Vector2.up)
-        {
-            //Calculate Depth Down because of weird anchor points? 
-            float newY = (this.transform.position.y - dt.transform.position.y); //can Div by 2 to alter if sprite is wrong pos
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
+            if (!dt.isOpen())
+            {
+                if (_PlayerStats.getStamina() >=_TunnelCost)
+                {
+                    _PlayerStats.IncrementStamina(-_TunnelCost);
+                    //play Anim
+                    _animator.SetTrigger("doDig");
+                    yield return new WaitForSeconds(2f);
+                    dt.DigTile();
+                }
+                else
+                    _okayToMove = false;
+            }
+            if (_okayToMove)
+            {
+                if (!_InGround)
+                {
+                    _animator.SetBool("InGround", true);
+                    _InGround = true;
+                }
+                _CurrentTunnelTile = dt;
+                if (dir == Vector2.right)
+                {
+                    _horizontalMove = 0.75f;
+                }
+                else if (dir == Vector2.left)
+                {
+                    _horizontalMove = -0.75f;
+                }
+                else if (dir == Vector2.down || dir == Vector2.up)
+                {
+                    //Calculate distance because of weird anchor points? - keep player in middle of tile
+                    float newY = (this.transform.position.y - dt.transform.position.y); //can Div by 2 to alter if sprite is wrong pos
+                    this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
+                }
+            }
         }
     }
     public bool CheckTile(string Direction)
@@ -337,10 +337,10 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log("ourPos:" + this.transform.position);
         Vector3 location;
         Vector2 directionVector = Vector2.zero;
-        if (_LastTile != null)
-            location = _LastTile.transform.position;
+        if (_CurrentTunnelTile != null)
+            location = _CurrentTunnelTile.transform.position;
         else
-            location = _CurrentTile.transform.position;
+            location = _CurrentTopTile.transform.position;
 
 
 
@@ -387,30 +387,34 @@ public class PlayerMovement : MonoBehaviour
         //Have to be able to find the current tile were on first (Note: _CurrentTile Global is next tile at this point)
         if (initialHit.collider)
         {
-            Debug.Log("Local current tile=" + initialHit.collider.gameObject);
+            //Debug.Log("Local current tile=" + initialHit.collider.gameObject);
             localCurrentTile = initialHit.collider.gameObject;
 
             foreach (RaycastHit2D h in hits)
             {
                 if (h.collider.gameObject != localCurrentTile)
                 {
-                    Debug.Log("Found True:" + h.collider.gameObject);
                     if (h.collider.gameObject.GetComponent<DiggableTile>())
                     {
+                      //  Debug.Log("Found DiggableTile:" + h.collider.gameObject);
                         DiggableTile dt = h.collider.gameObject.GetComponent<DiggableTile>();
-                        if ((directionVector == Vector2.right || directionVector == Vector2.left))
+                        if (dt.isDiggable())
                         {
-                            if (!dt.isTopSoil())
+                           // Debug.Log("Its True:" + h.collider.gameObject);
+                            if ((directionVector == Vector2.right || directionVector == Vector2.left))
+                            {
+                                if (!dt.isTopSoil())
+                                {
+                                    StartCoroutine(DigDelay(directionVector, dt));
+                                    _MoveLocation.transform.position = h.collider.gameObject.transform.position;
+                                    return true;
+                                }
+                            }
+                            else //if(DirectionVector==Vector2.up) up and down
                             {
                                 StartCoroutine(DigDelay(directionVector, dt));
-                                _MoveLocation.transform.position = h.collider.gameObject.transform.position;
                                 return true;
                             }
-                        }
-                        else //if(DirectionVector==Vector2.up) up and down
-                        {
-                            StartCoroutine(DigDelay(directionVector, dt));
-                            return true;
                         }
 
                     }
@@ -419,10 +423,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-            if(directionVector == Vector2.up && _CurrentTile.isTopSoil())
+            if(directionVector == Vector2.up && _CurrentTunnelTile.isTopSoil() && _CurrentTunnelTile.isDiggable())
             {
-                //go up to initial ground level
-                this.transform.position = new Vector3(this.transform.position.x, _YHeight, 0);
+           // Debug.Log("IsPassable Top tile:" +_CurrentTopTile);
+            //go up to initial ground level
+            this.transform.position = new Vector3(this.transform.position.x, _YHeight, 0);
                 _MoveLocation.transform.position= new Vector3(this.transform.position.x, _YHeight, 0);
                 _InGround = false;
                 _animator.SetBool("InGround", false);
@@ -437,13 +442,13 @@ public class PlayerMovement : MonoBehaviour
         StopMoving();
         if (!_AttackDelay)
         {
-            //To-Do: Drain stamina && CHECK if enough
+            //Drain stamina && CHECK if enough
             PlayerStats ps = this.transform.GetComponent<PlayerStats>();
             if (ps)
             {
-                if (ps.getStamina() > 3)
+                if (ps.getStamina() > _AttackCost)
                 {
-                    ps.IncrementStamina(-3f);
+                    ps.IncrementStamina(-_AttackCost);
                     _isAttacking = true;
                     _animator.SetTrigger("Attack");
                     StartCoroutine(AttackRoutine());
@@ -681,7 +686,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Debug.Log("Collider w diggable tile");
             if(!_InGround) // only keep track of top soil tiles
-              _CurrentTile = collision.transform.GetComponent<DiggableTile>();
+              _CurrentTopTile = collision.transform.GetComponent<DiggableTile>();
         }
         else if (collision.transform.parent)
         {
@@ -731,8 +736,8 @@ public class PlayerMovement : MonoBehaviour
             //Possible to collided with a New Tile Before Exit is called so need this check
             if (!_InGround) // only keep track of top soil tiles
             {
-                if (_CurrentTile == collision.transform.GetComponent<DiggableTile>())
-                    _CurrentTile = null;
+                if (_CurrentTopTile == collision.transform.GetComponent<DiggableTile>())
+                    _CurrentTopTile = null;
             }
 
         }

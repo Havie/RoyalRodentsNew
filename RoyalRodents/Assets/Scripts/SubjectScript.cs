@@ -463,7 +463,7 @@ public class SubjectScript : MonoBehaviour
 
             GameObject r = collision.transform.parent.gameObject;
             _inRange.Add(r);
-            Debug.Log("Rodent added to targets in range");
+           // Debug.Log("Rodent added to targets in range");
         }
 
         // Do building case when functional

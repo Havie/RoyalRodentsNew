@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &21138849
@@ -685,6 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &56740423
@@ -889,6 +891,7 @@ GameObject:
   - component: {fileID: 96215471}
   - component: {fileID: 96215470}
   - component: {fileID: 96215469}
+  - component: {fileID: 96215472}
   m_Layer: 11
   m_Name: NonDiggableTile
   m_TagString: Untagged
@@ -1006,6 +1009,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &96215472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96215467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &99602404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,6 +1231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &102353381
@@ -1357,6 +1376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &111550019
@@ -1919,6 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &158222941
@@ -2519,8 +2540,8 @@ MonoBehaviour:
   _InGround: 0
   _InRange: []
   _MoveLocation: {fileID: 1464008684}
-  _CurrentTile: {fileID: 0}
-  _LastTile: {fileID: 0}
+  _CurrentTopTile: {fileID: 0}
+  _CurrentTunnelTile: {fileID: 0}
 --- !u!114 &211813094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2707,6 +2728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
 --- !u!4 &222068535 stripped
@@ -3031,6 +3053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
 --- !u!50 &240073474
@@ -3456,6 +3479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &289169369
@@ -4429,6 +4453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &360798398
@@ -4966,6 +4991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
 --- !u!50 &451277573
@@ -5110,6 +5136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &457708298
@@ -6077,6 +6104,7 @@ GameObject:
   - component: {fileID: 573735666}
   - component: {fileID: 573735665}
   - component: {fileID: 573735664}
+  - component: {fileID: 573735667}
   m_Layer: 11
   m_Name: NonDiggableTile_4_4
   m_TagString: Untagged
@@ -6194,6 +6222,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &573735667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573735662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &578310335
 GameObject:
   m_ObjectHideFlags: 0
@@ -6240,6 +6283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &578310338
@@ -6695,6 +6739,7 @@ GameObject:
   - component: {fileID: 603914041}
   - component: {fileID: 603914040}
   - component: {fileID: 603914039}
+  - component: {fileID: 603914042}
   m_Layer: 11
   m_Name: NonDiggableTile (2)
   m_TagString: Untagged
@@ -6812,6 +6857,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &603914042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603914037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 1
+  _isOpen: 0
 --- !u!1 &604896316
 GameObject:
   m_ObjectHideFlags: 0
@@ -7246,6 +7306,7 @@ GameObject:
   - component: {fileID: 709748998}
   - component: {fileID: 709748997}
   - component: {fileID: 709748996}
+  - component: {fileID: 709748999}
   m_Layer: 11
   m_Name: NonDiggableTile (3)
   m_TagString: Untagged
@@ -7363,6 +7424,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &709748999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709748994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 1
+  _isOpen: 0
 --- !u!1 &719514506
 GameObject:
   m_ObjectHideFlags: 0
@@ -7503,6 +7579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &747317422
@@ -7747,6 +7824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &758998333
@@ -7937,6 +8015,7 @@ GameObject:
   - component: {fileID: 770052440}
   - component: {fileID: 770052439}
   - component: {fileID: 770052438}
+  - component: {fileID: 770052441}
   m_Layer: 11
   m_Name: NonDiggableTile
   m_TagString: Untagged
@@ -8054,6 +8133,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &770052441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770052436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &770258483
 GameObject:
   m_ObjectHideFlags: 0
@@ -8987,6 +9081,7 @@ GameObject:
   - component: {fileID: 827943867}
   - component: {fileID: 827943866}
   - component: {fileID: 827943865}
+  - component: {fileID: 827943868}
   m_Layer: 11
   m_Name: NonDiggableTile_5_4
   m_TagString: Untagged
@@ -9104,6 +9199,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &827943868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827943863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &836646006
 GameObject:
   m_ObjectHideFlags: 0
@@ -9243,6 +9353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &838595643
@@ -12853,6 +12964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &863483803
@@ -12999,6 +13111,7 @@ GameObject:
   - component: {fileID: 879328592}
   - component: {fileID: 879328591}
   - component: {fileID: 879328590}
+  - component: {fileID: 879328593}
   m_Layer: 11
   m_Name: NonDiggableTile_3_4
   m_TagString: Untagged
@@ -13116,6 +13229,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &879328593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879328588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &884527026
 GameObject:
   m_ObjectHideFlags: 0
@@ -13567,6 +13695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &902148525
@@ -13711,6 +13840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &904438000
@@ -13948,6 +14078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
 --- !u!50 &921818550
@@ -14419,6 +14550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &933183101
@@ -15913,6 +16045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1035129478
@@ -16205,6 +16338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
 --- !u!50 &1078556292
@@ -16474,6 +16608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1108239873
@@ -16618,6 +16753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1122735588
@@ -16728,6 +16864,7 @@ GameObject:
   - component: {fileID: 1123389453}
   - component: {fileID: 1123389452}
   - component: {fileID: 1123389451}
+  - component: {fileID: 1123389454}
   m_Layer: 11
   m_Name: NonDiggableTile_1_4
   m_TagString: Untagged
@@ -16845,6 +16982,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1123389454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123389449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1001 &1132858924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17793,6 +17945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1274717318
@@ -18030,6 +18183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
 --- !u!50 &1285540625
@@ -18360,6 +18514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1295747687
@@ -19807,6 +19962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1466037527
@@ -20532,6 +20688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1548109748
@@ -21304,6 +21461,7 @@ GameObject:
   - component: {fileID: 1659721270}
   - component: {fileID: 1659721269}
   - component: {fileID: 1659721268}
+  - component: {fileID: 1659721271}
   m_Layer: 11
   m_Name: NonDiggableTile_5_0
   m_TagString: Untagged
@@ -21421,6 +21579,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1659721271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659721266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 1
+  _isOpen: 0
 --- !u!1 &1660533452
 GameObject:
   m_ObjectHideFlags: 0
@@ -21845,6 +22018,7 @@ GameObject:
   - component: {fileID: 1721861619}
   - component: {fileID: 1721861618}
   - component: {fileID: 1721861617}
+  - component: {fileID: 1721861620}
   m_Layer: 11
   m_Name: NonDiggableTile_0_4
   m_TagString: Untagged
@@ -21962,6 +22136,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1721861620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721861615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &1727935493
 GameObject:
   m_ObjectHideFlags: 0
@@ -22517,6 +22706,7 @@ GameObject:
   - component: {fileID: 1780907724}
   - component: {fileID: 1780907723}
   - component: {fileID: 1780907722}
+  - component: {fileID: 1780907725}
   m_Layer: 11
   m_Name: NonDiggableTile_2_4
   m_TagString: Untagged
@@ -22634,6 +22824,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1780907725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780907720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &1797368901
 GameObject:
   m_ObjectHideFlags: 0
@@ -22815,6 +23020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1809176752
@@ -22959,6 +23165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1823246946
@@ -23510,6 +23717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1839378130
@@ -24167,6 +24375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1864274728
@@ -24311,6 +24520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1868273909
@@ -24607,6 +24817,7 @@ GameObject:
   - component: {fileID: 1881084837}
   - component: {fileID: 1881084836}
   - component: {fileID: 1881084835}
+  - component: {fileID: 1881084838}
   m_Layer: 11
   m_Name: NonDiggableTile4_0
   m_TagString: Untagged
@@ -24724,6 +24935,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1881084838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881084833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 1
+  _isOpen: 0
 --- !u!1 &1895284399
 GameObject:
   m_ObjectHideFlags: 0
@@ -25202,6 +25428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1914954324
@@ -25665,6 +25892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
 --- !u!50 &1924561166
@@ -27154,6 +27382,7 @@ GameObject:
   - component: {fileID: 2031914518}
   - component: {fileID: 2031914517}
   - component: {fileID: 2031914516}
+  - component: {fileID: 2031914519}
   m_Layer: 11
   m_Name: NonDiggableTile
   m_TagString: Untagged
@@ -27271,6 +27500,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2031914519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031914514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &2047285144
 GameObject:
   m_ObjectHideFlags: 0
@@ -27378,6 +27622,7 @@ GameObject:
   - component: {fileID: 2073951277}
   - component: {fileID: 2073951276}
   - component: {fileID: 2073951275}
+  - component: {fileID: 2073951278}
   m_Layer: 11
   m_Name: NonDiggableTile
   m_TagString: Untagged
@@ -27495,6 +27740,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2073951278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073951273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aad024a595307244be23ae39353ced8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NotDiggable: 1
+  _TopSoil: 0
+  _isOpen: 0
 --- !u!1 &2111293753
 GameObject:
   m_ObjectHideFlags: 0

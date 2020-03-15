@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DiggableTile : MonoBehaviour
 {
+    [SerializeField] private bool _NotDiggable;
     [SerializeField] private bool _TopSoil;
     [SerializeField] private bool _isOpen;
     private Sprite _TunnelSprite;
@@ -19,12 +20,17 @@ public class DiggableTile : MonoBehaviour
 
     public void DigTile()
     {
-       var sr= this.transform.GetComponent<SpriteRenderer>();
-        if(sr)
+        if (!_NotDiggable)
         {
-            sr.sprite = _TunnelSprite;
+            var sr = this.transform.GetComponent<SpriteRenderer>();
+            if (sr)
+            {
+                sr.sprite = _TunnelSprite;
+            }
+            _isOpen = true;
         }
-        _isOpen = true;
+        else
+            Debug.LogWarning("Called Dig on a non diggable tile");
     }
     public bool isTopSoil()
     {
@@ -33,5 +39,9 @@ public class DiggableTile : MonoBehaviour
     public bool isOpen()
     {
         return _isOpen;
+    }
+    public bool isDiggable()
+    {
+        return !_NotDiggable;
     }
 }

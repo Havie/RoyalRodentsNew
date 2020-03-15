@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField] private float _Hp = 50f;
     [SerializeField] private float _HpMax = 100f;
     [SerializeField] [Range(0, 10f)] private float _MoveSpeed = 40f;
-    [SerializeField] private float _AttackDamage = 10f;
+    [SerializeField] private float _AttackDamage = 30f;
     [SerializeField] private float _Stamina = 60f;
     [SerializeField] private float _StaminaMax = 100f;
 

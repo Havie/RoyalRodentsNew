@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
         {
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
+            return;
         }
 
         DontDestroyOnLoad(gameObject);
@@ -69,6 +71,8 @@ public class GameManager : MonoBehaviour
         Screen.autorotateToPortrait = false;
         Screen.autorotateToLandscapeRight = false;
         Screen.autorotateToPortraitUpsideDown = false;
+
+       
 
     }
 
@@ -125,6 +129,11 @@ public class GameManager : MonoBehaviour
                 _firstClick = true;
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.G))
+            SceneManager.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.H))
+            SceneManager.LoadScene(0);
     }
 
     public void youWin()

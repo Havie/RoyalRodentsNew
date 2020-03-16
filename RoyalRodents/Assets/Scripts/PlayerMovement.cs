@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _wantToAttack;
     private GameObject _AttackTarget;
     [SerializeField]
-    private DiggableTile _CurrentTopTile;
+    private DiggableTile _CurrentSoilTile;
     [SerializeField]
     private DiggableTile _CurrentTunnelTile;
     private float _YHeight;
@@ -47,7 +47,37 @@ public class PlayerMovement : MonoBehaviour
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
+    public void LoadData()
+    {
+        sPlayerData data = sSaveSystem.LoadPlayerData();
+        if (data != null)
+        {
+            _InGround = false;
+            m_FacingRight = data._FacingRight;
+            _YHeight = data._YHeight;
 
+            //Spawn Above Ground for now
+            this.transform.position = new Vector3(data.position[0], _YHeight, data.position[2]);
+            _MoveLocation.transform.position = new Vector3(data.position[0], _YHeight, data.position[2]);
+
+            StopMoving();
+
+            // Cant save Diggable Tiles, could be an issue
+            // _CurrentSoilTile = data._CurrentTopTile;
+            //  _CurrentTunnelTile = data._CurrentTunnelTile;
+
+        }
+        else
+            Debug.LogError("no SaveData to Load");
+    }
+    public bool getInGround() =>  _InGround;
+    public bool getIsAttacking() => _isAttacking;
+    public bool getIsFacingRight() => m_FacingRight;
+    public bool getIsControlled() => _controlled;
+    public float getYHeight() => _YHeight;
+    public DiggableTile getCurrentSoilTile() => _CurrentSoilTile;
+    public DiggableTile getCurrentTunnelTile() => _CurrentTunnelTile;
+    public Vector3 getLastAboveGroundLoc() => _CurrentSoilTile.transform.position;
     // Start is called before the first frame update
     void Start()
     {
@@ -239,9 +269,9 @@ public class PlayerMovement : MonoBehaviour
        
         if (!_InGround && Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (_CurrentTopTile )
+            if (_CurrentSoilTile )
             {
-              StartCoroutine(DigDelay(Vector2.down, _CurrentTopTile));
+              StartCoroutine(DigDelay(Vector2.down, _CurrentSoilTile));
             }
 
         }
@@ -275,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                if (_CurrentTopTile)
+                if (_CurrentSoilTile)
                 {
                     if (CheckTile("down"))
                     {
@@ -340,7 +370,7 @@ public class PlayerMovement : MonoBehaviour
         if (_CurrentTunnelTile != null)
             location = _CurrentTunnelTile.transform.position;
         else
-            location = _CurrentTopTile.transform.position;
+            location = _CurrentSoilTile.transform.position;
 
 
 
@@ -686,7 +716,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Debug.Log("Collider w diggable tile");
             if(!_InGround) // only keep track of top soil tiles
-              _CurrentTopTile = collision.transform.GetComponent<DiggableTile>();
+              _CurrentSoilTile = collision.transform.GetComponent<DiggableTile>();
         }
         else if (collision.transform.parent)
         {
@@ -736,8 +766,8 @@ public class PlayerMovement : MonoBehaviour
             //Possible to collided with a New Tile Before Exit is called so need this check
             if (!_InGround) // only keep track of top soil tiles
             {
-                if (_CurrentTopTile == collision.transform.GetComponent<DiggableTile>())
-                    _CurrentTopTile = null;
+                if (_CurrentSoilTile == collision.transform.GetComponent<DiggableTile>())
+                    _CurrentSoilTile = null;
             }
 
         }

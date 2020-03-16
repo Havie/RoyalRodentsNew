@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class DiggableTile : MonoBehaviour
 {
     [SerializeField] private bool _NotDiggable;

@@ -28,11 +28,12 @@ public class sPlayerData
 
 
         //PM
+        _YHeight = pm.getYHeight();
         position = new float[3];
 
         position[0] = pm.getLastAboveGroundLoc().x;
-        position[1] = pm.getLastAboveGroundLoc().y;
-        position[2] = pm.getLastAboveGroundLoc().z;
+        position[1] = _YHeight; // dont need 
+        position[2] = 0; // dont need
 
         // _CurrentTopTile = pm.getCurrentSoilTile();
         // _CurrentTunnelTile = pm.getCurrentTunnelTile();
@@ -40,6 +41,6 @@ public class sPlayerData
         _FacingRight = pm.getIsFacingRight();
         _InGround = pm.getInGround();
         _isAttacking = pm.getIsAttacking();
-        _YHeight = pm.getYHeight();
+
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine;
 public class BuildingSlotManager : MonoBehaviour
 {
     [SerializeField]
-    BuildableObject[] _buildings;
+   static BuildableObject[] _buildings;
     //make a hash map of all the buildings IDs?
-    Dictionary<int, BuildableObject> _hashTable = new Dictionary<int, BuildableObject>();
+    static Dictionary<int, BuildableObject> _hashTable = new Dictionary<int, BuildableObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -41,5 +41,9 @@ public class BuildingSlotManager : MonoBehaviour
         {
             _hashTable.Add(b.getID(), b);
         }
+    }
+    public static BuildableObject getBuildingFromID(int id)
+    {
+        return _hashTable[id];
     }
 }

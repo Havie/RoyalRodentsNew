@@ -5384,7 +5384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerStats: {fileID: 211813094}
   _playerMovement: {fileID: 211813093}
-  _buildings: []
+  _BuildingSlots: {fileID: 489813142}
 --- !u!1 &489813140
 GameObject:
   m_ObjectHideFlags: 0
@@ -5394,6 +5394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 489813141}
+  - component: {fileID: 489813142}
   m_Layer: 0
   m_Name: BuildingSlots
   m_TagString: Untagged
@@ -5418,6 +5419,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &489813142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489813140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f01f3aba13f9f49bbd8753997a726a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buildings: []
 --- !u!1 &496270384
 GameObject:
   m_ObjectHideFlags: 0
@@ -19480,14 +19494,15 @@ MonoBehaviour:
   _sBuildingHammer: {fileID: 21300000, guid: 2f635d1b09cc2a44aa2370d32b591388, type: 3}
   _NotificationObject: {fileID: 1981443396}
   _animator: {fileID: 0}
-  _HealthBar: {fileID: 1659600318395307564, guid: 3998ea7aadd183a4cbb2c6428b2dc2d6,
-    type: 3}
+  _HealthBarObj: {fileID: 0}
   eState: 0
   eType: 5
   _hitpoints: 0
+  _hitpointsMax: 0
   _Workers:
   - {fileID: 1501455454}
   _Team: 0
+  _ID: 0
 --- !u!212 &1423901445
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -21860,14 +21875,15 @@ MonoBehaviour:
   _sBuildingHammer: {fileID: 21300000, guid: 2f635d1b09cc2a44aa2370d32b591388, type: 3}
   _NotificationObject: {fileID: 479893779}
   _animator: {fileID: 0}
-  _HealthBar: {fileID: 1659600318395307564, guid: 3998ea7aadd183a4cbb2c6428b2dc2d6,
-    type: 3}
+  _HealthBarObj: {fileID: 0}
   eState: 0
   eType: 5
   _hitpoints: 0
+  _hitpointsMax: 0
   _Workers:
   - {fileID: 1674734002}
   _Team: 0
+  _ID: 0
 --- !u!212 &1687040300
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -28503,14 +28519,15 @@ MonoBehaviour:
   _sBuildingHammer: {fileID: 21300000, guid: 2f635d1b09cc2a44aa2370d32b591388, type: 3}
   _NotificationObject: {fileID: 873172393373782303}
   _animator: {fileID: 0}
-  _HealthBar: {fileID: 1659600318395307564, guid: 3998ea7aadd183a4cbb2c6428b2dc2d6,
-    type: 3}
+  _HealthBarObj: {fileID: 0}
   eState: 0
   eType: 5
   _hitpoints: 0
+  _hitpointsMax: 0
   _Workers:
   - {fileID: 1660533454}
   _Team: 0
+  _ID: 0
 --- !u!1 &873172393346750042
 GameObject:
   m_ObjectHideFlags: 0

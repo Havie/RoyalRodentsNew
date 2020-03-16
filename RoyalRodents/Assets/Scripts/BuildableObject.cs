@@ -112,9 +112,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         eState = (BuildingState) state;
         eType = (BuildingType)type;
+        UpdateHealthBar();
 
         LoadComponents();
-        UpdateHealthBar();
         UpdateState();
     }
     // Start is called before the first frame update
@@ -158,7 +158,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         //Feel like these could load in a different order on start
         _ID = GameManager.Instance.getBuildingIndex();
-        Debug.Log(this.gameObject + " ID is: " + _ID);
+        //Debug.Log(this.gameObject + " ID is: " + _ID);
     }
     private void LateUpdate()
     {

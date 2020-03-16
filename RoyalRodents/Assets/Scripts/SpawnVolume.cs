@@ -75,7 +75,8 @@ public class SpawnVolume : MonoBehaviour
                 GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
 
                 //tell the GM a new rat exists // Should be impossible not to have a RodentComponent
-                GameManager.Instance.AddtoRodents(_spawnedRat.GetComponent<Rodent>());
+                //GameManager.Instance.AddtoRodents(_spawnedRat.GetComponent<Rodent>());
+                //Let Rodent class do this instead
 
                 //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
                 _spawnedRat.transform.SetParent(this.transform);

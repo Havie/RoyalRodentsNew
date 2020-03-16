@@ -1,4 +1,4 @@
-﻿ using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +35,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
     private SubjectScript _SubjectScript;
     private UIRecruitMenu _RecruitMenu;
-	[SerializeField] private Employee _Job;
+    [SerializeField] private Employee _Job;
 
     [SerializeField]
     private Sprite _Portrait;
@@ -44,7 +44,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     private GameObject _NotificationObject;
     [SerializeField]
     private Animator _NotifyAnimator;
-
+    [SerializeField]
+    private GameObject _placeOfWork;
+    [SerializeField]
+    private int _ID;
 
     /**Begin Interface Stuff */
     public void Damage(float damageTaken)
@@ -88,10 +91,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             _HealthBar.SetFillAmount(_Hp / _HpMax);
     }
 
-   public void SetUpDayNight()
+    public void SetUpDayNight()
     {
-        if(this.transform.gameObject.GetComponent<Register2DDN>() == null)
-             this.transform.gameObject.AddComponent<Register2DDN>();
+        if (this.transform.gameObject.GetComponent<Register2DDN>() == null)
+            this.transform.gameObject.AddComponent<Register2DDN>();
     }
     /** End Interface Stuff */
 
@@ -124,6 +127,33 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             Debug.Log("NotifyObj not set from inspector");
     }
 
+    public void LoadData(int id, int team, int type, int WorkID)
+    {
+        if (_ID != id)
+            Debug.LogWarning("Rodent IDs do not match, save data failure");
+        _Team = team;
+        setRodentType((eRodentType)type);
+
+        if (WorkID == -1)
+            setTarget(null);
+        else if (WorkID == -2) // is a royal guard
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            setTarget(player);
+            player.GetComponent<PlayerStats>().AssignWorker(this);
+        }
+        else
+        {
+            BuildableObject b =BuildingSlotManager.getBuildingFromID(WorkID);
+            setTarget(b.gameObject);
+            b.AssignWorker(this);
+            if (b == null)
+                Debug.LogWarning("Rodent should work at building but its null, Possible Save Game Corruption");
+            else
+                Debug.Log("Success! going to work at: " + b.gameObject + " of type: " + b.getType());
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -146,6 +176,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
         setUpNotifyObj();
         setTarget(null);
+
+        _ID = GameManager.Instance.getRodentIdex();
+        Debug.Log(this.gameObject + " ID is: " + _ID);
+        GameManager.Instance.AddtoRodents(this);
+
     }
 
 
@@ -154,7 +189,22 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public void setSpeed(float val) { _MoveSpeed = val; if (_SubjectScript) _SubjectScript.setSpeed(_MoveSpeed); }
     public void setAttackDmg(float val) => _AttackDamage = val;
     public void setName(string s) => _Name = s;
-    public void setRodentType(eRodentType type){_Type = type; setTeam(_Team); }
+    public void setRodentType(eRodentType type)
+    {
+        _Type = type;
+        setTeam(_Team); // why is this here? does removing it break anything?? too lazy to check
+
+        switch(_Type)
+        {
+            case eRodentType.Rat:
+                {
+                    //Debug.Log("Told to set Type of Rat");
+                    if (this.GetComponent<Rat>() == null)
+                        this.gameObject.AddComponent<Rat>();
+                    break;
+                }
+        }
+    }
     public void setRodentStatus(eStatus status) => _Status = status;
     public void setPortrait(Sprite s) => _Portrait = s;
 
@@ -166,7 +216,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public eRodentType GetRodentType() { return _Type; }
     public eStatus GetRodentStatus() { return _Status; }
     public Sprite GetPortrait() { return _Portrait; }
-
+    public GameObject getPlaceOfWork() => _placeOfWork;
+    public int getID() => _ID;
     public void Die()
     {
         //Should this be in Rodent or in AIController which holds the Animator?
@@ -175,13 +226,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
     {
-	
-	   //need proper getter/setter someday
-	   SubjectScript s= this.GetComponent<SubjectScript>();
+        _placeOfWork = o;
+        //need proper getter/setter someday
+        SubjectScript s = this.GetComponent<SubjectScript>();
         if (s)
             s.changeTarget(o);
 
-        if(o==null)
+        if (o == null)
         {
             _Status = eStatus.Available;
             s.setIdle();
@@ -219,7 +270,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                 else
                     s.setWorker();
                 _Status = eStatus.Working;
-               // Debug.Log("Updated State to Worker");
+                // Debug.Log("Updated State to Worker");
 
             }
         }
@@ -249,14 +300,14 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
         //What if not in Zone?
     }
-	public Employee GetJob()
-	{
-		return _Job;
-	}
-	public void SetJob(Employee e)
-	{
-		_Job = e;
-	}
+    public Employee GetJob()
+    {
+        return _Job;
+    }
+    public void SetJob(Employee e)
+    {
+        _Job = e;
+    }
     /**Sets the ID for the team
      * 0 = neutral
      * 1 = player
@@ -264,18 +315,26 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
      * Also handles updating the Animator based on Type*/
     public void setTeam(int id)
     {
-        if(id> -1 && id<3)
+        int oldTeam = _Team;
+
+        if (id > -1 && id < 3)
             _Team = id;
+
+       
+        if (_Team == 1)
+            GameManager.Instance.addToPlayerRodents(this);
+        else if (oldTeam == 1)
+            GameManager.Instance.RemovePlayerRodent(this);
+
 
         switch (_Type)
         {
             case (eRodentType.Rat):
-               this.GetComponent<Rat>().setAnimatorByTeam(id);
-               // Debug.Log("Rat");
+                this.GetComponent<Rat>().setAnimatorByTeam(id);
                 break;
         }
 
-    
+
     }
     public int getTeam()
     {
@@ -297,7 +356,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
     public void imClicked()
     {
-       // Debug.Log("Heard Click Rodent:  " + _Name);
+        // Debug.Log("Heard Click Rodent:  " + _Name);
 
         //Tell any old Menu To close
         _RecruitMenu.showMenu(false, Vector3.zero, null, 0, 0);
@@ -312,25 +371,25 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             else
                 Debug.LogError("No RecruitMenu");
         }
-		else if (_Status != eStatus.Available && _Team == 1)
-		{
-			//Show Dismiss Button
-			if (_RecruitMenu)
-				_RecruitMenu.showDismissMenu(true, this);
-		}
-		else if (_Status == eStatus.Available && _Team == 1)
+        else if (_Status != eStatus.Available && _Team == 1)
+        {
+            //Show Dismiss Button
+            if (_RecruitMenu)
+                _RecruitMenu.showDismissMenu(true, this);
+        }
+        else if (_Status == eStatus.Available && _Team == 1)
         {
 
-               // Debug.Log("Show AssignmentMenu");
+            // Debug.Log("Show AssignmentMenu");
 
 
-                // Show the Royal guard above players head
-                // by activating the assignment menu! - might not want this
-                UIAssignmentMenu.Instance.showMenu(true, this.transform.gameObject);
+            // Show the Royal guard above players head
+            // by activating the assignment menu! - might not want this
+            UIAssignmentMenu.Instance.showMenu(true, this.transform.gameObject);
 
-                //TO-DO: Need to phase Out
-                UIAssignmentMenu.Instance.CreateButtons(GameManager.Instance.getPlayerRodents());
-            
+            //TO-DO: Need to phase Out
+            UIAssignmentMenu.Instance.CreateButtons(GameManager.Instance.getPlayerRodents());
+
 
         }
     }

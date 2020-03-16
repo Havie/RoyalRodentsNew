@@ -28,6 +28,7 @@ public class sSaveableObjects : MonoBehaviour
     {
         sSaveSystem.SavePlayer(_playerStats, _playerMovement);
         sSaveSystem.SaveBuildings(_BuildingSlots.getBuildings());
+        sSaveSystem.SaveRodents(GameManager.Instance.getAllRodents());
 
     }
 
@@ -36,5 +37,6 @@ public class sSaveableObjects : MonoBehaviour
         _playerStats.LoadData();
         _playerMovement.LoadData();
         _BuildingSlots.LoadData();
+        GameManager.Instance.LoadData();
     }
 }

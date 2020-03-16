@@ -119,7 +119,7 @@ public class bWorkerScript : MonoBehaviour
     //unused, logic handled elsewhere in Employee now
     public void dismissRodent()
     {
-       Debug.Log("heard Dismiss");
+       //Debug.Log("heard Dismiss");
         if (bo)
             bo.DismissWorker(_worker);
        else if (ps)

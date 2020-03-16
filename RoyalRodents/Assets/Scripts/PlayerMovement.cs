@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private DiggableTile _CurrentTunnelTile;
     private float _YHeight;
+    private float _YHeightDummy;
 
     PlayerStats _PlayerStats;
     private int _AttackCost = 4;
@@ -49,16 +50,17 @@ public class PlayerMovement : MonoBehaviour
     }
     public void LoadData()
     {
+        Debug.Log("Load Called ");
         sPlayerData data = sSaveSystem.LoadPlayerData();
         if (data != null)
         {
             _InGround = false;
-            m_FacingRight = data._FacingRight;
+           // m_FacingRight = data._FacingRight;
             _YHeight = data._YHeight;
 
             //Spawn Above Ground for now
-            this.transform.position = new Vector3(data.position[0], _YHeight, data.position[2]);
-            _MoveLocation.transform.position = new Vector3(data.position[0], _YHeight, data.position[2]);
+            this.transform.position = new Vector3(data.position[0], _YHeight, 0);
+            _MoveLocation.transform.position = new Vector3(data.position[0], _YHeightDummy, 0);
 
             StopMoving();
 
@@ -86,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(" Called ");
         _PlayerStats = this.GetComponent<PlayerStats>();
         if (_PlayerStats)
         {
@@ -97,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
         _animator = this.GetComponent<Animator>();
         _YHeight = this.transform.position.y;
+        _YHeightDummy = _MoveLocation.transform.position.y;
     }
 
     // Update is called once per frame
@@ -134,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
                 // possibly move toward it with normalized direction
                 if (go != MVCController.Instance._dummyObj)
                 {
-                    // Debug.Log("Location for " + go + "   is " + go.transform.position);
+                    Debug.Log("Location for " + go + "   is " + go.transform.position);
                     //figure out if the collider is on a building we own
                     if (go.transform.parent)
                     {
@@ -202,7 +206,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_controlled)
             {
-                // Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+                Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
                 _wantToAttack = false;
@@ -241,11 +245,15 @@ public class PlayerMovement : MonoBehaviour
         _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(input).x, _oldY, 0);
         float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
 
-        // Debug.Log("MoveDis:: " + _moveDis);
+        Debug.Log("MoveDis:: " + _moveDis);
+        Debug.Log("This trans:: " + this.transform.position);
+        Debug.Log("Dummy trans:: " + _MoveLocation.transform.position);
 
         // an extra layer so we dont move if the click is too close
         if (Mathf.Abs(_moveDis) > 0.6f)
             _horizontalMove = _moveDis * _moveSpeed;
+        else
+            Debug.Log("not far");
     }
     IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
     {

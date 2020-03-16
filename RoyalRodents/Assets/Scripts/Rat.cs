@@ -41,7 +41,7 @@ public class Rat : MonoBehaviour
         Rodent r = this.GetComponent<Rodent>();
         if(r)
         {
-            r.setRodentType(Rodent.eRodentType.Rat);
+            r.setRodentType(Rodent.eRodentType.Rat); 
             r.setSpeed(_MoveSpeed);
             r.setHpMax(_HpMax);
             r.setHp(_Hp);

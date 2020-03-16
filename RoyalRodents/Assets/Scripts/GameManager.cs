@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
+    Dictionary<int, Rodent> _RodentHashTable = new Dictionary<int, Rodent>();
     public Transform _PlayerRodentDummy;
 	public Transform _NeutralRodentDummy;
 	public Transform _EnemyRodentDummy;
@@ -39,7 +40,8 @@ public class GameManager : MonoBehaviour
     private bool _IsMobileMode;
 
     //Could possibly keep track of all buildings via an array/list?
-    private int buildingIndex=0;
+    private int _buildingIndex=0;
+    private int _RodentIndex =0;
 
     //Create Instance of GameManager
     public static GameManager Instance
@@ -78,6 +80,18 @@ public class GameManager : MonoBehaviour
        
 
     }
+    public void LoadData()
+    {
+        sRodentData data = sSaveSystem.LoadRodentData();
+        int[] IDs = data._IDs;
+        for (int i = 0; i < data._IDs.Length; ++i)
+        {
+            int id = IDs[i];
+            Rodent r = _RodentHashTable[id];
+            r.LoadData(id, data._team[i], data._Type[i], data._BuildingID[i]);
+
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -106,7 +120,8 @@ public class GameManager : MonoBehaviour
         {
             if (r.getTeam()==1)
             {
-                _PlayerRodents.Add(r);
+                if(!_PlayerRodents.Contains(r))
+                    _PlayerRodents.Add(r);
             }
         }
 
@@ -132,11 +147,11 @@ public class GameManager : MonoBehaviour
                 _firstClick = true;
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.G))
-            SceneManager.LoadScene(1);
-        if (Input.GetKeyDown(KeyCode.H))
-            SceneManager.LoadScene(0);
+//Wont use this most likely can delete
+//         if(Input.GetKeyDown(KeyCode.G))
+//             SceneManager.LoadScene(1);
+//         if (Input.GetKeyDown(KeyCode.H))
+//             SceneManager.LoadScene(0);
     }
 
     public void youWin()
@@ -172,7 +187,10 @@ public class GameManager : MonoBehaviour
     {
         return _PlayerRodents;
     }
-
+    public List<Rodent> getAllRodents()
+    {
+        return _AllRodents;
+    }
 	//Used to update amount of rodents player has
 	public int getPlayerRodentsCount()
 	{
@@ -199,6 +217,9 @@ public class GameManager : MonoBehaviour
     public void addToPlayerRodents(Rodent r)
     {
         //can Lists add duplicates? should we check against this?
+        if (_PlayerRodents.Contains(r))
+             { Debug.Log("Trying to add a rodent thats already in player List?");return; }
+
         _PlayerRodents.Add(r);
         _rm.UpdateCurrentPopulation();
 
@@ -216,7 +237,11 @@ public class GameManager : MonoBehaviour
 	}
 	public void AddtoRodents(Rodent r)
     {
-        _AllRodents.Add(r);
+        if (!_AllRodents.Contains(r))
+        {
+            _AllRodents.Add(r);
+            _RodentHashTable.Add(r.getID(), r);
+        }
     }
     public bool getMobileMode()
     {
@@ -224,6 +249,10 @@ public class GameManager : MonoBehaviour
     }
    public int getBuildingIndex()
     {
-        return ++buildingIndex;
+        return ++_buildingIndex;
+    }
+    public int getRodentIdex()
+    {
+        return +_RodentIndex++;
     }
 }

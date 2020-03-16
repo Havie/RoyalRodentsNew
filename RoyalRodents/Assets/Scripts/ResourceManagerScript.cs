@@ -64,7 +64,6 @@ public class ResourceManagerScript : MonoBehaviour
         UpdateAllResourcesText();
     }
 
-
     //getters for resource variable properties
     public int Food
     {

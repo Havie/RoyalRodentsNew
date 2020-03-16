@@ -149,7 +149,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         }
         else
         {
-            BuildableObject b = BuildingSlotManager.getBuildingFromID(WorkID);
+            BuildableObject b = BuildingSlotManager.Instance.getBuildingFromID(WorkID);
             setTarget(b.gameObject);
             b.AssignWorker(this);
             if (b == null)
@@ -294,7 +294,6 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void Recruit()
     {
-        GameManager.Instance.addToPlayerRodents(this);
         _Status = eStatus.Available;
         setTeam(1);
         // No new Behavior?

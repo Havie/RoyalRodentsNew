@@ -22,4 +22,23 @@ public class SceneLoader : MonoBehaviour
     {
         Application.Quit();
     }
+    public void LoadGame()
+    {
+        //Load the Scene in the BackGround
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+
+        StartCoroutine(LoadDelay(asyncLoad));
+    }
+    IEnumerator LoadDelay(AsyncOperation async)
+    {
+        GameManager.Instance.StartScene();
+
+        //The Setup for a Load Screen oO?
+        while (!async.isDone)
+            yield return null;
+
+        GameManager.Instance.SceneStarted(true);
+        //exists in the next Scene hence the wait
+        sSaveManager.Instance.Load();
+    }
 }

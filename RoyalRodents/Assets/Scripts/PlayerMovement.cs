@@ -50,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void LoadData()
     {
-        Debug.Log("Load Called ");
         sPlayerData data = sSaveSystem.LoadPlayerData();
         if (data != null)
         {

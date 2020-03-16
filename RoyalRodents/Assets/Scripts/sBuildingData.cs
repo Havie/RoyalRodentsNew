@@ -7,8 +7,6 @@ using UnityEngine;
 [System.Serializable]
 public class sBuildingData {
 
-     Dictionary<int, int> _Buildings = new Dictionary<int, int>();
-
     public int[] _IDs;
     public int[] _Type;
     public int[] _State;

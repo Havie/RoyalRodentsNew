@@ -10,16 +10,11 @@ public class GameManager : MonoBehaviour
     //GameManager Instance
     private static GameManager _instance;
 
-    //local Resource Vars
-    public int _gold = 1;
-    public int _victoryPoints;
-
     //Other Vars
     public Image _WinImg;
     public Image _LoseImg;
     public Animator _WinAnimator;
     public Animator _LoseAnimator;
-    public Button _ButtonQuit;
     public Image _SplashScreen;
     private bool _firstClick;
 
@@ -30,16 +25,21 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private List<Rodent> _PlayerRodents = new List<Rodent>();
     private List<Rodent> _AllRodents = new List<Rodent>();
+    Dictionary<int, Rodent> _RodentHashTable = new Dictionary<int, Rodent>();
     public Transform _PlayerRodentDummy;
 	public Transform _NeutralRodentDummy;
 	public Transform _EnemyRodentDummy;
+    public GameObject _PauseMenu;
+    private bool _Paused;
 
 	private bTownCenter _TownCenter;
 
     private bool _IsMobileMode;
 
     //Could possibly keep track of all buildings via an array/list?
-    private int buildingIndex=0;
+    private int _buildingIndex=0;
+    private int _RodentIndex =0;
+    private bool _SceneStarted = false;
 
     //Create Instance of GameManager
     public static GameManager Instance
@@ -74,45 +74,49 @@ public class GameManager : MonoBehaviour
         Screen.autorotateToPortrait = false;
         Screen.autorotateToLandscapeRight = false;
         Screen.autorotateToPortraitUpsideDown = false;
-
-       
-
+    }
+    public void LoadData()
+    {
+        sRodentData data = sSaveSystem.LoadRodentData();
+        int[] IDs = data._IDs;
+        for (int i = 0; i < data._IDs.Length; ++i)
+        {
+            int id = IDs[i];
+            Rodent r = _RodentHashTable[id];
+            r.LoadData(id, data._team[i], data._Type[i], data._BuildingID[i], data._position[i]);
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        //Temp way to give the player a TownCenter at start.
-        _TownCenter = GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>();
-        _TownCenter.StartingBuildComplete();
+        //Figure out if were on the Main Menu
+        int sceneid= SceneManager.GetActiveScene().buildIndex;
+        if (sceneid != 0)
+        {
+            StartScene();
+            SceneStarted(true);
+        }
+    }
 
-        _gold = 0;
-        _victoryPoints = 0;
+    public void StartScene()
+    {
+        Time.timeScale = 0;
+        //Figure out if on mobile device
+        _IsMobileMode = Application.isMobilePlatform;
 
         //Get ResourceManagerScript from Instance
         _rm = ResourceManagerScript.Instance;
 
+
+        //Have to Find a New Way Because Loading from mainMenu doesn't have these
         //Set up our animators
-        _WinAnimator = _WinImg.GetComponent<Animator>();
-        _LoseAnimator = _LoseImg.GetComponent<Animator>();
-        //Shows the splash screen (TMP till main menu?)
-        // _SplashScreen.gameObject.SetActive(true);
-
-
-        // Find any Rodents starting under Players control
-        Rodent[] rg = GameObject.FindObjectsOfType<Rodent>();
-
-        foreach (var r in rg)
+        if (_WinAnimator && _LoseAnimator)
         {
-            if (r.getTeam()==1)
-            {
-                _PlayerRodents.Add(r);
-            }
+            _WinAnimator = _WinImg.GetComponent<Animator>();
+            _LoseAnimator = _LoseImg.GetComponent<Animator>();
         }
-
-        //Figure out if on mobile device
-       _IsMobileMode= Application.isMobilePlatform;
-
+        //Need a Delay or Finds Objects before scene loads
+        StartCoroutine(SceneDelay());
     }
 
     // Update is called once per frame
@@ -121,24 +125,47 @@ public class GameManager : MonoBehaviour
         //Developer Tools to get resources
         if (Input.GetKeyDown(KeyCode.Z))
             _rm.incrementResource(ResourceManagerScript.ResourceType.Trash, 1);
-        if (Input.GetKeyDown(KeyCode.X))
-            _rm.incrementResource(ResourceManagerScript.ResourceType.Food, 1);
-
-        if (!_firstClick)
-        {
-            if (Input.anyKeyDown)
-            {
-                _SplashScreen.gameObject.SetActive(false);
-                _firstClick = true;
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.G))
-            SceneManager.LoadScene(1);
-        if (Input.GetKeyDown(KeyCode.H))
-            SceneManager.LoadScene(0);
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ShowPauseMenu();
     }
-
+    public void setTownCenter(bTownCenter tc)
+    {
+        _TownCenter = tc;
+        _TownCenter.StartingBuildComplete();
+       // StartCoroutine(TownCenterDelay());
+    }
+    IEnumerator TownCenterDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        _TownCenter.StartingBuildComplete();
+    }
+    //Keep organized in hierarchy 
+    private void SetSceneObjects()
+    {
+        //Mini Hack Cuz Im Tired
+        if (_PlayerRodentDummy==null)
+            _PlayerRodentDummy = GameObject.FindGameObjectWithTag("PlayerRodents").transform;
+        if (_NeutralRodentDummy == null)
+            _NeutralRodentDummy = GameObject.FindGameObjectWithTag("NeutralRodents").transform;
+        if (_EnemyRodentDummy == null)
+            _EnemyRodentDummy = GameObject.FindGameObjectWithTag("EnemyRodents").transform;
+        if (_PauseMenu == null)
+            _PauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
+        if (_PauseMenu)
+            _PauseMenu.SetActive(false);
+        else
+            Debug.Log("PauseMenu done gone Missing again..");
+    }
+    private IEnumerator SceneDelay()
+    {
+        yield return new WaitUntil(() => _SceneStarted == true);
+        Time.timeScale = 1;
+        SetSceneObjects();
+    }
+    public void SceneStarted(bool b)
+    {
+        _SceneStarted = b;
+    }
     public void youWin()
     {
         if (_WinAnimator)
@@ -159,20 +186,25 @@ public class GameManager : MonoBehaviour
     IEnumerator QuitMenu()
     {
         yield return new WaitForSeconds(5);
-        if (_ButtonQuit)
-            _ButtonQuit.gameObject.SetActive(true);
-    }
+        ShowPauseMenu();
 
-    public void Quit()
+    }
+    private void ShowPauseMenu()
     {
-        Application.Quit();
+        if (_PauseMenu)
+        {
+            _Paused = !_Paused;
+            _PauseMenu.SetActive(_Paused);
+        }
     }
-
     public List<Rodent> getPlayerRodents()
     {
         return _PlayerRodents;
     }
-
+    public List<Rodent> getAllRodents()
+    {
+        return _AllRodents;
+    }
 	//Used to update amount of rodents player has
 	public int getPlayerRodentsCount()
 	{
@@ -181,6 +213,8 @@ public class GameManager : MonoBehaviour
 
 	public bTownCenter getTownCenter()
 	{
+        if (_TownCenter == null)
+            _TownCenter=GameObject.FindObjectOfType<bTownCenter>();
 		return _TownCenter;
 	}
     public int GetBuildingCap()
@@ -198,25 +232,45 @@ public class GameManager : MonoBehaviour
     }
     public void addToPlayerRodents(Rodent r)
     {
-        //can Lists add duplicates? should we check against this?
-        _PlayerRodents.Add(r);
-        _rm.UpdateCurrentPopulation();
+        if (_PlayerRodents != null)
+        {
+            //List Should not add Duplicates
+            if (_PlayerRodents.Contains(r))
+            {
+               // Debug.Log("Trying to add a rodent thats already in player List:" + r.getName() +"" + r.gameObject);
+                return;
+            }
+            else
+            {
+                _PlayerRodents.Add(r);
+                _rm.UpdateCurrentPopulation();
 
-        //Keep organized in hierarchy 
-        r.gameObject.transform.SetParent(_PlayerRodentDummy);
+                //Keep organized in hierarchy 
+                r.gameObject.transform.SetParent(_PlayerRodentDummy);
+            }
+        }
     }
 	public void RemovePlayerRodent(Rodent r)
 	{
-		if (_PlayerRodents.Contains(r))
-			_PlayerRodents.Remove(r);
-		_rm.UpdateCurrentPopulation();
+        if (_PlayerRodents!=null)
+        {
+            if (_PlayerRodents.Contains(r))
+                _PlayerRodents.Remove(r);
+            _rm.UpdateCurrentPopulation();
 
-		//Keep organized in hierarchy 
-		r.gameObject.transform.SetParent(_NeutralRodentDummy);
+            //Keep organized in hierarchy 
+            r.gameObject.transform.SetParent(_NeutralRodentDummy);
+           
+            // Debug.Log("Set to neutralStack:" + r.gameObject);
+        }
 	}
 	public void AddtoRodents(Rodent r)
     {
-        _AllRodents.Add(r);
+        if (!_AllRodents.Contains(r))
+        {
+            _AllRodents.Add(r);
+            _RodentHashTable.Add(r.getID(), r);
+        }
     }
     public bool getMobileMode()
     {
@@ -224,6 +278,10 @@ public class GameManager : MonoBehaviour
     }
    public int getBuildingIndex()
     {
-        return ++buildingIndex;
+        return ++_buildingIndex;
+    }
+    public int getRodentIdex()
+    {
+        return +_RodentIndex++;
     }
 }

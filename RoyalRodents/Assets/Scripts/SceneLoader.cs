@@ -7,7 +7,9 @@ public class SceneLoader : MonoBehaviour
 {
     public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        // SceneManager.LoadScene(sceneName);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        StartCoroutine(LoadDelay(asyncLoad, false));
     }
     public void Save()
     {
@@ -17,5 +19,28 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene(PlayerPrefs.GetInt(("SceneSaved")));
     }
+    public void Quit()
+    {
+        Application.Quit();
+    }
+    public void LoadGame()
+    {
+        //Load the Scene in the BackGround
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
 
+        StartCoroutine(LoadDelay(asyncLoad, true));
+    }
+    IEnumerator LoadDelay(AsyncOperation async, bool LoadSave)
+    {
+        GameManager.Instance.StartScene();
+
+        //The Setup for a Load Screen oO?
+        while (!async.isDone)
+            yield return null;
+
+        GameManager.Instance.SceneStarted(true);
+        //exists in the next Scene hence the wait
+        if(LoadSave)
+            sSaveManager.Instance.Load();
+    }
 }

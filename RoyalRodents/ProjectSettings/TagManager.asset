@@ -19,6 +19,7 @@ TagManager:
   - StaminaBar
   - NeutralRodents
   - EnemyRodents
+  - PauseMenu
   layers:
   - Default
   - TransparentFX

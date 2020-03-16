@@ -28,13 +28,9 @@ public class bTownCenter : MonoBehaviour
     void Start()
     {
         SetUpComponent();
+        GameManager.Instance.setTownCenter(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private static void SetUpComponent()
     {
@@ -63,7 +59,6 @@ public class bTownCenter : MonoBehaviour
             _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/stone_town_center");
             _builtSpriteLevel4 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
             _builtSpriteLevel5 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-
             _isSet = true;
         }
     }
@@ -98,7 +93,28 @@ public class bTownCenter : MonoBehaviour
         this.transform.GetComponent<BuildableObject>().SetLevel(1);
         this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
         //MEGA hack of all Hacks
-        this.transform.GetComponentInChildren<Employee>().gameObject.GetComponentInChildren<eWorkerOBJ>().gameObject.GetComponent<SpriteRenderer>().sprite = null;
+       // this.transform.GetComponentInChildren<Employee>().gameObject.GetComponentInChildren<eWorkerOBJ>().gameObject.GetComponent<SpriteRenderer>().sprite = null;
+        BuildableObject bo = this.GetComponent<BuildableObject>();
+        foreach( Employee e in bo._Workers)
+        {
+            GameObject go = e.gameObject;
+            if (go)
+            {
+                eWorkerOBJ worker = go.GetComponentInChildren<eWorkerOBJ>();
+                if (worker)
+                {
+                    go = worker.gameObject;
+                    if (go)
+                    {
+                        SpriteRenderer sp = go.GetComponent<SpriteRenderer>();
+                        if (sp)
+                            sp.sprite = null;
+                    }
+                }
+            }
+        }
+
+
         // Debug.Log("Created Initial TownCenter with Sprite:::" + _built);
 
         //this gets called before RM initializes.. fml
@@ -107,7 +123,6 @@ public class bTownCenter : MonoBehaviour
 
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
-
 		if (_costLevel1.Count == 0)
 		{
 			SetUpComponent();

@@ -18,8 +18,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
 
     [SerializeField] private Animator _animator;
-    [SerializeField] private HealthBar _HealthBar;
-    
+    private HealthBar _HealthBar;
+    [SerializeField] private GameObject _HealthBarObj;
+
 
     [SerializeField]
     private BuildingState eState;
@@ -30,6 +31,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     [SerializeField]
     private float _hitpoints = 0;
+    [SerializeField]
     private float _hitpointsMax = 0;
 
     private int _construction = 0;
@@ -53,7 +55,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
-
+    [SerializeField]
+    private int _ID = 0;
 
     /**Begin Interface stuff*/
     public void Damage(float damageTaken)
@@ -62,12 +65,27 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints -= damageTaken;
         else
             _hitpoints = 0;
+
+        UpdateHealthBar();
     }
     public void SetUpHealthBar(GameObject go)
     {
-        _HealthBar = go.GetComponent<HealthBar>();
+        if (_HealthBarObj == null)
+            _HealthBarObj = Resources.Load<GameObject>("HealthBarCanvas");
+        if (_HealthBarObj)
+        {
+            //which comes first the chicken or the egg...
+            _HealthBarObj = Instantiate(go);
+            _HealthBarObj.gameObject.transform.SetParent(this.transform);
+            _HealthBar = _HealthBarObj.GetComponentInChildren<HealthBar>();
+            if (!_HealthBar)
+                Debug.LogError("Cant Find Health bar");
+            _HealthBarObj.transform.SetParent(this.transform);
+            _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+        }
+        else
+            Debug.LogError("Cant Find Health bar Prefab");
     }
-
     public void UpdateHealthBar()
     {
         if (_HealthBar)
@@ -83,7 +101,22 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     /** End interface stuff*/
 
+    public void LoadData(int ID, int type, int state, int lvl, float hp, float hpmax)
+    {
+        if (_ID != ID)
+            Debug.LogWarning("Building IDs dont match up!..Save Data Corrupted");
 
+        //_hitpoints = hp;
+       // _hitpointsMax = hpmax;
+        _level = lvl;
+
+        eState = (BuildingState) state;
+        eType = (BuildingType)type;
+
+        LoadComponents();
+        UpdateHealthBar();
+        UpdateState();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -114,10 +147,25 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //little unnecessary
         _controller = MVCController.Instance;
 
+        if (_HealthBarObj == null)
+            _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
+        SetUpHealthBar(_HealthBarObj.gameObject);
+
 
         UpdateState();
         SetUpTeam();
         setUpWorkers();
+
+        //Feel like these could load in a different order on start
+        _ID = GameManager.Instance.getBuildingIndex();
+        Debug.Log(this.gameObject + " ID is: " + _ID);
+    }
+    private void LateUpdate()
+    {
+        if(Input.GetKey(KeyCode.P))
+        {
+            Damage(1);
+        }
     }
     public void setUpWorkers()
     {
@@ -199,18 +247,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
 
     //Getters
-    public BuildingState getState()
-    {
-        return eState;
-    }
-    public BuildingType getType()
-    {
-        return eType;
-    }
-    public int getLevel()
-    {
-        return _level;
-    }
+    public BuildingState getState() => eState;
+    public BuildingType getType() => eType;
+    public int getLevel() => _level;
+    public int getTeam() => _Team;
+    public int getID() => _ID;
+    public float getHP() => _hitpoints;
+    public float getHPMax() => _hitpointsMax;
     /**Sets the ID for the team
     * 0 = neutral
     * 1 = player
@@ -220,13 +263,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         if (id > -1 && id < 3)
             _Team = id;
-
     }
-    public int getTeam()
-    {
-        return _Team;
-    }
-
     // used to be from MVC controller to let the building know its been clicked
      public void imClicked()
     {
@@ -430,11 +467,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         yield return new WaitForSeconds(5f);
         BuildComplete();
+        //Do this here so when we load from save things dont get wonky
+        eState = BuildingState.Built;
 
         //To:Do Update to kick builder rat off worker_obj
-
     }
-
     IEnumerator DemolishCoroutine()
     {
         yield return new WaitForSeconds(5f);
@@ -444,40 +481,64 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     //Upon completion let the correct script know to assign the new Sprite, and update our HP/Type.
     public void BuildComplete()
     {
-       eState = BuildingState.Built;
        if(eType == BuildingType.House)
        {
-            _hitpoints += this.GetComponent<bHouse>().BuildingComplete(_level);
-       }
-       else if (eType == BuildingType.Farm)
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bHouse>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
+
+        }
+        else if (eType == BuildingType.Farm)
         {
-            _hitpoints += this.GetComponent<bFarm>().BuildingComplete(_level);
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bFarm>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
         }
        else if (eType == BuildingType.Banner)
         {
-            _hitpoints += this.GetComponent<bBanner>().BuildingComplete(_level);
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bBanner>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
         }
        else if (eType == BuildingType.Outpost)
         {
-            _hitpoints += this.GetComponent<bOutpost>().BuildingComplete(_level);
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bOutpost>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
             // Tell someone this is an outpost and Needs to have it Employees Shown On "Assignment Mode Toggle"
             UIAssignmentMenu.Instance.SetOutpostWorkers(_Workers);
         }
        else if (eType == BuildingType.TownCenter)
         {
-            _hitpoints += this.GetComponent<bTownCenter>().BuildingComplete(_level);
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bTownCenter>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
         }
         else if (eType == BuildingType.GarbageCan)
         {
-            _hitpoints += this.GetComponent<bGarbageCan>().BuildingComplete(_level);
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bGarbageCan>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
         }
         else if (eType == BuildingType.WoodPile)
         {
-            _hitpoints += this.GetComponent<bWoodPile>().BuildingComplete(_level);
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bWoodPile>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
         }
         else if (eType == BuildingType.StonePile)
         {
-            _hitpoints += this.GetComponent<bStonePile>().BuildingComplete(_level);
+            float oldMax = _hitpointsMax;
+            _hitpointsMax += this.GetComponent<bStonePile>().BuildingComplete(_level);
+            float difference = _hitpointsMax - oldMax;
+            _hitpoints += difference;
         }
         UpdateState();
         //Debug.Log("Built a level " + _level + " structure");
@@ -496,6 +557,46 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         ShowRedX(false);
         //To-Do : Kick the worker rodent off
     }
+    private void LoadComponents()
+    { // Debug.Log("Time to Build Something type=" + type);
+        switch (eType)
+        {
+            case (BuildingType.House):
+                if(this.GetComponent<bHouse>() ==null)
+                    this.gameObject.AddComponent<bHouse>();
+                break;
+            case (BuildingType.Farm):
+                if (this.GetComponent<bFarm>() == null)
+                    this.gameObject.AddComponent<bFarm>();
+                break;
+            case (BuildingType.Banner):
+                if (this.GetComponent<bBanner>() == null)
+                    this.gameObject.AddComponent<bBanner>();
+                break;
+            case (BuildingType.Outpost):
+                if (this.GetComponent<bOutpost>() == null)
+                    this.gameObject.AddComponent<bOutpost>();
+                break;
+            case (BuildingType.TownCenter):
+                if (this.GetComponent<bTownCenter>() == null)
+                    this.gameObject.AddComponent<bTownCenter>();
+                break;
+            case (BuildingType.GarbageCan):
+                if (this.GetComponent<bGarbageCan>() == null)
+                    this.gameObject.AddComponent<bGarbageCan>();
+                break;
+            case (BuildingType.WoodPile):
+                if (this.GetComponent<bWoodPile>() == null)
+                    this.gameObject.AddComponent<bWoodPile>();
+                break;
+            case (BuildingType.StonePile):
+                if (this.GetComponent<bStonePile>() == null)
+                    this.gameObject.AddComponent<bStonePile>();
+                break;
+        }
+        BuildComplete();
+    }
+
     /** Used to undo the Outpost Structure */
     public void ResetWorkers()
     {
@@ -519,6 +620,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case ("TownCenter"):
                 {
                     eType = BuildingType.TownCenter;
+                    _hitpoints = bTownCenter.getHPStats();
+                    _hitpointsMax = bTownCenter.getHPStats();
                     break;
                 }
         }

@@ -9,6 +9,16 @@ public class BaseHitBox : MonoBehaviour
     [SerializeField]
     private bool _DigCollider;
 
+    private GameObject _MoveDummy;
+    private void Start()
+    {
+        if (_OnPlayer)
+        {
+            //Lazy Hack
+            _MoveDummy = this.transform.parent.GetComponent<PlayerMovement>().getDummy();
+        }
+    }
+
     //OLD - unused at the moment
     public void turnOnCollider(bool cond)
     {
@@ -25,8 +35,12 @@ public class BaseHitBox : MonoBehaviour
             {
                 Transform t = this.transform.parent;
 
+                //This all gets double checked in PM, but not refactoring till this is final.
 
-                if (collision.transform.GetComponent<Searchable>() && !_DigCollider)
+                if (collision.gameObject == _MoveDummy && !_DigCollider)
+                    t.GetComponent<PlayerMovement>().OnTriggerEnter2D(collision);
+
+                else if (collision.transform.GetComponent<Searchable>() && !_DigCollider)
                 {
                     t.GetComponent<PlayerMovement>().OnTriggerEnter2D(collision);
                 }

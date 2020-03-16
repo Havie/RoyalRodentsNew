@@ -2,27 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class DiggableTile : MonoBehaviour
 {
+    [SerializeField] private bool _NotDiggable;
     [SerializeField] private bool _TopSoil;
-
-    [SerializeField] private Sprite _TunnelSprite;
+    [SerializeField] private bool _isOpen;
+    private Sprite _TunnelSprite;
 
     private void Awake()
     {
         if(_TopSoil)
-            _TunnelSprite = Resources.Load<Sprite>("Environment/GDD_200_Royal_Rodents_Dirt_01_Tile");
+            _TunnelSprite = Resources.Load<Sprite>("Environment/Dirt_03_topSoil");
         else
             _TunnelSprite = Resources.Load<Sprite>("Environment/GDD_200_Royal_Rodents_Dirt_02_Tile");
 
     }
 
-    public void DigDown()
+    public void DigTile()
     {
-       var sr= this.transform.GetComponent<SpriteRenderer>();
-        if(sr)
+        if (!_NotDiggable)
         {
-            sr.sprite = _TunnelSprite;
+            var sr = this.transform.GetComponent<SpriteRenderer>();
+            if (sr)
+            {
+                sr.sprite = _TunnelSprite;
+            }
+            _isOpen = true;
         }
+        else
+            Debug.LogWarning("Called Dig on a non diggable tile");
+    }
+    public bool isTopSoil()
+    {
+        return _TopSoil;
+    }
+    public bool isOpen()
+    {
+        return _isOpen;
+    }
+    public bool isDiggable()
+    {
+        return !_NotDiggable;
     }
 }

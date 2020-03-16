@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class bHouse :MonoBehaviour
 {
-    private Sprite _builtSpriteLevel1;
-	private Sprite _builtSpriteLevel2;
-	private Sprite _builtSpriteLevel3;
+    private static Sprite _builtSpriteLevel1;
+	private static Sprite _builtSpriteLevel2;
+	private static Sprite _builtSpriteLevel3;
 	private static int maxLevel = 3;
 
 	private float _hitpoints = 50;
@@ -18,24 +18,17 @@ public class bHouse :MonoBehaviour
 	public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
 
 	//create Housing Capacity amounts per level
-	private int[] capacityIncrementAmount = new int[4];
+	private static int[] capacityIncrementAmount = new int[4];
 
 	private static bool _isSet;
 
 	void Start()
     {
-        _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/House/trash_house");
-		_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/House/wood_house");
-		_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/House/stone_house");
+        SetUpComponent();
 
-		//how much total each level contributes to the population capacity
-		capacityIncrementAmount[0] = 0;
-		capacityIncrementAmount[1] = 2;
-		capacityIncrementAmount[2] = 5;
-		capacityIncrementAmount[3] = 8;
-	}
+    }
 
-	private static void setupCosts()
+	private static void SetUpComponent()
 	{
 		if (!_isSet)
 		//Set Upgrade/Build Costs (1-3 levels)
@@ -49,14 +42,26 @@ public class bHouse :MonoBehaviour
 			_costLevel3.Add("Wood", 4);
 			_costLevel3.Add("Metal", 2);
 
-			_isSet = true;
+            _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/House/trash_house");
+            _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/House/wood_house");
+            _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/House/stone_house");
+
+            //how much total each level contributes to the population capacity
+            capacityIncrementAmount[0] = 0;
+            capacityIncrementAmount[1] = 2;
+            capacityIncrementAmount[2] = 5;
+            capacityIncrementAmount[3] = 8;
+
+            _isSet = true;
 		}
 	}
 
     public float BuildingComplete(int level)
     {
-		//Set new structure sprite
-		if (level == 1)
+        if (!_isSet)
+            SetUpComponent();
+        //Set new structure sprite
+        if (level == 1)
 		{
 			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
 		}
@@ -84,7 +89,7 @@ public class bHouse :MonoBehaviour
 
 		if(_costLevel1.Count == 0)
 		{
-			setupCosts();
+			SetUpComponent();
 		}
 
 		if (level == 1)

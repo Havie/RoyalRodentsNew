@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private float _moveSpeed;
     private float _horizontalMove = 0f;
     private bool jump = false;
+    [SerializeField]
     private bool _InGround = false;
     private bool _AttackDelay;
     private bool _isAttacking;
@@ -30,8 +31,14 @@ public class PlayerMovement : MonoBehaviour
     private bool _wantToAttack;
     private GameObject _AttackTarget;
     [SerializeField]
-    private DiggableTile _CurrentTile;
+    private DiggableTile _CurrentSoilTile;
+    [SerializeField]
+    private DiggableTile _CurrentTunnelTile;
+    private float _YHeight;
 
+    PlayerStats _PlayerStats;
+    private int _AttackCost = 4;
+    private int _TunnelCost = 15;
 
     private bool isDead;
     private bool _controlled;
@@ -40,14 +47,56 @@ public class PlayerMovement : MonoBehaviour
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
     }
+    public void LoadData()
+    {
+        sPlayerData data = sSaveSystem.LoadPlayerData();
+        if (data != null)
+        {
+            _InGround = false;
+            m_FacingRight = data._FacingRight;
+            _YHeight = data._YHeight;
 
+            //Spawn Above Ground for now
+            this.transform.position = new Vector3(data.position[0], _YHeight, data.position[2]);
+            _MoveLocation.transform.position = new Vector3(data.position[0], _YHeight, data.position[2]);
+
+            StopMoving();
+
+            // Cant save Diggable Tiles, could be an issue
+            // _CurrentSoilTile = data._CurrentTopTile;
+            //  _CurrentTunnelTile = data._CurrentTunnelTile;
+
+        }
+        else
+            Debug.LogError("no SaveData to Load");
+    }
+    public bool getInGround() =>  _InGround;
+    public bool getIsAttacking() => _isAttacking;
+    public bool getIsFacingRight() => m_FacingRight;
+    public bool getIsControlled() => _controlled;
+    public float getYHeight() => _YHeight;
+    public DiggableTile getCurrentSoilTile() => _CurrentSoilTile;
+    public DiggableTile getCurrentTunnelTile() => _CurrentTunnelTile;
+    public Vector3 getLastAboveGroundLoc()
+    {
+        if (_CurrentSoilTile == null)
+            return this.transform.position;
+        else
+            return _CurrentSoilTile.transform.position;}
     // Start is called before the first frame update
     void Start()
     {
-        _moveSpeed = this.GetComponent<PlayerStats>().getMoveSpeed();
-        _damage = this.GetComponent<PlayerStats>().getAttackDamage();
-        _animator = this.GetComponent<Animator>();
+        _PlayerStats = this.GetComponent<PlayerStats>();
+        if (_PlayerStats)
+        {
+            _moveSpeed = _PlayerStats.getMoveSpeed();
+            _damage = _PlayerStats.getAttackDamage();
+        }
+        else
+            Debug.LogError("NoPlayerStatsFound");
 
+        _animator = this.GetComponent<Animator>();
+        _YHeight = this.transform.position.y;
     }
 
     // Update is called once per frame
@@ -58,66 +107,47 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
         }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            _InGround = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            _InGround = false;
-        }
         if (Input.GetMouseButton(1))
         {
-            //old code from gamejam
+            //old code from game jam
             Heal();
         }
-        if(CheckDig())
+        if (!CheckDig() && (Input.GetMouseButtonDown(0) || Input.touchCount > 0) && !_InGround)
         {
-            // Done in Check Dig which is WEIRD..but yeah do nothing here
-        }
-        else if ((Input.GetMouseButtonDown(0) || Input.touchCount>0)&& !_InGround)
-        {
-            // if (MVCController.Instance.checkIfAttackable(Input.mousePosition))
-            // Attack();
-
-            // Check 
-            //Touch touch = Input.GetTouch(0);
-            //Vector2 pos= touch.position;
 
             Vector3 input = Input.mousePosition;
 
             int count = Input.touchCount;
-            if(count>0)
+            if (count > 0)
             {
-               
-               Touch touch = Input.GetTouch(0);
 
-               if( touch.phase == TouchPhase.Began )
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Began)
                     input = touch.position;
             }
 
             GameObject go = MVCController.Instance.checkClick(input);
             if (go && _controlled)
             {
-               
+
                 // possibly move toward it with normalized direction
                 if (go != MVCController.Instance._dummyObj)
                 {
-
-                  // Debug.Log("Location for " + go + "   is " + go.transform.position);
-
+                    // Debug.Log("Location for " + go + "   is " + go.transform.position);
                     //figure out if the collider is on a building we own
-                    if(go.transform.parent)
+                    if (go.transform.parent)
                     {
                         //check if its a building
-                        if(go.transform.parent.GetComponent<BuildableObject>())
+                        if (go.transform.parent.GetComponent<BuildableObject>())
                         {
-                           // Debug.Log("Found a BuildableObject");
+                            // Debug.Log("Found a BuildableObject");
                             //check team
                             //player team - do not move
-                            if(go.transform.parent.GetComponent<BuildableObject>().getTeam()==1)
+                            if (go.transform.parent.GetComponent<BuildableObject>().getTeam() == 1)
                             {
-                                //do nothing 
+                                //do nothing - this is our building
+                                StopMoving();
                             }
                             else // enemy team move to it ( no such thing as neutral buildings?)
                             {
@@ -128,39 +158,35 @@ public class PlayerMovement : MonoBehaviour
                         //check if its a rodent place 1 - parent could be the spawn volume or Player Rodent list
                         else if (go.GetComponent<Rodent>())
                         {
-
                             //Debug.Log("Found a Rodent w parent");
                             //check team
-                            //player team - do not move
                             if (go.GetComponent<Rodent>().getTeam() == 1 || go.GetComponent<Rodent>().getTeam() == 0)
                             {
-                                //do nothing 
+                                //do nothing  //player team - do not move
+                                StopMoving();
                             }
                             else //enemy
                             {
                                 //check in range
                                 if (_InRange.Contains(go.gameObject))
                                 {
-
                                     //decide if we need to flip to face in case we walked past
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
-
-                                   // Debug.Log("Attack!");
+                                    // Debug.Log("Attack!");
                                     Attack();
                                 }
                                 else
                                 {
-                                    //move towards it
-                                   // Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
+                                    // Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
                                     //and set goal to attack it
                                     _wantToAttack = true;
                                     _AttackTarget = go.gameObject;
-
+                                    //move towards it
                                     StartCoroutine(MoveDelay(input, go.transform.position));
 
                                     _MoveLocation.transform.position = go.transform.position;
-                                    float _MoveAmnt= (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
-                                   
+                                    float _MoveAmnt = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+
                                 }
                             }
                         }
@@ -168,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
                     //check if its a rodent Place 2 - no parent? possible?
                     else if (go.GetComponent<Rodent>())
                     {
-                        Debug.LogWarning("Found a Rodent no parent shouldn't happen"); 
+                        Debug.LogWarning("Found a Rodent with no parent shouldn't happen, check Inspector");
                     }
 
 
@@ -176,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_controlled)
             {
-              //  Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+                // Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
                 _wantToAttack = false;
@@ -184,8 +210,8 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        
-        
+
+
     }
     private void FixedUpdate()
     {
@@ -210,11 +236,11 @@ public class PlayerMovement : MonoBehaviour
         //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
         _MoveLocation.transform.position = new Vector3(0, 3200, 0);
         //wait a split second to reset collision
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         // pick the actual correct location to move
         _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(input).x, _oldY, 0);
         float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
-       
+
         // Debug.Log("MoveDis:: " + _moveDis);
 
         // an extra layer so we dont move if the click is too close
@@ -245,25 +271,205 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool CheckDig()
     {
-         if (Input.GetKeyDown(KeyCode.DownArrow))
+       
+        if (!_InGround && Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _InGround = true;
-            if (_CurrentTile)
+            if (_CurrentSoilTile )
             {
-                _CurrentTile.DigDown();
+              StartCoroutine(DigDelay(Vector2.down, _CurrentSoilTile));
+            }
 
-                //Stop Moving
-                StopMoving();
-
-                //Calculate Depth Down because of weird anchor points?
-                float newY = (this.transform.position.y - _CurrentTile.transform.position.y) / 2;
-               // float newX = (this.transform.position.x - _CurrentTile.transform.position.x) / 2;
-
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
+        }
+        else if (_InGround && _horizontalMove==0)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                //Need to check tile to the right
+                if (CheckTile("right"))
+                {
+                    
+                }
                 return true;
             }
-           
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                //Need to check tile to the left
+                if (CheckTile("left"))
+                {
+                   
+                }
+                return true;
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (CheckTile("up"))
+                {
+
+                }
+                return true;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (_CurrentSoilTile)
+                {
+                    if (CheckTile("down"))
+                    {
+
+                    }
+                     return true;
+                }
+
+            }
         }
+        return false;
+    }
+    IEnumerator DigDelay(Vector2 dir, DiggableTile dt)
+    {
+        bool _okayToMove=true;
+        StopMoving();
+        if (dt.isDiggable())
+        {
+            if (!dt.isOpen())
+            {
+                if (_PlayerStats.getStamina() >=_TunnelCost)
+                {
+                    _PlayerStats.IncrementStamina(-_TunnelCost);
+                    //play Anim
+                    _animator.SetTrigger("doDig");
+                    yield return new WaitForSeconds(2f);
+                    dt.DigTile();
+                }
+                else
+                    _okayToMove = false;
+            }
+            if (_okayToMove)
+            {
+                if (!_InGround)
+                {
+                    _animator.SetBool("InGround", true);
+                    _InGround = true;
+                }
+                _CurrentTunnelTile = dt;
+                if (dir == Vector2.right)
+                {
+                    _horizontalMove = 0.75f;
+                }
+                else if (dir == Vector2.left)
+                {
+                    _horizontalMove = -0.75f;
+                }
+                else if (dir == Vector2.down || dir == Vector2.up)
+                {
+                    //Calculate distance because of weird anchor points? - keep player in middle of tile
+                    float newY = (this.transform.position.y - dt.transform.position.y); //can Div by 2 to alter if sprite is wrong pos
+                    this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
+                }
+            }
+        }
+    }
+    public bool CheckTile(string Direction)
+    {
+        // Debug.Log("ourPos:" + this.transform.position);
+        Vector3 location;
+        Vector2 directionVector = Vector2.zero;
+        if (_CurrentTunnelTile != null)
+            location = _CurrentTunnelTile.transform.position;
+        else
+            location = _CurrentSoilTile.transform.position;
+
+
+
+
+        if (Direction.Equals("right"))
+        {
+            directionVector = Vector2.right;
+           // location += new Vector3(-1f, 0, 0);
+        }
+        else if (Direction.Equals("left"))
+        {
+            directionVector = Vector2.left;
+            //Character is oddly offset due to tail?
+            //location += new Vector3(1, 0, 0);
+        }
+        else if (Direction.Equals("up"))
+        {
+            directionVector = Vector2.up;
+          // location += new Vector3(0.8f, 0, 0);
+        }
+        else if (Direction.Equals("down"))
+        {
+            directionVector = Vector2.down;
+            // location += new Vector3(0.8f, 0, 0);
+        }
+        LayerMask _LayerMask = (1 << 11);
+
+        // initial hit has to stay right.. or it misses left.. idk wtf its doing
+        RaycastHit2D initialHit = Physics2D.Raycast(location, directionVector, 2f, _LayerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(location, directionVector, 8f, _LayerMask);
+
+        //Debug stuff
+
+        Vector2 LocRaised = new Vector2(location.x -0.1f, location.y + 0.2f);
+        Vector3 pos = (LocRaised + (directionVector * 2));
+        Debug.DrawLine(LocRaised, pos, Color.blue, 3f);
+        Vector3 pos2 = (new Vector2(location.x, location.y) + (directionVector * 8));
+        Debug.DrawLine(location, pos2, Color.red, 3f);
+
+
+
+
+        GameObject localCurrentTile;
+        //Have to be able to find the current tile were on first (Note: _CurrentTile Global is next tile at this point)
+        if (initialHit.collider)
+        {
+            //Debug.Log("Local current tile=" + initialHit.collider.gameObject);
+            localCurrentTile = initialHit.collider.gameObject;
+
+            foreach (RaycastHit2D h in hits)
+            {
+                if (h.collider.gameObject != localCurrentTile)
+                {
+                    if (h.collider.gameObject.GetComponent<DiggableTile>())
+                    {
+                      //  Debug.Log("Found DiggableTile:" + h.collider.gameObject);
+                        DiggableTile dt = h.collider.gameObject.GetComponent<DiggableTile>();
+                        if (dt.isDiggable())
+                        {
+                           // Debug.Log("Its True:" + h.collider.gameObject);
+                            if ((directionVector == Vector2.right || directionVector == Vector2.left))
+                            {
+                                if (!dt.isTopSoil())
+                                {
+                                    StartCoroutine(DigDelay(directionVector, dt));
+                                    _MoveLocation.transform.position = h.collider.gameObject.transform.position;
+                                    return true;
+                                }
+                            }
+                            else //if(DirectionVector==Vector2.up) up and down
+                            {
+                                StartCoroutine(DigDelay(directionVector, dt));
+                                return true;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+            if(directionVector == Vector2.up && _CurrentTunnelTile.isTopSoil() && _CurrentTunnelTile.isDiggable())
+            {
+           // Debug.Log("IsPassable Top tile:" +_CurrentTopTile);
+            //go up to initial ground level
+            this.transform.position = new Vector3(this.transform.position.x, _YHeight, 0);
+                _MoveLocation.transform.position= new Vector3(this.transform.position.x, _YHeight, 0);
+                _InGround = false;
+                _animator.SetBool("InGround", false);
+            }
+        
+
+
         return false;
     }
     public void Attack()
@@ -271,19 +477,19 @@ public class PlayerMovement : MonoBehaviour
         StopMoving();
         if (!_AttackDelay)
         {
-            //To-Do: Drain stamina && CHECK if enough
+            //Drain stamina && CHECK if enough
             PlayerStats ps = this.transform.GetComponent<PlayerStats>();
-            if(ps)
+            if (ps)
             {
-                if (ps.getStamina() > 3)
+                if (ps.getStamina() > _AttackCost)
                 {
-                    ps.IncrementStamina(-3f);
+                    ps.IncrementStamina(-_AttackCost);
                     _isAttacking = true;
                     _animator.SetTrigger("Attack");
                     StartCoroutine(AttackRoutine());
                 }
             }
-           
+
         }
 
     }
@@ -307,7 +513,7 @@ public class PlayerMovement : MonoBehaviour
         else
             _startPos -= new Vector3(1, 0, 0);
 
-        if (_AttackTarget !=null)
+        if (_AttackTarget != null)
         {
             if (_AttackTarget.GetComponent<Rodent>())
             {
@@ -434,7 +640,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 FlipDirection();
             }
-        
+
         }
         else
         {
@@ -443,7 +649,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 FlipDirection();
             }
-          
+
         }
     }
 
@@ -480,12 +686,15 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log("Player Is Controlled=" + cond);
         _controlled = cond;
     }
+    public GameObject getDummy()
+    {
+        return _MoveLocation;
+    }
 
-
-    //Collect Pickups and search things
+    //Collect Pickups and search and attack things
     public void OnTriggerEnter2D(Collider2D collision)
     {
-      //Debug.Log("Enter Trigger with" + collision.transform.gameObject);
+        //Debug.Log("Enter Trigger with" + collision.transform.gameObject);
 
         if (_wantToAttack && _AttackTarget != null)
         {
@@ -510,8 +719,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (collision.transform.GetComponent<DiggableTile>())
         {
-           // Debug.Log("Collider w diggable tile");
-            _CurrentTile = collision.transform.GetComponent<DiggableTile>();
+            // Debug.Log("Collider w diggable tile");
+            if(!_InGround) // only keep track of top soil tiles
+              _CurrentSoilTile = collision.transform.GetComponent<DiggableTile>();
         }
         else if (collision.transform.parent)
         {
@@ -532,7 +742,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-       
+
         ///Old Game Jam code, could be reused for pickups 
         else if (collision.transform.GetComponent<CoinResource>())
         {
@@ -556,11 +766,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (collision.transform.GetComponent<DiggableTile>())
         {
-           // Debug.Log("Exited Collision w diggable tile");
+            // Debug.Log("Exited Collision w diggable tile");
 
             //Possible to collided with a New Tile Before Exit is called so need this check
-            if (_CurrentTile == collision.transform.GetComponent<DiggableTile>())
-                _CurrentTile = null;
+            if (!_InGround) // only keep track of top soil tiles
+            {
+                if (_CurrentSoilTile == collision.transform.GetComponent<DiggableTile>())
+                    _CurrentSoilTile = null;
+            }
 
         }
         else if (collision.transform.parent)
@@ -579,7 +792,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-       
+
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
@@ -589,7 +802,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnCollisionExit2D(Collision2D collision)
     {
-       // Debug.Log("EXIT Collision with " + collision.gameObject);
+        // Debug.Log("EXIT Collision with " + collision.gameObject);
 
     }
 }

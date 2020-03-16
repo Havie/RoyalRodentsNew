@@ -86,7 +86,20 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     /**End Interface stuff*/
 
+    public void LoadData()
+    {
+        sPlayerData data = sSaveSystem.LoadPlayerData();
+        if(data!=null)
+        {
+            _Hp = data._Health;
+            _Stamina = data._Stamina;
 
+            UpdateHealthBar();
+            UpdateStaminaBar();
+        }
+        else
+            Debug.LogError("noSaveData to Load");
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -104,7 +117,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
              _RoyalGuardParent.position = this.transform.position;
 
         //Player will trickle restore HP based on stamina
-        if(InOwnTerritory())
+        if(!InOwnTerritory())
         {
             if(_Hp<_HpMax)
                  Damage(-_Stamina/5000f);
@@ -158,7 +171,10 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     {
         return _AttackDamage;
     }
-
+    public float getHealth()
+    {
+        return _Hp;
+    }
     public void setUpRoyalGuard()
     {
         //How to check if _RoyalGuards is initialized?

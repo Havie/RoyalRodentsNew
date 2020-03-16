@@ -162,6 +162,10 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     {
         return _Stamina;
     }
+    public float getStaminaMax()
+    {
+        return _StaminaMax;
+    }
     //getters
     public float getMoveSpeed()
     {

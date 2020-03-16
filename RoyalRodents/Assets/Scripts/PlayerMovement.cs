@@ -745,7 +745,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // if (collision.transform.GetComponent<CoinResource>().isActive())
             {
-                ResourceManagerScript.Instance.incrementTrash(1);
+                ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Trash, 1);
                 Destroy(collision.gameObject);
             }
         }

@@ -13,9 +13,9 @@ public class bHouse :MonoBehaviour
     private float _hitPointGrowth = 10;
 
 	//create structure costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
-	public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
-	public static Dictionary<string, int> _costLevel2 = new Dictionary<string, int>();
-	public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
+	public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel1 = new Dictionary<ResourceManagerScript.ResourceType, int>();
+	public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel2 = new Dictionary<ResourceManagerScript.ResourceType, int>();
+	public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel3 = new Dictionary<ResourceManagerScript.ResourceType, int>();
 
 	//create Housing Capacity amounts per level
 	private static int[] capacityIncrementAmount = new int[4];
@@ -25,7 +25,6 @@ public class bHouse :MonoBehaviour
 	void Start()
     {
         SetUpComponent();
-
     }
 
 	private static void SetUpComponent()
@@ -33,14 +32,14 @@ public class bHouse :MonoBehaviour
 		if (!_isSet)
 		//Set Upgrade/Build Costs (1-3 levels)
 		{
-			_costLevel1.Add("Trash", 2);
+			_costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 4);
 
-			_costLevel2.Add("Trash", 4);
-			_costLevel2.Add("Wood", 2);
+			_costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 4);
+			_costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 2);
 
-			_costLevel3.Add("Trash", 6);
-			_costLevel3.Add("Wood", 4);
-			_costLevel3.Add("Metal", 2);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 6);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 4);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 2);
 
             _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/House/trash_house");
             _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/House/wood_house");
@@ -60,6 +59,7 @@ public class bHouse :MonoBehaviour
     {
         if (!_isSet)
             SetUpComponent();
+
         //Set new structure sprite
         if (level == 1)
 		{
@@ -84,7 +84,7 @@ public class bHouse :MonoBehaviour
 		ResourceManagerScript.Instance.incrementPopulationCapacity(-capacityIncrementAmount[level]);
 	}
    
-	public static Dictionary<string, int> getCost(int level)
+	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
 
 		if(_costLevel1.Count == 0)

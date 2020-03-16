@@ -9,8 +9,11 @@ public class ResourceManagerScript : MonoBehaviour
 	//Make a singleton
 	private static ResourceManagerScript _instance;
 
-	//create resource variables
-	private int _food, _trash, _wood, _metal, _shiny;
+    //Set up ResourceType enum
+    public enum ResourceType { Food, Trash, Wood, Stone, Shiny };
+
+    //create resource variables
+    private int _food, _trash, _wood, _metal, _shiny;
     private int _currentPopulation, _currentCapacity;
 
     //TopPanel UI Resource Bar Text
@@ -61,50 +64,39 @@ public class ResourceManagerScript : MonoBehaviour
         _metal = 10;
         _shiny = 10;
 
-        UpdateAllResourcesText();
-    }
-
-    //getters for resource variable properties
-    public int Food
+	//getters for resource variable properties
+    public int GetResourceCount(ResourceType type)
     {
-        get
+        switch (type)
         {
-            return _food;
-        }
-    }
-    public int Trash
-    {
-        get
-        {
-            return _trash;
-        }
-    }
-
-    public int Wood
-    {
-        get
-        {
-            return _wood;
-        }
-    }
-
-    public int Metal
-    {
-        get
-        {
-            return _metal;
+            case ResourceType.Food:
+                {
+                    return _food;
+                }
+            case ResourceType.Trash:
+                {
+                    return _trash;
+                }
+            case ResourceType.Wood:
+                {
+                    return _wood;
+                }
+            case ResourceType.Stone:
+                {
+                    return _metal;
+                }
+            case ResourceType.Shiny:
+                {
+                    return _shiny;
+                }
+            default:
+                {
+                    return 0;
+                }
         }
     }
 
-    public int Shiny
-    {
-        get
-        {
-            return _shiny;
-        }
-    }
-
-	public void UpdateCurrentPopulation()
+    public void UpdateCurrentPopulation()
 	{
 		_currentPopulation = GameManager.Instance.getPlayerRodentsCount();
 		UpdatePopulationText();
@@ -120,32 +112,63 @@ public class ResourceManagerScript : MonoBehaviour
 		return _currentPopulation;
 	}
 
-    //Increment Resources Methods
-    public void incrementTrash(int amnt)
+    // Start is called before the first frame update
+    void Start()
     {
-        _trash += amnt;
-        UpdateTrashText();
+        _currentCapacity = 5;
+        UpdateCurrentPopulation();
+        _food = 10;
+		_trash = 10;
+		_wood = 10;
+		_metal = 10;
+		_shiny = 10;
+
+        UpdateAllResourcesText();
     }
-    public void incrementWood(int amnt)
+
+    //Increment Resource Method
+    public void incrementResource(ResourceType type, int amnt)
     {
-        _wood += amnt;
-        UpdateWoodText();
+        switch (type)
+        {
+            case ResourceType.Food:
+                {
+                    _food += amnt;
+                    UpdateResourceText(type);
+                    break;
+                }
+            case ResourceType.Trash:
+                {
+                    _trash += amnt;
+                    UpdateResourceText(type);
+                    break;
+                }
+            case ResourceType.Wood:
+                {
+                    _wood += amnt;
+                    UpdateResourceText(type);
+                    break;
+                }
+            case ResourceType.Stone:
+                {
+                    _metal += amnt;
+                    UpdateResourceText(type);
+                    break;
+                }
+            case ResourceType.Shiny:
+                {
+                    _shiny += amnt;
+                    UpdateResourceText(type);
+                    break;
+                }
+            default:
+                {
+                    Debug.LogError("ResourceType not found when incrementing resource");
+                    break;
+                }
+        }
     }
-    public void incrementMetal(int amnt)
-    {
-        _metal += amnt;
-        UpdateMetalText();
-    }
-    public void incrementShiny(int amnt)
-    {
-        _shiny += amnt;
-        UpdateShinyText();
-    }
-    public void incrementFood(int amnt)
-    {
-        _food += amnt;
-        UpdateFoodText();
-    }
+
     public void incrementPopulationCapacity(int amnt)
     {
         _currentCapacity += amnt;
@@ -154,41 +177,48 @@ public class ResourceManagerScript : MonoBehaviour
     }
 
     //Update Resource Panel UI Text
-    public void UpdateTrashText()
+    private void UpdateResourceText(ResourceType type)
     {
-        if (_TrashText)
+        switch (type)
         {
-            _TrashText.text = _trash.ToString();
+            case ResourceType.Food:
+                {
+                    if (_FoodText)
+                        _FoodText.text = _food.ToString();
+                    break;
+                }
+            case ResourceType.Trash:
+                {
+                    if (_TrashText)
+                        _TrashText.text = _trash.ToString();
+                    break;
+                }
+            case ResourceType.Wood:
+                {
+                    if (_WoodText)
+                        _WoodText.text = _wood.ToString();
+                    break;
+                }
+            case ResourceType.Stone:
+                {
+                    if (_MetalText)
+                        _MetalText.text = _metal.ToString();
+                    break;
+                }
+            case ResourceType.Shiny:
+                {
+                    if (_ShinyText)
+                        _ShinyText.text = _shiny.ToString();
+                    break;
+                }
+            default:
+                {
+                    Debug.LogError("ResourceType not found when updating resource text");
+                    break;
+                }
         }
     }
-    public void UpdateWoodText()
-    {
-        if (_WoodText)
-        {
-            _WoodText.text = _wood.ToString();
-        }
-    }
-    public void UpdateMetalText()
-    {
-        if (_MetalText)
-        {
-            _MetalText.text = _metal.ToString();
-        }
-    }
-    public void UpdateShinyText()
-    {
-        if (_ShinyText)
-        {
-            _ShinyText.text = _shiny.ToString();
-        }
-    }
-    public void UpdateFoodText()
-    {
-        if (_FoodText)
-        {
-            _FoodText.text = _food.ToString();
-        }
-    }
+
     public void UpdatePopulationText()
     {
         if (_PopulationText)
@@ -198,11 +228,11 @@ public class ResourceManagerScript : MonoBehaviour
     }
     public void UpdateAllResourcesText()
     {
-        UpdateTrashText();
-        UpdateWoodText();
-        UpdateMetalText();
-        UpdateShinyText();
-        UpdateFoodText();
+        UpdateResourceText(ResourceType.Food);
+        UpdateResourceText(ResourceType.Trash);
+        UpdateResourceText(ResourceType.Wood);
+        UpdateResourceText(ResourceType.Stone);
+        UpdateResourceText(ResourceType.Shiny);
         UpdatePopulationText();
     }
 }

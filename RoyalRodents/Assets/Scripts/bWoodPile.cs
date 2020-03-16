@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class bWoodPile : MonoBehaviour
 {
-	private Sprite _builtSpriteLevel1;
+	private static Sprite _builtSpriteLevel1;
 	private static int maxLevel = 1;
 
 	private float _hitpoints = 50;
@@ -13,12 +13,12 @@ public class bWoodPile : MonoBehaviour
 	private static bool _isSet;
 
 	//create strucutre costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
-	public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
+	public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel1 = new Dictionary<ResourceManagerScript.ResourceType, int>();
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Banner/trash_banner");
+		SetUpComponent();
 	}
 
 	// Update is called once per frame
@@ -27,12 +27,14 @@ public class bWoodPile : MonoBehaviour
 
 	}
 
-	private static void setupCosts()
+	private static void SetUpComponent()
 	{
 		if (!_isSet)
 		{
 			//Set Upgrade/Build Costs (1-3 levels)
-			_costLevel1.Add("Trash", 1);
+			_costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 1);
+
+			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Banner/trash_banner");
 
 			_isSet = true;
 		}
@@ -40,18 +42,21 @@ public class bWoodPile : MonoBehaviour
 
 	public float BuildingComplete(int level)
 	{
+		if (!_isSet)
+			SetUpComponent();
+
 		if (level == 1)
 			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
 
 		return (_hitpoints + (_hitPointGrowth * level));
 	}
 
-	public static Dictionary<string, int> getCost(int level)
+	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
 
 		if (_costLevel1.Count == 0)
 		{
-			setupCosts();
+			SetUpComponent();
 		}
 
 		if (level == 1)

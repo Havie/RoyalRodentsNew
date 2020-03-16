@@ -10,10 +10,6 @@ public class GameManager : MonoBehaviour
     //GameManager Instance
     private static GameManager _instance;
 
-    //local Resource Vars
-    public int _gold = 1;
-    public int _victoryPoints;
-
     //Other Vars
     public Image _WinImg;
     public Image _LoseImg;
@@ -76,9 +72,6 @@ public class GameManager : MonoBehaviour
         Screen.autorotateToPortrait = false;
         Screen.autorotateToLandscapeRight = false;
         Screen.autorotateToPortraitUpsideDown = false;
-
-       
-
     }
     public void LoadData()
     {
@@ -88,30 +81,35 @@ public class GameManager : MonoBehaviour
         {
             int id = IDs[i];
             Rodent r = _RodentHashTable[id];
-            r.LoadData(id, data._team[i], data._Type[i], data._BuildingID[i]);
+            r.LoadData(id, data._team[i], data._Type[i], data._BuildingID[i], data._position[i]);
 
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        //Temp way to give the player a TownCenter at start.
-        _TownCenter = GameObject.FindGameObjectWithTag("TownCenter").GetComponent<bTownCenter>();
-        _TownCenter.StartingBuildComplete();
+        //Figure out if were on the Main Menu
+        int sceneid= SceneManager.GetActiveScene().buildIndex;
+        if (sceneid != 0)
+            StartScene();
+    }
 
-        _gold = 0;
-        _victoryPoints = 0;
+    public void StartScene()
+    {
+        //Figure out if on mobile device
+        _IsMobileMode = Application.isMobilePlatform;
 
         //Get ResourceManagerScript from Instance
         _rm = ResourceManagerScript.Instance;
 
-        //Set up our animators
-        _WinAnimator = _WinImg.GetComponent<Animator>();
-        _LoseAnimator = _LoseImg.GetComponent<Animator>();
-        //Shows the splash screen (TMP till main menu?)
-        // _SplashScreen.gameObject.SetActive(true);
 
+        //Have to Find a New Way Because Loading from mainMenu doesn't have these
+        //Set up our animators
+        if (_WinAnimator && _LoseAnimator)
+        {
+            _WinAnimator = _WinImg.GetComponent<Animator>();
+            _LoseAnimator = _LoseImg.GetComponent<Animator>();
+        }
 
         // Find any Rodents starting under Players control
         Rodent[] rg = GameObject.FindObjectsOfType<Rodent>();
@@ -125,9 +123,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        //Figure out if on mobile device
-       _IsMobileMode= Application.isMobilePlatform;
-
     }
 
     // Update is called once per frame
@@ -138,22 +133,18 @@ public class GameManager : MonoBehaviour
             _rm.incrementTrash(1);
         if (Input.GetKeyDown(KeyCode.X))
             _rm.incrementFood(1);
-
-        if (!_firstClick)
-        {
-            if (Input.anyKeyDown)
-            {
-                _SplashScreen.gameObject.SetActive(false);
-                _firstClick = true;
-            }
-        }
-//Wont use this most likely can delete
-//         if(Input.GetKeyDown(KeyCode.G))
-//             SceneManager.LoadScene(1);
-//         if (Input.GetKeyDown(KeyCode.H))
-//             SceneManager.LoadScene(0);
     }
-
+    public void setTownCenter(bTownCenter tc)
+    {
+        _TownCenter = tc;
+        _TownCenter.StartingBuildComplete();
+       // StartCoroutine(TownCenterDelay());
+    }
+    IEnumerator TownCenterDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        _TownCenter.StartingBuildComplete();
+    }
     public void youWin()
     {
         if (_WinAnimator)
@@ -216,24 +207,35 @@ public class GameManager : MonoBehaviour
     }
     public void addToPlayerRodents(Rodent r)
     {
-        //can Lists add duplicates? should we check against this?
-        if (_PlayerRodents.Contains(r))
-             { Debug.Log("Trying to add a rodent thats already in player List?");return; }
+        if (_PlayerRodents != null)
+        {
+            //List Should not add Duplicates
+            if (_PlayerRodents.Contains(r))
+            {
+                //Debug.Log("Trying to add a rodent thats already in player List? - happens at start of scene but what ab with Load?"); 
+                return;
+            }
+            else
+            {
+                _PlayerRodents.Add(r);
+                _rm.UpdateCurrentPopulation();
 
-        _PlayerRodents.Add(r);
-        _rm.UpdateCurrentPopulation();
-
-        //Keep organized in hierarchy 
-        r.gameObject.transform.SetParent(_PlayerRodentDummy);
+                //Keep organized in hierarchy 
+                r.gameObject.transform.SetParent(_PlayerRodentDummy);
+            }
+        }
     }
 	public void RemovePlayerRodent(Rodent r)
 	{
-		if (_PlayerRodents.Contains(r))
-			_PlayerRodents.Remove(r);
-		_rm.UpdateCurrentPopulation();
+        if (_PlayerRodents!=null)
+        {
+            if (_PlayerRodents.Contains(r))
+                _PlayerRodents.Remove(r);
+            _rm.UpdateCurrentPopulation();
 
-		//Keep organized in hierarchy 
-		r.gameObject.transform.SetParent(_NeutralRodentDummy);
+            //Keep organized in hierarchy 
+            r.gameObject.transform.SetParent(_NeutralRodentDummy);
+        }
 	}
 	public void AddtoRodents(Rodent r)
     {

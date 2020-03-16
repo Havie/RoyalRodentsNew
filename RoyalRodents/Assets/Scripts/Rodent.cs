@@ -127,13 +127,18 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             Debug.Log("NotifyObj not set from inspector");
     }
 
-    public void LoadData(int id, int team, int type, int WorkID)
+    public void LoadData(int id, int team, int type, int WorkID, float xPos)
     {
         if (_ID != id)
             Debug.LogWarning("Rodent IDs do not match, save data failure");
+        //Set the Position
+        this.transform.position = new Vector3(xPos, this.transform.position.y, 0);
+        //Set the Team
         _Team = team;
+        //Set the Species
         setRodentType((eRodentType)type);
 
+        //Figure out place of employment 
         if (WorkID == -1)
             setTarget(null);
         else if (WorkID == -2) // is a royal guard
@@ -144,13 +149,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         }
         else
         {
-            BuildableObject b =BuildingSlotManager.getBuildingFromID(WorkID);
+            BuildableObject b = BuildingSlotManager.getBuildingFromID(WorkID);
             setTarget(b.gameObject);
             b.AssignWorker(this);
             if (b == null)
                 Debug.LogWarning("Rodent should work at building but its null, Possible Save Game Corruption");
-            else
-                Debug.Log("Success! going to work at: " + b.gameObject + " of type: " + b.getType());
         }
     }
 
@@ -178,7 +181,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         setTarget(null);
 
         _ID = GameManager.Instance.getRodentIdex();
-        Debug.Log(this.gameObject + " ID is: " + _ID);
+       // Debug.Log(this.gameObject + " ID is: " + _ID);
         GameManager.Instance.AddtoRodents(this);
 
     }
@@ -192,9 +195,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public void setRodentType(eRodentType type)
     {
         _Type = type;
-        setTeam(_Team); // why is this here? does removing it break anything?? too lazy to check
+        setTeam(_Team); // why is this here? does removing it break anything?? too lazy to check - might be for rodents that start in the scene?
 
-        switch(_Type)
+        switch (_Type)
         {
             case eRodentType.Rat:
                 {
@@ -320,7 +323,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         if (id > -1 && id < 3)
             _Team = id;
 
-       
+
         if (_Team == 1)
             GameManager.Instance.addToPlayerRodents(this);
         else if (oldTeam == 1)

@@ -8,6 +8,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        GameManager.Instance.StartScene();
     }
     public void Save()
     {
@@ -17,5 +18,8 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene(PlayerPrefs.GetInt(("SceneSaved")));
     }
-
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

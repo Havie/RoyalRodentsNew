@@ -66,7 +66,5 @@ public class CameraController : MonoBehaviour
             else
                 _playerMovement.setControlled(false);
         }
-        else
-            Debug.LogError("No PLayerMovement for Camera Controller");
     }
 }

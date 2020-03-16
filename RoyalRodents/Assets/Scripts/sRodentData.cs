@@ -10,6 +10,7 @@ public class sRodentData
     public int[] _Type;
     public int[] _team;
     public int[] _BuildingID;
+    public float[] _position;
 
     private int index = 0;
 
@@ -19,6 +20,7 @@ public class sRodentData
         _Type = new int[rodents.Count];
         _team = new int[rodents.Count];
         _BuildingID = new int[rodents.Count];
+        _position = new float[rodents.Count];
 
         foreach (Rodent r in rodents)
         {
@@ -26,6 +28,9 @@ public class sRodentData
             _IDs[index] = r.getID();
             _Type[index] = (int)r.GetRodentType(); // get all stats from rodent Type
             _team[index] = r.getTeam();
+
+            _position[index] = r.transform.position.x;
+            //Dont think we need a Y if levels are set up right.
 
             GameObject go= r.getPlaceOfWork();
             if (go != null)

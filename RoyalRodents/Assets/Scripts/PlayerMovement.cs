@@ -88,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(" Called ");
         _PlayerStats = this.GetComponent<PlayerStats>();
         if (_PlayerStats)
         {
@@ -138,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
                 // possibly move toward it with normalized direction
                 if (go != MVCController.Instance._dummyObj)
                 {
-                    Debug.Log("Location for " + go + "   is " + go.transform.position);
+                    //Debug.Log("Location for " + go + "   is " + go.transform.position);
                     //figure out if the collider is on a building we own
                     if (go.transform.parent)
                     {
@@ -206,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_controlled)
             {
-                Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+                //Debug.Log("No go, so move to mouse loc , which will need to change for touch");
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
                 _wantToAttack = false;
@@ -245,9 +244,7 @@ public class PlayerMovement : MonoBehaviour
         _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(input).x, _oldY, 0);
         float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
 
-        Debug.Log("MoveDis:: " + _moveDis);
-        Debug.Log("This trans:: " + this.transform.position);
-        Debug.Log("Dummy trans:: " + _MoveLocation.transform.position);
+       // Debug.Log("MoveDis:: " + _moveDis);
 
         // an extra layer so we dont move if the click is too close
         if (Mathf.Abs(_moveDis) > 0.6f)
@@ -599,13 +596,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Heal()
     {
-        if (GameManager.Instance._gold > 0)
-        {
-            this.GetComponent<PlayerStats>().Damage(-5);
-            ResourceManagerScript.Instance.incrementTrash(-1);
-            _animator.SetTrigger("Dead");
-
-        }
     }
     public void Move(float move, bool crouch, bool jump)
     {

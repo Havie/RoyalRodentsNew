@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class sSaveableObjects : MonoBehaviour
 {
+    // Singleton
+    private static sSaveableObjects _instance;
+
     [SerializeField]
     PlayerStats _playerStats;
     [SerializeField]
@@ -11,6 +14,28 @@ public class sSaveableObjects : MonoBehaviour
     [SerializeField]
     BuildingSlotManager _BuildingSlots;
 
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            //if not, set instance to this
+            _instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (_instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+
+    private void Start()
+    {
+        this.transform.SetParent(GameManager.Instance.gameObject.transform);
+    }
 
     private void LateUpdate()
     {

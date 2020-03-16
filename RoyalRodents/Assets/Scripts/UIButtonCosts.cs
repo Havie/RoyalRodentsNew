@@ -14,8 +14,6 @@ public class UIButtonCosts : MonoBehaviour
 	public Dictionary<string, int> _cost;
 
 	//Cost of Upgrade by Resource Vars
-	private int costGold;
-
 	private int costTrash;
 	private int costWood;
 	private int costMetal;
@@ -69,7 +67,6 @@ public class UIButtonCosts : MonoBehaviour
 	//set local vars from resource manager
 	void UpdateCurrentResources()
 	{
-		currentGold = GameManager.Instance._gold;
 
 		//update local vars from player resources
 		currentTrash = _rm.Trash;

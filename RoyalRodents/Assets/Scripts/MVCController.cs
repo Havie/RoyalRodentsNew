@@ -44,9 +44,26 @@ public class MVCController : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            //if not, set instance to this
+            _instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (_instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+            return;
+        }
+
+    }
 
     void Start()
     {
+        this.transform.SetParent(GameManager.Instance.gameObject.transform);
         //Not doing any Null Checks here is bad practice
         GameObject o = GameObject.FindGameObjectWithTag("BuildMenu");
         _BuildMenu = o.GetComponent<UIBuildMenu>();

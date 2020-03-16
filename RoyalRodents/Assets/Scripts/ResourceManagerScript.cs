@@ -49,9 +49,24 @@ public class ResourceManagerScript : MonoBehaviour
 
 		DontDestroyOnLoad(gameObject);
 	}
+    // Start is called before the first frame update
+    void Start()
+    {
+       // Debug.Log("Started resource Manager");
+        _currentCapacity = 5;
+        UpdateCurrentPopulation();
+        _food = 10;
+        _trash = 10;
+        _wood = 10;
+        _metal = 10;
+        _shiny = 10;
 
-	//getters for resource variable properties
-	public int Food
+        UpdateAllResourcesText();
+    }
+
+
+    //getters for resource variable properties
+    public int Food
     {
         get
         {
@@ -105,20 +120,6 @@ public class ResourceManagerScript : MonoBehaviour
 	{
 		return _currentPopulation;
 	}
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _currentCapacity = 5;
-        UpdateCurrentPopulation();
-        _food = 10;
-		_trash = 10;
-		_wood = 10;
-		_metal = 10;
-		_shiny = 10;
-
-        UpdateAllResourcesText();
-    }
 
     //Increment Resources Methods
     public void incrementTrash(int amnt)

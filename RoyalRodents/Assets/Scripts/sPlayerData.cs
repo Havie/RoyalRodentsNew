@@ -13,8 +13,6 @@ public class sPlayerData
 
     //PM
     public float[] position;
-    //public DiggableTile _CurrentTopTile;
-   // public DiggableTile _CurrentTunnelTile;
     public bool _FacingRight;
     public bool _InGround;
     public bool _isAttacking;
@@ -35,8 +33,6 @@ public class sPlayerData
         position[1] = _YHeight; // dont need 
         position[2] = 0; // dont need
 
-        // _CurrentTopTile = pm.getCurrentSoilTile();
-        // _CurrentTunnelTile = pm.getCurrentTunnelTile();
 
         _FacingRight = pm.getIsFacingRight();
         _InGround = pm.getInGround();

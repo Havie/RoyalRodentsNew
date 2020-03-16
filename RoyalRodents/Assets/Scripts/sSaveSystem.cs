@@ -14,12 +14,12 @@ public static class sSaveSystem
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/playerdata.txt";
 
-        FileStream steam = new FileStream(path, FileMode.Create); // appears to overwrite old
+        FileStream stream = new FileStream(path, FileMode.Create); // appears to overwrite old
 
         sPlayerData data = new sPlayerData(ps, pm);
 
-        formatter.Serialize(steam, data);
-        steam.Close();
+        formatter.Serialize(stream, data);
+        stream.Close();
 
     }
     public static sPlayerData LoadPlayerData()
@@ -46,9 +46,34 @@ public static class sSaveSystem
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/buildings.txt";
-        FileStream steam = new FileStream(path, FileMode.Create);
+        FileStream stream = new FileStream(path, FileMode.Create);
 
+        if (buildings == null)
+            Debug.LogWarning("Buildings are Null?");
+        sBuildingData data = new sBuildingData(buildings);
 
+        formatter.Serialize(stream, data);
+        stream.Close();
+
+    }
+
+    public static sBuildingData LoadBuildingData()
+    {
+        string path = Application.persistentDataPath + "/buildings.txt";
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            sBuildingData data = formatter.Deserialize(stream) as sBuildingData;
+            stream.Close();
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Cant find building file in" + path);
+            return null;
+        }
     }
 
 

@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
 
     private bool _IsMobileMode;
 
+    //Could possibly keep track of all buildings via an array/list?
+    private int buildingIndex=0;
+
     //Create Instance of GameManager
     public static GameManager Instance
     {
@@ -219,5 +222,8 @@ public class GameManager : MonoBehaviour
     {
         return _IsMobileMode;
     }
-   
+   public int getBuildingIndex()
+    {
+        return ++buildingIndex;
+    }
 }

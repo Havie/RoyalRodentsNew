@@ -9,7 +9,7 @@ public class sSaveableObjects : MonoBehaviour
     [SerializeField]
     PlayerMovement _playerMovement;
     [SerializeField]
-    GameObject[] _buildings;
+    BuildingSlotManager _BuildingSlots;
 
 
     private void LateUpdate()
@@ -27,11 +27,14 @@ public class sSaveableObjects : MonoBehaviour
     public void Save()
     {
         sSaveSystem.SavePlayer(_playerStats, _playerMovement);
+        sSaveSystem.SaveBuildings(_BuildingSlots.getBuildings());
+
     }
 
     public void Load()
     {
         _playerStats.LoadData();
         _playerMovement.LoadData();
+        _BuildingSlots.LoadData();
     }
 }

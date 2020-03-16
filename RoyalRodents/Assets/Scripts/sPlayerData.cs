@@ -30,10 +30,6 @@ public class sPlayerData
         //PM
         position = new float[3];
 
-        //position[0] = pm.transform.position.x;
-        //position[1] = pm.transform.position.y;
-        //position[2] = pm.transform.position.z;
-
         position[0] = pm.getLastAboveGroundLoc().x;
         position[1] = pm.getLastAboveGroundLoc().y;
         position[2] = pm.getLastAboveGroundLoc().z;
@@ -46,6 +42,4 @@ public class sPlayerData
         _isAttacking = pm.getIsAttacking();
         _YHeight = pm.getYHeight();
     }
-
-
 }

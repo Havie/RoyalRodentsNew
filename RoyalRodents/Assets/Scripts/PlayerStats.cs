@@ -117,7 +117,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
              _RoyalGuardParent.position = this.transform.position;
 
         //Player will trickle restore HP based on stamina
-        if(InOwnTerritory())
+        if(!InOwnTerritory())
         {
             if(_Hp<_HpMax)
                  Damage(-_Stamina/5000f);

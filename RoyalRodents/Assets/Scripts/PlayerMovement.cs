@@ -77,7 +77,12 @@ public class PlayerMovement : MonoBehaviour
     public float getYHeight() => _YHeight;
     public DiggableTile getCurrentSoilTile() => _CurrentSoilTile;
     public DiggableTile getCurrentTunnelTile() => _CurrentTunnelTile;
-    public Vector3 getLastAboveGroundLoc() => _CurrentSoilTile.transform.position;
+    public Vector3 getLastAboveGroundLoc()
+    {
+        if (_CurrentSoilTile == null)
+            return this.transform.position;
+        else
+            return _CurrentSoilTile.transform.position;}
     // Start is called before the first frame update
     void Start()
     {

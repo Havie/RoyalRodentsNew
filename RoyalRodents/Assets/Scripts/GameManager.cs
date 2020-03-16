@@ -120,9 +120,9 @@ public class GameManager : MonoBehaviour
     {
         //Developer Tools to get resources
         if (Input.GetKeyDown(KeyCode.Z))
-            _rm.incrementTrash(1);
+            _rm.incrementResource(ResourceManagerScript.ResourceType.Trash, 1);
         if (Input.GetKeyDown(KeyCode.X))
-            _rm.incrementFood(1);
+            _rm.incrementResource(ResourceManagerScript.ResourceType.Food, 1);
 
         if (!_firstClick)
         {

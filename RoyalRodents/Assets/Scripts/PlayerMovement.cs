@@ -594,7 +594,7 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.Instance._gold > 0)
         {
             this.GetComponent<PlayerStats>().Damage(-5);
-            ResourceManagerScript.Instance.incrementTrash(-1);
+            ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Trash, -1);
             _animator.SetTrigger("Dead");
 
         }
@@ -748,7 +748,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // if (collision.transform.GetComponent<CoinResource>().isActive())
             {
-                ResourceManagerScript.Instance.incrementTrash(1);
+                ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Trash, 1);
                 Destroy(collision.gameObject);
             }
         }

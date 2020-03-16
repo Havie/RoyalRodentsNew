@@ -11,19 +11,15 @@ public class UIButtonCosts : MonoBehaviour
 	public int _level;
 
 	//Current local dictionary
-	public Dictionary<string, int> _cost;
+	public Dictionary<ResourceManagerScript.ResourceType, int> _cost;
 
 	//Cost of Upgrade by Resource Vars
-	private int costGold;
-
 	private int costTrash;
 	private int costWood;
 	private int costMetal;
 	private int costShiny;
 
 	//Current Player Resources Local Vars
-	private int currentGold;
-
 	private int currentTrash;
 	private int currentWood;
 	private int currentMetal;
@@ -69,13 +65,11 @@ public class UIButtonCosts : MonoBehaviour
 	//set local vars from resource manager
 	void UpdateCurrentResources()
 	{
-		currentGold = GameManager.Instance._gold;
-
 		//update local vars from player resources
-		currentTrash = _rm.Trash;
-		currentWood = _rm.Wood;
-		currentMetal = _rm.Metal;
-		currentShiny = _rm.Shiny;
+		currentTrash = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Trash);
+		currentWood = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Wood);
+		currentMetal = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Stone);
+		currentShiny = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny);
 	}
 
     public void UpdateCosts()
@@ -124,19 +118,34 @@ public class UIButtonCosts : MonoBehaviour
 		//set cost variables from specific cost dictionary
 		if (_cost != null)
 		{
-			foreach (string key in _cost.Keys)
+			foreach (ResourceManagerScript.ResourceType key in _cost.Keys)
 			{
 				int tmp;
 				_cost.TryGetValue(key, out tmp);
 
-				if (key.Equals("Trash"))
-					costTrash = tmp;
-				else if (key.Equals("Wood"))
-					costWood = tmp;
-				else if (key.Equals("Metal"))
-					costMetal = tmp;
-				else if (key.Equals("Shiny"))
-					costShiny = tmp;
+				switch (key)
+				{
+					case ResourceManagerScript.ResourceType.Trash:
+						{
+							costTrash = tmp;
+							break;
+						}
+					case ResourceManagerScript.ResourceType.Wood:
+						{
+							costWood = tmp;
+							break;
+						}
+					case ResourceManagerScript.ResourceType.Stone:
+						{
+							costMetal = tmp;
+							break;
+						}
+					case ResourceManagerScript.ResourceType.Shiny:
+						{
+							costShiny = tmp;
+							break;
+						}
+				}
 			}
 		}
     }
@@ -216,10 +225,10 @@ public class UIButtonCosts : MonoBehaviour
 				MVCController.Instance.MVCBuildSomething(_type);
 
 			//decrement resources based on cost
-			_rm.incrementTrash(-costTrash);
-			_rm.incrementWood(-costWood);
-			_rm.incrementMetal(-costMetal);
-			_rm.incrementShiny(-costShiny);
+			_rm.incrementResource(ResourceManagerScript.ResourceType.Trash, -costTrash);
+			_rm.incrementResource(ResourceManagerScript.ResourceType.Wood, -costWood);
+			_rm.incrementResource(ResourceManagerScript.ResourceType.Stone, -costMetal);
+			_rm.incrementResource(ResourceManagerScript.ResourceType.Shiny, -costShiny);
 			// Debug.Log("Cost Approved");
 		}
         else

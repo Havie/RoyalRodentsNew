@@ -64,7 +64,7 @@ public class UIRecruitMenu : MonoBehaviour
 
 
             //Check if we have enough food
-            if (ResourceManagerScript.Instance.Food < _FoodCost)
+            if (ResourceManagerScript.Instance.GetResourceCount(ResourceManagerScript.ResourceType.Food) < _FoodCost)
             {
                 _CostFood.color = bad;
             }
@@ -121,7 +121,7 @@ public class UIRecruitMenu : MonoBehaviour
 
 
             //Check if we have enough food
-            if (ResourceManagerScript.Instance.Food < FoodCost)
+            if (ResourceManagerScript.Instance.GetResourceCount(ResourceManagerScript.ResourceType.Food) < FoodCost)
             {
                 _CostFood.color = bad;
             }
@@ -189,7 +189,7 @@ public class UIRecruitMenu : MonoBehaviour
        // Debug.Log("!!!!Recruit " + _Name.text);
 
         // Check RM if we have enough Food  
-        if (ResourceManagerScript.Instance.Food < _FoodCost)
+        if (ResourceManagerScript.Instance.GetResourceCount(ResourceManagerScript.ResourceType.Food) < _FoodCost)
         {
             //To-Do: Play Sound
             return;
@@ -205,7 +205,7 @@ public class UIRecruitMenu : MonoBehaviour
         //Tell MVC to go ahead
         MVCController.Instance.Recruit(_Rodent, this);
         //Update Resource Manager
-        ResourceManagerScript.Instance.incrementFood(0 - _FoodCost);
+        ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Food, -_FoodCost);
 		ResourceManagerScript.Instance.UpdateCurrentPopulation();
 	}
 

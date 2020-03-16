@@ -5,11 +5,11 @@ using UnityEngine;
 public class bTownCenter : MonoBehaviour
 {
     [SerializeField]
-    private Sprite _builtSpriteLevel1;
-    private Sprite _builtSpriteLevel2;
-    private Sprite _builtSpriteLevel3;
-    private Sprite _builtSpriteLevel4;
-    private Sprite _builtSpriteLevel5;
+    private static Sprite _builtSpriteLevel1;
+    private static Sprite _builtSpriteLevel2;
+    private static Sprite _builtSpriteLevel3;
+    private static Sprite _builtSpriteLevel4;
+    private static Sprite _builtSpriteLevel5;
     private static int maxLevel = 5;
 
     private static float _hitpoints = 250;
@@ -18,20 +18,16 @@ public class bTownCenter : MonoBehaviour
     private static bool _isSet;
 
     //create structure costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
-    public static Dictionary<string, int> _costLevel1 = new Dictionary<string, int>();
-    public static Dictionary<string, int> _costLevel2 = new Dictionary<string, int>();
-    public static Dictionary<string, int> _costLevel3 = new Dictionary<string, int>();
-    public static Dictionary<string, int> _costLevel4 = new Dictionary<string, int>();
-    public static Dictionary<string, int> _costLevel5 = new Dictionary<string, int>();
+    public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel1 = new Dictionary<ResourceManagerScript.ResourceType, int>();
+    public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel2 = new Dictionary<ResourceManagerScript.ResourceType, int>();
+    public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel3 = new Dictionary<ResourceManagerScript.ResourceType, int>();
+    public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel4 = new Dictionary<ResourceManagerScript.ResourceType, int>();
+    public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel5 = new Dictionary<ResourceManagerScript.ResourceType, int>();
 
     // Start is called before the first frame update
     void Start()
     {
-        _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-        _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/TownCenter/wood_town_center");
-        _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/stone_town_center");
-        _builtSpriteLevel4 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-        _builtSpriteLevel5 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+        SetUpComponent();
     }
 
     // Update is called once per frame
@@ -40,27 +36,33 @@ public class bTownCenter : MonoBehaviour
 
     }
 
-    private static void setupCosts()
+    private static void SetUpComponent()
     {
         if (!_isSet)
         {
             //Set Upgrade/Build Costs (1-5 levels)
-            _costLevel1.Add("Trash", 2);
+            _costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 4);
 
-            _costLevel2.Add("Trash", 4);
-            _costLevel2.Add("Wood", 2);
+            _costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 4);
+            _costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 2);
 
-            _costLevel3.Add("Trash", 6);
-            _costLevel3.Add("Wood", 4);
-            _costLevel3.Add("Metal", 2);
+            _costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 6);
+            _costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 4);
+            _costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 2);
 
-            _costLevel4.Add("Trash", 6);
-            _costLevel4.Add("Wood", 4);
-            _costLevel4.Add("Metal", 2);
+            _costLevel4.Add(ResourceManagerScript.ResourceType.Trash, 6);
+            _costLevel4.Add(ResourceManagerScript.ResourceType.Wood, 4);
+            _costLevel4.Add(ResourceManagerScript.ResourceType.Stone, 2);
 
-            _costLevel5.Add("Trash", 6);
-            _costLevel5.Add("Wood", 4);
-            _costLevel5.Add("Metal", 2);
+            _costLevel5.Add(ResourceManagerScript.ResourceType.Trash, 6);
+            _costLevel5.Add(ResourceManagerScript.ResourceType.Wood, 4);
+            _costLevel5.Add(ResourceManagerScript.ResourceType.Stone, 2);
+
+            _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+            _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/TownCenter/wood_town_center");
+            _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/stone_town_center");
+            _builtSpriteLevel4 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+            _builtSpriteLevel5 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
 
             _isSet = true;
         }
@@ -68,6 +70,10 @@ public class bTownCenter : MonoBehaviour
 
     public float BuildingComplete(int level)
     {
+        if (!_isSet)
+            SetUpComponent();
+
+        //Set new structure sprite
         if (level == 1)
             this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
         else if (level == 2)
@@ -99,12 +105,12 @@ public class bTownCenter : MonoBehaviour
         ResourceManagerScript.Instance.incrementPopulationCapacity(5);
     }
 
-	public static Dictionary<string, int> getCost(int level)
+	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
 
 		if (_costLevel1.Count == 0)
 		{
-			setupCosts();
+			SetUpComponent();
 		}
 
 		if (level == 1)

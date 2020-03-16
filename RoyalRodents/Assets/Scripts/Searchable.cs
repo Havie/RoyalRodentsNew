@@ -210,12 +210,12 @@ public class Searchable : MonoBehaviour
 
         if (_ResourceNumber < 7)
         {
-            ResourceManagerScript.Instance.incrementTrash(_Amount);
+            ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Trash, _Amount);
             _TrashController.SetTrigger("Pop");
         }
         else
         {
-            ResourceManagerScript.Instance.incrementFood(_Amount);
+            ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Food, _Amount);
             _FoodController.SetTrigger("Pop");
         }
 

@@ -6,8 +6,8 @@ using TMPro;
 
 public class ResourceManagerScript : MonoBehaviour
 {
-	//Make a singleton
-	private static ResourceManagerScript _instance;
+    //Make a singleton
+    private static ResourceManagerScript _instance;
 
     //Set up ResourceType enum
     public enum ResourceType { Food, Trash, Wood, Stone, Shiny };
@@ -27,35 +27,35 @@ public class ResourceManagerScript : MonoBehaviour
 
     //Create Instance of GameManager
     public static ResourceManagerScript Instance
-	{
-		get
-		{
-			if (_instance == null)
-				_instance = new ResourceManagerScript();
-			return _instance;
-		}
-	}
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new ResourceManagerScript();
+            return _instance;
+        }
+    }
 
-	private void Awake()
-	{
-		if (_instance == null)
-		{
-			//if not, set instance to this
-			_instance = this;
-		}
-		//If instance already exists and it's not this:
-		else if (_instance != this)
-		{
-			//Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
-			Destroy(gameObject);
-		}
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            //if not, set instance to this
+            _instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (_instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+        }
 
-		DontDestroyOnLoad(gameObject);
-	}
+        DontDestroyOnLoad(gameObject);
+    }
     // Start is called before the first frame update
     void Start()
     {
-       // Debug.Log("Started resource Manager");
+        // Debug.Log("Started resource Manager");
         _currentCapacity = 5;
         UpdateCurrentPopulation();
         _food = 10;
@@ -63,8 +63,9 @@ public class ResourceManagerScript : MonoBehaviour
         _wood = 10;
         _metal = 10;
         _shiny = 10;
+    }
 
-	//getters for resource variable properties
+    //getters for resource variable properties
     public int GetResourceCount(ResourceType type)
     {
         switch (type)
@@ -97,33 +98,19 @@ public class ResourceManagerScript : MonoBehaviour
     }
 
     public void UpdateCurrentPopulation()
-	{
-		_currentPopulation = GameManager.Instance.getPlayerRodentsCount();
-		UpdatePopulationText();
-	}
-	
-	//Population Getters
+    {
+        _currentPopulation = GameManager.Instance.getPlayerRodentsCount();
+        UpdatePopulationText();
+    }
+
+    //Population Getters
     public int getPopulationCapacity()
     {
         return _currentCapacity;
     }
-	public int getCurrentPopulation()
-	{
-		return _currentPopulation;
-	}
-
-    // Start is called before the first frame update
-    void Start()
+    public int getCurrentPopulation()
     {
-        _currentCapacity = 5;
-        UpdateCurrentPopulation();
-        _food = 10;
-		_trash = 10;
-		_wood = 10;
-		_metal = 10;
-		_shiny = 10;
-
-        UpdateAllResourcesText();
+        return _currentPopulation;
     }
 
     //Increment Resource Method
@@ -173,7 +160,7 @@ public class ResourceManagerScript : MonoBehaviour
     {
         _currentCapacity += amnt;
         UpdatePopulationText();
-      // Debug.Log("Incremented population capacity by " + amnt.ToString());
+        // Debug.Log("Incremented population capacity by " + amnt.ToString());
     }
 
     //Update Resource Panel UI Text
@@ -223,7 +210,7 @@ public class ResourceManagerScript : MonoBehaviour
     {
         if (_PopulationText)
         {
-			_PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
+            _PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
         }
     }
     public void UpdateAllResourcesText()
@@ -236,3 +223,4 @@ public class ResourceManagerScript : MonoBehaviour
         UpdatePopulationText();
     }
 }
+

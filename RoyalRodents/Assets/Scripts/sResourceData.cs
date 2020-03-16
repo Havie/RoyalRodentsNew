@@ -16,11 +16,11 @@ public class sResourceData
 
     public sResourceData (ResourceManagerScript rm)
     {
-        _trash = rm.Trash;
-        _wood = rm.Wood;
-        _stone = rm.Metal;
-        _shiny = rm.Shiny;
-        _food = rm.Food;
+        _trash = rm.GetResourceCount(ResourceManagerScript.ResourceType.Trash);
+        _wood = rm.GetResourceCount(ResourceManagerScript.ResourceType.Wood);
+        _stone = rm.GetResourceCount(ResourceManagerScript.ResourceType.Stone);
+        _shiny = rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny);
+        _food = rm.GetResourceCount(ResourceManagerScript.ResourceType.Food);
 
         //To-Do:
         _crowns = 0;

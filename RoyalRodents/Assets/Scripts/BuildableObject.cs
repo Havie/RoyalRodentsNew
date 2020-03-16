@@ -32,7 +32,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private float _hitpoints = 0;
     [SerializeField]
-    private float _hitpointsMax = 0;
+    private float _hitpointsMax = 5;
 
     private int _construction = 0;
     private int _constructionMax = 100;
@@ -91,8 +91,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (_HealthBar)
             _HealthBar.SetFillAmount(_hitpoints / _hitpointsMax);
 
-        if (_hitpoints == 0)
-            _HealthBar.gameObject.SetActive(false);
     }
     public void SetUpDayNight()
     {
@@ -112,10 +110,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         eState = (BuildingState) state;
         eType = (BuildingType)type;
-        UpdateHealthBar();
-
         LoadComponents();
         UpdateState();
+        UpdateHealthBar();
+        _HealthBar.gameObject.SetActive(true);
+
     }
     // Start is called before the first frame update
     void Start()
@@ -155,6 +154,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         UpdateState();
         SetUpTeam();
         setUpWorkers();
+        UpdateHealthBar();
 
         //Feel like these could load in a different order on start
         _ID = GameManager.Instance.getBuildingIndex();
@@ -162,9 +162,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     private void LateUpdate()
     {
-        if(Input.GetKey(KeyCode.P))
+        if(Input.GetKeyDown(KeyCode.P))
         {
-            Damage(1);
+            Damage(5);
         }
     }
     public void setUpWorkers()
@@ -558,7 +558,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //To-Do : Kick the worker rodent off
     }
     private void LoadComponents()
-    { // Debug.Log("Time to Build Something type=" + type);
+    {  Debug.Log("LoadingCompnent type=" + eType);
         switch (eType)
         {
             case (BuildingType.House):
@@ -622,6 +622,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     eType = BuildingType.TownCenter;
                     _hitpoints = bTownCenter.getHPStats();
                     _hitpointsMax = bTownCenter.getHPStats();
+                    UpdateHealthBar();
                     break;
                 }
         }

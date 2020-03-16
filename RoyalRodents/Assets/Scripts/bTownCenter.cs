@@ -28,13 +28,9 @@ public class bTownCenter : MonoBehaviour
     void Start()
     {
         SetUpComponent();
+        GameManager.Instance.setTownCenter(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private static void SetUpComponent()
     {
@@ -63,7 +59,6 @@ public class bTownCenter : MonoBehaviour
             _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/stone_town_center");
             _builtSpriteLevel4 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
             _builtSpriteLevel5 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-
             _isSet = true;
         }
     }
@@ -128,7 +123,6 @@ public class bTownCenter : MonoBehaviour
 
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
-
 		if (_costLevel1.Count == 0)
 		{
 			SetUpComponent();

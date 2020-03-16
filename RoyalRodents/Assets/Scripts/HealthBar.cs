@@ -35,7 +35,7 @@ public class HealthBar : MonoBehaviour
     public void SetFillAmount(float ratio)
     {
         showBars(true);
-       // Debug.Log("Heard to set fill::" + ratio);
+       //Debug.Log("Heard to set fill::" + ratio);
         if (_BarFill)
             _BarFill.fillAmount = ratio;
         else

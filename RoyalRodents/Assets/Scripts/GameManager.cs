@@ -84,7 +84,6 @@ public class GameManager : MonoBehaviour
             int id = IDs[i];
             Rodent r = _RodentHashTable[id];
             r.LoadData(id, data._team[i], data._Type[i], data._BuildingID[i], data._position[i]);
-
         }
     }
 
@@ -126,8 +125,6 @@ public class GameManager : MonoBehaviour
         //Developer Tools to get resources
         if (Input.GetKeyDown(KeyCode.Z))
             _rm.incrementResource(ResourceManagerScript.ResourceType.Trash, 1);
-        if (Input.GetKeyDown(KeyCode.X))
-            _rm.incrementFood(1);
         if (Input.GetKeyDown(KeyCode.Escape))
             ShowPauseMenu();
     }
@@ -154,8 +151,10 @@ public class GameManager : MonoBehaviour
             _EnemyRodentDummy = GameObject.FindGameObjectWithTag("EnemyRodents").transform;
         if (_PauseMenu == null)
             _PauseMenu = GameObject.FindGameObjectWithTag("PauseMenu");
-
-        _PauseMenu.SetActive(false);
+        if (_PauseMenu)
+            _PauseMenu.SetActive(false);
+        else
+            Debug.Log("PauseMenu done gone Missing again..");
     }
     private IEnumerator SceneDelay()
     {
@@ -192,8 +191,11 @@ public class GameManager : MonoBehaviour
     }
     private void ShowPauseMenu()
     {
-        _Paused = !_Paused;
-        _PauseMenu.SetActive(_Paused);
+        if (_PauseMenu)
+        {
+            _Paused = !_Paused;
+            _PauseMenu.SetActive(_Paused);
+        }
     }
     public List<Rodent> getPlayerRodents()
     {
@@ -211,6 +213,8 @@ public class GameManager : MonoBehaviour
 
 	public bTownCenter getTownCenter()
 	{
+        if (_TownCenter == null)
+            _TownCenter=GameObject.FindObjectOfType<bTownCenter>();
 		return _TownCenter;
 	}
     public int GetBuildingCap()

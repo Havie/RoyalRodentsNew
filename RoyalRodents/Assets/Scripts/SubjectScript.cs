@@ -29,6 +29,7 @@ public class SubjectScript : MonoBehaviour
     private bool MovingInIdle = false;
     private float WaitDuration;
     private bool canAttack = true;
+    private float attackDamage;
 
     private List<GameObject> _inRange = new List<GameObject>();
 
@@ -37,6 +38,7 @@ public class SubjectScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        attackDamage = this.GetComponent<Rodent>().getAttackDmg();
         anims = this.GetComponent<Animator>();
         facingRight = false;
         // a backup condition to get the right speed
@@ -425,13 +427,27 @@ public class SubjectScript : MonoBehaviour
         savedTarget = nTarget;
     }
 
+    private int getEnemyTeam()
+    {
+        int enemyTeam;
+        if(this.GetComponent<Rodent>().getTeam() == 1)
+        {
+            enemyTeam = 2;
+        }
+        else
+        {
+            enemyTeam = 1;
+        }
+
+        return enemyTeam;
+    }
+
+
     // TODO: Cases for Worker, RoyalGuard, and Builder specific behavior
     private void royalGuardBehavior()
     {
         // Follow the king at all times.
         // Future: Attack enemies within a radius of the king
-        if (anims)
-            anims.SetBool("isArmed", true);
         if (!ShouldIdle)
         {
             FindNextTargetInRange();
@@ -439,7 +455,7 @@ public class SubjectScript : MonoBehaviour
             // If target is enemy, attack. Add coroutine for attacking
             if(currentTarget.tag != "Player") // And can attack
             {
-                Attack();
+                StartCoroutine(Attack());
             }
 
             if (_printStatements)
@@ -458,7 +474,7 @@ public class SubjectScript : MonoBehaviour
         //check that it HAS a parent
 
         // Rodent case
-        if (collision.transform.parent.gameObject.GetComponent<Rodent>() && collision.transform.parent.gameObject.GetComponent<Rodent>().getTeam() == 2)
+        if (collision.transform.parent.gameObject.GetComponent<Rodent>() && collision.transform.parent.gameObject.GetComponent<Rodent>().getTeam() == getEnemyTeam())
         {
 
             GameObject r = collision.transform.parent.gameObject;
@@ -471,19 +487,33 @@ public class SubjectScript : MonoBehaviour
     }
 
     // Handles the rat attacking an enemy
-    public void Attack()
+    IEnumerator Attack()
     {
         // Play animation
-        // Reduce enemy health
+        
         if (canAttack)
         {
+            canAttack = false;
             if (anims)
             {
-                //Debug.Log("he's goin crazy yo");
+                // Put attack animation here
+                anims.SetTrigger("doAttack");
             }
+            // For rodents
+            if (currentTarget.GetComponent<Rodent>())
+            {
+                // Reduce enemy health
+                currentTarget.GetComponent<Rodent>().Damage(attackDamage);
+            }
+            // Building here
+
+            
+            yield return new WaitForSeconds(1.16f); //Length of attack animation
+            canAttack = true;
+            
         }
-        // else, yield return a very small amount?
-       
+        
+        
     }
 
     // Removes a target from the list if it exits the rodent's range
@@ -495,11 +525,12 @@ public class SubjectScript : MonoBehaviour
             {
 
                 if(go==currentTarget || currentTarget==null)
-            {
+                {
                 FindNextTargetInRange();
-            }
+                }
                 
                 _inRange.Remove(go);
+            Debug.Log("Rodent removed from targets");
             }
             //else debug error 
         

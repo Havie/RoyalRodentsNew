@@ -22,11 +22,6 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     private Transform _RoyalGuardParent;
 
 
-    //Dont think we even need this
-     private Rodent _Worker;
-
-
-
     /**Begin Interface stuff*/
     public void Damage(float damageTaken)
     {

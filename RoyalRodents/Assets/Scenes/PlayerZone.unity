@@ -326,6 +326,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &21138849
 Rigidbody2D:
   serializedVersion: 4
@@ -772,6 +773,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &48280953
 Rigidbody2D:
   serializedVersion: 4
@@ -1054,6 +1056,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &56740423
 Rigidbody2D:
   serializedVersion: 4
@@ -1293,6 +1296,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &68325269
 Rigidbody2D:
   serializedVersion: 4
@@ -1538,6 +1542,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &92985395
 Rigidbody2D:
   serializedVersion: 4
@@ -1683,6 +1688,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &95188324
 Rigidbody2D:
   serializedVersion: 4
@@ -1924,6 +1930,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &99602404
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,6 +2141,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &102353381
 Rigidbody2D:
   serializedVersion: 4
@@ -2279,6 +2287,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &104043923
 Rigidbody2D:
   serializedVersion: 4
@@ -2424,6 +2433,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &105800316
 Rigidbody2D:
   serializedVersion: 4
@@ -2686,6 +2696,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &111550019
 Rigidbody2D:
   serializedVersion: 4
@@ -2928,6 +2939,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &120307567
 Rigidbody2D:
   serializedVersion: 4
@@ -3169,6 +3181,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &125737967
 Rigidbody2D:
   serializedVersion: 4
@@ -3320,6 +3333,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &126966589
 Rigidbody2D:
   serializedVersion: 4
@@ -4216,6 +4230,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &158222941
 Rigidbody2D:
   serializedVersion: 4
@@ -5242,6 +5257,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &204004896
 Rigidbody2D:
   serializedVersion: 4
@@ -5387,6 +5403,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &209394659
 Rigidbody2D:
   serializedVersion: 4
@@ -5532,6 +5549,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &211210218
 Rigidbody2D:
   serializedVersion: 4
@@ -6126,6 +6144,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!4 &222068535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000010378926834, guid: 18d68565d33eca14ba492ad4f2115aab,
@@ -6457,6 +6476,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &231976364
 Rigidbody2D:
   serializedVersion: 4
@@ -6792,6 +6812,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &240073474
 Rigidbody2D:
   serializedVersion: 4
@@ -6937,6 +6958,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &241067166
 Rigidbody2D:
   serializedVersion: 4
@@ -7712,6 +7734,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &289169369
 Rigidbody2D:
   serializedVersion: 4
@@ -7934,6 +7957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12ab20200e3de043bdcdb8817b72632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _EnemySpawn: 0
+  _EnemySpawnDummy: {fileID: 0}
 --- !u!4 &293081249
 Transform:
   m_ObjectHideFlags: 0
@@ -8046,6 +8071,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &298742909
 Rigidbody2D:
   serializedVersion: 4
@@ -8759,6 +8785,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &326926775
 Rigidbody2D:
   serializedVersion: 4
@@ -9196,6 +9223,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &357829883
 Rigidbody2D:
   serializedVersion: 4
@@ -9341,6 +9369,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &360798398
 Rigidbody2D:
   serializedVersion: 4
@@ -9486,6 +9515,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &361027746
 Rigidbody2D:
   serializedVersion: 4
@@ -10724,6 +10754,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &426420110
 Rigidbody2D:
   serializedVersion: 4
@@ -10969,6 +11000,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &451277573
 Rigidbody2D:
   serializedVersion: 4
@@ -11114,6 +11146,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &457708298
 Rigidbody2D:
   serializedVersion: 4
@@ -11259,6 +11292,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &461196269
 Rigidbody2D:
   serializedVersion: 4
@@ -11404,6 +11438,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &462606180
 Rigidbody2D:
   serializedVersion: 4
@@ -11643,6 +11678,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &469351846
 Rigidbody2D:
   serializedVersion: 4
@@ -12731,6 +12767,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &522896848
 Rigidbody2D:
   serializedVersion: 4
@@ -13558,6 +13595,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &550126015
 Rigidbody2D:
   serializedVersion: 4
@@ -13703,6 +13741,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &551883113
 Rigidbody2D:
   serializedVersion: 4
@@ -13944,6 +13983,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &575603799
 GameObject:
   m_ObjectHideFlags: 0
@@ -14090,6 +14130,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &578310338
 Rigidbody2D:
   serializedVersion: 4
@@ -14453,6 +14494,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &586701048
 Rigidbody2D:
   serializedVersion: 4
@@ -15038,6 +15080,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &604896316
 GameObject:
   m_ObjectHideFlags: 0
@@ -15347,6 +15390,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &612193398
 Rigidbody2D:
   serializedVersion: 4
@@ -15492,6 +15536,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &612724976
 Rigidbody2D:
   serializedVersion: 4
@@ -15733,6 +15778,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &623315436
 Rigidbody2D:
   serializedVersion: 4
@@ -16231,6 +16277,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &670490515
 Rigidbody2D:
   serializedVersion: 4
@@ -16376,6 +16423,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &684455270
 Rigidbody2D:
   serializedVersion: 4
@@ -16615,6 +16663,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &702457576
 Rigidbody2D:
   serializedVersion: 4
@@ -16856,6 +16905,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &711028321
 GameObject:
   m_ObjectHideFlags: 0
@@ -17001,6 +17051,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &711126691
 Rigidbody2D:
   serializedVersion: 4
@@ -17637,6 +17688,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &746078400
 Rigidbody2D:
   serializedVersion: 4
@@ -17782,6 +17834,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &747317422
 Rigidbody2D:
   serializedVersion: 4
@@ -18027,6 +18080,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &758998333
 Rigidbody2D:
   serializedVersion: 4
@@ -18428,6 +18482,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &770258483
 GameObject:
   m_ObjectHideFlags: 0
@@ -18670,6 +18725,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &780395830
 Rigidbody2D:
   serializedVersion: 4
@@ -18815,6 +18871,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &781364986
 Rigidbody2D:
   serializedVersion: 4
@@ -19798,6 +19855,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12ab20200e3de043bdcdb8817b72632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _EnemySpawn: 0
+  _EnemySpawnDummy: {fileID: 0}
 --- !u!4 &810884182
 Transform:
   m_ObjectHideFlags: 0
@@ -20214,6 +20273,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &834296357
 GameObject:
   m_ObjectHideFlags: 0
@@ -20263,6 +20323,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &834296360
 Rigidbody2D:
   serializedVersion: 4
@@ -20501,6 +20562,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &838595643
 Rigidbody2D:
   serializedVersion: 4
@@ -23798,6 +23860,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &855773765
 Rigidbody2D:
   serializedVersion: 4
@@ -24200,6 +24263,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &863483803
 Rigidbody2D:
   serializedVersion: 4
@@ -24733,6 +24797,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &884527026
 GameObject:
   m_ObjectHideFlags: 0
@@ -25622,6 +25687,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &901433531
 Rigidbody2D:
   serializedVersion: 4
@@ -25767,6 +25833,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &902148525
 Rigidbody2D:
   serializedVersion: 4
@@ -25912,6 +25979,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &904438000
 Rigidbody2D:
   serializedVersion: 4
@@ -26387,6 +26455,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &921818550
 Rigidbody2D:
   serializedVersion: 4
@@ -26532,6 +26601,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &926579462
 Rigidbody2D:
   serializedVersion: 4
@@ -26846,6 +26916,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &929867319
 Rigidbody2D:
   serializedVersion: 4
@@ -27149,6 +27220,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &933183101
 Rigidbody2D:
   serializedVersion: 4
@@ -27457,6 +27529,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &935025098
 Rigidbody2D:
   serializedVersion: 4
@@ -27602,6 +27675,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &938547077
 Rigidbody2D:
   serializedVersion: 4
@@ -28097,6 +28171,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &949539071
 Rigidbody2D:
   serializedVersion: 4
@@ -28471,6 +28546,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &963089152
 Rigidbody2D:
   serializedVersion: 4
@@ -28773,6 +28849,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &967660915
 Rigidbody2D:
   serializedVersion: 4
@@ -29551,6 +29628,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1001214645
 Rigidbody2D:
   serializedVersion: 4
@@ -30015,6 +30093,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1034264899
 Rigidbody2D:
   serializedVersion: 4
@@ -30160,6 +30239,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1035129478
 Rigidbody2D:
   serializedVersion: 4
@@ -30600,6 +30680,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1078556292
 Rigidbody2D:
   serializedVersion: 4
@@ -30840,6 +30921,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1093432343
 Rigidbody2D:
   serializedVersion: 4
@@ -30985,6 +31067,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1093805970
 Rigidbody2D:
   serializedVersion: 4
@@ -31130,6 +31213,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1094901568
 Rigidbody2D:
   serializedVersion: 4
@@ -31305,6 +31389,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1101519544
 Rigidbody2D:
   serializedVersion: 4
@@ -31450,6 +31535,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1108239873
 Rigidbody2D:
   serializedVersion: 4
@@ -31949,6 +32035,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1122735588
 Rigidbody2D:
   serializedVersion: 4
@@ -32190,6 +32277,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &1124876041
 GameObject:
   m_ObjectHideFlags: 0
@@ -32284,6 +32372,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1128149263
 Rigidbody2D:
   serializedVersion: 4
@@ -32505,6 +32594,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1137239379
 Rigidbody2D:
   serializedVersion: 4
@@ -32650,6 +32740,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1145109362
 Rigidbody2D:
   serializedVersion: 4
@@ -33066,6 +33157,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1168110771
 Rigidbody2D:
   serializedVersion: 4
@@ -33211,6 +33303,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1171367216
 Rigidbody2D:
   serializedVersion: 4
@@ -33630,6 +33723,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1176273120
 Rigidbody2D:
   serializedVersion: 4
@@ -34393,6 +34487,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1199017953
 Rigidbody2D:
   serializedVersion: 4
@@ -34635,6 +34730,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1208120128
 Rigidbody2D:
   serializedVersion: 4
@@ -35564,6 +35660,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1256249730
 Rigidbody2D:
   serializedVersion: 4
@@ -35709,6 +35806,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1256615669
 Rigidbody2D:
   serializedVersion: 4
@@ -36017,6 +36115,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1261612544
 Rigidbody2D:
   serializedVersion: 4
@@ -36405,6 +36504,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1274717318
 Rigidbody2D:
   serializedVersion: 4
@@ -36643,6 +36743,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1285540625
 Rigidbody2D:
   serializedVersion: 4
@@ -36974,6 +37075,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1294999287
 Rigidbody2D:
   serializedVersion: 4
@@ -37119,6 +37221,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1295747687
 Rigidbody2D:
   serializedVersion: 4
@@ -37264,6 +37367,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1306494887
 Rigidbody2D:
   serializedVersion: 4
@@ -37564,6 +37668,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1311265536
 Rigidbody2D:
   serializedVersion: 4
@@ -38048,6 +38153,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1332585044
 Rigidbody2D:
   serializedVersion: 4
@@ -38583,6 +38689,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1348118687
 Rigidbody2D:
   serializedVersion: 4
@@ -39158,6 +39265,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1369851709
 Rigidbody2D:
   serializedVersion: 4
@@ -39763,6 +39871,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1400004087
 Rigidbody2D:
   serializedVersion: 4
@@ -39908,6 +40017,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1401041353
 Rigidbody2D:
   serializedVersion: 4
@@ -40059,6 +40169,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1405143095
 Rigidbody2D:
   serializedVersion: 4
@@ -40204,6 +40315,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1418683742
 Rigidbody2D:
   serializedVersion: 4
@@ -40466,6 +40578,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1427110025
 Rigidbody2D:
   serializedVersion: 4
@@ -40611,6 +40724,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1428646548
 Rigidbody2D:
   serializedVersion: 4
@@ -41057,6 +41171,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1457801000
 Rigidbody2D:
   serializedVersion: 4
@@ -41331,6 +41446,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1466037527
 Rigidbody2D:
   serializedVersion: 4
@@ -42157,6 +42273,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1507787915
 Rigidbody2D:
   serializedVersion: 4
@@ -42916,6 +43033,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1548109748
 Rigidbody2D:
   serializedVersion: 4
@@ -43652,6 +43770,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1565327188
 Rigidbody2D:
   serializedVersion: 4
@@ -43914,6 +44033,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1574109423
 Rigidbody2D:
   serializedVersion: 4
@@ -44140,6 +44260,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1587972455
 Rigidbody2D:
   serializedVersion: 4
@@ -44531,6 +44652,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1592539523
 Rigidbody2D:
   serializedVersion: 4
@@ -44844,6 +44966,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1602309743
 Rigidbody2D:
   serializedVersion: 4
@@ -45365,6 +45488,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1619996118
 Rigidbody2D:
   serializedVersion: 4
@@ -45627,6 +45751,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1635312204
 Rigidbody2D:
   serializedVersion: 4
@@ -46029,6 +46154,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &1660533452
 GameObject:
   m_ObjectHideFlags: 0
@@ -46351,6 +46477,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1675751075
 Rigidbody2D:
   serializedVersion: 4
@@ -46825,6 +46952,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1705672653
 Rigidbody2D:
   serializedVersion: 4
@@ -46970,6 +47098,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1711446836
 Rigidbody2D:
   serializedVersion: 4
@@ -47115,6 +47244,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1711885510
 Rigidbody2D:
   serializedVersion: 4
@@ -47353,6 +47483,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1717218492
 Rigidbody2D:
   serializedVersion: 4
@@ -47594,6 +47725,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &1727935493
 GameObject:
   m_ObjectHideFlags: 0
@@ -48136,6 +48268,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1749853585
 Rigidbody2D:
   serializedVersion: 4
@@ -48313,6 +48446,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1763692812
 Rigidbody2D:
   serializedVersion: 4
@@ -48968,6 +49102,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &1789284132
 GameObject:
   m_ObjectHideFlags: 0
@@ -49458,6 +49593,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1809176752
 Rigidbody2D:
   serializedVersion: 4
@@ -49703,6 +49839,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1823246946
 Rigidbody2D:
   serializedVersion: 4
@@ -49848,6 +49985,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1827019900
 Rigidbody2D:
   serializedVersion: 4
@@ -50451,6 +50589,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1839378130
 Rigidbody2D:
   serializedVersion: 4
@@ -51160,6 +51299,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1855590843
 Rigidbody2D:
   serializedVersion: 4
@@ -51305,6 +51445,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1858261282
 Rigidbody2D:
   serializedVersion: 4
@@ -51779,6 +51920,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1864274728
 Rigidbody2D:
   serializedVersion: 4
@@ -51924,6 +52066,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1864814287
 Rigidbody2D:
   serializedVersion: 4
@@ -52069,6 +52212,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1868273909
 Rigidbody2D:
   serializedVersion: 4
@@ -52657,6 +52801,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &1895284399
 GameObject:
   m_ObjectHideFlags: 0
@@ -52986,6 +53131,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1909024971
 Rigidbody2D:
   serializedVersion: 4
@@ -53131,6 +53277,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1910421396
 Rigidbody2D:
   serializedVersion: 4
@@ -53579,6 +53726,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1914954324
 Rigidbody2D:
   serializedVersion: 4
@@ -54043,6 +54191,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1924561166
 Rigidbody2D:
   serializedVersion: 4
@@ -54504,6 +54653,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1946974455
 Rigidbody2D:
   serializedVersion: 4
@@ -54749,6 +54899,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1953057345
 Rigidbody2D:
   serializedVersion: 4
@@ -54894,6 +55045,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1958793855
 Rigidbody2D:
   serializedVersion: 4
@@ -55183,6 +55335,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1970973661
 Rigidbody2D:
   serializedVersion: 4
@@ -55478,6 +55631,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &1976681608
 Rigidbody2D:
   serializedVersion: 4
@@ -56358,6 +56512,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2004179357
 Rigidbody2D:
   serializedVersion: 4
@@ -56483,6 +56638,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12ab20200e3de043bdcdb8817b72632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _EnemySpawn: 0
+  _EnemySpawnDummy: {fileID: 0}
 --- !u!4 &2008500957
 Transform:
   m_ObjectHideFlags: 0
@@ -56953,6 +57110,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &2043963773
 GameObject:
   m_ObjectHideFlags: 0
@@ -57002,6 +57160,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2043963776
 Rigidbody2D:
   serializedVersion: 4
@@ -57528,6 +57687,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!1 &2077106690
 GameObject:
   m_ObjectHideFlags: 0
@@ -57577,6 +57737,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2077106693
 Rigidbody2D:
   serializedVersion: 4
@@ -57819,6 +57980,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2088688765
 Rigidbody2D:
   serializedVersion: 4
@@ -57964,6 +58126,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2094244988
 Rigidbody2D:
   serializedVersion: 4
@@ -58418,6 +58581,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2112274459
 Rigidbody2D:
   serializedVersion: 4
@@ -58563,6 +58727,7 @@ MonoBehaviour:
   _NotDiggable: 1
   _TopSoil: 1
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2113226486
 Rigidbody2D:
   serializedVersion: 4
@@ -58982,6 +59147,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2121632113
 Rigidbody2D:
   serializedVersion: 4
@@ -59172,6 +59338,7 @@ MonoBehaviour:
   _NotDiggable: 0
   _TopSoil: 0
   _isOpen: 0
+  _Debugg: 1
 --- !u!50 &2122532489
 Rigidbody2D:
   serializedVersion: 4

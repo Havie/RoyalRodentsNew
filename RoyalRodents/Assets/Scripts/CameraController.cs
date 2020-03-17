@@ -7,8 +7,10 @@ public class CameraController : MonoBehaviour
     public Transform _target;
     private PlayerMovement _playerMovement;
     private Vector3 _offset;
-    private float _moveSpeed = 0.5f;
-    private float horizontalMove;
+
+    private float _NegYCap = -194;
+    private float _NegXCap = -130;
+    private float _PosXCap = 100;
 
     private bool _CharacterMode=true;
 
@@ -37,15 +39,9 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         if(_CharacterMode)
-            this.transform.position = new Vector3(_target.position.x, transform.position.y, transform.position.z);
-        else // move freely
-        {
-            /* old way
-            //To-Do: Need some kind of bounds check for Fog of War 
-            horizontalMove = Input.GetAxisRaw("Horizontal") * _moveSpeed;
-            this.transform.position += new Vector3(horizontalMove, 0, 0);
-            */
-        }
+            this.transform.position = new Vector3(_target.position.x, _target.transform.position.y, transform.position.z);
+
+        checkInBounds();
 
     }
     //AssignmentMode
@@ -66,5 +62,15 @@ public class CameraController : MonoBehaviour
             else
                 _playerMovement.setControlled(false);
         }
+    }
+    private void checkInBounds()
+    {
+        if(this.transform.position.x > _PosXCap)
+            this.transform.position = new Vector3(_PosXCap, this.transform.position.y, this.transform.position.z);
+        else if (this.transform.position.x < _NegXCap)
+            this.transform.position = new Vector3(_NegXCap, this.transform.position.y, this.transform.position.z);
+
+        if(this.transform.position.y < _NegYCap)
+            this.transform.position = new Vector3(this.transform.position.x, _NegYCap, this.transform.position.z);
     }
 }

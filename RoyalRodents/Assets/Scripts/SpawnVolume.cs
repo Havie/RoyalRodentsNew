@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class SpawnVolume : MonoBehaviour
 {
-    
+    public bool _EnemySpawn = false;
+    public Transform _EnemySpawnDummy;
+
     private bool _timeToSpawn;
-    // private List<eRodentTypes> _AvailableRodents = new List<eRodentTypes>();
     private ArrayList _AvailableRodents = new ArrayList();
 
+    private float _baseLineTime = 0f;
     private bool _occupied;
 
     GameObject Rat;
 
+    private int _EnemyCount=10;
 
-
-    public enum eRodentTypes { Rat };
 
     // Start is called before the first frame update
     void Start()
     {
-        _timeToSpawn = true;
-        AddType("Rat");
+        AddType(Rodent.eRodentType.Rat);
 
         Rat = Resources.Load<GameObject>("Rodent/FatRat/RatPreFab");
+
+        _timeToSpawn = true;
 
     }
 
@@ -34,10 +36,9 @@ public class SpawnVolume : MonoBehaviour
         {
             //Spawn random rodent based on prefab
             int index = Random.Range(0, _AvailableRodents.Count - 1);
-            eRodentTypes selected=(eRodentTypes)_AvailableRodents[index];
+            Rodent.eRodentType selected =(Rodent.eRodentType)_AvailableRodents[index];
 
             SpawnRodent(selected);
-
 
             StartCoroutine(SpawnCountDown());
         }
@@ -46,11 +47,12 @@ public class SpawnVolume : MonoBehaviour
     IEnumerator SpawnCountDown()
     {
         //Need some other constraints on an overall limit to how many spawn
-
-        float _startTime = Time.time;
         _timeToSpawn = false;
-        yield return new WaitForSeconds(5f);
-        while(_startTime>0)
+        float _startTime = Time.time;
+        if (_EnemySpawn)
+            _baseLineTime = _startTime;
+        yield return new WaitForSeconds(0.5f);
+        while(_startTime > _baseLineTime)
         {
             _startTime -= Time.deltaTime;
             yield return new WaitForSeconds(Time.deltaTime);
@@ -58,35 +60,61 @@ public class SpawnVolume : MonoBehaviour
         _timeToSpawn = true;
     }
 
-    public void AddType(string s)
+    public void AddType(Rodent.eRodentType type)
     {
-        // Add a type to be available to spawn
-        if (s.Equals("Rat"))
-            _AvailableRodents.Add(eRodentTypes.Rat);
+            _AvailableRodents.Add(type);
     }
 
-    private void SpawnRodent(eRodentTypes type)
+    private void SpawnRodent(Rodent.eRodentType type)
     {
         if (!_occupied)
         {
-            if (type == eRodentTypes.Rat)
+            if (!_EnemySpawn)
             {
-                _occupied = true;
-                GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
+                //Spawn Recruitable Rodents
+                if (type == Rodent.eRodentType.Rat)
+                {
+                    _occupied = true;
+                    GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
 
-                //tell the GM a new rat exists // Should be impossible not to have a RodentComponent
-                //GameManager.Instance.AddtoRodents(_spawnedRat.GetComponent<Rodent>());
-                //Let Rodent class do this instead
+                    //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
+                    _spawnedRat.transform.SetParent(this.transform);
 
-                //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
-                _spawnedRat.transform.SetParent(this.transform);
+                    // Tag becoming obsolete
+                    _spawnedRat.tag = "NeutralRodent";
+                    // Ensure Sprite is Neutral
+                    _spawnedRat.GetComponent<Rodent>().setTeam(0);
+                    // Increase some kind of count
+                }
+            }
+            else
+            {
+                //Spawn Enemy Rodents
+                if (type == Rodent.eRodentType.Rat)
+                {
+                    GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
 
-                // Set Team Neutral becoming obsolete
-                _spawnedRat.tag = "NeutralRodent";
-                // Ensure Sprite is Neutral
-                _spawnedRat.GetComponent<Rodent>().setTeam(0);
-                // Increase some kind of count
+                    //parent this to keep hierarchy clean
+                    if (_EnemySpawnDummy)
+                        _spawnedRat.transform.SetParent(_EnemySpawnDummy);
+                    else
+                        Debug.LogWarning("No Enemy Dummy for Hierarchy");
+
+                    // Tag becoming obsolete
+                    _spawnedRat.tag = "EnemyRodent";
+                    // Ensure Sprite is Neutral
+                    _spawnedRat.GetComponent<Rodent>().setTeam(2);
+                    // Increase some kind of count
+                    --_EnemyCount;
+                    if (_EnemyCount == 0)
+                        _occupied = true;
+                }
             }
         }
+    }
+
+    public void SpawnSomething()
+    {
+        _occupied = false;
     }
 }

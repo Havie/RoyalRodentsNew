@@ -13,8 +13,8 @@ public class ResourceManagerScript : MonoBehaviour
     public enum ResourceType { Food, Trash, Wood, Stone, Shiny };
 
     //create resource variables
-    private int _food, _trash, _wood, _metal, _shiny;
-    private int _currentPopulation, _currentCapacity;
+   [SerializeField] private int _food, _trash, _wood, _metal, _shiny;
+   [SerializeField] private int _currentPopulation, _currentCapacity;
 
     //TopPanel UI Resource Bar Text
     public TextMeshProUGUI _TrashText;
@@ -24,6 +24,8 @@ public class ResourceManagerScript : MonoBehaviour
     public TextMeshProUGUI _FoodText;
 
     public TextMeshProUGUI _PopulationText;
+    public TextMeshProUGUI _CrownsText;
+    private bool _started;
 
     //Create Instance of GameManager
     public static ResourceManagerScript Instance
@@ -36,6 +38,25 @@ public class ResourceManagerScript : MonoBehaviour
         }
     }
 
+    public void LoadData()
+    {
+        FindTexts();
+        sResourceData data = sSaveSystem.LoadResources();
+        if (data != null)
+        {
+            _trash = data._trash;
+            _wood = data._wood;
+            _metal = data._stone;
+            _shiny = data._shiny;
+            _food = data._food;
+            _currentPopulation = data._pop;
+            _currentCapacity = data._popCap;
+            //To-Do: Crowns
+            UpdateAllText();
+            UpdatePopulationText();
+
+        }
+    }
     private void Awake()
     {
         if (_instance == null)
@@ -55,6 +76,7 @@ public class ResourceManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        FindTexts();
         // Debug.Log("Started resource Manager");
         _currentCapacity = 5;
         UpdateCurrentPopulation();
@@ -63,8 +85,44 @@ public class ResourceManagerScript : MonoBehaviour
         _wood = 10;
         _metal = 10;
         _shiny = 10;
-    }
 
+        UpdateAllText();
+    }
+    //Needed to Find the Correct Objects when new Scene is loaded - otherwise everythings Null
+    public void FindTexts()
+    {
+        GameObject _topPanel = GameObject.FindGameObjectWithTag("TopPanel");
+        if (_topPanel)
+        {
+             Transform t=_topPanel.transform.Find("Trash Display");
+            if (t)
+                _TrashText = t.GetComponent<TextMeshProUGUI>();
+
+            t = _topPanel.transform.Find("Wood Display");
+            if (t)
+                _WoodText = t.GetComponent<TextMeshProUGUI>();
+
+            t = _topPanel.transform.Find("Metal Display");
+            if (t)
+                _MetalText = t.GetComponent<TextMeshProUGUI>();
+
+            t = _topPanel.transform.Find("Shiny Display");
+            if (t)
+                _ShinyText = t.GetComponent<TextMeshProUGUI>();
+
+            t = _topPanel.transform.Find("Food Display");
+            if (t)
+                _FoodText = t.GetComponent<TextMeshProUGUI>();
+
+            t = _topPanel.transform.Find("Population Display");
+            if (t)
+                _PopulationText = t.GetComponent<TextMeshProUGUI>();
+            t = _topPanel.transform.Find("VictoryPoints");
+            if (t)
+                _CrownsText = t.GetComponent<TextMeshProUGUI>();
+        }
+
+    }
     //getters for resource variable properties
     public int GetResourceCount(ResourceType type)
     {
@@ -160,7 +218,7 @@ public class ResourceManagerScript : MonoBehaviour
     {
         _currentCapacity += amnt;
         UpdatePopulationText();
-        // Debug.Log("Incremented population capacity by " + amnt.ToString());
+       // Debug.Log("Incremented population capacity by " + amnt.ToString());
     }
 
     //Update Resource Panel UI Text
@@ -205,22 +263,22 @@ public class ResourceManagerScript : MonoBehaviour
                 }
         }
     }
-
-    public void UpdatePopulationText()
+    //Needed to update from GM once scene is loaded or stays #
+    public void UpdateAllText()
+    {
+        UpdateResourceText(ResourceType.Food);
+        UpdateResourceText(ResourceType.Shiny);
+        UpdateResourceText(ResourceType.Stone);
+        UpdateResourceText(ResourceType.Trash);
+        UpdateResourceText(ResourceType.Wood);
+        UpdatePopulationText();
+    }
+    private void UpdatePopulationText()
     {
         if (_PopulationText)
         {
             _PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
         }
-    }
-    public void UpdateAllResourcesText()
-    {
-        UpdateResourceText(ResourceType.Food);
-        UpdateResourceText(ResourceType.Trash);
-        UpdateResourceText(ResourceType.Wood);
-        UpdateResourceText(ResourceType.Stone);
-        UpdateResourceText(ResourceType.Shiny);
-        UpdatePopulationText();
     }
 }
 

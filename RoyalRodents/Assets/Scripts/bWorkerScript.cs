@@ -178,19 +178,4 @@ public class bWorkerScript : MonoBehaviour
     {
         return _owner;
     }
-
-    private void OnMouseEnter()
-    {
-        //Need to phase this out for Mobile
-
-        //Debug.Log("MouseEnterWorkerScript");
-       // MVCController.Instance.CheckClicks(false);
-    }
-    private void OnMouseExit()
-    {
-        //Need to phase this out for Mobile
-
-        //Debug.Log("MouseExitWorkerScript");
-        // MVCController.Instance.CheckClicks(true);
-    }
 }

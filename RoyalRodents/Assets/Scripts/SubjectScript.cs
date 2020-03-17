@@ -125,7 +125,7 @@ public class SubjectScript : MonoBehaviour
     public void setDefender()
     {
         //To-Do:
-        Debug.Log("Rodent Assigned to Defender");
+        //Debug.Log("Rodent Assigned to Defender");
     }
     public void setIdle()
     {

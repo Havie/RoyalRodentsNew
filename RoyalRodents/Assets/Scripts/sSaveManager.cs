@@ -14,6 +14,8 @@ public class sSaveManager : MonoBehaviour
     [SerializeField]
     BuildingSlotManager _BuildingSlots;
 
+    List<Employee> _portraits = new List<Employee>();
+
     private bool setUp = false;
 
     public static sSaveManager Instance
@@ -94,9 +96,30 @@ public class sSaveManager : MonoBehaviour
         _playerMovement.LoadData();
         _BuildingSlots.LoadData();
         GameManager.Instance.LoadData();
+        ResourceManagerScript.Instance.LoadData();
 
-        //To:Do Implement on RM script once ethan pushes
-       sResourceData rd= sSaveSystem.LoadResources();
-        Debug.Log("Food=" + rd._food);
+        StartCoroutine(PortaitFix());
+    }
+
+    public void GatherPortaits(Employee e)
+    {
+        if (!_portraits.Contains(e))
+            _portraits.Add(e);
+
+        //Debug.Log("Added:" + e.gameObject);
+    }
+    public void RemovePortraits(Employee e)
+    {
+        if (_portraits.Contains(e))
+            _portraits.Remove(e);
+
+       // Debug.Log("Removed:" + e.gameObject);
+    }
+
+    IEnumerator PortaitFix()
+    {
+        yield return new WaitForSeconds(0.1f);
+        foreach (var e in _portraits)
+            e.LoadDataFix();
     }
 }

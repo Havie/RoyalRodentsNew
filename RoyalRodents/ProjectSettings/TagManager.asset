@@ -20,6 +20,7 @@ TagManager:
   - NeutralRodents
   - EnemyRodents
   - PauseMenu
+  - TopPanel
   layers:
   - Default
   - TransparentFX

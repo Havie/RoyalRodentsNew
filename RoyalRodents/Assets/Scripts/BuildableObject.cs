@@ -114,7 +114,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         UpdateState();
         UpdateHealthBar();
         _HealthBar.gameObject.SetActive(true);
-
     }
     // Start is called before the first frame update
     void Start()
@@ -558,43 +557,66 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //To-Do : Kick the worker rodent off
     }
     private void LoadComponents()
-    {  Debug.Log("LoadingCompnent type=" + eType);
+    {  //Debug.Log("LoadingCompnent type=" + eType);
         switch (eType)
         {
             case (BuildingType.House):
-                if(this.GetComponent<bHouse>() ==null)
+                if (this.GetComponent<bHouse>() == null)
+                {
                     this.gameObject.AddComponent<bHouse>();
+                    BuildComplete();
+                }
                 break;
             case (BuildingType.Farm):
                 if (this.GetComponent<bFarm>() == null)
+                {
                     this.gameObject.AddComponent<bFarm>();
-                break;
+                    BuildComplete();
+                }
+                    break;
             case (BuildingType.Banner):
                 if (this.GetComponent<bBanner>() == null)
+                {
                     this.gameObject.AddComponent<bBanner>();
+                    BuildComplete();
+                }
                 break;
             case (BuildingType.Outpost):
                 if (this.GetComponent<bOutpost>() == null)
+                {
                     this.gameObject.AddComponent<bOutpost>();
-                break;
+                    BuildComplete();
+                }
+                    break;
             case (BuildingType.TownCenter):
                 if (this.GetComponent<bTownCenter>() == null)
+                {
                     this.gameObject.AddComponent<bTownCenter>();
-                break;
+                    BuildComplete();
+                }
+                    break;
             case (BuildingType.GarbageCan):
                 if (this.GetComponent<bGarbageCan>() == null)
+                {
                     this.gameObject.AddComponent<bGarbageCan>();
-                break;
+                    BuildComplete();
+                }
+                    break;
             case (BuildingType.WoodPile):
                 if (this.GetComponent<bWoodPile>() == null)
+                {
                     this.gameObject.AddComponent<bWoodPile>();
-                break;
+                    BuildComplete();
+                }
+                    break;
             case (BuildingType.StonePile):
                 if (this.GetComponent<bStonePile>() == null)
+                {
                     this.gameObject.AddComponent<bStonePile>();
-                break;
+                    BuildComplete();
+                }
+                    break;
         }
-        BuildComplete();
     }
 
     /** Used to undo the Outpost Structure */
@@ -684,7 +706,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void AssignWorker(Rodent r)
     {
-       // Debug.Log("AssignWorker!" + r.getName());
+       // Debug.Log("AssignWorker!" + r.getName() + "to " + this.gameObject);
 
         int index = findAvailableSlot();
         if (index > -1)         //This is kind of a hack

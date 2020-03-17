@@ -155,6 +155,9 @@ public class GameManager : MonoBehaviour
             _PauseMenu.SetActive(false);
         else
             Debug.Log("PauseMenu done gone Missing again..");
+
+        ResourceManagerScript.Instance.FindTexts();
+        ResourceManagerScript.Instance.UpdateAllText();
     }
     private IEnumerator SceneDelay()
     {

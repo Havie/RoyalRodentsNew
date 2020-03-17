@@ -22,6 +22,9 @@ public class sResourceData
         _shiny = rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny);
         _food = rm.GetResourceCount(ResourceManagerScript.ResourceType.Food);
 
+        _pop = rm.getCurrentPopulation();
+        _popCap = rm.getPopulationCapacity();
+
         //To-Do:
         _crowns = 0;
     }

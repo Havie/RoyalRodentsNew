@@ -74,6 +74,7 @@ public class bHouse :MonoBehaviour
 			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
 		}
 		//increment Population Capacity
+        //Note: its okay that this is called again when Loading Save Data, becuz the save data gets called after and overwrites it thankfully
 		ResourceManagerScript.Instance.incrementPopulationCapacity(capacityIncrementAmount[level] - capacityIncrementAmount[level-1]);
 
 		return (_hitpoints + (_hitPointGrowth*level));

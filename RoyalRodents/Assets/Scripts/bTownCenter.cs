@@ -116,9 +116,6 @@ public class bTownCenter : MonoBehaviour
 
 
         // Debug.Log("Created Initial TownCenter with Sprite:::" + _built);
-
-        //this gets called before RM initializes.. fml
-        ResourceManagerScript.Instance.incrementPopulationCapacity(5);
     }
 
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)

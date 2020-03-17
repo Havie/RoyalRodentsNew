@@ -14,7 +14,6 @@ public class eWorkers : MonoBehaviour
         _Workers= GetComponentsInChildren<Employee>();
     }
 
-
     public Employee[] getWorkers()
     {
         return _Workers;

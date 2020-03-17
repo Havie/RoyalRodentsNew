@@ -16,6 +16,8 @@ public class Employee : MonoBehaviour
     private bool _Occupied;
     private Rodent _currentRodent;
 
+    private int test = 0;
+    public SpriteRenderer sp;
 
     void Start()
     {
@@ -29,24 +31,43 @@ public class Employee : MonoBehaviour
 
         ShowRedX(false);
 
-
+        sSaveManager.Instance.GatherPortaits(this);
     }
+    private void OnDestroy()
+    {
+        sSaveManager.Instance.RemovePortraits(this);
+    }
+    private void OnEnable()
+    {
+        LoadDataFix();
+    }
+    public void LoadDataFix()
+    {
 
+        if(_currentRodent)
+          _WorkerObj.GetComponent<SpriteRenderer>().sprite = _currentRodent.GetPortrait();
+    }
 
     public void Assign(Rodent r)
     {
-        //Debug.Log("ASsign in Employee");
+       // Debug.Log("ASsign in Employee" + r.name + test);
         if(!_Locked && !_Occupied)
         {
-           // Debug.Log("Pass");
+            //Debug.Log("Pass");
            // Debug.Log("Assign in Employee" +r.getName());
             //This script is on the portrait outline because its the visible clickable thing
             _PortraitOutline.GetComponent<bWorkerScript>().setWorker(r);
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = r.GetPortrait();
+
+            //Stupid Bugg... makes no sense
+            // Debug.Log("Portraitnameis " + r.GetPortrait());
+            //print(_WorkerObj.GetComponent<SpriteRenderer>());
+            // print(_WorkerObj.GetComponent<SpriteRenderer>().sprite);
+            // sp = _WorkerObj.GetComponent<SpriteRenderer>();
+
             _Occupied = true;
             _currentRodent = r;
 			r.SetJob(this);
-            
         }
     }
 
@@ -62,6 +83,7 @@ public class Employee : MonoBehaviour
 
             _PortraitOutline.GetComponent<bWorkerScript>().setWorker(null);
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = null;
+            print("dismiss");
             _Occupied = false;
             _currentRodent = null;
             ShowRedX(false);

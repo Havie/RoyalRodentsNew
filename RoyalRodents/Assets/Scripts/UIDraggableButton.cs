@@ -51,13 +51,13 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                         else if(go.GetComponent<PlayerStats>())
                         {
                             _selected = false;
-                          //  Debug.Log("Successful Raycast2 =" + go.gameObject);
+                          // Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                         }
                         else
                         {
                             _selected = false;
-                          //  Debug.Log("Failed Raycast =" + go.gameObject);
+                           // Debug.Log("Failed Raycast =" + go.gameObject);
                         }
                     }
 

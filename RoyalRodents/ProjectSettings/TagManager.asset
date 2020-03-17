@@ -19,6 +19,8 @@ TagManager:
   - StaminaBar
   - NeutralRodents
   - EnemyRodents
+  - PauseMenu
+  - TopPanel
   layers:
   - Default
   - TransparentFX
@@ -31,7 +33,7 @@ TagManager:
   - Player
   - Buildings
   - ForeGround
-  - 
+  - Ground
   - 
   - 
   - 

@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField] private float _Hp = 50f;
     [SerializeField] private float _HpMax = 100f;
     [SerializeField] [Range(0, 10f)] private float _MoveSpeed = 40f;
-    [SerializeField] private float _AttackDamage = 10f;
+    [SerializeField] private float _AttackDamage = 30f;
     [SerializeField] private float _Stamina = 60f;
     [SerializeField] private float _StaminaMax = 100f;
 
@@ -86,7 +86,20 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     /**End Interface stuff*/
 
+    public void LoadData()
+    {
+        sPlayerData data = sSaveSystem.LoadPlayerData();
+        if(data!=null)
+        {
+            _Hp = data._Health;
+            _Stamina = data._Stamina;
 
+            UpdateHealthBar();
+            UpdateStaminaBar();
+        }
+        else
+            Debug.LogError("noSaveData to Load");
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -100,11 +113,11 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void LateUpdate()
     {
-        if(_RoyalGuardParent)
+       if(_RoyalGuardParent)
              _RoyalGuardParent.position = this.transform.position;
 
         //Player will trickle restore HP based on stamina
-        if(InOwnTerritory())
+        if(!InOwnTerritory())
         {
             if(_Hp<_HpMax)
                  Damage(-_Stamina/5000f);
@@ -145,6 +158,14 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 
         UpdateStaminaBar();
     }
+    public float getStamina()
+    {
+        return _Stamina;
+    }
+    public float getStaminaMax()
+    {
+        return _StaminaMax;
+    }
     //getters
     public float getMoveSpeed()
     {
@@ -154,7 +175,10 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     {
         return _AttackDamage;
     }
-
+    public float getHealth()
+    {
+        return _Hp;
+    }
     public void setUpRoyalGuard()
     {
         //How to check if _RoyalGuards is initialized?

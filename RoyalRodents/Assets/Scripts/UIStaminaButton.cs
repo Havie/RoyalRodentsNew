@@ -20,9 +20,9 @@ public class UIStaminaButton : MonoBehaviour
 
     public void imClicked()
     {
-        if (ResourceManagerScript.Instance.Food > 0)
+        if (ResourceManagerScript.Instance.GetResourceCount(ResourceManagerScript.ResourceType.Food) > 0 && _PS.getStamina() <= _PS.getStaminaMax() - _RestoreAmount)
         {
-            ResourceManagerScript.Instance.incrementFood(-1);
+            ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Food, -1);
             _PS.IncrementStamina(_RestoreAmount);
         }
         //To:Do play sound 

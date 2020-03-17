@@ -122,6 +122,11 @@ public class SubjectScript : MonoBehaviour
         GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
         savedTarget = centerLocation;
     }
+    public void setDefender()
+    {
+        //To-Do:
+        //Debug.Log("Rodent Assigned to Defender");
+    }
     public void setIdle()
     {
         royalGuard = false;
@@ -458,6 +463,7 @@ public class SubjectScript : MonoBehaviour
 
             GameObject r = collision.transform.parent.gameObject;
             _inRange.Add(r);
+           // Debug.Log("Rodent added to targets in range");
         }
 
         // Do building case when functional

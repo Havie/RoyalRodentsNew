@@ -22,6 +22,8 @@ public class Searchable : MonoBehaviour
     public Animator _FoodController;
     public Animator _TrashController;
 
+    private int _StaminaCost = 1;
+
 
     private GameObject _ProgressBarObj;
     private HealthBar _ProgressBar;
@@ -132,7 +134,7 @@ public class Searchable : MonoBehaviour
     {
 
        // Debug.Log("Search on mouse down");
-        //This work for gestures?
+        //This work for Touch gestures..?
         if(_MainCharacterInRange)
         {
             _SearchMe = true;
@@ -144,21 +146,45 @@ public class Searchable : MonoBehaviour
     IEnumerator Search()
     {
         _Searching = true;
+        bool _okayToSearch = true;
 
-        //TO-DO: Tell MC to play Animation // handle wtf the MVC thinks is going on
+        //TO-DO:  handle wtf the MVC thinks is going on?
 
-        yield return new WaitForSeconds(_Delay);
+        //Decrease stamina
+        if (_MainCharacter)
+        {
+            PlayerStats _PlayerStats = _MainCharacter.GetComponent<PlayerStats>();
+            if (_PlayerStats)
+            {
+                if (_PlayerStats.getStamina() >= _StaminaCost)
+                {
+                    _PlayerStats.IncrementStamina(-_StaminaCost);
+                    //TO-DO: Tell MC to play Animation
+
+                }
+                else
+                    _okayToSearch = false;
+            }
+            else
+                _okayToSearch = false;
+        }
+        else
+            _okayToSearch = false;
+
+        if (_okayToSearch)
+        {
+            yield return new WaitForSeconds(_Delay);
 
 
-        //Gain Resource
-        GainRandomResource();
+            //Gain Resource
+            GainRandomResource();
 
-         //Increment Progress bar
-         _SearchTime += _Delay;
-        UpdateProgressBar();
-        if (_SearchTime >= _SearchTimeMax)
-            _Empty = true;
-
+            //Increment Progress bar
+            _SearchTime += _Delay;
+            UpdateProgressBar();
+            if (_SearchTime >= _SearchTimeMax)
+                _Empty = true;
+        }
         _Searching = false;
     }
     IEnumerator Cooldown()
@@ -184,12 +210,12 @@ public class Searchable : MonoBehaviour
 
         if (_ResourceNumber < 7)
         {
-            ResourceManagerScript.Instance.incrementTrash(_Amount);
+            ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Trash, _Amount);
             _TrashController.SetTrigger("Pop");
         }
         else
         {
-            ResourceManagerScript.Instance.incrementFood(_Amount);
+            ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Food, _Amount);
             _FoodController.SetTrigger("Pop");
         }
 

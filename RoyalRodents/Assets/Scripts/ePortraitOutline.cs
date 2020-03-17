@@ -15,7 +15,9 @@ public class ePortraitOutline : MonoBehaviour
         else
             _Img = Resources.Load<Sprite>("TmpAssests/Blank_Portrait_Rect");
 
-        this.GetComponent<SpriteRenderer>().sprite = _Img;
+       this.GetComponent<SpriteRenderer>().sprite = _Img;
+       
+        // Debug.Log("start Over");
     }
 
     public void SetRectMode(bool cond)

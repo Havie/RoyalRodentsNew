@@ -41,9 +41,9 @@ public class UIBuildMenu : MonoBehaviour
         {
             b.gameObject.SetActive(cond);
 
-            //Dont want to do this if were turning them off 
-            if (cond && building != null)
-            {
+			//Dont want to do this if were turning them off 
+			if (cond && building != null)
+			{
 				//When Enabling Upgrade Buttons, change the button based on the type and level of last structure clicked
 				if (b.name == "Button_Upgrade")
 				{
@@ -70,6 +70,15 @@ public class UIBuildMenu : MonoBehaviour
 							case (BuildableObject.BuildingType.TownCenter):
 								buttonScript.ChangeButton("towncenter", level + 1);
 								break;
+							case (BuildableObject.BuildingType.GarbageCan):
+								buttonScript.ChangeButton("garbagecan", level + 1);
+								break;
+							case (BuildableObject.BuildingType.WoodPile):
+								buttonScript.ChangeButton("woodpile", level + 1);
+								break;
+							case (BuildableObject.BuildingType.StonePile):
+								buttonScript.ChangeButton("stonepile", level + 1);
+								break;
 						}
 					}
 				}
@@ -77,7 +86,7 @@ public class UIBuildMenu : MonoBehaviour
 				if (b.name == "Button_Demolish")
 				{
 					BuildableObject.BuildingType type = building.getType();
-					if (type == BuildableObject.BuildingType.TownCenter)
+					if (type == BuildableObject.BuildingType.TownCenter || type == BuildableObject.BuildingType.GarbageCan || type == BuildableObject.BuildingType.WoodPile || type == BuildableObject.BuildingType.StonePile)
 					{
 						b.GetComponent<Button>().interactable = false;
 					}
@@ -87,7 +96,6 @@ public class UIBuildMenu : MonoBehaviour
             }
         }
     }
-
 
     public bool isActive()
     {
@@ -99,5 +107,4 @@ public class UIBuildMenu : MonoBehaviour
     {
         return _current;
     }
-
 }

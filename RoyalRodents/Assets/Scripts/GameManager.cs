@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         get
         {
             if (_instance == null)
-                _instance = new GameManager();
+                _instance = new GameManager();  // is this a problem?
             return _instance;
         }
     }

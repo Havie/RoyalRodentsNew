@@ -705,6 +705,7 @@ public class SubjectScript : MonoBehaviour
     //As a rodent type changes, we figure out from here
     public void setAttackDamage(float damage)
     {
+        //Attack damage increased by 15 for testing purposes
         attackDamage = damage+15;
     }
     //Doing too many get component calls when attacking, this will help
@@ -744,7 +745,7 @@ public class SubjectScript : MonoBehaviour
             _underAttack = false;
             _underAttackCoroutineOn = false;
             restoreLastJob();
-           Debug.LogError("Were NOT under attack @" + Time.time + "  " + this.gameObject);
+           //Debug.LogError("Were NOT under attack @" + Time.time + "  " + this.gameObject);
         }
     }
 

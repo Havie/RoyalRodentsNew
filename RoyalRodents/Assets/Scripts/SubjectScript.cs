@@ -741,13 +741,6 @@ public class SubjectScript : MonoBehaviour
                 _underAttackTime -= Time.deltaTime;
             }
 
-            //Tell villagers to put weapons away
-            if (royalGuard == false)
-            {
-                if (anims)
-                    anims.SetBool("isArmed", false);
-            }
-
             _underAttack = false;
             _underAttackCoroutineOn = false;
             restoreLastJob();
@@ -761,6 +754,10 @@ public class SubjectScript : MonoBehaviour
             _oldJob = "worker";
         else if (builder)
             _oldJob = "builder";
+        else if (royalGuard)
+            _oldJob = "royalGuard";
+        else
+            _oldJob = "idle";
 
         savedTarget2 = currentTarget;
         royalGuard = true;
@@ -777,6 +774,7 @@ public class SubjectScript : MonoBehaviour
                     royalGuard = false;
                     worker = true;
                     currentTarget = savedTarget2;
+                    //Tell villagers to put weapons away
                     if (anims)
                         anims.SetBool("isArmed", false);
                     break;
@@ -786,10 +784,27 @@ public class SubjectScript : MonoBehaviour
                     royalGuard = false;
                     builder = true;
                     currentTarget = savedTarget2;
+                    //Tell villagers to put weapons away
                     if (anims)
                         anims.SetBool("isArmed", false);
                     break;
                 }
+            case "royalGuard":
+                {
+                   //Do nothing? rest of behavior should be handled above
+                    break;
+                }
+            case "idle":
+                {
+                    royalGuard = false;
+                    currentTarget = null;
+                    //Tell villagers to put weapons away
+                    if (anims)
+                        anims.SetBool("isArmed", false);
+                    break;
+                }
+
+
         }
 
 

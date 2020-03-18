@@ -250,7 +250,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     IEnumerator DeathDelay()
     {
         yield return new WaitForSeconds(5f);
-       // Destroy(this.gameObject);
+       Destroy(this.gameObject);
     }
     private void OnDestroy()
     {

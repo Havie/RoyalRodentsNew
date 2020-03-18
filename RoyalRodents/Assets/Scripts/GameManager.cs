@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
             //Keep organized in hierarchy 
             r.gameObject.transform.SetParent(_NeutralRodentDummy);
            
-            // Debug.Log("Set to neutralStack:" + r.gameObject);
+            Debug.Log("Set to neutralStack:" + r.gameObject);
         }
 	}
 	public void AddtoRodents(Rodent r)
@@ -273,6 +273,14 @@ public class GameManager : MonoBehaviour
         {
             _AllRodents.Add(r);
             _RodentHashTable.Add(r.getID(), r);
+        }
+    }
+    public void RemoveFromRodents(Rodent r)
+    {//Rodent died
+        if (_AllRodents != null)
+        {
+            if (_AllRodents.Contains(r))
+                _AllRodents.Remove(r);
         }
     }
     public bool getMobileMode()

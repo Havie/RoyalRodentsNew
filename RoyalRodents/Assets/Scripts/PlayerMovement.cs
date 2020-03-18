@@ -248,8 +248,6 @@ public class PlayerMovement : MonoBehaviour
         // an extra layer so we dont move if the click is too close
         if (Mathf.Abs(_moveDis) > 0.6f)
             _horizontalMove = _moveDis * _moveSpeed;
-        else
-            Debug.Log("not far");
     }
     IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
     {

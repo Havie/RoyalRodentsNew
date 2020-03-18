@@ -19,17 +19,25 @@ public class SubjectScript : MonoBehaviour
     public float moveSpeed = 0.5f;
     public GameObject currentTarget;
     public GameObject savedTarget;
+    public GameObject savedTarget2;
     public Vector3 IdlePos;
     private bool facingRight;
     public bool royalGuard = true;
     public bool worker = false;
     public bool builder = false;
+    public bool tmpFighter = false;
     private bool coroutineStarted = false;
     private bool ShouldIdle = false;
     private bool MovingInIdle = false;
     private float WaitDuration;
     private bool canAttack = true;
-    private float attackDamage;
+    private float attackDamage = 1;
+    private int team = 0;
+    private bool _underAttack = false;
+    public float _underAttackTime;
+    private bool _underAttackCoroutineOn = false;
+    private bool _isDead;
+    private string _oldJob;
 
     private List<GameObject> _inRange = new List<GameObject>();
 
@@ -38,7 +46,6 @@ public class SubjectScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        attackDamage = this.GetComponent<Rodent>().getAttackDmg();
         anims = this.GetComponent<Animator>();
         facingRight = false;
         // a backup condition to get the right speed
@@ -52,33 +59,36 @@ public class SubjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check if a target exists
-        if (currentTarget)
+        if (!_isDead)
         {
-            // TODO: branches with each class's behavior built in.
-            if (royalGuard)
+            // Check if a target exists
+            if (currentTarget)
             {
-                royalGuardBehavior();
-            }
-            else if (worker)
-            {
-                workerBehavior();
-            }
-            else if (builder)
-            {
-                builderBehavior();
+                // branches with each class's behavior built in.
+                if (royalGuard || tmpFighter)
+                {
+                    royalGuardBehavior();
+                }
+                else if (worker)
+                {
+                    workerBehavior();
+                }
+                else if (builder)
+                {
+                    builderBehavior();
+                }
+                else
+                {
+                    //Shouldnt happen?
+                    //  Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
+                    idleInRadius(IdlePos, 5);
+                }
             }
             else
             {
-                //Shouldnt happen?
-              //  Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
-                idleInRadius(IdlePos,5); 
+                //free movement for rats with no target
+                idleInRadius(IdlePos, 5);
             }
-        }
-        else
-        {
-            //free movement for rats with no target
-            idleInRadius(IdlePos, 5);
         }
     }
 
@@ -138,8 +148,10 @@ public class SubjectScript : MonoBehaviour
             anims.SetBool("isArmed", false);
         //changeTarget(this.gameObject);  // shouldnt need to do this
         IdlePos = this.transform.position;
-
-
+    }
+    public void setDead()
+    {
+        _isDead = true;
     }
     public void setSpeed(float nSpeed)
     {
@@ -155,7 +167,7 @@ public class SubjectScript : MonoBehaviour
     {
         if (_printStatements)
             Debug.Log("Told to Move to Target" + target);
-       if(!ShouldIdle)
+        if (!ShouldIdle)
             Move(target.transform.position);
     }
     /** Will move to location if far enough away, otherwise will try to idle */
@@ -175,7 +187,7 @@ public class SubjectScript : MonoBehaviour
             if (anims)
             {
                 anims.SetBool("isMoving", true);
-              
+
             }
 
             if (transform.position.x > pos.x)
@@ -219,11 +231,37 @@ public class SubjectScript : MonoBehaviour
             {
                 // On finishing movement, return to idle
                 anims.SetBool("isMoving", false);
-                
+
             }
 
-            //Responsible for starting Coroutine
-            if (!coroutineStarted)
+            //Check if we need to attack something as royal guard
+            if (royalGuard)
+            {
+                bool guardShouldIdle = true;
+                // If target is enemy, attack. Add coroutine for attacking
+                if (_inRange.Count > 0 && currentTarget)
+                {
+                    if (team == 1 && currentTarget.tag != "Player") // And can attack
+                    {
+                        StartCoroutine(Attack());
+                        guardShouldIdle = false;
+                    }
+                    else if (team == 2)
+                    {
+                        StartCoroutine(Attack());
+                        guardShouldIdle = false;
+                    }
+                }
+                //no target to attack so we can idle
+                if (!coroutineStarted && guardShouldIdle)
+                {
+                    StartCoroutine(idleDelay());
+                }
+
+            }
+
+            //Idle for workers
+           else  if (!coroutineStarted)
             {
                 StartCoroutine(idleDelay());
                 if (builder)
@@ -232,7 +270,7 @@ public class SubjectScript : MonoBehaviour
                     swapTarget();
                 }
 
-                if (worker)
+                else if (worker)
                 {
                     swapTarget();
                 }
@@ -242,17 +280,17 @@ public class SubjectScript : MonoBehaviour
             if (MovingInIdle)
                 MovingInIdle = false;
 
-          
+
 
         }
 
     }
 
     /**  Finds the right Position to idle in */
-   public void idleInRadius(int radius)
+    public void idleInRadius(int radius)
     {
 
-        if(currentTarget==null)
+        if (currentTarget == null)
         {
             Debug.LogError("Cant Idle, Current Target is Null");
             return;
@@ -263,7 +301,7 @@ public class SubjectScript : MonoBehaviour
     * we dont use Current Target here in case we dont have one, and want to idle on our own location internally */
     private void idleInRadius(Vector3 loc, int radius)
     {
-        
+
 
         if (!coroutineStarted)
         {
@@ -310,16 +348,16 @@ public class SubjectScript : MonoBehaviour
         }
         else
         {
-            if(_printStatements)
+            if (_printStatements)
                 Debug.LogError("Told to start timer");
             ShouldIdle = true;
 
             float currentTime = Time.time;
             float ExitTime = currentTime + WaitDuration;
 
-            
 
-            if(builder)
+
+            if (builder)
             {
                 // set anim bool/trigger to true
                 if (anims)
@@ -330,7 +368,7 @@ public class SubjectScript : MonoBehaviour
                 }
 
             }
-            else if(worker)
+            else if (worker)
             {
                 if (anims)
                 {
@@ -384,7 +422,7 @@ public class SubjectScript : MonoBehaviour
         coroutineStarted = false;
 
     }
-    
+
 
     void flipDirection()
     {
@@ -396,10 +434,10 @@ public class SubjectScript : MonoBehaviour
 
         //Fix Children Health bar and RecruitMenu
         int index = this.transform.childCount;
-        for( int i=0; i<index; ++i)
+        for (int i = 0; i < index; ++i)
         {
             Transform t = this.transform.GetChild(i);
-           ScaleKeeper sk= t.GetComponent<ScaleKeeper>();
+            ScaleKeeper sk = t.GetComponent<ScaleKeeper>();
             if (sk)
             {
                 Vector3 _properScale = sk.getScale();
@@ -427,22 +465,6 @@ public class SubjectScript : MonoBehaviour
         savedTarget = nTarget;
     }
 
-    private int getEnemyTeam()
-    {
-        int enemyTeam;
-        if(this.GetComponent<Rodent>().getTeam() == 1)
-        {
-            enemyTeam = 2;
-        }
-        else
-        {
-            enemyTeam = 1;
-        }
-
-        return enemyTeam;
-    }
-
-
     // TODO: Cases for Worker, RoyalGuard, and Builder specific behavior
     private void royalGuardBehavior()
     {
@@ -450,47 +472,70 @@ public class SubjectScript : MonoBehaviour
         // Future: Attack enemies within a radius of the king
         if (!ShouldIdle)
         {
-            FindNextTargetInRange();
+            //FindNextTargetInRange();
             Move(currentTarget);
-            // If target is enemy, attack. Add coroutine for attacking
-            if(currentTarget.tag != "Player") // And can attack
-            {
-                StartCoroutine(Attack());
-            }
 
-            if (_printStatements)
-                Debug.LogError("RoyalMove");
         }
         else
             idleInRadius(2);
 
     }
 
-    public void FindAttackTarget(Collider2D collision)
+    public void AgroRadiusTrigger(Collider2D collision)
     {
 
         // Add a target to the list based on collisions
         //Debug.Log("Collided with " + collision.gameObject.ToString());
+
         //check that it HAS a parent
 
-        // Rodent case
-        if (collision.transform.parent.gameObject.GetComponent<Rodent>() && collision.transform.parent.gameObject.GetComponent<Rodent>().getTeam() == getEnemyTeam())
+        if (collision.transform.parent)
         {
+            Rodent unknownRodent = collision.transform.parent.gameObject.GetComponent<Rodent>();
+            if (unknownRodent)
+            {
+                // Debug.LogWarning("Found Rodent" + unknownRodent.getName() + " on team:  " + unknownRodent.getTeam());
+                // Rodent case
+                if (unknownRodent.getTeam() == getEnemyTeam())
+                {
+                    _inRange.Add(unknownRodent.gameObject);
+                    //Debug.Log("Rodent added to targets in range " + unknownRodent.getName() + unknownRodent.getTeam());
+                    // print("called from AgroRadiusTrigger");
+                    if (_inRange.Count == 1 && royalGuard)
+                    {
+                        print("Newest target added to queue");
+                        currentTarget = unknownRodent.gameObject;
+                    }
+                }
 
-            GameObject r = collision.transform.parent.gameObject;
-            _inRange.Add(r);
-           // Debug.Log("Rodent added to targets in range");
+
+            }
+            // Do building case when functional
+
         }
-
-        // Do building case when functional
-
     }
+    private int getEnemyTeam()
+    {
+        int enemyTeam;
+
+        if (team == 0)
+            enemyTeam = -1;
+        else if (team == 1)
+            enemyTeam = 2;
+        else
+            enemyTeam = 1;
+
+        //Debug.Log("enemyTeam is: " + enemyTeam);
+        return enemyTeam;
+    }
+
 
     // Handles the rat attacking an enemy
     IEnumerator Attack()
     {
         // Play animation
-        
+        //Debug.Log("Attack!Rat@" + Time.time);
+
         if (canAttack)
         {
             canAttack = false;
@@ -500,40 +545,52 @@ public class SubjectScript : MonoBehaviour
                 anims.SetTrigger("doAttack");
             }
             // For rodents
-            if (currentTarget.GetComponent<Rodent>())
+           Rodent  _EnemyRodent = currentTarget.GetComponent<Rodent>();
+
+            if (_EnemyRodent)
             {
-                // Reduce enemy health
-                currentTarget.GetComponent<Rodent>().Damage(attackDamage);
+                if (!_EnemyRodent.isDead())
+                {// Reduce enemy health
+                    currentTarget.GetComponent<Rodent>().Damage(attackDamage);
+                }
+                else
+                {
+                    _inRange.Remove(currentTarget);
+                    print("Called from Dead Rodent found");
+                    FindNextTargetInRange();
+                }
             }
             // Building here
 
-            
+
             yield return new WaitForSeconds(1.16f); //Length of attack animation
             canAttack = true;
-            
+
         }
-        
-        
+
+
     }
 
+
     // Removes a target from the list if it exits the rodent's range
-    public void removefromRange(Collider2D c)
+    public void removefromAgroRange(Collider2D c)
     {
         // Remove objects from the list
-            GameObject go = c.gameObject;
-            if (_inRange.Contains(go))
-            {
+        GameObject go = c.gameObject;
+        if (_inRange.Contains(go))
+        {
 
-                if(go==currentTarget || currentTarget==null)
-                {
+            if (go == currentTarget || currentTarget == null)
+            {
+                print("Called from Remove from AgroRange");
                 FindNextTargetInRange();
-                }
-                
-                _inRange.Remove(go);
-            Debug.Log("Rodent removed from targets");
             }
-            //else debug error 
-        
+
+            _inRange.Remove(go);
+            Debug.Log("Rodent removed from targets");
+        }
+        //else debug error 
+
     }
 
     // Parses the list and finds the next suitable target
@@ -541,10 +598,11 @@ public class SubjectScript : MonoBehaviour
     private void FindNextTargetInRange()
     {
         //parse the list for closest target and make next target
-        if(_inRange.Count > 0)
+        if (_inRange.Count > 0)
         {
             // Priming read
             GameObject currentClosest = _inRange[0];
+            Debug.LogWarning("InRange[0] =" + currentClosest);
             float closestDist = Mathf.Abs(transform.position.x - _inRange[0].transform.position.x);
 
             foreach (GameObject go in _inRange)
@@ -574,7 +632,7 @@ public class SubjectScript : MonoBehaviour
         GameObject tempTarget = currentTarget;
         currentTarget = savedTarget;
         savedTarget = tempTarget;
-        
+
     }
 
     private void workerBehavior()
@@ -584,13 +642,14 @@ public class SubjectScript : MonoBehaviour
         // Idle in the area of it
         // Future: Be able to work occupy the building and deliver resources to the town center
         if (!ShouldIdle)
-        { 
+        {
 
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("WorkerMove");
         }
-        else {
+        else
+        {
             idleInRadius(3);
         }
     }
@@ -599,12 +658,12 @@ public class SubjectScript : MonoBehaviour
     {
         // Walk to their assigned building
         // Future: Be able to carry resources from the town center to the building being constructed
-        
+
 
         // Move(currentTarget);
         if (!ShouldIdle)
         {
-            
+
             Move(currentTarget);
             if (_printStatements)
                 Debug.LogError("BuilderMove");
@@ -630,7 +689,7 @@ public class SubjectScript : MonoBehaviour
             else if (builder)
                 return Random.Range(5, 10f);
         }
-        else if(state.Equals("idle"))
+        else if (state.Equals("idle"))
         {
             if (worker)
                 return Random.Range(0.5f, 1f);
@@ -641,5 +700,98 @@ public class SubjectScript : MonoBehaviour
         }
 
         return Random.Range(2, 5);
+    }
+
+    //As a rodent type changes, we figure out from here
+    public void setAttackDamage(float damage)
+    {
+        attackDamage = damage+15;
+    }
+    //Doing too many get component calls when attacking, this will help
+    public void setTeam(int id)
+    {
+        team = id;
+    }
+    public void UnderAttack(bool cond)
+    {
+        _underAttack = cond;
+        _underAttackTime = Time.time;
+        //Debug.Log("NEW TIME= " + _underAttackTime);
+        StartCoroutine(UnderAttackDelay(_underAttackTime - 5.0f));
+
+    }
+    IEnumerator UnderAttackDelay(float _WaitDuration)
+    {
+        if (!_underAttackCoroutineOn)
+        {
+            //Debug.LogWarning("Were under attack @!" + _underAttackTime + " , waiting until: " + _WaitDuration);
+            _underAttackCoroutineOn = true;
+            //Tell villager to pull out Weapons
+            if (royalGuard == false)
+            {
+                if (anims)
+                    anims.SetBool("isArmed", true);
+
+                SaveLastJob();
+            }
+            //If no damage taken in X time, go back to normal
+            while (_underAttackTime > _WaitDuration)
+            {
+                yield return new WaitForSeconds(Time.deltaTime);
+                _underAttackTime -= Time.deltaTime;
+            }
+
+            //Tell villagers to put weapons away
+            if (royalGuard == false)
+            {
+                if (anims)
+                    anims.SetBool("isArmed", false);
+            }
+
+            _underAttack = false;
+            _underAttackCoroutineOn = false;
+            restoreLastJob();
+           Debug.LogError("Were NOT under attack @" + Time.time + "  " + this.gameObject);
+        }
+    }
+
+    public void SaveLastJob()
+    {
+        if (worker)
+            _oldJob = "worker";
+        else if (builder)
+            _oldJob = "builder";
+
+        savedTarget2 = currentTarget;
+        royalGuard = true;
+        worker = false;
+        builder = false;
+        FindNextTargetInRange();
+    }
+    private void restoreLastJob()
+    {
+        switch(_oldJob)
+        {
+            case "worker":
+                {
+                    royalGuard = false;
+                    worker = true;
+                    currentTarget = savedTarget2;
+                    if (anims)
+                        anims.SetBool("isArmed", false);
+                    break;
+                }
+            case "builder":
+                {
+                    royalGuard = false;
+                    builder = true;
+                    currentTarget = savedTarget2;
+                    if (anims)
+                        anims.SetBool("isArmed", false);
+                    break;
+                }
+        }
+
+
     }
 }

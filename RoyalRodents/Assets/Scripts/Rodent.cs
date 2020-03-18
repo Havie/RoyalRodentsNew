@@ -49,18 +49,27 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private int _ID;
 
+    private bool _isDead;
+
     /**Begin Interface Stuff */
     public void Damage(float damageTaken)
     {
         if (_Hp - damageTaken > 0)
+        {
             _Hp -= damageTaken;
+            if (_SubjectScript)
+                _SubjectScript.UnderAttack(true);
+        }
         else
         {
             _Hp = 0;
             Die();
+            if (_SubjectScript)
+                _SubjectScript.setDead();
         }
-        //Debug.LogWarning("HP=" + _Hp);
+       // Debug.LogWarning("@ " + Time.time + "   HP= " + _Hp);
         UpdateHealthBar();
+       
     }
 
     public void SetUpHealthBar(GameObject go)
@@ -174,6 +183,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //get a name
         _Name = RodentNames.getRandomName();
 
+
         //Add Day/Night Cycle Stuff
         SetUpDayNight();
 
@@ -184,13 +194,16 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
        // Debug.Log(this.gameObject + " ID is: " + _ID);
         GameManager.Instance.AddtoRodents(this);
 
+        //Rename Prefab 
+        this.gameObject.name =_ID+ " Rodent: " + _Name + " ";
+
     }
 
 
     public void setHp(float val) { _Hp = val; UpdateHealthBar(); }// use sparingly, should call Damage
     public void setHpMax(float val) { _HpMax = val; UpdateHealthBar(); }
     public void setSpeed(float val) { _MoveSpeed = val; if (_SubjectScript) _SubjectScript.setSpeed(_MoveSpeed); }
-    public void setAttackDmg(float val) => _AttackDamage = val;
+    public void setAttackDmg(float val) { _AttackDamage = val; if (_SubjectScript) _SubjectScript.setAttackDamage(val); }
     public void setName(string s) => _Name = s;
     public void setRodentType(eRodentType type)
     {
@@ -207,10 +220,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                     break;
                 }
         }
+
+        this.gameObject.name += "(" +_Type+")";
     }
     public void setRodentStatus(eStatus status) => _Status = status;
     public void setPortrait(Sprite s) => _Portrait = s;
 
+    public bool isDead() => _isDead;
     public float getHp() { return _Hp; }
     public float getHpMax() { return _HpMax; }
     public float getSpeed() { return _MoveSpeed; }
@@ -223,8 +239,27 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public int getID() => _ID;
     public void Die()
     {
+        print(_Name + " is dead");
         //Should this be in Rodent or in AIController which holds the Animator?
         // the player script does this that way but it feels weird 
+        //HACK
+        _isDead = true;
+        this.GetComponent<Animator>().SetBool("isDead", true);
+        StartCoroutine(DeathDelay());
+    }
+    IEnumerator DeathDelay()
+    {
+        yield return new WaitForSeconds(5f);
+       // Destroy(this.gameObject);
+    }
+    private void OnDestroy()
+    {
+        if(_Team==1)
+            GameManager.Instance.RemovePlayerRodent(this);
+
+        GameManager.Instance.RemoveFromRodents(this);
+
+        //To:Do Unassigns self from job 
     }
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
@@ -322,6 +357,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         if (id > -1 && id < 3)
             _Team = id;
 
+        if (_SubjectScript)
+            _SubjectScript.setTeam(_Team);
 
         if (_Team == 1)
             GameManager.Instance.addToPlayerRodents(this);

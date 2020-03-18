@@ -15,7 +15,7 @@ public class SpawnVolume : MonoBehaviour
 
     GameObject Rat;
 
-    private int _EnemyCount=10;
+    private int _EnemyCount=2;
 
 
     // Start is called before the first frame update
@@ -26,6 +26,9 @@ public class SpawnVolume : MonoBehaviour
         Rat = Resources.Load<GameObject>("Rodent/FatRat/RatPreFab");
 
         _timeToSpawn = true;
+
+        if (_EnemySpawnDummy == null)
+            _EnemySpawnDummy = GameObject.FindGameObjectWithTag("EnemyRodents").transform;
 
     }
 
@@ -76,7 +79,6 @@ public class SpawnVolume : MonoBehaviour
                 {
                     _occupied = true;
                     GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
-
                     //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
                     _spawnedRat.transform.SetParent(this.transform);
 

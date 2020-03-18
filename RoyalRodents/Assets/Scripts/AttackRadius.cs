@@ -17,23 +17,17 @@ public class AttackRadius : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Collided with " + collision.transform.gameObject.ToString());
+       //Debug.Log("Collided with " + collision.transform.gameObject.ToString());
 
         // Send collider, check for properties in script
-        _subjectScript.FindAttackTarget(collision); 
+        _subjectScript.AgroRadiusTrigger(collision); 
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
        // Debug.Log("Target exited aggro range");
-        _subjectScript.removefromRange(collision);
+        _subjectScript.removefromAgroRange(collision);
     }
 }

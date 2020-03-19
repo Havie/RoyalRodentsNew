@@ -35,8 +35,7 @@ public class Employee : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if(sSaveManager.Instance)
-            sSaveManager.Instance.RemovePortraits(this);
+        sSaveManager.Instance.RemovePortraits(this);
     }
     private void OnEnable()
     {

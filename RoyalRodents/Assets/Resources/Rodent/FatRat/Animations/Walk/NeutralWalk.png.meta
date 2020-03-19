@@ -26,6 +26,30 @@ TextureImporter:
   - first:
       213: -8972363970880825664
     second: Recruit_MouseSprite_Walk_7
+  - first:
+      213: -1743809836047735737
+    second: NeutralWalk_0
+  - first:
+      213: -7756658791208552010
+    second: NeutralWalk_1
+  - first:
+      213: -2323936903141910054
+    second: NeutralWalk_2
+  - first:
+      213: -5237675999899667312
+    second: NeutralWalk_3
+  - first:
+      213: -2801282718087834462
+    second: NeutralWalk_4
+  - first:
+      213: -170937050613666686
+    second: NeutralWalk_5
+  - first:
+      213: 6566111222139384995
+    second: NeutralWalk_6
+  - first:
+      213: -6521527303015267813
+    second: NeutralWalk_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -134,169 +158,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_0
+      name: NeutralWalk_0
       rect:
         serializedVersion: 2
         x: 0
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ced511a4e51729b449b4b44b95fefdf0
-      internalID: -54178756623182538
+      spriteID: e43e3fc9d19067e41bbe3c0e9e2c30e7
+      internalID: -1743809836047735737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_1
+      name: NeutralWalk_1
       rect:
         serializedVersion: 2
         x: 90
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ff6fdfbc50f1df4b948049fa2de9274
-      internalID: -2354811893799444370
+      spriteID: f3a219d554924b94ba678f50d95490e7
+      internalID: -7756658791208552010
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_2
+      name: NeutralWalk_2
       rect:
         serializedVersion: 2
         x: 180
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e3c5c1ff12bb4a4486f2a7246a2d7d5
-      internalID: -2554105380143008673
+      spriteID: e8300368890071345b88989a5b8d92ea
+      internalID: -2323936903141910054
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_3
+      name: NeutralWalk_3
       rect:
         serializedVersion: 2
         x: 270
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6820318bbb61a4e46ac0e2327b4b67e8
-      internalID: -4505966838515148363
+      spriteID: eb1368eccb6d7334aaba3019ad2959a1
+      internalID: -5237675999899667312
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_4
+      name: NeutralWalk_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf00df226ac2afc49b3228f6ba477d67
-      internalID: 3855928066458177994
+      spriteID: 166b5208eb008714e8e3024bc97eb543
+      internalID: -2801282718087834462
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_5
+      name: NeutralWalk_5
       rect:
         serializedVersion: 2
         x: 90
         y: 0
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: deee65cd97c864746af824b6a095f80c
-      internalID: -8139491384064826478
+      spriteID: 2f6e2d224c84cd048b547833accaac41
+      internalID: -170937050613666686
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_6
+      name: NeutralWalk_6
       rect:
         serializedVersion: 2
         x: 180
         y: 0
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21f8d8982aed13b498df7febf71db3e8
-      internalID: -3558766609226321337
+      spriteID: afcc7a0c855d6e14eb7082f18b226631
+      internalID: 6566111222139384995
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Walk_7
+      name: NeutralWalk_7
       rect:
         serializedVersion: 2
         x: 270
         y: 0
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52116d7c0837c184e9ac3561860eedd0
-      internalID: -8972363970880825664
+      spriteID: c3afbf4ca19aa594ebc3b5bb75e8cffc
+      internalID: -6521527303015267813
       vertices: []
       indices: 
       edges: []

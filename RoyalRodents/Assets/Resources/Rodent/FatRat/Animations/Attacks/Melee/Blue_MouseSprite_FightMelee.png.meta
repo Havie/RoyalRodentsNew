@@ -26,6 +26,135 @@ TextureImporter:
   - first:
       213: 3316558334065123812
     second: Blue_MouseSprite_FightMelee_7
+  - first:
+      213: -2885544903948549582
+    second: Blue_MouseSprite_FightMelee_8
+  - first:
+      213: 5263254684555089073
+    second: Blue_MouseSprite_FightMelee_9
+  - first:
+      213: 6211590111307881099
+    second: Blue_MouseSprite_FightMelee_10
+  - first:
+      213: -8081140514419886231
+    second: Blue_MouseSprite_FightMelee_11
+  - first:
+      213: 3980049164547494698
+    second: Blue_MouseSprite_FightMelee_12
+  - first:
+      213: 6372757078656646792
+    second: Blue_MouseSprite_FightMelee_13
+  - first:
+      213: -858819351597165006
+    second: Blue_MouseSprite_FightMelee_14
+  - first:
+      213: -3922524647725798705
+    second: Blue_MouseSprite_FightMelee_15
+  - first:
+      213: -5754527205782860001
+    second: Blue_MouseSprite_FightMelee_16
+  - first:
+      213: 6282752011057396920
+    second: Blue_MouseSprite_FightMelee_17
+  - first:
+      213: 8103334056559511015
+    second: Blue_MouseSprite_FightMelee_18
+  - first:
+      213: 6350520476443101312
+    second: Blue_MouseSprite_FightMelee_19
+  - first:
+      213: 3951414058588236176
+    second: Blue_MouseSprite_FightMelee_20
+  - first:
+      213: 6111687312472878753
+    second: Blue_MouseSprite_FightMelee_21
+  - first:
+      213: 2153672673118195868
+    second: Blue_MouseSprite_FightMelee_22
+  - first:
+      213: -744556706397966560
+    second: Blue_MouseSprite_FightMelee_23
+  - first:
+      213: 5541448370676198174
+    second: Blue_MouseSprite_FightMelee_24
+  - first:
+      213: -8535736683622297005
+    second: Blue_MouseSprite_FightMelee_25
+  - first:
+      213: -7239281842832583460
+    second: Blue_MouseSprite_FightMelee_26
+  - first:
+      213: 8298471791527161476
+    second: Blue_MouseSprite_FightMelee_27
+  - first:
+      213: 979376047035872603
+    second: Blue_MouseSprite_FightMelee_28
+  - first:
+      213: -2521776591072079568
+    second: Blue_MouseSprite_FightMelee_29
+  - first:
+      213: 5439859623549668133
+    second: Blue_MouseSprite_FightMelee_30
+  - first:
+      213: 5381991495958110782
+    second: Blue_MouseSprite_FightMelee_31
+  - first:
+      213: -190270912218073634
+    second: Blue_MouseSprite_FightMelee_32
+  - first:
+      213: -9032522355937464143
+    second: Blue_MouseSprite_FightMelee_33
+  - first:
+      213: 1057615796427368294
+    second: Blue_MouseSprite_FightMelee_34
+  - first:
+      213: -4477210286978448492
+    second: Blue_MouseSprite_FightMelee_35
+  - first:
+      213: -855387783504451133
+    second: Blue_MouseSprite_FightMelee_36
+  - first:
+      213: 8495263049544106495
+    second: Blue_MouseSprite_FightMelee_37
+  - first:
+      213: 6578423567390593629
+    second: Blue_MouseSprite_FightMelee_38
+  - first:
+      213: -7836635051135716990
+    second: Blue_MouseSprite_FightMelee_39
+  - first:
+      213: 2085947860980272609
+    second: Blue_MouseSprite_FightMelee_40
+  - first:
+      213: -8425733918974877896
+    second: Blue_MouseSprite_FightMelee_41
+  - first:
+      213: 111209246615537522
+    second: Blue_MouseSprite_FightMelee_42
+  - first:
+      213: 6516687850262571766
+    second: Blue_MouseSprite_FightMelee_43
+  - first:
+      213: 2269446081888946199
+    second: Blue_MouseSprite_FightMelee_44
+  - first:
+      213: 2329169537081135260
+    second: Blue_MouseSprite_FightMelee_45
+  - first:
+      213: 305647460990718529
+    second: Blue_MouseSprite_FightMelee_46
+  - first:
+      213: -1394001774487878109
+    second: Blue_MouseSprite_FightMelee_47
+  - first:
+      213: 5109063114831234825
+    second: Blue_MouseSprite_FightMelee_48
+  - first:
+      213: 292132555927028988
+    second: Blue_MouseSprite_FightMelee_49
+  - first:
+      213: 1070609602646803890
+    second: Blue_MouseSprite_FightMelee_50
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -148,7 +277,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a42d21672b4c7c2488613aedfdf91c55
+      spriteID: 8980e1b218d6a0b44a967121602828e6
       internalID: -2211577201224630961
       vertices: []
       indices: 
@@ -162,14 +291,14 @@ TextureImporter:
         y: 180
         width: 180
         height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2a796f660ca781478e38f59e0df186d
+      spriteID: 91c6d0d54d77a244b80d04b5c8b34ad8
       internalID: 7729723024699000868
       vertices: []
       indices: 
@@ -183,14 +312,14 @@ TextureImporter:
         y: 180
         width: 180
         height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 536454a7f7e8b394aba6ac4654dd44db
+      spriteID: f394fce1b49c90946a1491d8030cac25
       internalID: -878470592819573666
       vertices: []
       indices: 
@@ -204,14 +333,14 @@ TextureImporter:
         y: 180
         width: 180
         height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a125e7eda3845614aa216c1b15fe3a21
+      spriteID: b6848bf9a6bf30a4a8b012b816a04e6d
       internalID: 8109833700461306124
       vertices: []
       indices: 
@@ -225,14 +354,14 @@ TextureImporter:
         y: 0
         width: 180
         height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 852c1239ff5972b4fbac043704cb658b
+      spriteID: 6e47e77adde7b0141b0449222b0bc77b
       internalID: -5839442534069919559
       vertices: []
       indices: 
@@ -246,14 +375,14 @@ TextureImporter:
         y: 0
         width: 180
         height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: da62a7b95baf1974ab97092fbdb0b1c7
+      spriteID: d2c8b2a212cc1ae48aa1b000126ce7c6
       internalID: -1696021871853968272
       vertices: []
       indices: 
@@ -267,14 +396,14 @@ TextureImporter:
         y: 0
         width: 180
         height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca44eae0667e68e4a81632658ccb620c
+      spriteID: 9389eac2450a79f4c9c06305345d5b19
       internalID: -8401713580605538269
       vertices: []
       indices: 
@@ -288,14 +417,14 @@ TextureImporter:
         y: 0
         width: 180
         height: 180
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7bc0de007792e534b9b8304f8c21b7c4
+      spriteID: ac2d24be854777242a64e41df67e7fbc
       internalID: 3316558334065123812
       vertices: []
       indices: 

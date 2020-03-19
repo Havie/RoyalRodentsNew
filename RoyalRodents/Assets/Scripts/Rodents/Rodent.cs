@@ -237,6 +237,15 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public Sprite GetPortrait() { return _Portrait; }
     public GameObject getPlaceOfWork() => _placeOfWork;
     public int getID() => _ID;
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            Die();
+        }
+    }
+
     public void Die()
     {
         print(_Name + " is dead");
@@ -249,6 +258,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     }
     IEnumerator DeathDelay()
     {
+        //Tell The event manager whats up to un assign job:
+        EventSystem.Instance.IDied(this);
+
         yield return new WaitForSeconds(5f);
        Destroy(this.gameObject);
     }

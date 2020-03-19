@@ -69,6 +69,9 @@ public class Employee : MonoBehaviour
             _Occupied = true;
             _currentRodent = r;
 			r.SetJob(this);
+
+            //subscribe to the event system
+            EventSystem.Instance.rodentDead += Dismiss;
         }
     }
 
@@ -78,17 +81,22 @@ public class Employee : MonoBehaviour
         if (_Occupied)
         {
             if (_currentRodent && _currentRodent==r)
+            {
                 _currentRodent.setTarget(null);
+                _PortraitOutline.GetComponent<bWorkerScript>().setWorker(null);
+                _WorkerObj.GetComponent<SpriteRenderer>().sprite = null;
+                print("dismiss");
+                _Occupied = false;
+                _currentRodent = null;
+                ShowRedX(false);
+                UIAssignmentMenu.Instance.ResetButtons();
+
+                //unsubscribe
+                EventSystem.Instance.rodentDead -= Dismiss;
+            }
             else
                 Debug.LogWarning("Trying to dismiss a rodent thats not here? Or doesnt match");
 
-            _PortraitOutline.GetComponent<bWorkerScript>().setWorker(null);
-            _WorkerObj.GetComponent<SpriteRenderer>().sprite = null;
-            print("dismiss");
-            _Occupied = false;
-            _currentRodent = null;
-            ShowRedX(false);
-            UIAssignmentMenu.Instance.ResetButtons();
         }
     }
     public void ShowRedX(bool cond)

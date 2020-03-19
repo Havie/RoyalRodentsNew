@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
         }
         //Need a Delay or Finds Objects before scene loads
         StartCoroutine(SceneDelay());
+
     }
 
     // Update is called once per frame
@@ -262,7 +263,8 @@ public class GameManager : MonoBehaviour
             _rm.UpdateCurrentPopulation();
 
             //Keep organized in hierarchy 
-            r.gameObject.transform.SetParent(_NeutralRodentDummy);
+            if(!r.isDead())
+                r.gameObject.transform.SetParent(_NeutralRodentDummy);
            
             Debug.Log("Set to neutralStack:" + r.gameObject);
         }

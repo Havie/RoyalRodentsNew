@@ -10,12 +10,15 @@ public class EventSystem : MonoBehaviour
 
     //publisher
     public delegate void OnMessageRecieved();
-
-    public event OnMessageRecieved onComplete;
+    public event OnMessageRecieved onComplete; //thing that tells the publisher to fire
 
     public delegate void SpawnEnemies();
     public event SpawnEnemies spawnTrigger;
 
+    public delegate void rodentDied(Rodent r);
+    public event rodentDied rodentDead; // this event fires the Delegate
+                                        // in a backwards way its like the delegate has a return type of r 
+                                        // because it can only call methods subscribed to it that take in a rodent
 
     public static EventSystem Instance
     {
@@ -63,8 +66,21 @@ public class EventSystem : MonoBehaviour
             if (spawnTrigger != null)
             {
                 spawnTrigger();
-                print("Spawned");
             }
+        }
+    }
+
+    public void IDied(Rodent r)
+    {
+        if (rodentDead != null)
+            rodentDead(r);
+    }
+    public void SpawnRodents()
+    {
+        if (spawnTrigger != null)
+        {
+            spawnTrigger();
+            print("Spawned");
         }
     }
 

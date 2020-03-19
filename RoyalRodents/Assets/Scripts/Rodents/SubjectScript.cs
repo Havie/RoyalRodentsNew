@@ -106,7 +106,7 @@ public class SubjectScript : MonoBehaviour
         builder = false;
 
         if (anims)
-            anims.SetBool(ATK_ANIMATION_TRIGGER, true);
+            anims.SetBool(ARMED_ANIMATION_BOOL, true);
 
         // Always should have the king in Saved Target if it is not the current target
         currentTarget = GameObject.FindGameObjectWithTag("Player");
@@ -119,7 +119,7 @@ public class SubjectScript : MonoBehaviour
         worker = true;
         builder = false;
         if (anims)
-            anims.SetBool(ATK_ANIMATION_TRIGGER, false);
+            anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
 
         //Get TownCenter location
@@ -133,7 +133,7 @@ public class SubjectScript : MonoBehaviour
         worker = false;
         builder = true;
         if (anims)
-            anims.SetBool(ATK_ANIMATION_TRIGGER, false);
+            anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
 
         //Get TownCenter location
@@ -736,7 +736,7 @@ public class SubjectScript : MonoBehaviour
             if (royalGuard == false)
             {
                 if (anims)
-                    anims.SetBool(ATK_ANIMATION_TRIGGER, true);
+                    anims.SetBool(ARMED_ANIMATION_BOOL, true);
 
                 SaveLastJob();
             }
@@ -782,7 +782,7 @@ public class SubjectScript : MonoBehaviour
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
                     if (anims)
-                        anims.SetBool(ATK_ANIMATION_TRIGGER, false);
+                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
                     break;
                 }
             case "builder":
@@ -792,7 +792,7 @@ public class SubjectScript : MonoBehaviour
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
                     if (anims)
-                        anims.SetBool(ATK_ANIMATION_TRIGGER, false);
+                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
                     break;
                 }
             case "royalGuard":

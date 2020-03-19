@@ -86,11 +86,11 @@ public class EventSystem : MonoBehaviour
 
     void Test()
     {
-        print("Did Test");
+       // print("Did Test");
     }
 
     void WriteMessage()
     {
-        print("WriteMessage");
+        //print("WriteMessage");
     }
 }

@@ -41,11 +41,16 @@ public class Employee : MonoBehaviour
     {
         LoadDataFix();
     }
+
+     // A work around to this would be to make it subscribe to the event system
+    // when it triggers, if a current rodent is employed, enable game object, and assign portrait
+   // possible flip back off if it was previous on enabled
     public void LoadDataFix()
     {
-
         if(_currentRodent)
           _WorkerObj.GetComponent<SpriteRenderer>().sprite = _currentRodent.GetPortrait();
+
+       
     }
 
     public void Assign(Rodent r)
@@ -59,7 +64,7 @@ public class Employee : MonoBehaviour
             _PortraitOutline.GetComponent<bWorkerScript>().setWorker(r);
             _WorkerObj.GetComponent<SpriteRenderer>().sprite = r.GetPortrait();
 
-            //Stupid Bugg... makes no sense
+            //Stupid Bugg... makes no sense , something seems to break if u assign and the gameobject is turned off
             // Debug.Log("Portraitnameis " + r.GetPortrait());
             //print(_WorkerObj.GetComponent<SpriteRenderer>());
             // print(_WorkerObj.GetComponent<SpriteRenderer>().sprite);
@@ -69,8 +74,8 @@ public class Employee : MonoBehaviour
             _currentRodent = r;
 			r.SetJob(this);
 
-            //subscribe to the event system
-            EventSystem.Instance.rodentDead += Dismiss;
+            //subscribe to the event system - unused now
+            //EventSystem.Instance.rodentDead += Dismiss;
         }
     }
 
@@ -90,12 +95,9 @@ public class Employee : MonoBehaviour
                 ShowRedX(false);
                 UIAssignmentMenu.Instance.ResetButtons();
 
-                //unsubscribe
-                EventSystem.Instance.rodentDead -= Dismiss;
+                //unsubscribe - unused now
+                //EventSystem.Instance.rodentDead -= Dismiss;
             }
-            else
-                Debug.LogWarning("Trying to dismiss a rodent thats not here? Or doesnt match");
-
         }
     }
     public void ShowRedX(bool cond)

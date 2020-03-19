@@ -240,6 +240,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
     private void Update()
     {
+        //TMP
         if(Input.GetKeyDown(KeyCode.D))
         {
             Die();
@@ -258,9 +259,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     }
     IEnumerator DeathDelay()
     {
-        //Tell The event manager whats up to un assign job:
-        EventSystem.Instance.IDied(this);
-
+        //Fun Way to use event system
+        //EventSystem.Instance.IDied(this);
+        //but this was already here and much cleaner/easier..lmao, oh well i learned alot
+        if(_Job)
+            _Job.Dismiss(this);  //Unassign self from job 
+        if(_NotifyAnimator)
+            Destroy(_NotifyAnimator.gameObject);
         yield return new WaitForSeconds(5f);
        Destroy(this.gameObject);
     }
@@ -271,7 +276,6 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
         GameManager.Instance.RemoveFromRodents(this);
 
-        //To:Do Unassigns self from job 
     }
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)

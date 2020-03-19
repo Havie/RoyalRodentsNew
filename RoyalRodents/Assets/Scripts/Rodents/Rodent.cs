@@ -321,8 +321,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                 // Tell Subject Script to behave like a Worker 
                 if (bo.getType() == BuildableObject.BuildingType.Outpost)
                     s.setDefender();
+                else if (bo.getType() == BuildableObject.BuildingType.Farm)
+                    s.setFarmer();
                 else
-                    s.setWorker();
+                    s.setGatherer();
+
                 _Status = eStatus.Working;
                 // Debug.Log("Updated State to Worker");
 

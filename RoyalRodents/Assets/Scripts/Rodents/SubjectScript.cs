@@ -24,7 +24,8 @@ public class SubjectScript : MonoBehaviour
     public Vector3 IdlePos;
     private bool facingRight;
     public bool royalGuard = true;
-    public bool worker = false;
+    public bool farmer = false;
+    public bool gatherer = false;
     public bool builder = false;
     public bool tmpFighter = false;
     private bool coroutineStarted = false;
@@ -39,10 +40,15 @@ public class SubjectScript : MonoBehaviour
     private bool _underAttackCoroutineOn = false;
     private bool _isDead;
     private string _oldJob;
+    private bool _approachingTownCenterasWorker;
 
     private const string MOVING_ANIMATION_BOOL = "isMoving";
     private const string ARMED_ANIMATION_BOOL = "isArmed";
+    private const string BUILDING_ANIMATION_BOOL = "isBuilding";
+    private const string FARMING_ANIMATION_BOOL = "isFarming";
+    private const string GATHERHING_ANIMATION_BOOL = "isGathering";
     private const string ATK_ANIMATION_TRIGGER = "doAttack";
+
 
     private List<GameObject> _inRange = new List<GameObject>();
 
@@ -60,6 +66,8 @@ public class SubjectScript : MonoBehaviour
             moveSpeed = r.getSpeed();
 
         WaitDuration = 10f;
+
+        testSwap();
     }
 
     // Update is called once per frame
@@ -75,13 +83,17 @@ public class SubjectScript : MonoBehaviour
                 {
                     royalGuardBehavior();
                 }
-                else if (worker)
+                else if (farmer)
                 {
-                    workerBehavior();
+                    farmerBehavior();
                 }
                 else if (builder)
                 {
                     builderBehavior();
+                }
+                else if (gatherer)
+                {
+                    gatherBehavior();
                 }
                 else
                 {
@@ -102,9 +114,9 @@ public class SubjectScript : MonoBehaviour
     public void setRoyalGuard()
     {
         royalGuard = true;
-        worker = false;
+        farmer = false;
         builder = false;
-
+        gatherer = false;
         if (anims)
             anims.SetBool(ARMED_ANIMATION_BOOL, true);
 
@@ -113,11 +125,12 @@ public class SubjectScript : MonoBehaviour
         savedTarget = currentTarget;
     }
 
-    public void setWorker()
+    public void setFarmer()
     {
         royalGuard = false;
-        worker = true;
+        farmer = true;
         builder = false;
+        gatherer = false;
         if (anims)
             anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
@@ -126,12 +139,27 @@ public class SubjectScript : MonoBehaviour
         GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
         savedTarget = centerLocation;
     }
+    public void setGatherer()
+    {
+        royalGuard = false;
+        farmer = false;
+        builder = false;
+        gatherer = true;
+        if (anims)
+            anims.SetBool(ARMED_ANIMATION_BOOL, false);
+
+        print("gathererer");
+        //Get TownCenter location
+        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        savedTarget = centerLocation;
+    }
 
     public void setBuilder()
     {
         royalGuard = false;
-        worker = false;
+        farmer = false;
         builder = true;
+        gatherer = false;
         if (anims)
             anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
@@ -148,11 +176,12 @@ public class SubjectScript : MonoBehaviour
     public void setIdle()
     {
         royalGuard = false;
-        worker = false;
+        farmer = false;
         builder = false;
+        gatherer = false;
         if (anims)
             anims.SetBool(ATK_ANIMATION_TRIGGER, false);
-        //changeTarget(this.gameObject);  // shouldnt need to do this
+
         IdlePos = this.transform.position;
     }
     public void setDead()
@@ -267,18 +296,48 @@ public class SubjectScript : MonoBehaviour
             }
 
             //Idle for workers
-           else  if (!coroutineStarted)
+            else if (!coroutineStarted)
             {
                 StartCoroutine(idleDelay());
                 if (builder)
                 {
+                    //Possible issues of building anim at TC, doesnt seem to be big deal
+                    // however this script doesnt seem to make him move toward TC as he builds TC
+                    // so we might have an issue with resource collection at TC once implemented
+                    //if current is not town center prepare for search anim
+                    if (currentTarget != GameManager.Instance.getTownCenter().gameObject)
+                    {
+                        // next time We work, to use gather anim
+                        _approachingTownCenterasWorker = true;
+                    }
+                    //else swap back to proper anim
+                    else
+                    {
+                        //go back to normal anim
+                        _approachingTownCenterasWorker = false;
+                    }
+
                     //swap current loc with staged location
                     swapTarget();
                 }
 
-                else if (worker)
+                else if (farmer || gatherer)
                 {
+                    //if current is not town center prepare for search anim
+                    if (currentTarget != GameManager.Instance.getTownCenter().gameObject)
+                    {
+                        // next time We work, to use gather anim
+                        _approachingTownCenterasWorker = true;
+                    }
+                    //else swap back to proper anim
+                    else
+                    {
+                        //go back to normal anim
+                        _approachingTownCenterasWorker = false;
+                    }
+
                     swapTarget();
+
                 }
             }
 
@@ -339,8 +398,7 @@ public class SubjectScript : MonoBehaviour
                     Debug.Log("StandStill::" + transform.position);
                 StartCoroutine(IdleMovetoLoc(transform.position));
                 WaitDuration = SetWaitDuration("move");
-                //To:Do 
-                //If Working Play A working Animation while standing still
+
             }
         }
     }
@@ -370,15 +428,40 @@ public class SubjectScript : MonoBehaviour
                 {
                     // Fix for builder
                     flipDirection();
-                    anims.SetBool("isBuilding", true);
+                    if (!_approachingTownCenterasWorker)
+                    {
+                        anims.SetBool(BUILDING_ANIMATION_BOOL, true);
+                        anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
+                    }
+                    else
+                    {
+                        anims.SetBool(BUILDING_ANIMATION_BOOL, false);
+                        anims.SetBool(GATHERHING_ANIMATION_BOOL, true);
+                    }
                 }
 
             }
-            else if (worker)
+            else if (farmer)
             {
                 if (anims)
                 {
-                    anims.SetBool("isWorking", true);
+                    if (!_approachingTownCenterasWorker)
+                    {
+                        anims.SetBool(FARMING_ANIMATION_BOOL, true);
+                        anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
+                    }
+                    else
+                    {
+                        anims.SetBool(FARMING_ANIMATION_BOOL, false);
+                        anims.SetBool(GATHERHING_ANIMATION_BOOL, true);
+                    }
+                }
+            }
+            else if (gatherer)
+            {
+                if (anims)
+                {
+                    anims.SetBool(GATHERHING_ANIMATION_BOOL, true);
                 }
             }
 
@@ -396,13 +479,25 @@ public class SubjectScript : MonoBehaviour
             if (builder)
             {
                 flipDirection();
-                anims.SetBool("isBuilding", false);
-            }
-            else if (worker)
+                if (anims)
+                {
+                    anims.SetBool(BUILDING_ANIMATION_BOOL, false);
+                    anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
+                }
+                }
+            else if (farmer)
             {
                 if (anims)
                 {
-                    anims.SetBool("isWorking", false);
+                    anims.SetBool(FARMING_ANIMATION_BOOL, false);
+                    anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
+                }
+            }
+            else if (gatherer)
+            {
+                if (anims)
+                {
+                    anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
                 }
             }
 
@@ -551,7 +646,7 @@ public class SubjectScript : MonoBehaviour
                 anims.SetTrigger(ATK_ANIMATION_TRIGGER);
             }
             // For rodents
-           Rodent  _EnemyRodent = currentTarget.GetComponent<Rodent>();
+            Rodent _EnemyRodent = currentTarget.GetComponent<Rodent>();
 
             if (_EnemyRodent)
             {
@@ -562,7 +657,7 @@ public class SubjectScript : MonoBehaviour
                 else
                 {
                     _inRange.Remove(currentTarget);
-                   // print("Called from Dead Rodent found");
+                    // print("Called from Dead Rodent found");
                     FindNextTargetInRange();
                 }
             }
@@ -641,12 +736,26 @@ public class SubjectScript : MonoBehaviour
 
     }
 
-    private void workerBehavior()
+    private void farmerBehavior()
     {
 
         // Walk to their assigned building
         // Idle in the area of it
         // Future: Be able to work occupy the building and deliver resources to the town center
+        if (!ShouldIdle)
+        {
+
+            Move(currentTarget);
+            if (_printStatements)
+                Debug.LogError("WorkerMove");
+        }
+        else
+        {
+            idleInRadius(3);
+        }
+    }
+    public void gatherBehavior()
+    {
         if (!ShouldIdle)
         {
 
@@ -688,7 +797,7 @@ public class SubjectScript : MonoBehaviour
     {
         if (state.Equals("move"))
         {
-            if (worker)
+            if (farmer || gatherer)
                 return Random.Range(4, 10);
             else if (royalGuard)
                 return Random.Range(1, 2.5f);
@@ -697,7 +806,7 @@ public class SubjectScript : MonoBehaviour
         }
         else if (state.Equals("idle"))
         {
-            if (worker)
+            if (farmer || gatherer)
                 return Random.Range(0.5f, 1f);
             else if (royalGuard)
                 return Random.Range(1, 2f);  // will follow player a lot better
@@ -711,7 +820,7 @@ public class SubjectScript : MonoBehaviour
     //As a rodent type changes, we figure out from here
     public void setAttackDamage(float damage)
     {
-        attackDamage = damage+15;
+        attackDamage = damage + 15;
     }
     //Doing too many get component calls when attacking, this will help
     public void setTeam(int id)
@@ -750,16 +859,18 @@ public class SubjectScript : MonoBehaviour
             _underAttack = false;
             _underAttackCoroutineOn = false;
             restoreLastJob();
-           Debug.LogError("Were NOT under attack @" + Time.time + "  " + this.gameObject);
+            Debug.LogError("Were NOT under attack @" + Time.time + "  " + this.gameObject);
         }
     }
 
     public void SaveLastJob()
     {
-        if (worker)
-            _oldJob = "worker";
+        if (farmer)
+            _oldJob = "farmer";
         else if (builder)
             _oldJob = "builder";
+        else if (gatherer)
+            _oldJob = "gatherer";
         else if (royalGuard)
             _oldJob = "royalGuard";
         else
@@ -767,18 +878,29 @@ public class SubjectScript : MonoBehaviour
 
         savedTarget2 = currentTarget;
         royalGuard = true;
-        worker = false;
+        farmer = false;
         builder = false;
+        gatherer = false;
         FindNextTargetInRange();
     }
     private void restoreLastJob()
     {
-        switch(_oldJob)
+        switch (_oldJob)
         {
-            case "worker":
+            case "farmer":
                 {
                     royalGuard = false;
-                    worker = true;
+                    farmer = true;
+                    currentTarget = savedTarget2;
+                    //Tell villagers to put weapons away
+                    if (anims)
+                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
+                    break;
+                }
+            case "gatherer":
+                {
+                    royalGuard = false;
+                    gatherer = true;
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
                     if (anims)
@@ -797,7 +919,7 @@ public class SubjectScript : MonoBehaviour
                 }
             case "royalGuard":
                 {
-                   //Do nothing? rest of behavior should be handled above
+                    //Do nothing? rest of behavior should be handled above
                     break;
                 }
             case "idle":
@@ -819,12 +941,32 @@ public class SubjectScript : MonoBehaviour
     //Unused but found this cool way to turn off ALL parameters EXCEPT one in controller
     private void DisableOtherAnimations(Animator animator, string animation)
     {
-        foreach(AnimatorControllerParameter parameter in animator.parameters)
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
         {
-            if(parameter.name != animation)
+            if (parameter.name != animation)
             {
                 animator.SetBool(parameter.name, false);
             }
         }
+    }
+
+    private void testSwap()
+    {
+        /*
+        //UnityEngine.AnimationClip clip 
+        foreach (var a in anims.GetCurrentAnimatorClipInfo(0))
+        {
+          //  print(a.clip.ToString());
+        }
+
+        AnimatorOverrideController aoc = new AnimatorOverrideController(anims.runtimeAnimatorController);
+
+        foreach(var a in aoc.animationClips)
+        {
+            print(a.name);
+        }
+        */
+
+
     }
 }

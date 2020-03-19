@@ -60485,7 +60485,8 @@ MonoBehaviour:
   savedTarget2: {fileID: 0}
   IdlePos: {x: 0, y: 0, z: 0}
   royalGuard: 1
-  worker: 0
+  farmer: 0
+  gatherer: 0
   builder: 0
   tmpFighter: 0
   _underAttackTime: 0
@@ -60751,7 +60752,8 @@ MonoBehaviour:
   savedTarget2: {fileID: 0}
   IdlePos: {x: 0, y: 0, z: 0}
   royalGuard: 1
-  worker: 0
+  farmer: 0
+  gatherer: 0
   builder: 0
   tmpFighter: 0
   _underAttackTime: 0
@@ -61123,6 +61125,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8439646455567229169, guid: c7f832cf21dd91e40813a7ba3d83707b,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0f1a023f39f862041b6345b71efe94cf, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7f832cf21dd91e40813a7ba3d83707b, type: 3}
 --- !u!224 &4225147385353192063

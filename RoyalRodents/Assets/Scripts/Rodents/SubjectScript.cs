@@ -15,6 +15,7 @@ using UnityEngine;
  */
 public class SubjectScript : MonoBehaviour
 {
+    #region Attributes
     public Animator anims;
     public float moveSpeed = 0.5f;
     public GameObject currentTarget;
@@ -39,9 +40,14 @@ public class SubjectScript : MonoBehaviour
     private bool _isDead;
     private string _oldJob;
 
+    private const string MOVING_ANIMATION_BOOL = "isMoving";
+    private const string ARMED_ANIMATION_BOOL = "isArmed";
+    private const string ATK_ANIMATION_TRIGGER = "doAttack";
+
     private List<GameObject> _inRange = new List<GameObject>();
 
     private bool _printStatements = false;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -100,7 +106,7 @@ public class SubjectScript : MonoBehaviour
         builder = false;
 
         if (anims)
-            anims.SetBool("isArmed", true);
+            anims.SetBool(ARMED_ANIMATION_BOOL, true);
 
         // Always should have the king in Saved Target if it is not the current target
         currentTarget = GameObject.FindGameObjectWithTag("Player");
@@ -113,7 +119,7 @@ public class SubjectScript : MonoBehaviour
         worker = true;
         builder = false;
         if (anims)
-            anims.SetBool("isArmed", false);
+            anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
 
         //Get TownCenter location
@@ -127,7 +133,7 @@ public class SubjectScript : MonoBehaviour
         worker = false;
         builder = true;
         if (anims)
-            anims.SetBool("isArmed", false);
+            anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
 
         //Get TownCenter location
@@ -145,7 +151,7 @@ public class SubjectScript : MonoBehaviour
         worker = false;
         builder = false;
         if (anims)
-            anims.SetBool("isArmed", false);
+            anims.SetBool(ATK_ANIMATION_TRIGGER, false);
         //changeTarget(this.gameObject);  // shouldnt need to do this
         IdlePos = this.transform.position;
     }
@@ -542,7 +548,7 @@ public class SubjectScript : MonoBehaviour
             if (anims)
             {
                 // Put attack animation here
-                anims.SetTrigger("doAttack");
+                anims.SetTrigger(ATK_ANIMATION_TRIGGER);
             }
             // For rodents
            Rodent  _EnemyRodent = currentTarget.GetComponent<Rodent>();
@@ -556,7 +562,7 @@ public class SubjectScript : MonoBehaviour
                 else
                 {
                     _inRange.Remove(currentTarget);
-                    print("Called from Dead Rodent found");
+                   // print("Called from Dead Rodent found");
                     FindNextTargetInRange();
                 }
             }
@@ -730,7 +736,7 @@ public class SubjectScript : MonoBehaviour
             if (royalGuard == false)
             {
                 if (anims)
-                    anims.SetBool("isArmed", true);
+                    anims.SetBool(ARMED_ANIMATION_BOOL, true);
 
                 SaveLastJob();
             }
@@ -776,7 +782,7 @@ public class SubjectScript : MonoBehaviour
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
                     if (anims)
-                        anims.SetBool("isArmed", false);
+                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
                     break;
                 }
             case "builder":
@@ -786,7 +792,7 @@ public class SubjectScript : MonoBehaviour
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
                     if (anims)
-                        anims.SetBool("isArmed", false);
+                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
                     break;
                 }
             case "royalGuard":
@@ -800,7 +806,7 @@ public class SubjectScript : MonoBehaviour
                     currentTarget = null;
                     //Tell villagers to put weapons away
                     if (anims)
-                        anims.SetBool("isArmed", false);
+                        anims.SetBool(ATK_ANIMATION_TRIGGER, false);
                     break;
                 }
 
@@ -808,5 +814,17 @@ public class SubjectScript : MonoBehaviour
         }
 
 
+    }
+
+    //Unused but found this cool way to turn off ALL parameters EXCEPT one in controller
+    private void DisableOtherAnimations(Animator animator, string animation)
+    {
+        foreach(AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if(parameter.name != animation)
+            {
+                animator.SetBool(parameter.name, false);
+            }
+        }
     }
 }

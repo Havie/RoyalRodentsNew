@@ -30,12 +30,14 @@ public class SpawnVolume : MonoBehaviour
         if (_EnemySpawnDummy == null)
             _EnemySpawnDummy = GameObject.FindGameObjectWithTag("EnemyRodents").transform;
 
+        //subscribe to the event system
+        EventSystem.Instance.spawnTrigger += SpawnSomething;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        if(_timeToSpawn)
+        if(_timeToSpawn && !_occupied)
         {
             //Spawn random rodent based on prefab
             int index = Random.Range(0, _AvailableRodents.Count - 1);
@@ -45,6 +47,12 @@ public class SpawnVolume : MonoBehaviour
 
             StartCoroutine(SpawnCountDown());
         }
+        
+    }
+    void onDisable()
+    {
+        //unsubscribe
+        EventSystem.Instance.spawnTrigger -= SpawnSomething;
     }
 
     IEnumerator SpawnCountDown()
@@ -118,5 +126,6 @@ public class SpawnVolume : MonoBehaviour
     public void SpawnSomething()
     {
         _occupied = false;
+        _EnemyCount = 5;
     }
 }

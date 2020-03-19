@@ -237,6 +237,16 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public Sprite GetPortrait() { return _Portrait; }
     public GameObject getPlaceOfWork() => _placeOfWork;
     public int getID() => _ID;
+
+    private void Update()
+    {
+        //TMP
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            Die();
+        }
+    }
+
     public void Die()
     {
         print(_Name + " is dead");
@@ -249,6 +259,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     }
     IEnumerator DeathDelay()
     {
+        //Fun Way to use event system
+        //EventSystem.Instance.IDied(this);
+        //but this was already here and much cleaner/easier..lmao, oh well i learned alot
+        if(_Job)
+            _Job.Dismiss(this);  //Unassign self from job 
+        if(_NotifyAnimator)
+            Destroy(_NotifyAnimator.gameObject);
         yield return new WaitForSeconds(5f);
        Destroy(this.gameObject);
     }
@@ -259,7 +276,6 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
         GameManager.Instance.RemoveFromRodents(this);
 
-        //To:Do Unassigns self from job 
     }
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)

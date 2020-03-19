@@ -439,7 +439,7 @@ public class MVCController : MonoBehaviour
     private bool AlternateUITest(Vector3 MouseRaw)
     {
         GraphicRaycaster gr = GameObject.FindGameObjectWithTag("Canvas").GetComponent<GraphicRaycaster>();
-        EventSystem es = GameManager.Instance.transform.GetComponentInChildren<EventSystem>();
+        UnityEngine.EventSystems.EventSystem es = GameManager.Instance.transform.GetComponentInChildren<UnityEngine.EventSystems.EventSystem>();
 
         if (es == null)
             Debug.LogError("NO EventSys");
@@ -502,7 +502,7 @@ public class MVCController : MonoBehaviour
 
         m_PointerEventData.position = (MouseRaw);
         results.Clear();
-        EventSystem.current.RaycastAll(m_PointerEventData, results);
+        UnityEngine.EventSystems.EventSystem.current.RaycastAll(m_PointerEventData, results);
         if (results.Count > 0)
         {
             foreach (RaycastResult result in results)

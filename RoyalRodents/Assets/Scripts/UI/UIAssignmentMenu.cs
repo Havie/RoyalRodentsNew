@@ -164,7 +164,7 @@ public class UIAssignmentMenu : MonoBehaviour
        // Debug.Log("FindAvail");
         foreach (Rodent r in _rList)
         {
-            if (r.GetRodentStatus() == Rodent.eStatus.Available)
+            if (r.GetRodentStatus() == Rodent.eStatus.Available && !r.isDead())
             {
                 //Debug.Log(r.getName() + "  is Available");
                 CreateButton(r);

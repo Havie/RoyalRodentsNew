@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour
             if(!r.isDead())
                 r.gameObject.transform.SetParent(_NeutralRodentDummy);
            
-            Debug.Log("Set to neutralStack:" + r.gameObject);
+            //Debug.Log("Set to neutralStack:" + r.gameObject);
         }
 	}
 	public void AddtoRodents(Rodent r)

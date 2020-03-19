@@ -148,7 +148,6 @@ public class SubjectScript : MonoBehaviour
         if (anims)
             anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
-        print("gathererer");
         //Get TownCenter location
         GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
         savedTarget = centerLocation;

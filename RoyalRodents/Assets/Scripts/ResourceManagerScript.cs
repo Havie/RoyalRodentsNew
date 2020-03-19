@@ -13,13 +13,13 @@ public class ResourceManagerScript : MonoBehaviour
     public enum ResourceType { Food, Trash, Wood, Stone, Shiny };
 
     //create resource variables
-   [SerializeField] private int _food, _trash, _wood, _metal, _shiny;
+   [SerializeField] private int _food, _trash, _wood, _stone, _shiny;
    [SerializeField] private int _currentPopulation, _currentCapacity;
 
     //TopPanel UI Resource Bar Text
     public TextMeshProUGUI _TrashText;
     public TextMeshProUGUI _WoodText;
-    public TextMeshProUGUI _MetalText;
+    public TextMeshProUGUI _stoneText;
     public TextMeshProUGUI _ShinyText;
     public TextMeshProUGUI _FoodText;
 
@@ -46,7 +46,7 @@ public class ResourceManagerScript : MonoBehaviour
         {
             _trash = data._trash;
             _wood = data._wood;
-            _metal = data._stone;
+            _stone = data._stone;
             _shiny = data._shiny;
             _food = data._food;
             _currentPopulation = data._pop;
@@ -83,7 +83,7 @@ public class ResourceManagerScript : MonoBehaviour
         _food = 10;
         _trash = 10;
         _wood = 10;
-        _metal = 10;
+        _stone = 10;
         _shiny = 10;
 
         UpdateAllText();
@@ -104,7 +104,7 @@ public class ResourceManagerScript : MonoBehaviour
 
             t = _topPanel.transform.Find("Metal Display");
             if (t)
-                _MetalText = t.GetComponent<TextMeshProUGUI>();
+                _stoneText = t.GetComponent<TextMeshProUGUI>();
 
             t = _topPanel.transform.Find("Shiny Display");
             if (t)
@@ -142,7 +142,7 @@ public class ResourceManagerScript : MonoBehaviour
                 }
             case ResourceType.Stone:
                 {
-                    return _metal;
+                    return _stone;
                 }
             case ResourceType.Shiny:
                 {
@@ -196,7 +196,7 @@ public class ResourceManagerScript : MonoBehaviour
                 }
             case ResourceType.Stone:
                 {
-                    _metal += amnt;
+                    _stone += amnt;
                     UpdateResourceText(type);
                     break;
                 }
@@ -246,8 +246,8 @@ public class ResourceManagerScript : MonoBehaviour
                 }
             case ResourceType.Stone:
                 {
-                    if (_MetalText)
-                        _MetalText.text = _metal.ToString();
+                    if (_stoneText)
+                        _stoneText.text = _stone.ToString();
                     break;
                 }
             case ResourceType.Shiny:

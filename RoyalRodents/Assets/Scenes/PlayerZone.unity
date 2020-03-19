@@ -16268,13 +16268,13 @@ MonoBehaviour:
   _food: 0
   _trash: 0
   _wood: 0
-  _metal: 0
+  _stone: 0
   _shiny: 0
   _currentPopulation: 0
   _currentCapacity: 0
   _TrashText: {fileID: 1746027354}
   _WoodText: {fileID: 498547516}
-  _MetalText: {fileID: 984769676}
+  _stoneText: {fileID: 0}
   _ShinyText: {fileID: 247588678}
   _FoodText: {fileID: 933066596}
   _PopulationText: {fileID: 1922297173}
@@ -20046,7 +20046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423901442}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -846.76, y: -385.36, z: 10.079658}
+  m_LocalPosition: {x: -846.73, y: -385.05, z: 10.079658}
   m_LocalScale: {x: 0.433, y: 0.433, z: 2}
   m_Children:
   - {fileID: 1981443397}
@@ -20131,7 +20131,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 15.58, y: 16}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -22336,7 +22336,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687040296}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -866.83, y: -386.12, z: 5.039829}
+  m_LocalPosition: {x: -866.94, y: -385.1, z: 5.039829}
   m_LocalScale: {x: 0.433, y: 0.433, z: 2}
   m_Children:
   - {fileID: 479893780}
@@ -28933,7 +28933,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873172393346750042}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -854.56, y: -385.36, z: 10.079658}
+  m_LocalPosition: {x: -854.5, y: -385.1, z: 10.079658}
   m_LocalScale: {x: 0.433, y: 0.433, z: 2}
   m_Children:
   - {fileID: 873172393373782302}
@@ -28986,7 +28986,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 15.58, y: 16}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

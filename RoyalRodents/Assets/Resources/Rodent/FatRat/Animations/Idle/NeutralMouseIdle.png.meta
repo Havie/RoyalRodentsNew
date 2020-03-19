@@ -23,6 +23,27 @@ TextureImporter:
   - first:
       213: 3831407894528541194
     second: Recruit_MouseSprite_Idle_6
+  - first:
+      213: -6219750188850498305
+    second: NeutralMouseIdle_0
+  - first:
+      213: 8891590546922657945
+    second: NeutralMouseIdle_1
+  - first:
+      213: -8024035188027917620
+    second: NeutralMouseIdle_2
+  - first:
+      213: 6040571313895517090
+    second: NeutralMouseIdle_3
+  - first:
+      213: 7429382958817192600
+    second: NeutralMouseIdle_4
+  - first:
+      213: 2811657006102495836
+    second: NeutralMouseIdle_5
+  - first:
+      213: -6784381386197293882
+    second: NeutralMouseIdle_6
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -131,148 +152,148 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Idle_0
+      name: NeutralMouseIdle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb2bf7a3a50af154bb229dcab2559ef8
-      internalID: -6501516734847137395
+      spriteID: 51fea9342fbdba945967866e77a66f3e
+      internalID: -6219750188850498305
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Idle_1
+      name: NeutralMouseIdle_1
       rect:
         serializedVersion: 2
         x: 90
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22922dd7e3064ed4ca36eb47e244c06e
-      internalID: -7696894177398593674
+      spriteID: 5fc25bac54931c748aeab3759d89d971
+      internalID: 8891590546922657945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Idle_2
+      name: NeutralMouseIdle_2
       rect:
         serializedVersion: 2
         x: 180
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a76469dc55931d647b93582f6f97a1aa
-      internalID: 5892493958987978978
+      spriteID: e085900c6afadcd46ab86eeeb67abe74
+      internalID: -8024035188027917620
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Idle_3
+      name: NeutralMouseIdle_3
       rect:
         serializedVersion: 2
         x: 270
         y: 90
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1f058f8cc2ebec44b55815d9607aaf5
-      internalID: 8134162690673420213
+      spriteID: 8ff30eb41b2f8c648899f92409a936d3
+      internalID: 6040571313895517090
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Idle_4
+      name: NeutralMouseIdle_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3836022fcc4e3eb45b4cff8b305282d7
-      internalID: 7059922331498779836
+      spriteID: d13070f0116f56546af3a4b4f64b251b
+      internalID: 7429382958817192600
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Idle_5
+      name: NeutralMouseIdle_5
       rect:
         serializedVersion: 2
         x: 90
         y: 0
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a7982e19035c414daba379299781a07
-      internalID: 1815755771708577361
+      spriteID: f028500f4df4e7f41a570fe922922431
+      internalID: 2811657006102495836
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recruit_MouseSprite_Idle_6
+      name: NeutralMouseIdle_6
       rect:
         serializedVersion: 2
         x: 180
         y: 0
         width: 90
         height: 90
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce6e0c27f99b253448fbb4d6a0211684
-      internalID: 3831407894528541194
+      spriteID: ac23ad8a51737f940abe7d350e60779f
+      internalID: -6784381386197293882
       vertices: []
       indices: 
       edges: []

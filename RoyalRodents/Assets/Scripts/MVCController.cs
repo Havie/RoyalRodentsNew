@@ -214,7 +214,7 @@ public class MVCController : MonoBehaviour
 
 
                 //If Click Player Do a new RayCast here to avoid player/player Layer, so we can click through the player and ago radius - worried what will happen if we have multiple agro radius
-                if (_TMPlastClicked.transform.parent.GetComponentInChildren<PlayerMovement>() || _TMPlastClicked.transform.GetComponent<AttackRadius>())
+                if (_TMPlastClicked.transform.parent.GetComponentInChildren<PlayerMovement>())
                 {
                     if(_printStatements)
                          Debug.LogWarning("Found a warning click");
@@ -225,6 +225,12 @@ public class MVCController : MonoBehaviour
                     }
 
                 }
+
+                if(_TMPlastClicked.transform.GetComponent<AttackRadius>())
+                {
+                    Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+                }
+
                 //Clicked the Portrait Employee Object - collider isn't on child, but it has a parent so its safe to do this in here
                 if(CheckWorkerObject(_TMPlastClicked))
                 {
@@ -433,7 +439,7 @@ public class MVCController : MonoBehaviour
     private bool AlternateUITest(Vector3 MouseRaw)
     {
         GraphicRaycaster gr = GameObject.FindGameObjectWithTag("Canvas").GetComponent<GraphicRaycaster>();
-        EventSystem es = GameManager.Instance.transform.GetComponentInChildren<EventSystem>();
+        UnityEngine.EventSystems.EventSystem es = GameManager.Instance.transform.GetComponentInChildren<UnityEngine.EventSystems.EventSystem>();
 
         if (es == null)
             Debug.LogError("NO EventSys");
@@ -496,7 +502,7 @@ public class MVCController : MonoBehaviour
 
         m_PointerEventData.position = (MouseRaw);
         results.Clear();
-        EventSystem.current.RaycastAll(m_PointerEventData, results);
+        UnityEngine.EventSystems.EventSystem.current.RaycastAll(m_PointerEventData, results);
         if (results.Count > 0)
         {
             foreach (RaycastResult result in results)
@@ -544,18 +550,25 @@ public class MVCController : MonoBehaviour
         if (hit.collider!=null && _printStatements)
              Debug.Log("Initial Hit Found:" + hit.collider.gameObject);
 
-        //Might be possible to write something here that ignores agro spheres and somehow
-        //gets a better more valuable hit from hits
-
-        if (hits.Length > 1)
+        //Found an agro range, lets see if anything else lies behind it
+        if (hit.collider!=null)
         {
-           // Debug.LogWarning("Possible to Hit more than 1 thing??");
-            foreach (var h in hits)
+            if (hit.collider.gameObject.transform.GetComponent<AttackRadius>())
             {
-               //  Debug.Log("Found" + h.collider.gameObject);
+
+                if (hits.Length > 1)
+                {
+                    // Debug.LogWarning("Possible to Hit more than 1 thing??");
+                    foreach (var h in hits)
+                    {
+                        Debug.Log("Found" + h.collider.gameObject);
+                        if (!h.collider.gameObject.transform.GetComponent<AttackRadius>())
+                            return h;
+                    }
+                }
+
             }
         }
-
         return hit;
     }
     private RaycastHit2D RayCastBehindPlayer(Vector3 MouseRaw)

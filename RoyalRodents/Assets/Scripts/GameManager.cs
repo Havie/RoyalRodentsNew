@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         get
         {
             if (_instance == null)
-                _instance = new GameManager();
+                _instance = new GameManager();  // is this a problem?
             return _instance;
         }
     }
@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
         }
         //Need a Delay or Finds Objects before scene loads
         StartCoroutine(SceneDelay());
+
     }
 
     // Update is called once per frame
@@ -262,9 +263,10 @@ public class GameManager : MonoBehaviour
             _rm.UpdateCurrentPopulation();
 
             //Keep organized in hierarchy 
-            r.gameObject.transform.SetParent(_NeutralRodentDummy);
+            if(!r.isDead())
+                r.gameObject.transform.SetParent(_NeutralRodentDummy);
            
-            // Debug.Log("Set to neutralStack:" + r.gameObject);
+            //Debug.Log("Set to neutralStack:" + r.gameObject);
         }
 	}
 	public void AddtoRodents(Rodent r)
@@ -273,6 +275,14 @@ public class GameManager : MonoBehaviour
         {
             _AllRodents.Add(r);
             _RodentHashTable.Add(r.getID(), r);
+        }
+    }
+    public void RemoveFromRodents(Rodent r)
+    {//Rodent died
+        if (_AllRodents != null)
+        {
+            if (_AllRodents.Contains(r))
+                _AllRodents.Remove(r);
         }
     }
     public bool getMobileMode()

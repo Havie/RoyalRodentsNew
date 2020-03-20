@@ -34,7 +34,7 @@ public class bStonePile : MonoBehaviour
 			//Set Upgrade/Build Costs (1-3 levels)
 			_costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 1);
 
-			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Banner/trash_banner");
+			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/StonePile/stone_pile");
 
 			_isSet = true;
 		}

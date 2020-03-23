@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     private int _RodentIndex =0;
     private bool _SceneStarted = false;
 
+
+
     //Create Instance of GameManager
     public static GameManager Instance
     {

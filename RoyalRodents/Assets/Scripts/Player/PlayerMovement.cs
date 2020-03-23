@@ -43,6 +43,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isDead;
     private bool _controlled;
+    private bool _mobileMoveDelay;
+
+    //Debugg
+    public UIDebuggPrints _debugger;
 
     private void Awake()
     {
@@ -122,11 +126,17 @@ public class PlayerMovement : MonoBehaviour
             int count = Input.touchCount;
             if (count > 0)
             {
-
+                if (_debugger)
+                    _debugger.Log("TOUCH COUNT =" + count);
                 Touch touch = Input.GetTouch(0);
 
                 if (touch.phase == TouchPhase.Began)
                     input = touch.position;
+            }
+            else
+            {
+                if(_debugger)
+                    _debugger.Log("TOUCH COUNT =" + count);
             }
 
             GameObject go = MVCController.Instance.checkClick(input);
@@ -205,6 +215,9 @@ public class PlayerMovement : MonoBehaviour
             else if (_controlled)
             {
                 //Debug.Log("No go, so move to mouse loc , which will need to change for touch");
+                if (_debugger)
+                    _debugger.Log("No go, so move to  loc");
+
                 //make sure the click is far enough away from us 
                 StartCoroutine(MoveDelay(input));
                 _wantToAttack = false;
@@ -233,23 +246,44 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator MoveDelay(Vector3 input)
     {
-        //Keep track of old Y
-        float _oldY = _MoveLocation.transform.position.y;
-        //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
-        _MoveLocation.transform.position = new Vector3(0, 3200, 0);
-        //wait a split second to reset collision
-        yield return new WaitForSeconds(0.05f);
-        // pick the actual correct location to move
-        _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(input).x, _oldY, 0);
-        float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
+        if (!_mobileMoveDelay)
+        {
+            _mobileMoveDelay = true;
+            if (_debugger)
+            {
+                _debugger.Log("Current position=" + this.transform.position);
+                _debugger.Log("Dummy position=" + _MoveLocation.transform.position);
+                _debugger.Log("position to move=" + input);
+                _debugger.Log("CameraToWorld   =" + new Vector3(Camera.main.ScreenToWorldPoint(input).x, _MoveLocation.transform.position.y, 0));
 
-       // Debug.Log("MoveDis:: " + _moveDis);
+            }
 
-        // an extra layer so we dont move if the click is too close
-        if (Mathf.Abs(_moveDis) > 0.6f)
-            _horizontalMove = _moveDis * _moveSpeed;
+            //Keep track of old Y
+            float _oldY = _MoveLocation.transform.position.y;
+            //first move the _Move Location somewhere absurd to reset collision enter with DummyObj
+            _MoveLocation.transform.position = new Vector3(0, 3200, 0);
+            //wait a split second to reset collision
+            yield return new WaitForSeconds(0.05f);
+            // pick the actual correct location to move
+            _MoveLocation.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(input).x, _oldY, 0);
+            float _moveDis = (_MoveLocation.transform.position - this.transform.position).normalized.x;
+
+            // Debug.Log("MoveDis:: " + _moveDis);
+
+            // an extra layer so we dont move if the click is too close
+            if (Mathf.Abs(_moveDis) > 0.6f)
+                _horizontalMove = _moveDis * _moveSpeed;
+
+            if (_debugger)
+            {
+                _debugger.Log("Move dis: " + _moveDis);
+                _debugger.Log("horizMove: " + _horizontalMove);
+
+            }
+            _mobileMoveDelay = false;
+        }
     }
-    IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
+        IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
     {
         //Keep track of old Y
         float _oldY = _MoveLocation.transform.position.y;

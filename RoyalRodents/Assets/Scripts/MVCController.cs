@@ -32,7 +32,9 @@ public class MVCController : MonoBehaviour
     private bool _recruitDummy;
     private bool _assignDummy;
 
+    //Debugg
     private bool _printStatements;
+    public UIDebuggPrints _debugger;
 
     public static MVCController Instance
     {
@@ -105,6 +107,8 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.LogError("Last clicked is null");
+            if(_debugger)
+                _debugger.LogError("Last clicked is null");
             return;
         }
         //print("lastClicked: " + _lastClicked + " in BuildSomething");
@@ -121,12 +125,17 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.LogError("Last clicked is null");
+            if (_debugger)
+                _debugger.LogError("Last clicked is null");
             return;
         }
         if (_lastClicked.GetComponent<BuildableObject>())
         {
             if (_printStatements)
                 Debug.Log("Found Buildable Object to Upgrade");
+            if (_debugger)
+                _debugger.Log("Found Buildable Object to Upgrade");
+
             _lastClicked.GetComponent<BuildableObject>().UpgradeSomething();
             CheckClicks(true);
         }
@@ -171,6 +180,8 @@ public class MVCController : MonoBehaviour
     {
         if (_printStatements)
             Debug.Log("Check Click!");
+        if (_debugger)
+            _debugger.Log("Check Click!");
 
         // Will detect UI Elements in the canvas
         CheckClicks(AlternateUITest(MouseRaw));
@@ -186,15 +197,21 @@ public class MVCController : MonoBehaviour
 
                     if (_printStatements)
                         Debug.Log("Case00");
+                    if (_debugger)
+                        _debugger.Log("Case00");
                 }
             }
             if (_printStatements)
                 Debug.Log("Auto Return Dummy OBJ because were not checking clicks");
+            if (_debugger)
+                _debugger.Log("Auto Return Dummy OBJ because were not checking clicks");
             return _dummyObj;
         }
 
         if (_printStatements)
             Debug.Log("Passed");
+        if (_debugger)
+            _debugger.Log("Passed");
 
         //used to keep track of if a menu needs to stay open
         _recruitDummy = false;
@@ -211,6 +228,8 @@ public class MVCController : MonoBehaviour
             {
                 if (_printStatements)
                     Debug.LogWarning(_TMPlastClicked.transform.parent.gameObject + "   is parent clicked");
+                if (_debugger)
+                    _debugger.LogWarning(_TMPlastClicked.transform.parent.gameObject + "   is parent clicked");
 
 
                 //If Click Player Do a new RayCast here to avoid player/player Layer, so we can click through the player and ago radius - worried what will happen if we have multiple agro radius
@@ -218,6 +237,8 @@ public class MVCController : MonoBehaviour
                 {
                     if(_printStatements)
                          Debug.LogWarning("Found a warning click");
+                    if (_debugger)
+                        _debugger.LogWarning("Found a warning click");
                     hit = RayCastBehindPlayer(MouseRaw);
                     if (hit.collider != null)
                     {
@@ -229,6 +250,8 @@ public class MVCController : MonoBehaviour
                 if(_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
                     Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+                    if(_debugger)
+                        _debugger.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
                 }
 
                 //Clicked the Portrait Employee Object - collider isn't on child, but it has a parent so its safe to do this in here
@@ -262,6 +285,8 @@ public class MVCController : MonoBehaviour
             //we fell through the list of available objects, turn menus off
             if (_printStatements)
                 Debug.Log("Fall through Case1");
+            if (_debugger)
+                _debugger.Log("Fall through Case1");
 
             return TurnThingsoff();
         }
@@ -271,6 +296,8 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.Log("UI is On, Return Last clicked");
+            if (_debugger)
+                _debugger.Log("UI is On, Return Last clicked");
             return null;
         }
         else
@@ -278,6 +305,8 @@ public class MVCController : MonoBehaviour
             //we clicked absolutely nothing, turn everything off 
             if (_printStatements)
                 Debug.Log("Fall through Case2");
+            if (_debugger)
+                _debugger.Log("Fall through Case2");
             return TurnThingsoff();
         }
     }

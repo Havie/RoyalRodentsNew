@@ -211,6 +211,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         this.gameObject.name =_ID+ " Rodent: " + _Name + " ";
 
         _isRanged = PickRanged();
+        if(_Team==2)
+            _NotificationObject.SetActive(false);
 
     }
 
@@ -306,8 +308,12 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         {
             _Status = eStatus.Available;
             s.setIdle();
-            _NotificationObject.SetActive(true);
-            _NotifyAnimator.SetBool("Notify", true);
+            //Show the Exclamation for available non enemy rodents
+            if (_Team != 2)
+            {
+                _NotificationObject.SetActive(true);
+                _NotifyAnimator.SetBool("Notify", true);
+            }
             return;
         }
 

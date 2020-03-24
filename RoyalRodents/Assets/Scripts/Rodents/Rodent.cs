@@ -50,6 +50,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     private int _ID;
 
     private bool _isDead;
+    private bool _isRanged;
 
     /**Begin Interface Stuff */
     public void Damage(float damageTaken)
@@ -135,6 +136,18 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         if (_NotificationObject == null)
             Debug.Log("NotifyObj not set from inspector");
     }
+    private bool PickRanged()
+    {
+        int _chanceToMove = Random.Range(0, 9);
+        if (_chanceToMove > 4)
+        {
+            Animator a = this.GetComponent<Animator>();
+            if (a)
+                a.SetBool("isRanged", true);
+            return true;
+        }
+        return false;
+    }
 
     public void LoadData(int id, int team, int type, int WorkID, float xPos)
     {
@@ -197,6 +210,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //Rename Prefab 
         this.gameObject.name =_ID+ " Rodent: " + _Name + " ";
 
+        _isRanged = PickRanged();
+
     }
 
 
@@ -226,6 +241,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public void setRodentStatus(eStatus status) => _Status = status;
     public void setPortrait(Sprite s) => _Portrait = s;
 
+    public bool isRanged() => _isRanged;
     public bool isDead() => _isDead;
     public float getHp() { return _Hp; }
     public float getHpMax() { return _HpMax; }

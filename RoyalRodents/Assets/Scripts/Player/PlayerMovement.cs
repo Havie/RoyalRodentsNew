@@ -396,9 +396,16 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else if (dir == Vector2.down || dir == Vector2.up)
                 {
+                   // Debug.Log("DT:" + dt.gameObject + "  @" + dt.transform.position.y);
+                   // Debug.Log("OUR:" + "king" + "  @" + this.transform.position.y);
+
                     //Calculate distance because of weird anchor points? - keep player in middle of tile
-                    float newY = (this.transform.position.y - dt.transform.position.y); //can Div by 2 to alter if sprite is wrong pos
-                    this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - newY, 0);
+                    float newY = (this.transform.position.y - dt.transform.position.y)/2; //can Div by 2 to alter if sprite is wrong pos
+                    if (dir == Vector2.up)
+                         newY = newY-2; 
+
+                    this.transform.position = new Vector3(dt.transform.position.x, this.transform.position.y - newY, 0);
+
                 }
             }
         }
@@ -409,6 +416,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 location;
         Vector2 directionVector = Vector2.zero;
         if (_CurrentTunnelTile != null)
+
             location = _CurrentTunnelTile.transform.position;
         else
             location = _CurrentSoilTile.transform.position;
@@ -481,7 +489,7 @@ public class PlayerMovement : MonoBehaviour
                                     return true;
                                 }
                             }
-                            else //if(DirectionVector==Vector2.up) up and down
+                            else // up and down
                             {
                                 StartCoroutine(DigDelay(directionVector, dt));
                                 return true;

@@ -32,7 +32,9 @@ public class MVCController : MonoBehaviour
     private bool _recruitDummy;
     private bool _assignDummy;
 
+    //Debugg
     private bool _printStatements;
+    public UIDebuggPrints _debugger;
 
     public static MVCController Instance
     {
@@ -105,6 +107,8 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.LogError("Last clicked is null");
+            if(_debugger)
+                _debugger.LogError("Last clicked is null");
             return;
         }
         //print("lastClicked: " + _lastClicked + " in BuildSomething");
@@ -121,12 +125,17 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.LogError("Last clicked is null");
+            if (_debugger)
+                _debugger.LogError("Last clicked is null");
             return;
         }
         if (_lastClicked.GetComponent<BuildableObject>())
         {
             if (_printStatements)
                 Debug.Log("Found Buildable Object to Upgrade");
+            if (_debugger)
+                _debugger.Log("Found Buildable Object to Upgrade");
+
             _lastClicked.GetComponent<BuildableObject>().UpgradeSomething();
             CheckClicks(true);
         }
@@ -171,6 +180,8 @@ public class MVCController : MonoBehaviour
     {
         if (_printStatements)
             Debug.Log("Check Click!");
+        if (_debugger)
+            _debugger.Log("Check Click!");
 
         // Will detect UI Elements in the canvas
         CheckClicks(AlternateUITest(MouseRaw));
@@ -186,15 +197,21 @@ public class MVCController : MonoBehaviour
 
                     if (_printStatements)
                         Debug.Log("Case00");
+                    if (_debugger)
+                        _debugger.Log("Case00");
                 }
             }
             if (_printStatements)
                 Debug.Log("Auto Return Dummy OBJ because were not checking clicks");
+            if (_debugger)
+                _debugger.Log("Auto Return Dummy OBJ because were not checking clicks");
             return _dummyObj;
         }
 
         if (_printStatements)
             Debug.Log("Passed");
+        if (_debugger)
+            _debugger.Log("Passed");
 
         //used to keep track of if a menu needs to stay open
         _recruitDummy = false;
@@ -211,13 +228,17 @@ public class MVCController : MonoBehaviour
             {
                 if (_printStatements)
                     Debug.LogWarning(_TMPlastClicked.transform.parent.gameObject + "   is parent clicked");
+                if (_debugger)
+                    _debugger.LogWarning(_TMPlastClicked.transform.parent.gameObject + "   is parent clicked");
 
 
                 //If Click Player Do a new RayCast here to avoid player/player Layer, so we can click through the player and ago radius - worried what will happen if we have multiple agro radius
-                if (_TMPlastClicked.transform.parent.GetComponentInChildren<PlayerMovement>() || _TMPlastClicked.transform.GetComponent<AttackRadius>())
+                if (_TMPlastClicked.transform.parent.GetComponentInChildren<PlayerMovement>())
                 {
                     if(_printStatements)
                          Debug.LogWarning("Found a warning click");
+                    if (_debugger)
+                        _debugger.LogWarning("Found a warning click");
                     hit = RayCastBehindPlayer(MouseRaw);
                     if (hit.collider != null)
                     {
@@ -225,6 +246,14 @@ public class MVCController : MonoBehaviour
                     }
 
                 }
+
+                if(_TMPlastClicked.transform.GetComponent<AttackRadius>())
+                {
+                    Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+                    if(_debugger)
+                        _debugger.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+                }
+
                 //Clicked the Portrait Employee Object - collider isn't on child, but it has a parent so its safe to do this in here
                 if(CheckWorkerObject(_TMPlastClicked))
                 {
@@ -256,6 +285,8 @@ public class MVCController : MonoBehaviour
             //we fell through the list of available objects, turn menus off
             if (_printStatements)
                 Debug.Log("Fall through Case1");
+            if (_debugger)
+                _debugger.Log("Fall through Case1");
 
             return TurnThingsoff();
         }
@@ -265,6 +296,8 @@ public class MVCController : MonoBehaviour
         {
             if (_printStatements)
                 Debug.Log("UI is On, Return Last clicked");
+            if (_debugger)
+                _debugger.Log("UI is On, Return Last clicked");
             return null;
         }
         else
@@ -272,6 +305,8 @@ public class MVCController : MonoBehaviour
             //we clicked absolutely nothing, turn everything off 
             if (_printStatements)
                 Debug.Log("Fall through Case2");
+            if (_debugger)
+                _debugger.Log("Fall through Case2");
             return TurnThingsoff();
         }
     }
@@ -433,7 +468,7 @@ public class MVCController : MonoBehaviour
     private bool AlternateUITest(Vector3 MouseRaw)
     {
         GraphicRaycaster gr = GameObject.FindGameObjectWithTag("Canvas").GetComponent<GraphicRaycaster>();
-        EventSystem es = GameManager.Instance.transform.GetComponentInChildren<EventSystem>();
+        UnityEngine.EventSystems.EventSystem es = GameManager.Instance.transform.GetComponentInChildren<UnityEngine.EventSystems.EventSystem>();
 
         if (es == null)
             Debug.LogError("NO EventSys");
@@ -496,7 +531,7 @@ public class MVCController : MonoBehaviour
 
         m_PointerEventData.position = (MouseRaw);
         results.Clear();
-        EventSystem.current.RaycastAll(m_PointerEventData, results);
+        UnityEngine.EventSystems.EventSystem.current.RaycastAll(m_PointerEventData, results);
         if (results.Count > 0)
         {
             foreach (RaycastResult result in results)
@@ -544,18 +579,25 @@ public class MVCController : MonoBehaviour
         if (hit.collider!=null && _printStatements)
              Debug.Log("Initial Hit Found:" + hit.collider.gameObject);
 
-        //Might be possible to write something here that ignores agro spheres and somehow
-        //gets a better more valuable hit from hits
-
-        if (hits.Length > 1)
+        //Found an agro range, lets see if anything else lies behind it
+        if (hit.collider!=null)
         {
-           // Debug.LogWarning("Possible to Hit more than 1 thing??");
-            foreach (var h in hits)
+            if (hit.collider.gameObject.transform.GetComponent<AttackRadius>())
             {
-               //  Debug.Log("Found" + h.collider.gameObject);
+
+                if (hits.Length > 1)
+                {
+                    // Debug.LogWarning("Possible to Hit more than 1 thing??");
+                    foreach (var h in hits)
+                    {
+                        Debug.Log("Found" + h.collider.gameObject);
+                        if (!h.collider.gameObject.transform.GetComponent<AttackRadius>())
+                            return h;
+                    }
+                }
+
             }
         }
-
         return hit;
     }
     private RaycastHit2D RayCastBehindPlayer(Vector3 MouseRaw)

@@ -15,7 +15,7 @@ public class SpawnVolume : MonoBehaviour
 
     GameObject Rat;
 
-    private int _EnemyCount=10;
+    private int _EnemyCount=2;
 
 
     // Start is called before the first frame update
@@ -27,12 +27,17 @@ public class SpawnVolume : MonoBehaviour
 
         _timeToSpawn = true;
 
+        if (_EnemySpawnDummy == null)
+            _EnemySpawnDummy = GameObject.FindGameObjectWithTag("EnemyRodents").transform;
+
+        //subscribe to the event system
+        EventSystem.Instance.spawnTrigger += SpawnSomething;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        if(_timeToSpawn)
+        if(_timeToSpawn && !_occupied)
         {
             //Spawn random rodent based on prefab
             int index = Random.Range(0, _AvailableRodents.Count - 1);
@@ -42,6 +47,12 @@ public class SpawnVolume : MonoBehaviour
 
             StartCoroutine(SpawnCountDown());
         }
+        
+    }
+    void onDisable()
+    {
+        //unsubscribe
+        EventSystem.Instance.spawnTrigger -= SpawnSomething;
     }
 
     IEnumerator SpawnCountDown()
@@ -76,7 +87,6 @@ public class SpawnVolume : MonoBehaviour
                 {
                     _occupied = true;
                     GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
-
                     //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
                     _spawnedRat.transform.SetParent(this.transform);
 
@@ -116,5 +126,6 @@ public class SpawnVolume : MonoBehaviour
     public void SpawnSomething()
     {
         _occupied = false;
+        _EnemyCount = 5;
     }
 }

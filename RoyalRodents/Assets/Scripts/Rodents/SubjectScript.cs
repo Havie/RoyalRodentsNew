@@ -27,7 +27,9 @@ public class SubjectScript : MonoBehaviour
     public bool farmer = false;
     public bool gatherer = false;
     public bool builder = false;
+    public bool defender = false;
     public bool tmpFighter = false;
+    public bool rangedAttacker = false;
     private bool coroutineStarted = false;
     private bool ShouldIdle = false;
     private bool MovingInIdle = false;
@@ -94,6 +96,9 @@ public class SubjectScript : MonoBehaviour
                 else if (gatherer)
                 {
                     gatherBehavior();
+                }
+                else if (defender) {
+                    // Do the defender thing
                 }
                 else
                 {
@@ -171,6 +176,18 @@ public class SubjectScript : MonoBehaviour
     {
         //To-Do:
         //Debug.Log("Rodent Assigned to Defender");
+        defender = true;
+        royalGuard = false;
+        builder = false;
+        farmer = false;
+        if (anims)
+        {
+            anims.SetBool(ARMED_ANIMATION_BOOL, true);
+        }
+
+        //Get TownCenter location
+        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        savedTarget = centerLocation;
     }
     public void setIdle()
     {
@@ -293,6 +310,7 @@ public class SubjectScript : MonoBehaviour
                 }
 
             }
+            // TODO: Else if for defenders attacking any targets in range (Different distance check)
 
             //Idle for workers
             else if (!coroutineStarted)
@@ -618,8 +636,10 @@ public class SubjectScript : MonoBehaviour
     {
         int enemyTeam;
 
+        // If neutral, not applicable
         if (team == 0)
             enemyTeam = -1;
+        // If Allied, Enemy
         else if (team == 1)
             enemyTeam = 2;
         else
@@ -735,6 +755,30 @@ public class SubjectScript : MonoBehaviour
 
     }
 
+    public void defenderBehavior()
+    {
+        Vector3 targetPos;
+        // Check which side of the map the rodent is on
+        if (currentTarget.transform.position.x - savedTarget.transform.position.x < 0)
+        {
+            targetPos = new Vector3(currentTarget.transform.position.x + 15, this.transform.position.y, 0);
+        }
+        else
+        {
+           targetPos = new Vector3(currentTarget.transform.position.x - 15, this.transform.position.y, 0);
+        }
+
+        if (!ShouldIdle)
+        {
+            Move(targetPos);
+        }
+        // Maybe don't include idle so they seem more attentive at the wall?
+
+        // Wait 15 units behind the wall they're assigned to
+        
+
+    }
+
     private void farmerBehavior()
     {
 
@@ -798,7 +842,7 @@ public class SubjectScript : MonoBehaviour
         {
             if (farmer || gatherer)
                 return Random.Range(4, 10);
-            else if (royalGuard)
+            else if (royalGuard || defender)
                 return Random.Range(1, 2.5f);
             else if (builder)
                 return Random.Range(5, 10f);
@@ -807,7 +851,7 @@ public class SubjectScript : MonoBehaviour
         {
             if (farmer || gatherer)
                 return Random.Range(0.5f, 1f);
-            else if (royalGuard)
+            else if (royalGuard || defender)
                 return Random.Range(1, 2f);  // will follow player a lot better
             else if (builder)
                 return Random.Range(0.1f, 1f);

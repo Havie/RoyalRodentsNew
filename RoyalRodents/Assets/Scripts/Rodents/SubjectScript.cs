@@ -99,6 +99,7 @@ public class SubjectScript : MonoBehaviour
                 }
                 else if (defender) {
                     // Do the defender thing
+                    defenderBehavior();
                 }
                 else
                 {
@@ -759,18 +760,24 @@ public class SubjectScript : MonoBehaviour
     {
         Vector3 targetPos;
         // Check which side of the map the rodent is on
-        if (currentTarget.transform.position.x - savedTarget.transform.position.x < 0)
+        if (currentTarget.transform.position.x - GameManager.Instance.getTownCenter().transform.position.x < 0)
         {
-            targetPos = new Vector3(currentTarget.transform.position.x + 15, this.transform.position.y, 0);
+            targetPos = new Vector3(currentTarget.transform.position.x + 10, this.transform.position.y, 0);
+            Debug.Log("Moving to " + targetPos.x);
         }
         else
         {
-           targetPos = new Vector3(currentTarget.transform.position.x - 15, this.transform.position.y, 0);
+           targetPos = new Vector3(currentTarget.transform.position.x - 10, this.transform.position.y, 0);
+            Debug.Log("Moving to " + targetPos.x);
         }
 
         if (!ShouldIdle)
         {
             Move(targetPos);
+        }
+        else
+        {
+            Debug.Log("Arrived");
         }
         // Maybe don't include idle so they seem more attentive at the wall?
 

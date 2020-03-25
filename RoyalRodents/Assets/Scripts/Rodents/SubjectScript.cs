@@ -763,22 +763,19 @@ public class SubjectScript : MonoBehaviour
         if (currentTarget.transform.position.x - GameManager.Instance.getTownCenter().transform.position.x < 0)
         {
             targetPos = new Vector3(currentTarget.transform.position.x + 10, this.transform.position.y, 0);
-            Debug.Log("Moving to " + targetPos.x);
+            
         }
         else
         {
            targetPos = new Vector3(currentTarget.transform.position.x - 10, this.transform.position.y, 0);
-            Debug.Log("Moving to " + targetPos.x);
+            
         }
 
         if (!ShouldIdle)
         {
             Move(targetPos);
         }
-        else
-        {
-            Debug.Log("Arrived");
-        }
+
         // Maybe don't include idle so they seem more attentive at the wall?
 
         // Wait 15 units behind the wall they're assigned to

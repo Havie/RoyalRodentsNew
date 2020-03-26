@@ -121,6 +121,11 @@ public class Cycle2DDN : MonoBehaviour {
 		InvokeRepeating ("UpdateStatic", cycleStartDelay, staticUpdateFreq);
 	}
 
+	public double getCycleFraction()
+	{
+		return (cycle + t) / 4.0;
+	}
+
 	/// <summary>
 	/// Delays the start.
 	/// </summary>

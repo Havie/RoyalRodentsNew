@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
     private bool _Paused;
 
 	private bTownCenter _TownCenter;
+    private ExitZone _PlayerZone;
+    private ExitZone _NeutralZone;
+    private ExitZone _EnemyZone;
 
     private bool _IsMobileMode;
 
@@ -298,5 +301,27 @@ public class GameManager : MonoBehaviour
     public int getRodentIdex()
     {
         return +_RodentIndex++;
+    }
+    public void setExitZone(string s , ExitZone ez)
+    {
+        if (s.Equals("playerzone"))
+            _PlayerZone = ez;
+        else if (s.Equals("neutralzone"))
+            _NeutralZone = ez;
+        else if (s.Equals("enemyzone"))
+            _NeutralZone = ez;
+
+        print("heard" + s);
+    }
+    public void OutpostCreated(BuildableObject b)
+    {
+        if (_PlayerZone)
+            _PlayerZone.SetOutpost(b);
+    }
+
+    public void OutpostDestroyed(BuildableObject b)
+    {
+        if (_PlayerZone)
+            _PlayerZone.RemoveOutpost(b);
     }
 }

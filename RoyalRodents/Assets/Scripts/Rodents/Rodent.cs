@@ -289,6 +289,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     }
     private void OnDestroy()
     {
+        if (!isDead())
+            _isDead = true;
         if(_Team==1)
             GameManager.Instance.RemovePlayerRodent(this);
 

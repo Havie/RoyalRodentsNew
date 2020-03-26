@@ -18,14 +18,14 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     private HealthBar _HealthBar;
     private HealthBar _StaminaBar;
 
-    public GameObject[] _RoyalGuards = new GameObject[3];
+    public Employee[] _RoyalGuards = new Employee[3];
     private Transform _RoyalGuardParent;
 
 
     /**Begin Interface stuff*/
     public void Damage(float damageTaken)
     {
-        if (_Hp - damageTaken > 0 && _Hp- damageTaken <= _HpMax)
+        if (_Hp - damageTaken > 0 && _Hp - damageTaken <= _HpMax)
             _Hp -= damageTaken;
         else
         {
@@ -84,7 +84,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     public void LoadData()
     {
         sPlayerData data = sSaveSystem.LoadPlayerData();
-        if(data!=null)
+        if (data != null)
         {
             _Hp = data._Health;
             _Stamina = data._Stamina;
@@ -108,19 +108,19 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void LateUpdate()
     {
-       if(_RoyalGuardParent)
-             _RoyalGuardParent.position = this.transform.position;
+        if (_RoyalGuardParent)
+            _RoyalGuardParent.position = this.transform.position;
 
         //Player will trickle restore HP based on stamina
-        if(!InOwnTerritory())
+        if (!InOwnTerritory())
         {
-            if(_Hp<_HpMax)
-                 Damage(-_Stamina/5000f);
+            if (_Hp < _HpMax)
+                Damage(-_Stamina / 5000f);
         }
     }
     public void SetUpStaminaBar()
     {
-        GameObject sb=GameObject.FindGameObjectWithTag("StaminaBar");
+        GameObject sb = GameObject.FindGameObjectWithTag("StaminaBar");
         if (sb)
             _StaminaBar = sb.GetComponentInChildren<HealthBar>();
 
@@ -145,7 +145,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
         }
         else
         {
-            if(_Stamina +amnt > 0)
+            if (_Stamina + amnt > 0)
                 _Stamina += amnt;
             else
                 _Stamina = 0;
@@ -176,42 +176,36 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void setUpRoyalGuard()
     {
-        //How to check if _RoyalGuards is initialized?
-
-      
-
-        for (int i=0; i<_RoyalGuards.Length; ++i)
+        Transform parent = this.transform.parent;
+        _RoyalGuardParent = parent.GetComponentInChildren<eWorkers>().transform;
+        if (_RoyalGuardParent)
         {
-            if(i==0)
-                _RoyalGuards[0].GetComponent<Employee>().Lock(false);
-            else
-                _RoyalGuards[i].GetComponent<Employee>().Lock(true);
+            _RoyalGuards = _RoyalGuardParent.GetComponentInChildren<eWorkers>().getWorkers();
         }
 
-        if(_RoyalGuards.Length>0)
-            _RoyalGuardParent= _RoyalGuards[0].transform.parent;
+        //unlock the first slot
+        for (int i = 0; i < _RoyalGuards.Length; ++i)
+        {
+            if (i == 0)
+                _RoyalGuards[0].Lock(false);
+            else
+                _RoyalGuards[i].Lock(true);
+        }
 
         ShowRoyalGuard(false);
-
-
-
     }
     private int findAvailableSlot()
     {
         int _count = 0;
 
-        foreach (GameObject g in _RoyalGuards)
+        foreach (var e in _RoyalGuards)
         {
-            Employee e = g.GetComponent<Employee>();
-            if (e)
-            {
-                if (!e.isOccupied() && !e.isLocked())
-                {
-                    return _count;
-                }
-                ++_count;
 
+            if (!e.isOccupied() && !e.isLocked())
+            {
+                return _count;
             }
+            ++_count;
         }
 
         return -1;
@@ -223,28 +217,24 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
         int index = findAvailableSlot();
         if (index > -1)         //This is kind of a hack
         {
-            _RoyalGuards[index].GetComponent<Employee>().Assign(r);
+            _RoyalGuards[index].Assign(r);
             r.setTarget(this.gameObject);
         }
-      //  else
-          //  Debug.Log("no Empty");
+        //  else
+        //  Debug.Log("no Empty");
 
     }
     public void DismissWorker(Rodent r)
     {
-        foreach (GameObject g in _RoyalGuards)
+        foreach (var e in _RoyalGuards)
         {
-            Employee e = g.GetComponent<Employee>();
-            if (e)
+            if (e.isOccupied())
             {
-                if (e.isOccupied())
+                if (e.getCurrentRodent() == r)
                 {
-                    if (e.getCurrentRodent() == r)
-                    {
-                       //Debug.Log("We found the right Employee");
-                       e.Dismiss(r);
-                       break;
-                    }
+                    //Debug.Log("We found the right Employee");
+                    e.Dismiss(r);
+                    break;
                 }
             }
         }
@@ -252,34 +242,39 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     public void ShowRedX(bool cond)
     {
         bool foundAtLeastOne = false;
-       // Debug.LogWarning("ShowRedX RoyalGuard" + cond);
+        // Debug.LogWarning("ShowRedX RoyalGuard" + cond);
 
         // Debug.Log("Called Players Set Red x to " +cond);
 
         //Tell any occupied Employees to show x or tell all to not show it
-        foreach (GameObject g in _RoyalGuards)
+        foreach (var e in _RoyalGuards)
+        {
+
+            if (e.isOccupied() && cond == true)
             {
-                Employee e = g.GetComponent<Employee>();
-                if (e)
-                {
-
-                    if (e.isOccupied() && cond == true)
-                    {
-                        e.ShowRedX(true);
-                        foundAtLeastOne = true;
-                    }
-                    else
-                        e.ShowRedX(false);
-
-                }
+                e.ShowRedX(true);
+                foundAtLeastOne = true;
             }
+            else
+                e.ShowRedX(false);
+        }
 
     }
     public void ShowRoyalGuard(bool cond)
     {
-        foreach(GameObject g in _RoyalGuards)
+        bool firstLocked = true;
+        foreach (var e in _RoyalGuards)
         {
-            g.SetActive(cond);
+            e.gameObject.SetActive(cond);
+            if (firstLocked && e.isLocked())
+            {
+                e.showUnlockButton(cond);
+                firstLocked = false;
+            }
+            else
+                e.showUnlockButton(false);
+
+
         }
     }
     private bool InOwnTerritory()

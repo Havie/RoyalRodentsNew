@@ -10,6 +10,7 @@ public class Employee : MonoBehaviour
     public GameObject _WorkerObj;
     public GameObject _PortraitOutline;
     public GameObject _RedX;
+    public GameObject _UnlockObject;
 
     [SerializeField]
     private bool _Locked;
@@ -28,6 +29,13 @@ public class Employee : MonoBehaviour
             _PortraitOutline = this.transform.GetComponentInChildren<ePortraitOutline>().gameObject;
         if (_RedX == null)
             _RedX = this.transform.GetComponentInChildren<eRedX>().gameObject;
+        if (_UnlockObject == null)
+        {
+            //Will only be on player, not buildings
+            var child = this.transform.GetComponentInChildren<Canvas>();
+            if (child)
+                _UnlockObject = child.gameObject;
+        }
 
         ShowRedX(false);
 
@@ -152,5 +160,11 @@ public class Employee : MonoBehaviour
       //  Debug.Log("Heard show worker port-" + cond);
         if (_WorkerObj)
             _WorkerObj.gameObject.SetActive(cond);
+    }
+
+    public void showUnlockButton(bool cond)
+    {
+        if (_UnlockObject != null)
+            _UnlockObject.SetActive(cond);
     }
 }

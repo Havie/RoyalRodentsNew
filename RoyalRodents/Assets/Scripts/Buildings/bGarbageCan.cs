@@ -7,7 +7,7 @@ public class bGarbageCan : MonoBehaviour
 	private static Sprite _builtSpriteLevel1;
 	private static int maxLevel = 1;
 
-	private float _hitpoints = 50;
+	private static float _hitpoints = 50;
 	private float _hitPointGrowth = 10;
 
 	private static bool _isSet;
@@ -19,6 +19,7 @@ public class bGarbageCan : MonoBehaviour
 	void Start()
 	{
 		SetUpComponent();
+		StartingBuildComplete();
 	}
 
 	// Update is called once per frame
@@ -52,6 +53,43 @@ public class bGarbageCan : MonoBehaviour
 		return (_hitpoints + (_hitPointGrowth * level));
 	}
 
+	public void StartingBuildComplete()
+	{
+		if (!_builtSpriteLevel1)
+		{
+			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/GarbageCan/garbagecan");
+		}
+		this.transform.GetComponent<BuildableObject>().SetType("GarbageCan");
+		this.transform.GetComponent<BuildableObject>().SetLevel(1);
+		this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
+
+		//Add Searchable Component
+		Searchable s = this.gameObject.AddComponent<Searchable>();
+		s.setGatherResource(ResourceManagerScript.ResourceType.Trash, 1);
+
+		//MEGA hack of all Hacks
+		// this.transform.GetComponentInChildren<Employee>().gameObject.GetComponentInChildren<eWorkerOBJ>().gameObject.GetComponent<SpriteRenderer>().sprite = null;
+		BuildableObject bo = this.GetComponent<BuildableObject>();
+		foreach (Employee e in bo._Workers)
+		{
+			GameObject go = e.gameObject;
+			if (go)
+			{
+				eWorkerOBJ worker = go.GetComponentInChildren<eWorkerOBJ>();
+				if (worker)
+				{
+					go = worker.gameObject;
+					if (go)
+					{
+						SpriteRenderer sp = go.GetComponent<SpriteRenderer>();
+						if (sp)
+							sp.sprite = null;
+					}
+				}
+			}
+		}
+	}
+
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
 
@@ -71,5 +109,10 @@ public class bGarbageCan : MonoBehaviour
 	public static int getMaxLevel()
 	{
 		return maxLevel;
+	}
+
+	public static float getHPStats()
+	{
+		return _hitpoints;
 	}
 }

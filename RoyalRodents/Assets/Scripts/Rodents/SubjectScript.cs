@@ -43,6 +43,8 @@ public class SubjectScript : MonoBehaviour
     private bool _isDead;
     private string _oldJob;
     private bool _approachingTownCenterasWorker;
+    private GameObject townCenterLoc;
+    private bool isRanged;
 
     private const string MOVING_ANIMATION_BOOL = "isMoving";
     private const string ARMED_ANIMATION_BOOL = "isArmed";
@@ -70,6 +72,8 @@ public class SubjectScript : MonoBehaviour
         WaitDuration = 10f;
 
         testSwap();
+        townCenterLoc = GameManager.Instance.getTownCenter().transform.gameObject;
+        isRanged = this.GetComponent<Rodent>().isRanged();
     }
 
     // Update is called once per frame
@@ -142,7 +146,7 @@ public class SubjectScript : MonoBehaviour
 
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
     public void setGatherer()
@@ -155,7 +159,7 @@ public class SubjectScript : MonoBehaviour
             anims.SetBool(ARMED_ANIMATION_BOOL, false);
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
 
@@ -170,7 +174,7 @@ public class SubjectScript : MonoBehaviour
 
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
     public void setDefender()
@@ -187,7 +191,7 @@ public class SubjectScript : MonoBehaviour
         }
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
     public void setIdle()
@@ -323,7 +327,7 @@ public class SubjectScript : MonoBehaviour
                     // however this script doesnt seem to make him move toward TC as he builds TC
                     // so we might have an issue with resource collection at TC once implemented
                     //if current is not town center prepare for search anim
-                    if (currentTarget != GameManager.Instance.getTownCenter().gameObject)
+                    if (currentTarget != townCenterLoc)
                     {
                         // next time We work, to use gather anim
                         _approachingTownCenterasWorker = true;
@@ -342,7 +346,7 @@ public class SubjectScript : MonoBehaviour
                 else if (farmer || gatherer)
                 {
                     //if current is not town center prepare for search anim
-                    if (currentTarget != GameManager.Instance.getTownCenter().gameObject)
+                    if (currentTarget != townCenterLoc)
                     {
                         // next time We work, to use gather anim
                         _approachingTownCenterasWorker = true;
@@ -592,6 +596,23 @@ public class SubjectScript : MonoBehaviour
         if (!ShouldIdle)
         {
             //FindNextTargetInRange();
+            //Check if ranged. If so, offset the target distance before attacking.
+            if (isRanged)
+            {
+                Vector3 targetPos = currentTarget.transform.position;
+                // Run further out into attack range before attacking
+                if (transform.position.x - currentTarget.transform.position.x < 0)
+                {
+                    // On the left of the target
+                    
+                }
+                else
+                {
+                    
+
+                }
+
+            }
             Move(currentTarget);
 
         }
@@ -760,7 +781,7 @@ public class SubjectScript : MonoBehaviour
     {
         Vector3 targetPos;
         // Check which side of the map the rodent is on
-        if (currentTarget.transform.position.x - GameManager.Instance.getTownCenter().transform.position.x < 0)
+        if (currentTarget.transform.position.x - townCenterLoc.transform.position.x < 0)
         {
             targetPos = new Vector3(currentTarget.transform.position.x + 10, this.transform.position.y, 0);
             
@@ -845,7 +866,17 @@ public class SubjectScript : MonoBehaviour
         if (state.Equals("move"))
         {
             if (farmer || gatherer)
-                return Random.Range(4, 10);
+                if(currentTarget == townCenterLoc)
+                {
+                    Debug.Log("True");
+                    return Random.Range(1, 2);
+                }
+                else
+                {
+                    Debug.Log("falsee");
+                    return Random.Range(4, 10);
+                }
+                
             else if (royalGuard || defender)
                 return Random.Range(1, 2.5f);
             else if (builder)

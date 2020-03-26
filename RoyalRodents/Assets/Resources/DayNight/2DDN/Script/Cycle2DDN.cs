@@ -44,7 +44,7 @@ public class Cycle2DDN : MonoBehaviour {
 	/// The lists to hold all the renderers.
 	/// </summary>
 	List<SpriteRenderer> AnimatedSprites, StaticSprites;
-	List<Renderer> MiscRenderers;	// Uncomment this and line 147 - 151 and use this list for misc mesh renderers.
+	List<Renderer> MiscRenderers;   // Uncomment this and line 147 - 151 and use this list for misc mesh renderers.
 
 	[Header ("Color settings")]
 
@@ -138,6 +138,11 @@ public class Cycle2DDN : MonoBehaviour {
 		} else if (started && !colored) {
 			UpdateNoColor ();
 		}
+	}
+
+	public double getCycleFraction()
+	{
+		return (cycle + t) / 4.0;
 	}
 
 	/// <summary>

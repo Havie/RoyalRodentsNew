@@ -16280,6 +16280,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _locRight: {fileID: 2132679246}
   _locLeft: {fileID: 337254370}
+  _playerzone: 1
+  _neutralzone: 0
+  _enemyzone: 0
 --- !u!4 &640952621
 Transform:
   m_ObjectHideFlags: 0

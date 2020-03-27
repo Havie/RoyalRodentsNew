@@ -310,8 +310,6 @@ public class GameManager : MonoBehaviour
             _NeutralZone = ez;
         else if (s.Equals("enemyzone"))
             _NeutralZone = ez;
-
-        print("heard" + s);
     }
     public void OutpostCreated(BuildableObject b)
     {

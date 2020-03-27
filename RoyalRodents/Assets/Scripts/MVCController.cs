@@ -280,7 +280,12 @@ public class MVCController : MonoBehaviour
                     {
                         return FoundBuilding(_TMPlastClicked);
                     }
+                    else if (CheckTeleporter(_TMPlastClicked))
+                    {
+                        return FoundTeleporter(_TMPlastClicked);
+                    }
                 }
+                
             }
             //we fell through the list of available objects, turn menus off
             if (_printStatements)
@@ -655,6 +660,11 @@ public class MVCController : MonoBehaviour
         return (_TMPlastClicked.transform.parent.GetComponent<SpawnVolume>());
 
     }
+    private bool CheckTeleporter(GameObject _TMPlastClicked)
+    {
+        return (_TMPlastClicked.GetComponent<Teleporter>());
+      
+    }
     private bool CheckWorkerObject(GameObject _TMPlastClicked)
     {
         return (_TMPlastClicked.transform.GetComponentInChildren<bWorkerScript>());
@@ -747,6 +757,11 @@ public class MVCController : MonoBehaviour
             Debug.Log("Fall through Case 00" + _TMPlastClicked);
 
         return null;
+    }
+    private GameObject FoundTeleporter(GameObject _TMPlastClicked)
+    {
+        _TMPlastClicked.GetComponent<Teleporter>().imClicked();
+        return _TMPlastClicked;
     }
 }
 

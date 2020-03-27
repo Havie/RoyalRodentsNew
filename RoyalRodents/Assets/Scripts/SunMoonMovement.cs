@@ -12,13 +12,16 @@ public class SunMoonMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cycleFraction = dayNightScript.getCycleFraction();
+        //Should write an else that gets the daynightscript IF NULL
+        if(dayNightScript)
+            cycleFraction = dayNightScript.getCycleFraction();
     }
 
     // Update is called once per frame
     void Update()
     {
-        cycleFraction = dayNightScript.getCycleFraction();
+        if (dayNightScript)
+            cycleFraction = dayNightScript.getCycleFraction();
 
         float newX, newY;
 

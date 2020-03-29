@@ -280,5 +280,36 @@ public class ResourceManagerScript : MonoBehaviour
             _PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
         }
     }
+
+    public static string GetIconPath(ResourceType type)
+    {
+        switch (type)
+        {
+            case ResourceType.Food:
+                {
+                    return "ResourceIcons/FoodIcon";
+                }
+            case ResourceType.Trash:
+                {
+                    return "ResourceIcons/TrashIcon";
+                }
+            case ResourceType.Wood:
+                {
+                    return "ResourceIcons/WoodIcon";
+                }
+            case ResourceType.Stone:
+                {
+                    return "ResourceIcons/StoneIcon";
+                }
+            case ResourceType.Shiny:
+                {
+                    return "ResourceIcons/ShinyIcon";
+                }
+            default:
+                {
+                    return "";
+                }
+        }
+    }
 }
 

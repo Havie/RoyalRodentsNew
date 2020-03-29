@@ -54,14 +54,16 @@ public class Searchable : MonoBehaviour
         SetUpProgressBar(_ProgressBarObj);
 
         //Find ResourceIconAnimObject
-
+        _ResourceIconAnimObject = this.gameObject.transform.GetChild(4).gameObject;
 
         //SetUPAnimControllers
         if (_ResourceIconAnimObject)
         {
+            //Get Gather Icon Animator Component
             _ResourceIconAnimController = _ResourceIconAnimObject.GetComponent<Animator>();
 
-            _IconSprite = Resources.Load<Sprite>("Buildings/GarbageCan/garbagecan");
+            //Set Gather Icon Sprite
+            _IconSprite = Resources.Load<Sprite>(ResourceManagerScript.GetIconPath(_gatherResourceType));
             _ResourceIconAnimObject.GetComponent<SpriteRenderer>().sprite = _IconSprite;
         }
         //if (_ResourceIconAnimController == null)
@@ -268,8 +270,16 @@ public class Searchable : MonoBehaviour
 
     public void GainSpecifiedResource()
     {
+        //Give Player Resource
         ResourceManagerScript.Instance.incrementResource(_gatherResourceType, _gatherResourceAmount);
-        //_ResourceIconAnimController.SetTrigger("Pop");
+
+        //Animate Icon
+        if (_ResourceIconAnimController)
+            _ResourceIconAnimController.SetTrigger("Pop");
+        else
+            Debug.Log("Icon Animator is Null!!!");
+
+        //Update Bar
         UpdateProgressBar();
     }
 }

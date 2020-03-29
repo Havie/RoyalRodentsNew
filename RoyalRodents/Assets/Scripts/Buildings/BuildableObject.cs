@@ -270,12 +270,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
-            if (eType == BuildingType.Farm || eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
+            if (eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
             {
                 //Debug.Log("I am gathering!");
-
                 Searchable s = GetComponent<Searchable>();
-                s.GatherAction(20);
+                if (s)
+                    s.GatherAction(20);
             }
             else
             {
@@ -408,6 +408,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
             case (BuildingType.Farm):
                 bFarm farm = this.GetComponent<bFarm>();
+                farm.DemolishAction();
                 Destroy(farm);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;

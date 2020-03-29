@@ -64,7 +64,9 @@ public class Searchable : MonoBehaviour
 
             //Set Gather Icon Sprite
             _IconSprite = Resources.Load<Sprite>(ResourceManagerScript.GetIconPath(_gatherResourceType));
-            _ResourceIconAnimObject.GetComponent<SpriteRenderer>().sprite = _IconSprite;
+            SpriteRenderer _ResourceIconSpriteRenderer = _ResourceIconAnimObject.GetComponent<SpriteRenderer>();
+            if (_ResourceIconSpriteRenderer)
+                _ResourceIconSpriteRenderer.sprite = _IconSprite;
         }
         //if (_ResourceIconAnimController == null)
             //Debug.LogError("ResourceIconAnimController Null");

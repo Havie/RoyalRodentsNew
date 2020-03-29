@@ -19,6 +19,8 @@ public class bFarm : MonoBehaviour
     public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel2 = new Dictionary<ResourceManagerScript.ResourceType, int>();
     public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel3 = new Dictionary<ResourceManagerScript.ResourceType, int>();
 
+	private Searchable s;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -58,6 +60,10 @@ public class bFarm : MonoBehaviour
 		if (!_isSet)
 			SetUpComponent();
 
+		//Add Searchable Component
+		s = this.gameObject.AddComponent<Searchable>();
+		s.setGatherResource(ResourceManagerScript.ResourceType.Food, 1);
+
 		if (level == 1)
 			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
 		else if (level == 2)
@@ -66,6 +72,11 @@ public class bFarm : MonoBehaviour
 			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
 
 		return (_hitpoints + (_hitPointGrowth * level));
+	}
+
+	public void DemolishAction()
+	{
+		Destroy(s);
 	}
 
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)

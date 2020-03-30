@@ -595,6 +595,7 @@ public class SubjectScript : MonoBehaviour
         // Future: Attack enemies within a radius of the king
         if (!ShouldIdle)
         {
+            Vector3 moveTo = currentTarget.transform.position;
             //FindNextTargetInRange();
             //Check if ranged. If so, offset the target distance before attacking.
             if (isRanged)
@@ -604,16 +605,16 @@ public class SubjectScript : MonoBehaviour
                 if (transform.position.x - currentTarget.transform.position.x < 0)
                 {
                     // On the left of the target
-                    
+                    moveTo.x -= 8;
                 }
                 else
                 {
-                    
-
+                    // On the right
+                    moveTo.x += 8;
                 }
 
             }
-            Move(currentTarget);
+            Move(moveTo);
 
         }
         else

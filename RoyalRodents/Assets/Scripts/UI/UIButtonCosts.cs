@@ -40,6 +40,9 @@ public class UIButtonCosts : MonoBehaviour
 	//Get Resource Manager Instance
 	ResourceManagerScript _rm;
 
+    //shinies
+    int _royalGuardSlotCost = 1;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -106,8 +109,15 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			_cost = bStonePile.getCost(_level);
 		}
-		else
-			Debug.LogError("Build button not defined with type or level, or couldn't get cost dictionary from building script");
+        else if (_type.Equals("unlockbutton"))
+        {
+            Dictionary<ResourceManagerScript.ResourceType, int> _costShiny = new Dictionary<ResourceManagerScript.ResourceType, int>();
+            _costShiny.Add(ResourceManagerScript.ResourceType.Shiny, 1);
+            _cost = _costShiny;
+
+        }
+        else
+            Debug.LogError("Build button not defined with type or level, or couldn't get cost dictionary from building script");
 
 		//set default costs to zero before recalculating
 		costTrash = 0;
@@ -158,7 +168,7 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			if (costTrash == 0) textTrashCost.text = "";
 			else
-				textTrashCost.text = currentTrash.ToString() + "/" + costTrash;
+				textTrashCost.text =  costTrash.ToString();
 
 			if (currentTrash < costTrash)
 			{
@@ -172,7 +182,7 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			if (costWood == 0) textWoodCost.text = "";
 			else
-				textWoodCost.text = currentWood.ToString() + "/" + costWood;
+				textWoodCost.text = costWood.ToString();
 
 			if (currentWood < costWood)
 			{
@@ -186,7 +196,7 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			if (costMetal == 0) textMetalCost.text = "";
 			else
-				textMetalCost.text = currentMetal.ToString() + "/" + costMetal;
+				textMetalCost.text = costMetal.ToString();
 
 			if (currentMetal < costMetal)
 			{
@@ -200,7 +210,7 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			if (costShiny == 0) textShinyCost.text = "";
 			else
-				textShinyCost.text = currentShiny.ToString() + "/" + costShiny;
+				textShinyCost.text = costShiny.ToString();
 
 			if (currentShiny < costShiny)
 			{
@@ -312,6 +322,26 @@ public class UIButtonCosts : MonoBehaviour
 
 		UpdateButton();
 	}
+    //used in 
+    public void updateState()
+    {
+        if (_rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny) > _royalGuardSlotCost)
+        {
+            //subtract the cost - arbitrary for now and i guess heres an okay spot
+            //so i dont have to duplicate and add more on click events for each button
+            _rm.incrementResource(ResourceManagerScript.ResourceType.Shiny, -_royalGuardSlotCost);
+
+
+            // find the player and tell him to refresh the royal guard:
+            var player = GameObject.FindGameObjectWithTag("Player");
+            if (player)
+            {
+                PlayerStats ps = player.GetComponent<PlayerStats>();
+                if (ps)
+                    ps.ShowRoyalGuard(true);
+            }
+        }
+    }
 
     public void Demolish()
     {

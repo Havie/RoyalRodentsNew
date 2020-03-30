@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ResourceManagerScript;
 
 public class Searchable : MonoBehaviour
 {
@@ -16,14 +17,18 @@ public class Searchable : MonoBehaviour
     private float _CooldownTime = 5f;
     private bool _CoolingDown;
 
-    public GameObject _Trash;
-    public GameObject _Food;
+    //Gathering Data
+    public ResourceType _gatherResourceType = ResourceType.Food;
+    public int _gatherResourceAmount = 1 ;
+    private int _gathering = 0;
+    private int _gatheringMax = 100;
 
-    public Animator _FoodController;
-    public Animator _TrashController;
+    //Gathering Resource Icon Data
+    public GameObject _ResourceIconAnimObject;
+    public Animator _ResourceIconAnimController;
+    Sprite _IconSprite;
 
     private int _StaminaCost = 1;
-
 
     private GameObject _ProgressBarObj;
     private HealthBar _ProgressBar;
@@ -48,25 +53,68 @@ public class Searchable : MonoBehaviour
             _ProgressBarObj = Resources.Load<GameObject>("UI/ProgressBarSearch");
         SetUpProgressBar(_ProgressBarObj);
 
+        //Find ResourceIconAnimObject
+        _ResourceIconAnimObject = this.gameObject.transform.GetChild(4).gameObject;
 
         //SetUPAnimControllers
-        if (_Food)
+        if (_ResourceIconAnimObject)
         {
-            _FoodController = _Food.GetComponent<Animator>();
-            
+            //Get Gather Icon Animator Component
+            _ResourceIconAnimController = _ResourceIconAnimObject.GetComponent<Animator>();
+
+            //Set Gather Icon Sprite
+            _IconSprite = Resources.Load<Sprite>(ResourceManagerScript.GetIconPath(_gatherResourceType));
+            SpriteRenderer _ResourceIconSpriteRenderer = _ResourceIconAnimObject.GetComponent<SpriteRenderer>();
+            if (_ResourceIconSpriteRenderer)
+                _ResourceIconSpriteRenderer.sprite = _IconSprite;
         }
-        if (_FoodController == null)
-            Debug.LogError("FoodController Null");
-        
-        //SetUPAnimControllers
-        if (_Trash)
+        //if (_ResourceIconAnimController == null)
+            //Debug.LogError("ResourceIconAnimController Null");
+
+    }
+
+    public void setGatherResource(ResourceType type, int amnt)
+    {
+        _gatherResourceType = type;
+        _gatherResourceAmount = amnt;
+        //Debug.Log("ResourceType set to " + type.ToString() + ", count = " + amnt);
+    }
+
+    //Change Gather Stats
+    public void incrementGathering(int amnt)
+    {
+        //increment gathering safely
+        if (amnt > 0)
         {
-            _TrashController = _Trash.GetComponent<Animator>();
-
+            if (_gathering + amnt < _gatheringMax)
+                _gathering += amnt;
+            else
+                _gathering = _gatheringMax;
         }
-        if (_TrashController == null)
-            Debug.LogError("TrashController Null");
+        else
+        {
+            if (_gathering + amnt > 0)
+                _gathering += amnt;
+            else
+                _gathering = 0;
+        }
 
+        //check if progress is full, then do action and reset progress
+        if (_gathering >= _gatheringMax)
+        {
+            _gathering = 0;
+            GainSpecifiedResource();
+        }
+
+        //update Gather Bar
+        UpdateProgressBar();
+
+        //Debug.Log("Gathering: " + _gathering + "/" + _gatheringMax);
+    }
+
+    public void GatherAction(int gatheramnt)
+    {
+        incrementGathering(gatheramnt);
     }
 
     public void SetUpProgressBar(GameObject go)
@@ -91,7 +139,7 @@ public class Searchable : MonoBehaviour
     public void UpdateProgressBar()
     {
         if (_ProgressBar)
-            _ProgressBar.SetFillAmount(_SearchTime/ _SearchTimeMax);
+            _ProgressBar.SetFillAmount((float)_gathering / _gatheringMax);
     }
 
     private void Update()
@@ -177,7 +225,7 @@ public class Searchable : MonoBehaviour
 
 
             //Gain Resource
-            GainRandomResource();
+            GainSpecifiedResource();
 
             //Increment Progress bar
             _SearchTime += _Delay;
@@ -197,6 +245,7 @@ public class Searchable : MonoBehaviour
         _CoolingDown = false;
     }
 
+    //unused
     public void GainRandomResource()
     {
         int _ResourceNumber = Random.Range(0, 10);
@@ -211,13 +260,28 @@ public class Searchable : MonoBehaviour
         if (_ResourceNumber < 7)
         {
             ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Trash, _Amount);
-            _TrashController.SetTrigger("Pop");
+            _ResourceIconAnimController.SetTrigger("Pop");
         }
         else
         {
             ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Food, _Amount);
-            _FoodController.SetTrigger("Pop");
+            _ResourceIconAnimController.SetTrigger("Pop");
         }
 
+    }
+
+    public void GainSpecifiedResource()
+    {
+        //Give Player Resource
+        ResourceManagerScript.Instance.incrementResource(_gatherResourceType, _gatherResourceAmount);
+
+        //Animate Icon
+        if (_ResourceIconAnimController)
+            _ResourceIconAnimController.SetTrigger("Pop");
+        else
+            Debug.Log("Icon Animator is Null!!!");
+
+        //Update Bar
+        UpdateProgressBar();
     }
 }

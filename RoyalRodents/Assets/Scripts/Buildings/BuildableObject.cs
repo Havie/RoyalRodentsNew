@@ -37,9 +37,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     private int _construction = 0;
     private int _constructionMax = 100;
 
-    private int _gathering = 0;
-    private int _gatheringMax = 100;
-
     // NEW
     public Employee[] _Workers = new Employee[1];
 
@@ -51,7 +48,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     private MVCController _controller;
 
     public enum BuildingState { Available, Idle, Building, Built };
-    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant, GarbageCan, WoodPile, StonePile}
+    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant, GarbageCan, WoodPile, StonePile }
 
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
@@ -90,7 +87,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         if (_HealthBar)
             _HealthBar.SetFillAmount(_hitpoints / _hitpointsMax);
-
     }
     public void SetUpDayNight()
     {
@@ -105,10 +101,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             Debug.LogWarning("Building IDs dont match up!..Save Data Corrupted");
 
         //_hitpoints = hp;
-       // _hitpointsMax = hpmax;
+        // _hitpointsMax = hpmax;
         _level = lvl;
 
-        eState = (BuildingState) state;
+        eState = (BuildingState)state;
         eType = (BuildingType)type;
         LoadComponents();
         UpdateState();
@@ -119,20 +115,21 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     void Start()
     {
         _sr = this.transform.GetComponent<SpriteRenderer>();
-        _sStatedefault= Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_final");
-        if (eType != BuildingType.TownCenter)
-            _sr.sprite = _sStatedefault;
+        _sStatedefault = Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_final");
+        
 
         //SetUp the NotifyObj
         _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
         _srNotify.sprite = _sNotification;
 
 
-        if (eType != BuildingType.TownCenter)
+        if (eType != BuildingType.TownCenter && eType != BuildingType.GarbageCan && eType != BuildingType.WoodPile && eType != BuildingType.StonePile)
         {
             eState = BuildingState.Available;
             eType = BuildingType.Vacant;
         }
+        if (eType == BuildingType.Vacant)
+            _sr.sprite = _sStatedefault;
         _animator = GetComponentInChildren<Animator>();
         
 
@@ -263,6 +260,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (id > -1 && id < 3)
             _Team = id;
     }
+
+
     // used to be from MVC controller to let the building know its been clicked
      public void imClicked()
     {
@@ -271,15 +270,25 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
-            StartCoroutine(ClickDelay(true, _DestroyMenu));
-            StartCoroutine(ClickDelay(false, _BuildMenu));
+            if (eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
+            {
+                //Debug.Log("I am gathering!");
+                Searchable s = GetComponent<Searchable>();
+                if (s)
+                    s.GatherAction(20);
+            }
+            else
+            {
+                StartCoroutine(ClickDelay(true, _DestroyMenu));
+                StartCoroutine(ClickDelay(false, _BuildMenu));
+            }
         }
        else if (eState == BuildingState.Available || eState == BuildingState.Idle)
         {
             // Turns off the "notification exclamation mark" as the player is now aware of obj
             eState = BuildingState.Idle;
 
-           StartCoroutine(ClickDelay(true, _BuildMenu));
+            StartCoroutine(ClickDelay(true, _BuildMenu));
             StartCoroutine(ClickDelay(false, _DestroyMenu));
 
             //Disconnect here, MVC controller is now responsible for talking to UI
@@ -293,8 +302,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
 
         UpdateState();
-
-
     }
 
     // Called from MVC controller to Build or Upgrade a building
@@ -401,6 +408,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
             case (BuildingType.Farm):
                 bFarm farm = this.GetComponent<bFarm>();
+                farm.DemolishAction();
                 Destroy(farm);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
@@ -644,6 +652,30 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     eType = BuildingType.TownCenter;
                     _hitpoints = bTownCenter.getHPStats();
                     _hitpointsMax = bTownCenter.getHPStats();
+                    UpdateHealthBar();
+                    break;
+                }
+            case ("GarbageCan"):
+                {
+                    eType = BuildingType.GarbageCan;
+                    _hitpoints = bGarbageCan.getHPStats();
+                    _hitpointsMax = bGarbageCan.getHPStats();
+                    UpdateHealthBar();
+                    break;
+                }
+            case ("WoodPile"):
+                {
+                    eType = BuildingType.WoodPile;
+                    _hitpoints = bWoodPile.getHPStats();
+                    _hitpointsMax = bWoodPile.getHPStats();
+                    UpdateHealthBar();
+                    break;
+                }
+            case ("StonePile"):
+                {
+                    eType = BuildingType.StonePile;
+                    _hitpoints = bStonePile.getHPStats();
+                    _hitpointsMax = bStonePile.getHPStats();
                     UpdateHealthBar();
                     break;
                 }

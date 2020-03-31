@@ -146,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
                 // possibly move toward it with normalized direction
                 if (go != MVCController.Instance._dummyObj)
                 {
-                    //Debug.Log("Location for " + go + "   is " + go.transform.position);
+                   // Debug.Log("Location for " + go + "   is " + go.transform.position);
                     //figure out if the collider is on a building we own
                     if (go.transform.parent)
                     {
@@ -161,13 +161,32 @@ public class PlayerMovement : MonoBehaviour
                                 //do nothing - this is our building
                                 StopMoving();
                             }
-                            else if(go.transform.parent.GetComponent<BuildableObject>().getTeam() == 500 && ! go.transform.parent.GetComponent<Searchable>())
+                            else if(go.transform.parent.GetComponent<BuildableObject>().getTeam() == 500 )
                             {
-                                //do nothing - clicked a dirt mound
-                                StopMoving();
+
+                                //clicked a searchable object without a rodent assigned 
+                                if (go.transform.parent.GetComponent<Searchable>())
+                                {
+                                    //check if its in range
+                                    if (_InRange.Contains(go.transform.parent.gameObject))
+                                        StopMoving();
+
+                                    else
+                                    {
+                                        //TO-DO: Figure out why the fuck i walk slower here?
+                                        _MoveLocation.transform.position = go.transform.position;
+                                        _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                    }
+                                }
+                                else //do nothing - clicked a dirt mound
+ 
+                                    StopMoving();
+
                             }
                             else // enemy team move to it ( no such thing as neutral buildings?)
                             {
+                                //To:Do will have to handle in range  just like searchable object above for enemy
+
                                 _MoveLocation.transform.position = go.transform.position;
                                 _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
                             }
@@ -736,7 +755,7 @@ public class PlayerMovement : MonoBehaviour
     //Collect Pickups and search and attack things
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Enter Trigger with" + collision.transform.gameObject);
+      //  Debug.Log("Enter Trigger with" + collision.transform.gameObject);
 
         if (_wantToAttack && _AttackTarget != null)
         {
@@ -751,16 +770,8 @@ public class PlayerMovement : MonoBehaviour
             _horizontalMove = 0;
         }
 
-        if (collision.transform.GetComponent<Searchable>())
-        {
-            Searchable s = collision.transform.GetComponent<Searchable>();
-            {
-                s.setActive(true);
-                Debug.LogWarning("Players in range");
-                //Do not add to our list of objects in range?
-            }
-        }
-        else if (collision.transform.GetComponent<DiggableTile>())
+
+         if (collision.transform.GetComponent<DiggableTile>())
         {
             // Debug.Log("Collider w diggable tile");
             if(!_InGround) // only keep track of top soil tiles
@@ -776,6 +787,15 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Add to our list of interactable things in range
                     _InRange.Add(collision.transform.parent.gameObject);
+                    //Can we search it?
+                    if (collision.transform.parent.GetComponent<Searchable>())
+                    {
+                        Searchable s = collision.transform.parent.GetComponent<Searchable>();
+                        {
+                            s.setActive(true);
+                            // Debug.LogWarning("Players in range");
+                        }
+                    }
                 }
 
                 else if (collision.transform.parent.GetComponent<Rodent>())
@@ -783,6 +803,7 @@ public class PlayerMovement : MonoBehaviour
                     //Add to our list of interactable things in range
                     _InRange.Add(collision.transform.parent.gameObject);
                 }
+                
             }
         }
 

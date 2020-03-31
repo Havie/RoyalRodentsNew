@@ -11,7 +11,8 @@ public class SpawnVolume : MonoBehaviour
     private ArrayList _AvailableRodents = new ArrayList();
 
     private float _baseLineTime = 0f;
-    private bool _occupied;
+    [SerializeField]
+    private bool _occupied; 
 
     GameObject Rat;
 
@@ -113,9 +114,15 @@ public class SpawnVolume : MonoBehaviour
                     // Tag becoming obsolete
                     _spawnedRat.tag = "EnemyRodent";
                     // Ensure Sprite is Neutral
-                    _spawnedRat.GetComponent<Rodent>().setTeam(2);
+                    Rodent r = _spawnedRat.GetComponent<Rodent>();
+                    if (r)
+                    {
+                        r.setTeam(2);      
+                        // Force them to be aggressive and head toward player   //hack
+                        r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);
+                    }
                     // Increase some kind of count
-                    --_EnemyCount;
+                   --_EnemyCount;
                     if (_EnemyCount == 0)
                         _occupied = true;
                 }
@@ -126,6 +133,11 @@ public class SpawnVolume : MonoBehaviour
     public void SpawnSomething()
     {
         _occupied = false;
-        _EnemyCount = 5;
+        _EnemyCount = 3;
+    }
+
+    public void SpawnaKing()
+    {
+        //To-Do: spawn erm
     }
 }

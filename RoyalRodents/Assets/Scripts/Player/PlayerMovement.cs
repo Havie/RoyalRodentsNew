@@ -161,6 +161,11 @@ public class PlayerMovement : MonoBehaviour
                                 //do nothing - this is our building
                                 StopMoving();
                             }
+                            else if(go.transform.parent.GetComponent<BuildableObject>().getTeam() == 500 && ! go.transform.parent.GetComponent<Searchable>())
+                            {
+                                //do nothing - clicked a dirt mound
+                                StopMoving();
+                            }
                             else // enemy team move to it ( no such thing as neutral buildings?)
                             {
                                 _MoveLocation.transform.position = go.transform.position;
@@ -751,6 +756,7 @@ public class PlayerMovement : MonoBehaviour
             Searchable s = collision.transform.GetComponent<Searchable>();
             {
                 s.setActive(true);
+                Debug.LogWarning("Players in range");
                 //Do not add to our list of objects in range?
             }
         }

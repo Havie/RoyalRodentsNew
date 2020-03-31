@@ -62,7 +62,7 @@ public class SubjectScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        anims = this.GetComponent<Animator>();
+        getAnimator();
         facingRight = false;
         // a backup condition to get the right speed
         Rodent r = this.GetComponent<Rodent>();
@@ -119,6 +119,34 @@ public class SubjectScript : MonoBehaviour
             }
         }
     }
+    public void getAnimator()
+    {
+        anims = this.GetComponent<Animator>();
+        if (anims == null)
+            Debug.LogError("No Animator found on : " + this.gameObject.ToString());
+    }
+    public void setAnim(string s, bool b, bool isTrigger)
+    {
+        if (anims == null)
+            getAnimator();
+
+        if (anims)
+        {
+            if (!isTrigger)
+            {
+                anims.SetBool(s, b);
+                if(!s.Equals("isMoving") && _printStatements)
+                    Debug.Log("We set bool " + s + "  to  " + b);
+            }
+            else
+            {
+                anims.SetTrigger(s);
+                if(_printStatements)
+                    Debug.Log("We set trigger" + s );
+            }
+        }
+        
+    }
 
     /** Sets rodent roles, ensuring there is only 1 active at a time */
     public void setRoyalGuard()
@@ -127,12 +155,23 @@ public class SubjectScript : MonoBehaviour
         farmer = false;
         builder = false;
         gatherer = false;
-        if (anims)
-            anims.SetBool(ARMED_ANIMATION_BOOL, true);
+        setAnim(ARMED_ANIMATION_BOOL, true, false);
 
         // Always should have the king in Saved Target if it is not the current target
         currentTarget = GameObject.FindGameObjectWithTag("Player");
         savedTarget = currentTarget;
+    }
+    public void setAttacker()
+    {
+        royalGuard = true;
+        farmer = false;
+        builder = false;
+        gatherer = false;
+        setAnim(ARMED_ANIMATION_BOOL, true, false);
+
+        //Should be players town center
+        savedTarget = currentTarget;
+
     }
 
     public void setFarmer()
@@ -141,8 +180,7 @@ public class SubjectScript : MonoBehaviour
         farmer = true;
         builder = false;
         gatherer = false;
-        if (anims)
-            anims.SetBool(ARMED_ANIMATION_BOOL, false);
+        setAnim(ARMED_ANIMATION_BOOL, false, false);
 
 
         //Get TownCenter location
@@ -155,8 +193,7 @@ public class SubjectScript : MonoBehaviour
         farmer = false;
         builder = false;
         gatherer = true;
-        if (anims)
-            anims.SetBool(ARMED_ANIMATION_BOOL, false);
+        setAnim(ARMED_ANIMATION_BOOL, false, false);
 
         //Get TownCenter location
         GameObject centerLocation = townCenterLoc;
@@ -169,8 +206,7 @@ public class SubjectScript : MonoBehaviour
         farmer = false;
         builder = true;
         gatherer = false;
-        if (anims)
-            anims.SetBool(ARMED_ANIMATION_BOOL, false);
+        setAnim(ARMED_ANIMATION_BOOL, false, false);
 
 
         //Get TownCenter location
@@ -179,16 +215,13 @@ public class SubjectScript : MonoBehaviour
     }
     public void setDefender()
     {
-        //To-Do:
         //Debug.Log("Rodent Assigned to Defender");
         defender = true;
         royalGuard = false;
         builder = false;
         farmer = false;
-        if (anims)
-        {
-            anims.SetBool(ARMED_ANIMATION_BOOL, true);
-        }
+        setAnim(ARMED_ANIMATION_BOOL, true, false);
+        
 
         //Get TownCenter location
         GameObject centerLocation = townCenterLoc;
@@ -200,8 +233,7 @@ public class SubjectScript : MonoBehaviour
         farmer = false;
         builder = false;
         gatherer = false;
-        if (anims)
-            anims.SetBool(ATK_ANIMATION_TRIGGER, false);
+        setAnim(ATK_ANIMATION_TRIGGER, false, true);
 
         IdlePos = this.transform.position;
     }
@@ -240,11 +272,8 @@ public class SubjectScript : MonoBehaviour
 
         {
 
-            if (anims)
-            {
-                anims.SetBool("isMoving", true);
-
-            }
+            setAnim("isMoving", true, false);
+        
 
             if (transform.position.x > pos.x)
             {
@@ -283,12 +312,10 @@ public class SubjectScript : MonoBehaviour
         }
         else //We have Reached our destination 
         {
-            if (anims)
-            {
-                // On finishing movement, return to idle
-                anims.SetBool("isMoving", false);
 
-            }
+           // On finishing movement, return to idle
+           setAnim("isMoving", false, false);
+
 
             //Check if we need to attack something as royal guard
             if (royalGuard)
@@ -445,46 +472,40 @@ public class SubjectScript : MonoBehaviour
 
             if (builder)
             {
-                // set anim bool/trigger to true
-                if (anims)
-                {
-                    // Fix for builder
+                   // Fix for builder
                     flipDirection();
                     if (!_approachingTownCenterasWorker)
                     {
-                        anims.SetBool(BUILDING_ANIMATION_BOOL, true);
-                        anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
+                        setAnim(BUILDING_ANIMATION_BOOL, true, false);
+                        setAnim(GATHERHING_ANIMATION_BOOL, false, false);
                     }
                     else
                     {
-                        anims.SetBool(BUILDING_ANIMATION_BOOL, false);
-                        anims.SetBool(GATHERHING_ANIMATION_BOOL, true);
+                        setAnim(BUILDING_ANIMATION_BOOL, false, false);
+                        setAnim(GATHERHING_ANIMATION_BOOL, true, false);
                     }
-                }
 
             }
             else if (farmer)
             {
-                if (anims)
-                {
+
                     if (!_approachingTownCenterasWorker)
                     {
-                        anims.SetBool(FARMING_ANIMATION_BOOL, true);
-                        anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
+                        setAnim(FARMING_ANIMATION_BOOL, true, false);
+                        setAnim(GATHERHING_ANIMATION_BOOL, false, false);
                     }
                     else
                     {
-                        anims.SetBool(FARMING_ANIMATION_BOOL, false);
-                        anims.SetBool(GATHERHING_ANIMATION_BOOL, true);
+                        setAnim(FARMING_ANIMATION_BOOL, false, false);
+                        setAnim(GATHERHING_ANIMATION_BOOL, true, false);
                     }
-                }
+ 
             }
             else if (gatherer)
             {
-                if (anims)
-                {
-                    anims.SetBool(GATHERHING_ANIMATION_BOOL, true);
-                }
+  
+                    setAnim(GATHERHING_ANIMATION_BOOL, true, false);
+                
             }
 
 
@@ -501,26 +522,21 @@ public class SubjectScript : MonoBehaviour
             if (builder)
             {
                 flipDirection();
-                if (anims)
-                {
-                    anims.SetBool(BUILDING_ANIMATION_BOOL, false);
-                    anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
-                }
-                }
+                setAnim(BUILDING_ANIMATION_BOOL, false, false);
+                setAnim(GATHERHING_ANIMATION_BOOL, false, false);
+            }  
             else if (farmer)
             {
-                if (anims)
-                {
-                    anims.SetBool(FARMING_ANIMATION_BOOL, false);
-                    anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
-                }
+
+                setAnim(FARMING_ANIMATION_BOOL, false, false);
+                setAnim(GATHERHING_ANIMATION_BOOL, false, false);
+                
             }
             else if (gatherer)
             {
-                if (anims)
-                {
-                    anims.SetBool(GATHERHING_ANIMATION_BOOL, false);
-                }
+
+                setAnim(GATHERHING_ANIMATION_BOOL, false, false);
+                
             }
 
             if (_printStatements)
@@ -923,8 +939,7 @@ public class SubjectScript : MonoBehaviour
             //Tell villager to pull out Weapons
             if (royalGuard == false)
             {
-                if (anims)
-                    anims.SetBool(ARMED_ANIMATION_BOOL, true);
+                setAnim(ARMED_ANIMATION_BOOL, true, false);
 
                 SaveLastJob();
             }
@@ -972,8 +987,7 @@ public class SubjectScript : MonoBehaviour
                     farmer = true;
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
-                    if (anims)
-                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
+                    setAnim(ARMED_ANIMATION_BOOL, false, false);
                     break;
                 }
             case "gatherer":
@@ -982,8 +996,7 @@ public class SubjectScript : MonoBehaviour
                     gatherer = true;
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
-                    if (anims)
-                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
+                    setAnim(ARMED_ANIMATION_BOOL, false, false);
                     break;
                 }
             case "builder":
@@ -992,8 +1005,7 @@ public class SubjectScript : MonoBehaviour
                     builder = true;
                     currentTarget = savedTarget2;
                     //Tell villagers to put weapons away
-                    if (anims)
-                        anims.SetBool(ARMED_ANIMATION_BOOL, false);
+                    setAnim(ARMED_ANIMATION_BOOL, false, false);
                     break;
                 }
             case "royalGuard":
@@ -1006,8 +1018,7 @@ public class SubjectScript : MonoBehaviour
                     royalGuard = false;
                     currentTarget = null;
                     //Tell villagers to put weapons away
-                    if (anims)
-                        anims.SetBool(ATK_ANIMATION_TRIGGER, false);
+                    setAnim(ATK_ANIMATION_TRIGGER, false, false);
                     break;
                 }
 
@@ -1024,7 +1035,7 @@ public class SubjectScript : MonoBehaviour
         {
             if (parameter.name != animation)
             {
-                animator.SetBool(parameter.name, false);
+                setAnim(parameter.name, false, false);
             }
         }
     }

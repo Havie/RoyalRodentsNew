@@ -146,9 +146,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
         SetUpHealthBar(_HealthBarObj.gameObject);
 
-
+        if (_Team < 3)
+            setTeam(500); // default value for destroyed state
         UpdateState();
-        SetUpTeam();
         setUpWorkers();
         UpdateHealthBar();
 
@@ -231,15 +231,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
 
     }
-    private void SetUpTeam()
-    {
-        //To-Do:
-        //method will need a way to find out which team this building should be on
-        //either via tag, starting team inspector, or world map/state loaded from game manager
-
-        //for now buildings are players
-        setTeam(1);
-    }
 
 
     //Getters
@@ -259,8 +250,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         if (id > -1 && id < 3)
             _Team = id;
+        else if (id == 500) // dummy setting for dirt mount
+            _Team = 500;
     }
-
+    
 
     // used to be from MVC controller to let the building know its been clicked
      public void imClicked()
@@ -270,12 +263,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
-            if (eType == BuildingType.Farm || eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
+            if ( eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
             {
                 //Debug.Log("I am gathering!");
 
                 Searchable s = GetComponent<Searchable>();
-                s.GatherAction(20);
+                if(s)
+                    s.GatherAction(20);
             }
             else
             {
@@ -463,6 +457,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 _sr.sprite = _sStateConstruction;
                 break;
         }
+
+      
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         StartCoroutine(DemolishCoroutine());
@@ -549,6 +545,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         UpdateState();
         //Debug.Log("Built a level " + _level + " structure");
 
+        //If the state is dirt mount, set it to player team - will have to figure out
+        // how to over ride for enemy / natural resources later on
+        if (_Team == 500)
+            setTeam(1);
+
         //Resets it so we can click again without clicking off first
         if (_controller.getLastClicked()==this.gameObject)
             _controller.clearLastClicked();
@@ -561,7 +562,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _controller.clearLastClicked();
 
         ShowRedX(false);
+
         //To-Do : Kick the worker rodent off
+
+        --_level;
+        //if we have returned to a dirt mount, reset team to default
+        if (_level == 0)
+            setTeam(500);
+
+
     }
     private void LoadComponents()
     {  //Debug.Log("LoadingCompnent type=" + eType);

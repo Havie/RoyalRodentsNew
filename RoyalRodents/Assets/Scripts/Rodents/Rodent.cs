@@ -201,7 +201,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         SetUpDayNight();
 
         setUpNotifyObj();
-        setTarget(null);
+        if(_Status != eStatus.Army) // if spawned from invasion will have status set already
+            setTarget(null);
 
         _ID = GameManager.Instance.getRodentIdex();
        // Debug.Log(this.gameObject + " ID is: " + _ID);
@@ -344,14 +345,22 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
                 // Tell Subject Script to behave like a Worker 
                 if (bo.getType() == BuildableObject.BuildingType.Outpost)
+                {
+                    _Status = eStatus.Army; // for all intensive purposes army can behave same for player and defense structure
                     s.setDefender();
+                }
                 else if (bo.getType() == BuildableObject.BuildingType.Farm)
+                {
+                    _Status = eStatus.Working;
                     s.setFarmer();
+                }
                 else
+                {
+                    _Status = eStatus.Working;
                     s.setGatherer();
+                }
 
-                _Status = eStatus.Working;
-                // Debug.Log("Updated State to Worker");
+
 
             }
         }
@@ -370,6 +379,31 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             s.setIdle();
         }
     }
+    //Best way to set up an enemy rat? refactor later?
+    public void setTargetEnemyVersion(GameObject o)
+    {
+        Debug.Log("Told rat to go to: " + o);
+        if (o == null)
+        {
+            Debug.LogWarning("AttackerGiven Null Target??");
+            return;
+        }
+
+        StartCoroutine(attackerDelay(o));
+
+    }
+    //Have to do a delay otherwise subject script settings get really messed up
+    IEnumerator attackerDelay(GameObject o)
+    {
+        yield return new WaitForSeconds(0.8f);
+        SubjectScript s = this.GetComponent<SubjectScript>();
+        if (s)
+            s.changeTarget(o);
+
+        s.setAttacker();
+        _Status = eStatus.Army;
+    }
+
     public void Recruit()
     {
         _Status = eStatus.Available;

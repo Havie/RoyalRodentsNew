@@ -269,7 +269,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 Searchable s = GetComponent<Searchable>();
                 if (s)
                 {
-                    s.GatherAction(20);
+                   // s.GatherAction(20);
                     s.ImClicked(); // should use ImClicked instead of GatherAction and encapsulate gather action into searchables functionality
                 }
             }

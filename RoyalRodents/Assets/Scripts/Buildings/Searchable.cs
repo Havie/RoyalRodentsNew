@@ -8,14 +8,15 @@ public class Searchable : MonoBehaviour
     [SerializeField]
     private bool _MainCharacterInRange;
     private bool _Hovered;  //unused
-    private bool _Empty;   //means its on cool down
-    private bool _SearchMe; // the MC has clicked this and is in range
+    [SerializeField] private bool _Empty;   //means its on cool down
+    [SerializeField] private bool _SearchMe; // the MC has clicked this and is in range
     private float _Delay = 1f; //used by coroutine
-    private bool _Searching;  //used by coroutine
-    private float _SearchTime;
-    private float _SearchTimeMax= 1*5;
-    private float _CooldownTime = 5f;
-    private bool _CoolingDown;
+    [SerializeField] private bool _Searching;  //used by coroutine
+    [SerializeField] private float _SearchTime;
+    [SerializeField] private float _SearchTimeMax= 1*5;
+    [SerializeField] private float _CooldownTime = 0.5f;
+    [SerializeField] private bool _CoolingDown;
+    [SerializeField] private bool _CoolDownOveride;
 
     //Gathering Data
     public ResourceType _gatherResourceType = ResourceType.Food;
@@ -28,7 +29,7 @@ public class Searchable : MonoBehaviour
     public Animator _ResourceIconAnimController;
     Sprite _IconSprite;
 
-    private int _StaminaCost = 1;
+    private int _StaminaCost = 5;
 
     private GameObject _ProgressBarObj;
     private HealthBar _ProgressBar;
@@ -86,7 +87,7 @@ public class Searchable : MonoBehaviour
         //increment gathering safely
         if (amnt > 0)
         {
-            if (_gathering + amnt < _gatheringMax)
+            if (_gathering + amnt <= _gatheringMax)
                 _gathering += amnt;
             else
                 _gathering = _gatheringMax;
@@ -96,13 +97,19 @@ public class Searchable : MonoBehaviour
             if (_gathering + amnt > 0)
                 _gathering += amnt;
             else
-                _gathering = 0;
+            {
+                _Empty = true;
+                if (_Searching)
+                    _CooldownTime = 0.5f;
+            }
         }
 
         //check if progress is full, then do action and reset progress
         if (_gathering >= _gatheringMax)
         {
-            _gathering = 0;
+            _Empty = true;
+            if(_Searching)
+                _CooldownTime = 0.5f;
             GainSpecifiedResource();
         }
 
@@ -158,7 +165,7 @@ public class Searchable : MonoBehaviour
             else if(_Empty)
             {
                 if (!_CoolingDown)
-                    StartCoroutine(Cooldown());
+                    StartCoroutine(Cooldown(_CooldownTime));
             }
 
         }
@@ -167,46 +174,29 @@ public class Searchable : MonoBehaviour
     public void setActive(bool cond)
     {
         _MainCharacterInRange = cond;
+       // print("Set Active= " + cond);
     }
 
 
-    /** for some unknown reason, the OnCollisonEnter2D only works on the playerMovement.cs   */
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        //doesn't work
-        Debug.Log("Enter Garbage Can");
-    }
-
-// 
-//     private void OnMouseDown()
-//     {
-//        // Debug.Log("Search on mouse down");
-//         //This work for Touch gestures..?
-//         if(_MainCharacterInRange)
-//         {
-//             _SearchMe = true;
-//            
-//         }
-//        
-//     }
     public void ImClicked()
     {
-        // Debug.Log("Search on mouse down");
-        //This work for Touch gestures..?
+        // Debug.Log("Clicked:SearchableObject");
         if (_MainCharacterInRange)
         {
             _SearchMe = true;
-
+           // print("In range");
         }
 
     }
-
+    /** Please Do Not Change SearchTime variables
+     * by using a search time limits the player to less resources than rodent method
+     * if you want to change how many times player can search and how often just edit
+     * the global variables _SearchTimeMax and _Delay
+     */
     IEnumerator Search()
     {
         _Searching = true;
         bool _okayToSearch = true;
-
-        //TO-DO:  handle wtf the MVC thinks is going on?
 
         //Decrease stamina
         if (_MainCharacter)
@@ -217,7 +207,10 @@ public class Searchable : MonoBehaviour
                 if (_PlayerStats.getStamina() >= _StaminaCost)
                 {
                     _PlayerStats.IncrementStamina(-_StaminaCost);
-                    //TO-DO: Tell MC to play Animation
+                    //Tell MC to play Animation
+                    Animator am = _MainCharacter.GetComponent<Animator>();
+                    if(am)
+                        am.SetTrigger("doDig");
 
                 }
                 else
@@ -231,28 +224,50 @@ public class Searchable : MonoBehaviour
 
         if (_okayToSearch)
         {
+
             yield return new WaitForSeconds(_Delay);
-
-
-            //Gain Resource
-            GainSpecifiedResource();
 
             //Increment Progress bar
             _SearchTime += _Delay;
+
+            //Gain Resource
+            GainSpecifiedResource(); //- old system
+            incrementGathering(100);  // - new system
+            // trick the progress bar into thinking were using the new system
+            //_gathering = (int)_SearchTime * 20;
+
+
             UpdateProgressBar();
+
+            //print("search time= " + _SearchTime + "  max= " + _SearchTimeMax);
+
             if (_SearchTime >= _SearchTimeMax)
+            {
+                //Debug.LogError("Starting manual over ride");
                 _Empty = true;
+                StartCoroutine(Cooldown(5));
+                _CoolDownOveride = true;
+                //To-Do : Make progress bar red? or indicate somehow to player it is on CD
+            }
         }
         _Searching = false;
     }
-    IEnumerator Cooldown()
+    IEnumerator Cooldown(float time)
     {
         _CoolingDown = true;
-        yield return new WaitForSeconds(_CooldownTime);
-        _Empty = false;
-        _SearchTime = 0;
-        UpdateProgressBar();
-        _CoolingDown = false;
+        yield return new WaitForSeconds(time);
+
+            _CoolingDown = false;
+            _Empty = false;
+            _gathering = 0;
+            UpdateProgressBar();
+
+        if(_CoolDownOveride)
+        {
+            _SearchTime = 0;
+            _CoolDownOveride = false;
+        }
+
     }
 
     //unused

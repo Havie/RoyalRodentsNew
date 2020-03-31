@@ -614,22 +614,22 @@ public class SubjectScript : MonoBehaviour
             Vector3 moveTo = currentTarget.transform.position;
             //FindNextTargetInRange();
             //Check if ranged. If so, offset the target distance before attacking.
-            if (isRanged)
-            {
-                Vector3 targetPos = currentTarget.transform.position;
-                // Run further out into attack range before attacking
-                if (transform.position.x - currentTarget.transform.position.x < 0)
-                {
-                    // On the left of the target
-                    moveTo.x -= 8;
-                }
-                else
-                {
-                    // On the right
-                    moveTo.x += 8;
-                }
+            //if (isRanged)
+            //{
+            //    Vector3 targetPos = currentTarget.transform.position;
+            //    // Run further out into attack range before attacking
+            //    if (transform.position.x - currentTarget.transform.position.x < 0)
+            //    {
+            //        // On the left of the target
+            //        moveTo.x -= 8;
+            //    }
+            //    else
+            //    {
+            //        // On the right
+            //        moveTo.x += 8;
+            //    }
 
-            }
+            //}
             Move(moveTo);
 
         }
@@ -649,6 +649,7 @@ public class SubjectScript : MonoBehaviour
         if (collision.transform.parent)
         {
             Rodent unknownRodent = collision.transform.parent.gameObject.GetComponent<Rodent>();
+            BuildableObject unknownBuilding = collision.transform.parent.gameObject.GetComponent<BuildableObject>();
             if (unknownRodent)
             {
                 // Debug.LogWarning("Found Rodent" + unknownRodent.getName() + " on team:  " + unknownRodent.getTeam());
@@ -667,8 +668,18 @@ public class SubjectScript : MonoBehaviour
 
 
             }
-            // Do building case when functional
-
+            else if (unknownBuilding)
+            {
+                if(unknownBuilding.getTeam() == getEnemyTeam())
+                {
+                    _inRange.Add(unknownBuilding.gameObject);
+                    if (_inRange.Count == 1 && royalGuard)
+                    {
+                        print("Newest target added to queue: " + currentTarget.ToString());
+                        currentTarget = unknownBuilding.gameObject;
+                    }
+                }
+            }
         }
     }
     private int getEnemyTeam()
@@ -705,12 +716,13 @@ public class SubjectScript : MonoBehaviour
             }
             // For rodents
             Rodent _EnemyRodent = currentTarget.GetComponent<Rodent>();
+            
 
             if (_EnemyRodent)
             {
                 if (!_EnemyRodent.isDead())
                 {// Reduce enemy health
-                    currentTarget.GetComponent<Rodent>().Damage(attackDamage);
+                    _EnemyRodent.Damage(attackDamage);
                 }
                 else
                 {
@@ -719,7 +731,20 @@ public class SubjectScript : MonoBehaviour
                     FindNextTargetInRange();
                 }
             }
-            // Building here
+            else
+            {
+                BuildableObject _enemyBuilding = currentTarget.GetComponent<BuildableObject>();
+                if(_enemyBuilding.getHP() > 0)
+                {
+                    _enemyBuilding.Damage(attackDamage);
+                }
+                else
+                {
+                    _inRange.Remove(currentTarget);
+                    // print("Called from Dead Building found");
+                    FindNextTargetInRange();
+                }
+            }
 
 
             yield return new WaitForSeconds(1.16f); //Length of attack animation

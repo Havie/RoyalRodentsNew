@@ -177,18 +177,28 @@ public class Searchable : MonoBehaviour
         Debug.Log("Enter Garbage Can");
     }
 
-
-    private void OnMouseDown()
+// 
+//     private void OnMouseDown()
+//     {
+//        // Debug.Log("Search on mouse down");
+//         //This work for Touch gestures..?
+//         if(_MainCharacterInRange)
+//         {
+//             _SearchMe = true;
+//            
+//         }
+//        
+//     }
+    public void ImClicked()
     {
-
-       // Debug.Log("Search on mouse down");
+        // Debug.Log("Search on mouse down");
         //This work for Touch gestures..?
-        if(_MainCharacterInRange)
+        if (_MainCharacterInRange)
         {
             _SearchMe = true;
-           
+
         }
-       
+
     }
 
     IEnumerator Search()

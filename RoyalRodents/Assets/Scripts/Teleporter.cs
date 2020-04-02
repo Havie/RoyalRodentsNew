@@ -37,4 +37,14 @@ public class Teleporter : MonoBehaviour
             spawner.SpawnSomething();
         }
     }
+
+    public void Teleport(List<GameObject> objects, Vector3 loc)
+    {
+
+        foreach (var g in objects)
+        {
+            g.transform.position = loc;
+        }
+
+    }
 }

@@ -16,6 +16,8 @@ public class bOutpost : MonoBehaviour
 
 	private static bool _isSet;
 
+    private bool _selected;
+
 	//create structure costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
 	public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel1 = new Dictionary<ResourceManagerScript.ResourceType, int>();
     public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel2 = new Dictionary<ResourceManagerScript.ResourceType, int>();
@@ -133,5 +135,14 @@ public class bOutpost : MonoBehaviour
             return _builtSpriteLevel1_selected;
 
         return null;
+    }
+
+    public void setSelected(bool cond)
+    {
+        _selected = cond;
+    }
+    public bool getSelected()
+    {
+        return _selected;
     }
 }

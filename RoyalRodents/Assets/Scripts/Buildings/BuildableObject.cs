@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 {
+    #region sprites
     [SerializeField] private Sprite _sStatedefault;
     [SerializeField] private Sprite _sStateHighlight;
     [SerializeField] private Sprite _sStateConstruction;
@@ -13,20 +14,17 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField] private Sprite _sOnHover;
     [SerializeField] private Sprite _sNotification;
     [SerializeField] private Sprite _sBuildingHammer;
+    #endregion
 
     [SerializeField] private GameObject _NotificationObject;
 
+    private SpriteRenderer _sr;
+    private SpriteRenderer _srNotify;
 
-    [SerializeField] private Animator _animator;
-    private HealthBar _HealthBar;
-    [SerializeField] private GameObject _HealthBarObj;
-
-
-    [SerializeField]
-    private BuildingState eState;
-
-    [SerializeField]
-    private BuildingType eType;
+    public enum BuildingState { Available, Idle, Building, Built };
+    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant, GarbageCan, WoodPile, StonePile }
+    [SerializeField] private BuildingState eState;
+    [SerializeField] private BuildingType eType;
     private int _level = 0;
 
     [SerializeField]
@@ -44,22 +42,22 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // NEW
     public Employee[] _Workers = new Employee[1];
 
-    private SpriteRenderer _sr;
-    private SpriteRenderer _srNotify;
-
-    private UIBuildMenu _BuildMenu;
-    private UIBuildMenu _DestroyMenu;
-    private MVCController _controller;
-
-    public enum BuildingState { Available, Idle, Building, Built };
-    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant, GarbageCan, WoodPile, StonePile }
-
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
     [SerializeField]
     private int _ID = 0;
 
-    /**Begin Interface stuff*/
+    #region otherClasses
+    private UIBuildMenu _BuildMenu;
+    private UIBuildMenu _DestroyMenu;
+    private MVCController _controller;
+    private CameraController _cameraController;
+    #endregion
+
+    #region InterfaceStuff
+    [SerializeField] private Animator _animator;
+    private HealthBar _HealthBar;
+    [SerializeField] private GameObject _HealthBarObj;
     public void Damage(float damageTaken)
     {
         if (_hitpoints - damageTaken > 0)
@@ -120,7 +118,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (this.transform.gameObject.GetComponent<Register2DDN>() == null)
             this.transform.gameObject.AddComponent<Register2DDN>();
     }
-    /** End interface stuff*/
+    #endregion
 
     public void LoadData(int ID, int type, int state, int lvl, float hp, float hpmax)
     {
@@ -143,7 +141,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         _sr = this.transform.GetComponent<SpriteRenderer>();
         _sStatedefault = Resources.Load<Sprite>("Buildings/DirtMound/dirt_mound_final");
-        
+
 
         //SetUp the NotifyObj
         _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
@@ -158,13 +156,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (eType == BuildingType.Vacant)
             _sr.sprite = _sStatedefault;
         _animator = GetComponentInChildren<Animator>();
-        
 
 
-        GameObject o=GameObject.FindGameObjectWithTag("BuildMenu");
+        //Other classes
+        GameObject o = GameObject.FindGameObjectWithTag("BuildMenu");
         _BuildMenu = o.GetComponent<UIBuildMenu>();
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
+        _cameraController = Camera.main.GetComponent<CameraController>();
+
 
         //little unnecessary
         _controller = MVCController.Instance;
@@ -187,13 +187,21 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         //Feel like these could load in a different order on start
         _ID = GameManager.Instance.getBuildingIndex();
-       // Debug.Log(this.gameObject + " ID is: " + _ID);
+        // Debug.Log(this.gameObject + " ID is: " + _ID);
     }
     private void LateUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             Damage(5);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            setOutlineAvailable();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            setOutlineSelected();
         }
     }
     public void setUpWorkers()
@@ -252,7 +260,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Built:
                 {
                     _srNotify.enabled = false;
-                    if (eType != BuildingType.TownCenter && eType != BuildingType.House && eType!= BuildingType.Outpost)
+                    if (eType != BuildingType.TownCenter && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
                     else
                         ShowWorkers(false);
@@ -260,7 +268,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     _animator.SetBool("Building", false);
                     break;
                 }
-           
+
         }
 
     }
@@ -286,13 +294,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         else if (id == 500) // dummy setting for dirt mount
             _Team = 500;
     }
-    
+
 
     // used to be from MVC controller to let the building know its been clicked
-     public void imClicked()
+    public void imClicked()
     {
 
-      //  Debug.Log("Building is Clicked state is" + eState);
+         Debug.Log("Building is Clicked state is" + eState);
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
@@ -302,9 +310,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 Searchable s = GetComponent<Searchable>();
                 if (s)
                 {
-                   // s.GatherAction(20);
+                    // s.GatherAction(20);
                     s.ImClicked(); // should use ImClicked instead of GatherAction and encapsulate gather action into searchables functionality
                 }
+            }
+            if(eType == BuildingType.Outpost)
+            {
+
             }
             else
             {
@@ -312,7 +324,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 StartCoroutine(ClickDelay(false, _BuildMenu));
             }
         }
-       else if (eState == BuildingState.Available || eState == BuildingState.Idle)
+        else if (eState == BuildingState.Available || eState == BuildingState.Idle)
         {
             // Turns off the "notification exclamation mark" as the player is now aware of obj
             eState = BuildingState.Idle;
@@ -338,7 +350,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // Called from MVC controller to Build or Upgrade a building
     public void BuildSomething(string type)
     {
-       // Debug.Log("Time to Build Something type=" + type);
+        // Debug.Log("Time to Build Something type=" + type);
         switch (type)
         {
             case ("house"):
@@ -347,7 +359,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
                 _level = 1;
-               // Debug.Log("Made a house");
+                // Debug.Log("Made a house");
                 break;
             case ("farm"):
                 this.gameObject.AddComponent<bFarm>();
@@ -426,7 +438,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // Called from MVC controller
     public void DemolishSomething()
     {
-       // Debug.Log("Time to Destroy Something" );
+        // Debug.Log("Time to Destroy Something" );
         switch (eType)
         {
             case (BuildingType.House):
@@ -448,7 +460,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 // Debug.Log("Destroyed a Farm");
                 break;
             case (BuildingType.Banner):
-				bBanner banner = this.GetComponent<bBanner>();
+                bBanner banner = this.GetComponent<bBanner>();
                 Destroy(banner);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
@@ -551,8 +563,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     //Upon completion let the correct script know to assign the new Sprite, and update our HP/Type.
     public void BuildComplete()
     {
-       if(eType == BuildingType.House)
-       {
+        if (eType == BuildingType.House)
+        {
             float oldMax = _hitpointsMax;
             _hitpointsMax += this.GetComponent<bHouse>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
@@ -568,7 +580,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints += difference;
             _construction = 0;
         }
-       else if (eType == BuildingType.Banner)
+        else if (eType == BuildingType.Banner)
         {
             float oldMax = _hitpointsMax;
             _hitpointsMax += this.GetComponent<bBanner>().BuildingComplete(_level);
@@ -576,7 +588,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints += difference;
             _construction = 0;
         }
-       else if (eType == BuildingType.Outpost)
+        else if (eType == BuildingType.Outpost)
         {
             float oldMax = _hitpointsMax;
             _hitpointsMax += this.GetComponent<bOutpost>().BuildingComplete(_level);
@@ -585,8 +597,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _construction = 0;
             // Tell someone this is an outpost and Needs to have it Employees Shown On "Assignment Mode Toggle"
             UIAssignmentMenu.Instance.SetOutpostWorkers(_Workers);
+            GameManager.Instance.PlayerOutpostCreated(this);
         }
-       else if (eType == BuildingType.TownCenter)
+        else if (eType == BuildingType.TownCenter)
         {
             float oldMax = _hitpointsMax;
             _hitpointsMax += this.GetComponent<bTownCenter>().BuildingComplete(_level);
@@ -627,7 +640,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             setTeam(1);
 
         //Resets it so we can click again without clicking off first
-        if (_controller.getLastClicked()==this.gameObject)
+        if (_controller.getLastClicked() == this.gameObject)
             _controller.clearLastClicked();
     }
     public void DemolishComplete()
@@ -647,7 +660,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //To-Do : Kick the worker rodent off
 
         //if we have returned to a dirt mount, reset team to default
+        _level = 0;
         setTeam(500);
+
+        // if outpost destroyed:
+        //tell UI menu RemoveOutpostWorkers
+        // tell game manager PlayerOutpostDestroyed
+
     }
     private void LoadComponents()
     {  //Debug.Log("LoadingCompnent type=" + eType);
@@ -666,7 +685,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     this.gameObject.AddComponent<bFarm>();
                     BuildComplete();
                 }
-                    break;
+                break;
             case (BuildingType.Banner):
                 if (this.GetComponent<bBanner>() == null)
                 {
@@ -680,35 +699,35 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     this.gameObject.AddComponent<bOutpost>();
                     BuildComplete();
                 }
-                    break;
+                break;
             case (BuildingType.TownCenter):
                 if (this.GetComponent<bTownCenter>() == null)
                 {
                     this.gameObject.AddComponent<bTownCenter>();
                     BuildComplete();
                 }
-                    break;
+                break;
             case (BuildingType.GarbageCan):
                 if (this.GetComponent<bGarbageCan>() == null)
                 {
                     this.gameObject.AddComponent<bGarbageCan>();
                     BuildComplete();
                 }
-                    break;
+                break;
             case (BuildingType.WoodPile):
                 if (this.GetComponent<bWoodPile>() == null)
                 {
                     this.gameObject.AddComponent<bWoodPile>();
                     BuildComplete();
                 }
-                    break;
+                break;
             case (BuildingType.StonePile):
                 if (this.GetComponent<bStonePile>() == null)
                 {
                     this.gameObject.AddComponent<bStonePile>();
                     BuildComplete();
                 }
-                    break;
+                break;
         }
     }
 
@@ -729,7 +748,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     //Temp hack/work around for GameManager to create your town center on launch, must be updated later on
     public void SetType(string type)
     {
-       // Debug.Log("Heard set Type");
+        // Debug.Log("Heard set Type");
         switch (type)
         {
             case ("TownCenter"):
@@ -790,7 +809,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         yield return new WaitForSeconds(0.05f);
         // To-Do: update for touch
-       // Debug.Log("Will need to get click location from somewhere for Mobile");
+        // Debug.Log("Will need to get click location from somewhere for Mobile");
         Vector3 Location = Input.mousePosition;
 
         menu.showMenu(cond, Location, this.transform.gameObject, this);
@@ -810,12 +829,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         foreach (Employee e in _Workers)
         {
-                if (!e.isOccupied() && !e.isLocked())
-                {
-                   // Debug.Log("Returned index= " + _count);
-                    return _count;
-                }
-                ++_count;
+            if (!e.isOccupied() && !e.isLocked())
+            {
+                // Debug.Log("Returned index= " + _count);
+                return _count;
+            }
+            ++_count;
 
         }
 
@@ -823,7 +842,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void AssignWorker(Rodent r)
     {
-       // Debug.Log("AssignWorker!" + r.getName() + "to " + this.gameObject);
+        // Debug.Log("AssignWorker!" + r.getName() + "to " + this.gameObject);
 
         int index = findAvailableSlot();
         if (index > -1)         //This is kind of a hack
@@ -839,20 +858,20 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         foreach (Employee e in _Workers)
         {
-                if (e.isOccupied())
+            if (e.isOccupied())
+            {
+                if (e.getCurrentRodent() == r)
                 {
-                    if (e.getCurrentRodent() == r)
-                    {
-                        //Debug.Log("We found the right Employee");
-                        e.Dismiss(r);
-                        break;
-                    }
+                    //Debug.Log("We found the right Employee");
+                    e.Dismiss(r);
+                    break;
                 }
             }
+        }
     }
     public void ShowRedX(bool cond)
     {
-      //  Debug.Log("Told to show RedX in Building");
+        //  Debug.Log("Told to show RedX in Building");
 
         //Tell any occupied Employees to show x or tell all to not show it
         foreach (Employee e in _Workers)
@@ -877,7 +896,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //When this is called there Shouldnt be anyone working here?
         //No need to handle dismissals etc
         //Destroying Parent, destroys children
-        foreach(Employee e in _Workers)
+        foreach (Employee e in _Workers)
             MVCController.Instance.RemoveRedX(e);
         Destroy(_Workers[0].transform.parent.gameObject);
         _Workers = null;
@@ -887,7 +906,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void UnlockWorkers(int number)
     {
         int _count = 0;
-        foreach(Employee e in _Workers)
+        foreach (Employee e in _Workers)
         {
             if (e.isLocked() && _count < number)
             {
@@ -896,36 +915,39 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             }
         }
     }
+
+
+    public void setOutlineAvailable()
+    {
+        if (eType == BuildingType.Outpost)
+        {
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (sr)
+            {
+                bOutpost outpost = GetComponent<bOutpost>();
+                var s = outpost.getAvailable(_level);
+                sr.sprite = s;
+            }
+        }
+    }
+
+    public void setOutlineSelected()
+    {
+        if (eType == BuildingType.Outpost)
+        {
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            if (sr)
+            {
+                bOutpost outpost = GetComponent<bOutpost>();
+                var s = outpost.getSelected(_level);
+                sr.sprite = s;
+            }
+        }
+    }
+
+
 }
 
 
 
 
-//ALL OF THIS IS TEST For tracking mouse clicks //ignore for now
-/* GameObject o = GameObject.FindGameObjectWithTag("Canvas");
- RectTransform CanvasRect = o.GetComponent<RectTransform>();
- Vector2 WorldObject_ScreenPosition = new Vector2(
- ((mousePos.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
- ((mousePos.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
-
- Vector2 localpoint;
- RectTransform rectTransform = _BuildMenu.getRect();
- Canvas canvas = o.GetComponent<Canvas>();
- RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, canvas.worldCamera, out localpoint);
- Vector2 normalizedPoint = Rect.PointToNormalized(rectTransform.rect, localpoint);
- Debug.Log("Normalized :  " +normalizedPoint);
-
-
- Vector2 pos;
- RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out pos);
- Vector2 newPos2D_Cav = canvas.transform.TransformPoint(pos);
-
- Debug.Log("Mouse2d" + mousePos2D);
- Debug.Log("WorldObj:" + WorldObject_ScreenPosition);
- Debug.Log("Mouse:" + MouseRaw);
- Debug.Log("attempt:" + newPos2D_Cav);
- // UI_Element.anchoredPosition = WorldObject_ScreenPosition;
- //END OF TESTS
- */
-
-//now you can set the position of the ui element

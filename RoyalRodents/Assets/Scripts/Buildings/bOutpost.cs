@@ -5,7 +5,9 @@ using UnityEngine;
 public class bOutpost : MonoBehaviour
 {
 	private static Sprite _builtSpriteLevel1;
-	private static Sprite _builtSpriteLevel2;
+    private static Sprite _builtSpriteLevel1_available;
+    private static Sprite _builtSpriteLevel1_selected;
+    private static Sprite _builtSpriteLevel2;
 	private static Sprite _builtSpriteLevel3;
 	private static int maxLevel = 3;
 
@@ -46,7 +48,9 @@ public class bOutpost : MonoBehaviour
 			_costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 2);
 
 			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost");
-			_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Outpost/wood_outpost");
+            _builtSpriteLevel1_available = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost_available");
+            _builtSpriteLevel1_selected = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost_selected");
+            _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Outpost/wood_outpost");
 			_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/Outpost/stone_outpost");
 
 			_isSet = true;
@@ -114,4 +118,20 @@ public class bOutpost : MonoBehaviour
 	{
 		return maxLevel;
 	}
+
+    public  Sprite getAvailable(int level)
+    {
+        if (level == 1)
+            return _builtSpriteLevel1_available;
+
+        else return null;
+    }
+
+    public  Sprite getSelected(int level)
+    {
+        if (level == 1)
+            return _builtSpriteLevel1_selected;
+
+        return null;
+    }
 }

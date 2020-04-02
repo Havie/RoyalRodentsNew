@@ -19,12 +19,13 @@ public class Teleporter : MonoBehaviour
 
         print("Clicked me:" + this.gameObject);
 
-        //get the outposts from parent 
-
+        //get the outposts from parent
+        if(_parent)
+            _parent.childClicked(this);
         // show some menu that lets you select which outpost to pool from
         // outpost should show # of employees in button
 
-        startInvasion();
+       // startInvasion();
 
     }
 

@@ -31,7 +31,7 @@ public class UIAssignmentMenu : MonoBehaviour
     private UIAssignmentVFX _vfx;
     private GameObject _owner;
     [SerializeField]
-    private Employee[] _OutpostWorkers;
+    private List<Employee> _OutpostWorkers = new List<Employee>();
 
 
     public static UIAssignmentMenu Instance
@@ -282,7 +282,19 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void SetOutpostWorkers(Employee[] workers)
     {
-        _OutpostWorkers = workers;
+        foreach (Employee e in workers)
+        {
+            if (_OutpostWorkers.Contains(e) == false)
+                _OutpostWorkers.Add(e);
+        }
+    }
+    public void RemoveOutpostWorkers(Employee[] workers)
+    {
+        foreach (Employee e in workers)
+        {
+            if (_OutpostWorkers.Contains(e))
+                _OutpostWorkers.Remove(e);
+        }
     }
 
     /** used by UI button */

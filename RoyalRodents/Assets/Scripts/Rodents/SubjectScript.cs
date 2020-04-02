@@ -368,6 +368,7 @@ public class SubjectScript : MonoBehaviour
 
                     //swap current loc with staged location
                     swapTarget();
+                    // This is probably where we should send the signal for the progress bars
                 }
 
                 else if (farmer || gatherer)
@@ -386,6 +387,7 @@ public class SubjectScript : MonoBehaviour
                     }
 
                     swapTarget();
+                    // This is probably where we should send the signal for the progress bars
 
                 }
             }
@@ -604,7 +606,6 @@ public class SubjectScript : MonoBehaviour
         savedTarget = nTarget;
     }
 
-    // TODO: Cases for Worker, RoyalGuard, and Builder specific behavior
     private void royalGuardBehavior()
     {
         // Follow the king at all times.
@@ -612,7 +613,6 @@ public class SubjectScript : MonoBehaviour
         if (!ShouldIdle)
         {
             Vector3 moveTo = currentTarget.transform.position;
-            //FindNextTargetInRange();
             //Check if ranged. If so, offset the target distance before attacking.
             //if (isRanged)
             //{
@@ -911,12 +911,16 @@ public class SubjectScript : MonoBehaviour
                 if(currentTarget == townCenterLoc)
                 {
                     Debug.Log("True");
-                    return Random.Range(1, 2);
+                    float delay = Random.Range(1, 2);
+                    Debug.Log("Delay of: " + delay);
+                    return delay;
                 }
                 else
                 {
                     Debug.Log("falsee");
-                    return Random.Range(4, 10);
+                    float delay = Random.Range(4, 10);
+                    Debug.Log("Delay of: " + delay);
+                    return delay;
                 }
                 
             else if (royalGuard || defender)

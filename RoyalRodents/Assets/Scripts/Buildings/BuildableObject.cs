@@ -34,8 +34,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private float _hitpointsMax = 5;
 
+    [SerializeField]
     private int _construction = 0;
+    [SerializeField]
     private int _constructionMax = 100;
+    private GameObject _ConstructionBarObj;
+    private HealthBar _ConstructionBar;
 
     // NEW
     public Employee[] _Workers = new Employee[1];
@@ -88,6 +92,29 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (_HealthBar)
             _HealthBar.SetFillAmount(_hitpoints / _hitpointsMax);
     }
+    public void SetUpConstructionBar(GameObject go)
+    {
+        if (_ConstructionBarObj != null)
+        {
+            _ConstructionBarObj = Instantiate(go);
+            _ConstructionBarObj.gameObject.transform.SetParent(this.transform);
+            _ConstructionBar = _ConstructionBarObj.GetComponentInChildren<HealthBar>();
+            if (!_ConstructionBar)
+                Debug.LogError("Cant Find Construction bar");
+            _ConstructionBarObj.transform.SetParent(this.transform);
+            _ConstructionBarObj.transform.localPosition = new Vector3(0, 0.55f, 0);
+        }
+        else
+            Debug.LogError("Cant Find Construction bar Prefab");
+
+        UpdateConstructionBar();
+    }
+    public void UpdateConstructionBar()
+    {
+        if (_ConstructionBar)
+            _ConstructionBar.SetFillAmount((float)_construction / _constructionMax);
+    }
+
     public void SetUpDayNight()
     {
         if (this.transform.gameObject.GetComponent<Register2DDN>() == null)
@@ -142,9 +169,15 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //little unnecessary
         _controller = MVCController.Instance;
 
+        //Health Bar Prefab
         if (_HealthBarObj == null)
             _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
         SetUpHealthBar(_HealthBarObj.gameObject);
+
+        //Construction Bar Prefab
+        if (_ConstructionBarObj == null)
+            _ConstructionBarObj = Resources.Load<GameObject>("UI/ConstructionBarCanvas");
+        SetUpConstructionBar(_ConstructionBarObj);
 
         if (_Team < 3)
             setTeam(500); // default value for destroyed state
@@ -289,12 +322,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
             //Disconnect here, MVC controller is now responsible for talking to UI
         }
-        else
+        else if (eState == BuildingState.Building)
         {
+            IncrementConstruction(1);
             //Default
-            Debug.LogWarning("Does this Happen?");
-            eState = BuildingState.Idle;
-           // StartCoroutine(ClickDelay(true, _DestroyMenu));
+            //Debug.LogWarning("Does this Happen?");
+            //eState = BuildingState.Idle;
+            // StartCoroutine(ClickDelay(true, _DestroyMenu));
+            //SetConstructionMax(5);
         }
 
         UpdateState();
@@ -373,7 +408,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
         _BuildMenu.showMenu(false, Vector3.zero,null, this);
-        StartCoroutine(BuildCoroutine());
+        //StartCoroutine(BuildCoroutine());
+        SetConstructionMax(5);
     }
 
     public void UpgradeSomething()
@@ -384,7 +420,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _level++;
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
-        StartCoroutine(BuildCoroutine());
+        //StartCoroutine(BuildCoroutine());
     }
 
     // Called from MVC controller
@@ -461,10 +497,39 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
         }
 
-      
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         StartCoroutine(DemolishCoroutine());
+    }
+
+    public void IncrementConstruction(int amnt)
+    {
+        //increment construction safely
+        if (amnt > 0)
+        {
+            if (_construction + amnt <= _constructionMax)
+                _construction += amnt;
+            else
+                _construction = _constructionMax;
+        }
+
+        //check if construction is full, then complete building
+        if (_construction >= _constructionMax)
+        {
+            BuildComplete();
+            //Do this here so when we load from save things dont get wonky
+            eState = BuildingState.Built;
+
+            //To:Do Update to kick builder rat off worker_obj
+        }
+
+        //update Gather Bar
+        UpdateConstructionBar();
+    }
+    public void SetConstructionMax(int amnt)
+    {
+        _constructionMax = amnt;
+        UpdateConstructionBar();
     }
 
     //Temporary way to delay construction
@@ -492,6 +557,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bHouse>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
 
         }
         else if (eType == BuildingType.Farm)
@@ -500,6 +566,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bFarm>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
         }
        else if (eType == BuildingType.Banner)
         {
@@ -507,6 +574,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bBanner>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
         }
        else if (eType == BuildingType.Outpost)
         {
@@ -514,6 +582,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bOutpost>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
             // Tell someone this is an outpost and Needs to have it Employees Shown On "Assignment Mode Toggle"
             UIAssignmentMenu.Instance.SetOutpostWorkers(_Workers);
         }
@@ -523,6 +592,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bTownCenter>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
         }
         else if (eType == BuildingType.GarbageCan)
         {
@@ -530,6 +600,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bGarbageCan>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
         }
         else if (eType == BuildingType.WoodPile)
         {
@@ -537,6 +608,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bWoodPile>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
         }
         else if (eType == BuildingType.StonePile)
         {
@@ -544,6 +616,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpointsMax += this.GetComponent<bStonePile>().BuildingComplete(_level);
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
+            _construction = 0;
         }
         UpdateState();
         //Debug.Log("Built a level " + _level + " structure");
@@ -561,6 +634,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         eState = BuildingState.Available;
         _sr.sprite = _sStatedefault;
+        _construction = 0;
+        _constructionMax = 100;
+        UpdateConstructionBar();
+        _hitpointsMax = 5;
+        _hitpoints = 0;
         if (_controller.getLastClicked() == this.gameObject)
             _controller.clearLastClicked();
 
@@ -568,12 +646,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         //To-Do : Kick the worker rodent off
 
-        --_level;
         //if we have returned to a dirt mount, reset team to default
-        if (_level == 0)
-            setTeam(500);
-
-
+        setTeam(500);
     }
     private void LoadComponents()
     {  //Debug.Log("LoadingCompnent type=" + eType);

@@ -23405,7 +23405,7 @@ MonoBehaviour:
   _currentCapacity: 0
   _TrashText: {fileID: 1746027354}
   _WoodText: {fileID: 498547516}
-  _StoneText: {fileID: 0}
+  _StoneText: {fileID: 984769676}
   _ShinyText: {fileID: 247588678}
   _FoodText: {fileID: 933066596}
   _PopulationText: {fileID: 1922297173}
@@ -35181,6 +35181,8 @@ MonoBehaviour:
   eType: 5
   _hitpoints: 0
   _hitpointsMax: 0
+  _construction: 0
+  _constructionMax: 100
   _Workers:
   - {fileID: 1674734002}
   _Team: 0

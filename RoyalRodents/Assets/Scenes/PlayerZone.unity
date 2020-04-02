@@ -35965,8 +35965,6 @@ MonoBehaviour:
   _sNotification: {fileID: 21300000, guid: b42af6c7a9fd9b74991ea9f00298ae35, type: 3}
   _sBuildingHammer: {fileID: 21300000, guid: 05826420ad1f0df4ab3e2f5491660297, type: 3}
   _NotificationObject: {fileID: 479893779}
-  _animator: {fileID: 0}
-  _HealthBarObj: {fileID: 0}
   eState: 0
   eType: 5
   _hitpoints: 0
@@ -35977,6 +35975,8 @@ MonoBehaviour:
   - {fileID: 1674734002}
   _Team: 0
   _ID: 0
+  _animator: {fileID: 0}
+  _HealthBarObj: {fileID: 0}
 --- !u!212 &1687040300
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -37159,7 +37159,6 @@ GameObject:
   - component: {fileID: 1727935494}
   - component: {fileID: 1727935496}
   - component: {fileID: 1727935495}
-  - component: {fileID: 1741291100}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -37206,7 +37205,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 99c7dcd0efb6b6c459871fc06a8a79c9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b03e202805f28d4e9ee5a88a57358dc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -37224,36 +37223,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727935493}
   m_CullTransparentMesh: 0
---- !u!114 &1741291100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727935493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 99c7dcd0efb6b6c459871fc06a8a79c9, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1746027352
 GameObject:
   m_ObjectHideFlags: 0

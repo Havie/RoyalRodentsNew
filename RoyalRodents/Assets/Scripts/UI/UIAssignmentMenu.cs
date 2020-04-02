@@ -31,7 +31,7 @@ public class UIAssignmentMenu : MonoBehaviour
     private UIAssignmentVFX _vfx;
     private GameObject _owner;
     [SerializeField]
-    private Employee[] _OutpostWorkers;
+    private List<Employee> _OutpostWorkers = new List<Employee>();
 
 
     public static UIAssignmentMenu Instance
@@ -42,6 +42,23 @@ public class UIAssignmentMenu : MonoBehaviour
                 _instance = GameObject.FindObjectOfType<UIAssignmentMenu>(); ;
             return _instance;
         }
+    }
+    //didn't have this before?
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            //if not, set instance to this
+            _instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (_instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+            return;
+        }
+
     }
 
 
@@ -86,6 +103,9 @@ public class UIAssignmentMenu : MonoBehaviour
     //used internally 
     private void showMenu(bool cond)
     {
+        //if in over ride mode dont want to turn things on
+        if (cond && _cameraController.getOverrideMode())
+            return;
        // Debug.Log("ShowMenu::"+cond + "  and index is:" +_index );
         setActive(cond);
 
@@ -110,6 +130,9 @@ public class UIAssignmentMenu : MonoBehaviour
         }
         ShowArrowButtons(cond);
         ShowOutpostWorkers(cond);
+
+        if (_active)
+            MVCController.Instance.TurnOffBuildMenus();
 
         //If we turn off the menu, reset the index and list
         if (!_active)
@@ -268,8 +291,11 @@ public class UIAssignmentMenu : MonoBehaviour
     public void ShowArrowButtons(bool cond)
     {
         //Debug.Log("Show Arrow COND???=" + cond);
-        _ButtonLeft.gameObject.SetActive(cond);
-        _ButtonRight.gameObject.SetActive(cond);
+        if (_cameraController.getOverrideMode() == false)
+        {
+            _ButtonLeft.gameObject.SetActive(cond);
+            _ButtonRight.gameObject.SetActive(cond);
+        }
     }
     private void ShowOutpostWorkers(bool cond)
     {
@@ -282,7 +308,19 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void SetOutpostWorkers(Employee[] workers)
     {
-        _OutpostWorkers = workers;
+        foreach (Employee e in workers)
+        {
+            if (_OutpostWorkers.Contains(e) == false)
+                _OutpostWorkers.Add(e);
+        }
+    }
+    public void RemoveOutpostWorkers(Employee[] workers)
+    {
+        foreach (Employee e in workers)
+        {
+            if (_OutpostWorkers.Contains(e))
+                _OutpostWorkers.Remove(e);
+        }
     }
 
     /** used by UI button */

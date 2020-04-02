@@ -81,6 +81,8 @@ public class Cycle2DDN : MonoBehaviour {
 	Image screenDark;
 	Color scrnColor, scrnDay, scrnDusk, scrnNight, scrnDawn;
 
+	public int day_count;
+
 	// Use this for initialization
 	void Start () {
 		// Sets the main DayNight handler.
@@ -92,6 +94,8 @@ public class Cycle2DDN : MonoBehaviour {
 
 		// Sets the proper cycle duration for each of the 4 phases
 		cycleUpdate = cycleTime / 4;
+
+		day_count = 1;
 
 		// Creates new lists to store all the renderer variables.
 		AnimatedSprites = new List<SpriteRenderer> ();
@@ -121,9 +125,16 @@ public class Cycle2DDN : MonoBehaviour {
 		InvokeRepeating ("UpdateStatic", cycleStartDelay, staticUpdateFreq);
 	}
 
+	//Used for Sun/Moon Rotation
 	public double getCycleFraction()
 	{
 		return (cycle + t) / 4.0;
+	}
+
+	//Get Day Count
+	public int getDayCount()
+	{
+		return day_count;
 	}
 
 	/// <summary>
@@ -180,6 +191,8 @@ public class Cycle2DDN : MonoBehaviour {
 
 			if (cycle < 3) {
 				cycle++;
+				if (cycle == 3)
+					day_count++;
 			} else {
 				cycle = 0;
 			}

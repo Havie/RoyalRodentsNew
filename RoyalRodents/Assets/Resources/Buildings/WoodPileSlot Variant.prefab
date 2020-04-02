@@ -22,7 +22,7 @@ PrefabInstance:
     - target: {fileID: 2534387841011693494, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_Name
-      value: WoodPileSlot
+      value: WoodPileSlot Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -85,6 +85,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d6d03fc7add0b4c42ac4e8f0a293c24d,
         type: 3}
+    - target: {fileID: 2534387841011693492, guid: b449ead2722bb964c9d2e93ad1463a77,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 10.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534387841011693492, guid: b449ead2722bb964c9d2e93ad1463a77,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 10.24
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b449ead2722bb964c9d2e93ad1463a77, type: 3}
 --- !u!1 &1985859734920596792 stripped

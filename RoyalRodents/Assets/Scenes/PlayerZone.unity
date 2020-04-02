@@ -7508,6 +7508,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: night.r
+      value: 0.58624065
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: night.g
+      value: 0.46942863
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: night.b
+      value: 0.7264151
+      objectReference: {fileID: 0}
     - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7612,21 +7627,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
-        type: 3}
-      propertyPath: night.r
-      value: 0.58624065
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
-        type: 3}
-      propertyPath: night.g
-      value: 0.46942863
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
-        type: 3}
-      propertyPath: night.b
-      value: 0.7264151
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49a9eb98707a68649810f1d9d560bb2d, type: 3}
@@ -19263,7 +19263,7 @@ GameObject:
   - component: {fileID: 884527029}
   - component: {fileID: 884527028}
   m_Layer: 5
-  m_Name: Metal Icon
+  m_Name: Stone Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22730,7 +22730,7 @@ GameObject:
   - component: {fileID: 984769677}
   - component: {fileID: 984769676}
   m_Layer: 5
-  m_Name: Metal Display
+  m_Name: Stone Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23399,13 +23399,13 @@ MonoBehaviour:
   _food: 0
   _trash: 0
   _wood: 0
-  _metal: 0
+  _stone: 0
   _shiny: 0
   _currentPopulation: 0
   _currentCapacity: 0
   _TrashText: {fileID: 1746027354}
   _WoodText: {fileID: 498547516}
-  _MetalText: {fileID: 984769676}
+  _StoneText: {fileID: 0}
   _ShinyText: {fileID: 247588678}
   _FoodText: {fileID: 933066596}
   _PopulationText: {fileID: 1922297173}

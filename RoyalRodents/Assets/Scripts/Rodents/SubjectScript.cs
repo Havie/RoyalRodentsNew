@@ -43,6 +43,8 @@ public class SubjectScript : MonoBehaviour
     private bool _isDead;
     private string _oldJob;
     private bool _approachingTownCenterasWorker;
+    private GameObject townCenterLoc;
+    private bool isRanged;
 
     private const string MOVING_ANIMATION_BOOL = "isMoving";
     private const string ARMED_ANIMATION_BOOL = "isArmed";
@@ -70,6 +72,8 @@ public class SubjectScript : MonoBehaviour
         WaitDuration = 10f;
 
         testSwap();
+        townCenterLoc = GameManager.Instance.getTownCenter().transform.gameObject;
+        isRanged = this.GetComponent<Rodent>().isRanged();
     }
 
     // Update is called once per frame
@@ -180,7 +184,7 @@ public class SubjectScript : MonoBehaviour
 
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
     public void setGatherer()
@@ -192,7 +196,7 @@ public class SubjectScript : MonoBehaviour
         setAnim(ARMED_ANIMATION_BOOL, false, false);
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
 
@@ -206,7 +210,7 @@ public class SubjectScript : MonoBehaviour
 
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
     public void setDefender()
@@ -220,7 +224,7 @@ public class SubjectScript : MonoBehaviour
         
 
         //Get TownCenter location
-        GameObject centerLocation = GameManager.Instance.getTownCenter().transform.gameObject;
+        GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
     }
     public void setIdle()
@@ -350,7 +354,7 @@ public class SubjectScript : MonoBehaviour
                     // however this script doesnt seem to make him move toward TC as he builds TC
                     // so we might have an issue with resource collection at TC once implemented
                     //if current is not town center prepare for search anim
-                    if (currentTarget != GameManager.Instance.getTownCenter().gameObject)
+                    if (currentTarget != townCenterLoc)
                     {
                         // next time We work, to use gather anim
                         _approachingTownCenterasWorker = true;
@@ -369,7 +373,7 @@ public class SubjectScript : MonoBehaviour
                 else if (farmer || gatherer)
                 {
                     //if current is not town center prepare for search anim
-                    if (currentTarget != GameManager.Instance.getTownCenter().gameObject)
+                    if (currentTarget != townCenterLoc)
                     {
                         // next time We work, to use gather anim
                         _approachingTownCenterasWorker = true;
@@ -607,8 +611,26 @@ public class SubjectScript : MonoBehaviour
         // Future: Attack enemies within a radius of the king
         if (!ShouldIdle)
         {
+            Vector3 moveTo = currentTarget.transform.position;
             //FindNextTargetInRange();
-            Move(currentTarget);
+            //Check if ranged. If so, offset the target distance before attacking.
+            //if (isRanged)
+            //{
+            //    Vector3 targetPos = currentTarget.transform.position;
+            //    // Run further out into attack range before attacking
+            //    if (transform.position.x - currentTarget.transform.position.x < 0)
+            //    {
+            //        // On the left of the target
+            //        moveTo.x -= 8;
+            //    }
+            //    else
+            //    {
+            //        // On the right
+            //        moveTo.x += 8;
+            //    }
+
+            //}
+            Move(moveTo);
 
         }
         else
@@ -627,6 +649,7 @@ public class SubjectScript : MonoBehaviour
         if (collision.transform.parent)
         {
             Rodent unknownRodent = collision.transform.parent.gameObject.GetComponent<Rodent>();
+            BuildableObject unknownBuilding = collision.transform.parent.gameObject.GetComponent<BuildableObject>();
             if (unknownRodent)
             {
                 // Debug.LogWarning("Found Rodent" + unknownRodent.getName() + " on team:  " + unknownRodent.getTeam());
@@ -645,8 +668,18 @@ public class SubjectScript : MonoBehaviour
 
 
             }
-            // Do building case when functional
-
+            else if (unknownBuilding)
+            {
+                if(unknownBuilding.getTeam() == getEnemyTeam())
+                {
+                    _inRange.Add(unknownBuilding.gameObject);
+                    if (_inRange.Count == 1 && royalGuard)
+                    {
+                        print("Newest target added to queue: " + currentTarget.ToString());
+                        currentTarget = unknownBuilding.gameObject;
+                    }
+                }
+            }
         }
     }
     private int getEnemyTeam()
@@ -683,12 +716,13 @@ public class SubjectScript : MonoBehaviour
             }
             // For rodents
             Rodent _EnemyRodent = currentTarget.GetComponent<Rodent>();
+            
 
             if (_EnemyRodent)
             {
                 if (!_EnemyRodent.isDead())
                 {// Reduce enemy health
-                    currentTarget.GetComponent<Rodent>().Damage(attackDamage);
+                    _EnemyRodent.Damage(attackDamage);
                 }
                 else
                 {
@@ -697,7 +731,20 @@ public class SubjectScript : MonoBehaviour
                     FindNextTargetInRange();
                 }
             }
-            // Building here
+            else
+            {
+                BuildableObject _enemyBuilding = currentTarget.GetComponent<BuildableObject>();
+                if(_enemyBuilding.getHP() > 0)
+                {
+                    _enemyBuilding.Damage(attackDamage);
+                }
+                else
+                {
+                    _inRange.Remove(currentTarget);
+                    // print("Called from Dead Building found");
+                    FindNextTargetInRange();
+                }
+            }
 
 
             yield return new WaitForSeconds(1.16f); //Length of attack animation
@@ -776,7 +823,7 @@ public class SubjectScript : MonoBehaviour
     {
         Vector3 targetPos;
         // Check which side of the map the rodent is on
-        if (currentTarget.transform.position.x - GameManager.Instance.getTownCenter().transform.position.x < 0)
+        if (currentTarget.transform.position.x - townCenterLoc.transform.position.x < 0)
         {
             targetPos = new Vector3(currentTarget.transform.position.x + 10, this.transform.position.y, 0);
             
@@ -861,7 +908,17 @@ public class SubjectScript : MonoBehaviour
         if (state.Equals("move"))
         {
             if (farmer || gatherer)
-                return Random.Range(4, 10);
+                if(currentTarget == townCenterLoc)
+                {
+                    Debug.Log("True");
+                    return Random.Range(1, 2);
+                }
+                else
+                {
+                    Debug.Log("falsee");
+                    return Random.Range(4, 10);
+                }
+                
             else if (royalGuard || defender)
                 return Random.Range(1, 2.5f);
             else if (builder)

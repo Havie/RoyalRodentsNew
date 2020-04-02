@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     private float _PosXCap = 100;
 
     private bool _CharacterMode=true;
-    private bool _OverrideMode = false;
+    private bool _OverrideMode = false; //Really should have been on GameManger
 
 
     // Start is called before the first frame update

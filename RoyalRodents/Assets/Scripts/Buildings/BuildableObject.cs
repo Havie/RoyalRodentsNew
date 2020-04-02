@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 {
+    #region sprites
     [SerializeField] private Sprite _sStatedefault;
     [SerializeField] private Sprite _sStateHighlight;
     [SerializeField] private Sprite _sStateConstruction;
@@ -13,20 +14,17 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField] private Sprite _sOnHover;
     [SerializeField] private Sprite _sNotification;
     [SerializeField] private Sprite _sBuildingHammer;
+    #endregion
 
     [SerializeField] private GameObject _NotificationObject;
 
+    private SpriteRenderer _sr;
+    private SpriteRenderer _srNotify;
 
-    [SerializeField] private Animator _animator;
-    private HealthBar _HealthBar;
-    [SerializeField] private GameObject _HealthBarObj;
-
-
-    [SerializeField]
-    private BuildingState eState;
-
-    [SerializeField]
-    private BuildingType eType;
+    public enum BuildingState { Available, Idle, Building, Built };
+    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant, GarbageCan, WoodPile, StonePile }
+    [SerializeField] private BuildingState eState;
+    [SerializeField] private BuildingType eType;
     private int _level = 0;
 
     [SerializeField]
@@ -40,22 +38,22 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // NEW
     public Employee[] _Workers = new Employee[1];
 
-    private SpriteRenderer _sr;
-    private SpriteRenderer _srNotify;
-
-    private UIBuildMenu _BuildMenu;
-    private UIBuildMenu _DestroyMenu;
-    private MVCController _controller;
-
-    public enum BuildingState { Available, Idle, Building, Built };
-    public enum BuildingType { House, Farm, Outpost, Banner, TownCenter, Vacant, GarbageCan, WoodPile, StonePile }
-
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
     [SerializeField]
     private int _ID = 0;
 
-    /**Begin Interface stuff*/
+    #region otherClasses
+    private UIBuildMenu _BuildMenu;
+    private UIBuildMenu _DestroyMenu;
+    private MVCController _controller;
+    private CameraController _cameraController;
+    #endregion
+
+    #region InterfaceStuff
+    [SerializeField] private Animator _animator;
+    private HealthBar _HealthBar;
+    [SerializeField] private GameObject _HealthBarObj;
     public void Damage(float damageTaken)
     {
         if (_hitpoints - damageTaken > 0)
@@ -93,7 +91,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (this.transform.gameObject.GetComponent<Register2DDN>() == null)
             this.transform.gameObject.AddComponent<Register2DDN>();
     }
-    /** End interface stuff*/
+    #endregion
 
     public void LoadData(int ID, int type, int state, int lvl, float hp, float hpmax)
     {
@@ -133,11 +131,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _animator = GetComponentInChildren<Animator>();
 
 
-
+        //Other classes
         GameObject o = GameObject.FindGameObjectWithTag("BuildMenu");
         _BuildMenu = o.GetComponent<UIBuildMenu>();
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
+        _cameraController = Camera.main.GetComponent<CameraController>();
+
 
         //little unnecessary
         _controller = MVCController.Instance;
@@ -267,7 +267,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void imClicked()
     {
 
-        //  Debug.Log("Building is Clicked state is" + eState);
+         Debug.Log("Building is Clicked state is" + eState);
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
@@ -280,6 +280,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     // s.GatherAction(20);
                     s.ImClicked(); // should use ImClicked instead of GatherAction and encapsulate gather action into searchables functionality
                 }
+            }
+            if(eType == BuildingType.Outpost)
+            {
+
             }
             else
             {

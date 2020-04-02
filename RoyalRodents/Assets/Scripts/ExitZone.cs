@@ -76,6 +76,7 @@ public class ExitZone : MonoBehaviour
         //Turn on Assignment Mode
 
         //Show top screen selection text
+        UITroopSelection.Instance.ShowSelection(true);
     }
 
 }

@@ -43,6 +43,23 @@ public class UIAssignmentMenu : MonoBehaviour
             return _instance;
         }
     }
+    //didn't have this before?
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            //if not, set instance to this
+            _instance = this;
+        }
+        //If instance already exists and it's not this:
+        else if (_instance != this)
+        {
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+            return;
+        }
+
+    }
 
 
     // Start is called before the first frame update
@@ -86,6 +103,9 @@ public class UIAssignmentMenu : MonoBehaviour
     //used internally 
     private void showMenu(bool cond)
     {
+        //if in over ride mode dont want to turn things on
+        if (cond && _cameraController.getOverrideMode())
+            return;
        // Debug.Log("ShowMenu::"+cond + "  and index is:" +_index );
         setActive(cond);
 
@@ -110,6 +130,9 @@ public class UIAssignmentMenu : MonoBehaviour
         }
         ShowArrowButtons(cond);
         ShowOutpostWorkers(cond);
+
+        if (_active)
+            MVCController.Instance.TurnOffBuildMenus();
 
         //If we turn off the menu, reset the index and list
         if (!_active)
@@ -268,8 +291,11 @@ public class UIAssignmentMenu : MonoBehaviour
     public void ShowArrowButtons(bool cond)
     {
         //Debug.Log("Show Arrow COND???=" + cond);
-        _ButtonLeft.gameObject.SetActive(cond);
-        _ButtonRight.gameObject.SetActive(cond);
+        if (_cameraController.getOverrideMode() == false)
+        {
+            _ButtonLeft.gameObject.SetActive(cond);
+            _ButtonRight.gameObject.SetActive(cond);
+        }
     }
     private void ShowOutpostWorkers(bool cond)
     {

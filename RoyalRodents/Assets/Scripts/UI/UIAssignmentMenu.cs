@@ -129,7 +129,8 @@ public class UIAssignmentMenu : MonoBehaviour
 
         }
         ShowArrowButtons(cond);
-        ShowOutpostWorkers(cond);
+        if(_cameraController.getOverrideMode() ==false)
+            ShowOutpostWorkers(cond);
 
         if (_active)
             MVCController.Instance.TurnOffBuildMenus();
@@ -297,7 +298,7 @@ public class UIAssignmentMenu : MonoBehaviour
             _ButtonRight.gameObject.SetActive(cond);
         }
     }
-    private void ShowOutpostWorkers(bool cond)
+    public void ShowOutpostWorkers(bool cond)
     {
         if (_OutpostWorkers == null)
             return;

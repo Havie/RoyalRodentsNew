@@ -68,15 +68,45 @@ public class ExitZone : MonoBehaviour
 
     private void selectOutpostMode()
     {
+        int totalTroops =0;
         foreach( var b in _outposts)
         {
             b.setOutlineAvailable();
+           totalTroops+= b.getEmployeeCount();
         }
 
-        //Turn on Assignment Mode
-
         //Show top screen selection text
-        UITroopSelection.Instance.ShowSelection(true);
+        UITroopSelection.Instance.ShowSelection(true, totalTroops, this);
+    }
+    public List<GameObject> findSelected()
+    {
+        List<GameObject> chosen = new List<GameObject>();
+        foreach (var b in _outposts)
+        {
+            if (b.checkSelected())
+            {
+                List<GameObject> recieved = b.getEmployees();
+                foreach (var e in recieved)
+                {
+                    chosen.Add(e);
+                    //Do we have to remove them from the outpost? what happens if they die
+                    // in combat? do they unassign then?
+                    var ss= e.GetComponent<SubjectScript>();
+                    if(ss)
+                    {
+                        ss.setRoyalGuard();
+                    }
+                }
+            }
+        }
+        //Dont forget the player
+        chosen.Add(GameObject.FindGameObjectWithTag("Player"));
+
+        return chosen;
+    }
+    public void confirmed()
+    {
+        _Active.Teleport(findSelected(), new Vector3(160, -189.67f, 0));
     }
 
 }

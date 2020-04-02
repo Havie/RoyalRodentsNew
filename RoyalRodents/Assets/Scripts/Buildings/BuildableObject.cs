@@ -300,7 +300,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void imClicked()
     {
 
-         Debug.Log("Building is Clicked state is" + eState);
+        // Debug.Log("Building is Clicked state is" + eState);
         if (eState == BuildingState.Built)
         {
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
@@ -314,9 +314,19 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     s.ImClicked(); // should use ImClicked instead of GatherAction and encapsulate gather action into searchables functionality
                 }
             }
-            if(eType == BuildingType.Outpost)
+            if(eType == BuildingType.Outpost && _cameraController.getOverrideMode())
             {
-
+                bOutpost outpost = GetComponent<bOutpost>();
+                if (outpost.getSelected())
+                {
+                    setOutlineSelected();
+                    UITroopSelection.Instance.addTroops(getEmployeeCount());
+                }
+                else
+                {
+                    setOutlineAvailable();
+                    UITroopSelection.Instance.addTroops(0-getEmployeeCount());
+                }
             }
             else
             {
@@ -344,7 +354,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //SetConstructionMax(5);
         }
 
-        UpdateState();
+        if(!_cameraController.getOverrideMode())
+            UpdateState();
     }
 
     // Called from MVC controller to Build or Upgrade a building
@@ -915,8 +926,42 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             }
         }
     }
+    public int getEmployeeCount()
+    {
+        int _count = 0;
 
+        foreach (Employee e in _Workers)
+        {
+            if (e.isOccupied())
+            {
+                // Debug.Log("Returned index= " + _count);
+                ++_count;
+            }
 
+        }
+
+        return _count;
+    }
+    public List<GameObject> getEmployees()
+    {
+        List<GameObject> employees = new List<GameObject>();
+        foreach (Employee e in _Workers)
+        {
+            if (e.isOccupied())
+            {
+                Rodent r = e.getCurrentRodent();
+                if (r)
+                {
+                    employees.Add(r.gameObject);
+                }
+                else
+                    Debug.LogError("No Rodent found when should be employee?");
+            }
+
+        }
+
+        return employees;
+    }
     public void setOutlineAvailable()
     {
         if (eType == BuildingType.Outpost)
@@ -927,6 +972,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 bOutpost outpost = GetComponent<bOutpost>();
                 var s = outpost.getAvailable(_level);
                 sr.sprite = s;
+                outpost.setSelected(true);
             }
         }
     }
@@ -941,10 +987,19 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 bOutpost outpost = GetComponent<bOutpost>();
                 var s = outpost.getSelected(_level);
                 sr.sprite = s;
+                outpost.setSelected(false);
             }
         }
     }
-
+    public bool checkSelected()
+    {
+        if (eType == BuildingType.Outpost)
+        {
+            bOutpost outpost = GetComponent<bOutpost>();
+            return outpost.getSelected();
+        }
+        return false;
+    }
 
 }
 

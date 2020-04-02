@@ -16,6 +16,12 @@ public class UITroopSelection : MonoBehaviour
     private GameObject _AssignmentModeButton;
     private CameraController _cameraController;
 
+    private int _numTroops = 0;
+
+    private int _numTroopsMax = 11;
+
+    private ExitZone _zone;
+
     //Singleton
     public static UITroopSelection Instance
     {
@@ -47,14 +53,15 @@ public class UITroopSelection : MonoBehaviour
     {
         while(_confirmButton == null || _cancelButton == null || _AssignmentModeButton == null)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
-        ShowSelection(false);
+        ShowSelection(false, 0, null);
     }
 
     void Start()
     {
-        _amounts= GetComponentInChildren<TextMeshProUGUI>();
+        GameObject child = transform.GetChild(0).gameObject; //hack
+        _amounts= child.GetComponent<TextMeshProUGUI>();
         _cameraController = Camera.main.GetComponent<CameraController>();
 
         StartCoroutine(startDelay());
@@ -71,19 +78,21 @@ public class UITroopSelection : MonoBehaviour
         else
             _cancelButton = go;
     }
-    public void ShowSelection(bool cond)
+    public void ShowSelection(bool cond, int maxTroops, ExitZone zone)
     {
         if(_confirmButton==null || _cancelButton==null || _AssignmentModeButton == null)
         {
             Debug.LogError("One of The Objects in UI Troop Selection is null");
             return;
         }
-
+        _zone = zone;
+        _numTroopsMax = maxTroops;
         this.gameObject.SetActive(cond);
         _confirmButton.SetActive(cond);
         _cancelButton.SetActive(cond);
         _AssignmentModeButton.SetActive(!cond);
-        MVCController.Instance.TurnThingsoff();
+        MVCController.Instance.TurnOffBuildMenus();
+        UIAssignmentMenu.Instance.ShowOutpostWorkers(cond);
         //order matters here
         if (cond)
         {
@@ -95,21 +104,35 @@ public class UITroopSelection : MonoBehaviour
             _cameraController.setOverrideMode(cond);
             UIAssignmentMenu.Instance.ShowArrowButtons(cond);
         }
+
+        updateText();
     }
 
     public void SelectionMade(bool cond)
     {
         if(cond)
         {
-            // confirmed
+            _zone.confirmed();
         }
         else
         {
             //canceled
         }
 
-        ShowSelection(false);
+        ShowSelection(false, 0, null);
+    }
+    public void addTroops(int amnt)
+    {
+        if (_numTroops + amnt >= 0)
+            _numTroops += amnt;
+        else
+            Debug.LogError("Subtracting more troops than went in??");
+
+        updateText();
+    }
+    public void updateText()
+    {
+        _amounts.text = "( " + _numTroops + " / " + _numTroopsMax + " )";
     }
 
-    
 }

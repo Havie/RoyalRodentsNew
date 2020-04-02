@@ -13,6 +13,7 @@ public class ExitZone : MonoBehaviour
 
     private Teleporter _right;
     private Teleporter _left;
+    private Teleporter _Active;
 
     private List<BuildableObject> _outposts = new List<BuildableObject>();
 
@@ -54,6 +55,28 @@ public class ExitZone : MonoBehaviour
     public List<BuildableObject> getOutposts()
     {
         return _outposts;
+    }
+
+    public void childClicked(Teleporter t)
+    {
+        if (t == _right || t == _left)
+            _Active = t;
+
+        selectOutpostMode();
+
+    }
+
+    private void selectOutpostMode()
+    {
+        foreach( var b in _outposts)
+        {
+            b.setOutlineAvailable();
+        }
+
+        //Turn on Assignment Mode
+
+        //Show top screen selection text
+        UITroopSelection.Instance.ShowSelection(true);
     }
 
 }

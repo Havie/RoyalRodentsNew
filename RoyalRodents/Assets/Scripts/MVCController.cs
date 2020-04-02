@@ -385,6 +385,12 @@ public class MVCController : MonoBehaviour
             }
         }
     }
+    public void TurnOffBuildMenus()
+    {
+        ShowBuildMenu(false, Vector3.zero, null, null);
+
+        ShowDestroyMenu(false, Vector3.zero, null, null);
+    }
     public GameObject TurnThingsoff()
     {
         // If a Menu is active, and we click off of the object, we want to close the menu

@@ -311,13 +311,13 @@ public class GameManager : MonoBehaviour
         else if (s.Equals("enemyzone"))
             _NeutralZone = ez;
     }
-    public void OutpostCreated(BuildableObject b)
+    public void PlayerOutpostCreated(BuildableObject b)
     {
         if (_PlayerZone)
             _PlayerZone.SetOutpost(b);
     }
 
-    public void OutpostDestroyed(BuildableObject b)
+    public void PlayerOutpostDestroyed(BuildableObject b)
     {
         if (_PlayerZone)
             _PlayerZone.RemoveOutpost(b);

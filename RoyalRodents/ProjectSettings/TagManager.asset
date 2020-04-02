@@ -21,6 +21,8 @@ TagManager:
   - EnemyRodents
   - PauseMenu
   - TopPanel
+  - TroopConfirm
+  - TroopCancel
   layers:
   - Default
   - TransparentFX

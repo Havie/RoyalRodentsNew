@@ -13,15 +13,24 @@ public class UIBuildMenu : MonoBehaviour
     private bool _active;
     private GameObject _current;
 
+    private CameraController _cameraController;
+
 
     // Start is called before the first frame update
     void Start()
     {
         showMenu(false, Vector3.zero, null, null);
+        _cameraController = Camera.main.GetComponent<CameraController>();
+
+
     }
 
     public void showMenu(bool cond, Vector2 loc, GameObject o, BuildableObject building)
     {
+        // dont want to enable buttons if we are in override mode
+        if (cond && _cameraController.getOverrideMode())
+            return;
+
         _active = cond;
         _current = o;
 

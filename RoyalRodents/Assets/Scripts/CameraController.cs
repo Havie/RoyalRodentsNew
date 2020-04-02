@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     private float _PosXCap = 100;
 
     private bool _CharacterMode=true;
+    private bool _OverrideMode = false; //Really should have been on GameManger
 
 
     // Start is called before the first frame update
@@ -50,17 +51,37 @@ public class CameraController : MonoBehaviour
         if(!_CharacterMode)
          this.transform.position += new Vector3(amount, 0, 0);
     }
-
-
-    public void setCharacterMode(bool cond)
+    //used by outpost to lock us into assignment mode without allowing UiAssignment Interaction
+    public void setOverrideMode(bool cond)
     {
-        _CharacterMode = cond;
+        _OverrideMode = cond;
+
+        _CharacterMode = !cond;
         if (_playerMovement)
         {
             if (_CharacterMode)
                 _playerMovement.setControlled(true);
             else
                 _playerMovement.setControlled(false);
+        }
+    }
+    public bool getOverrideMode()
+    {
+        return _OverrideMode;
+    }
+
+    public void setCharacterMode(bool cond)
+    {
+        if (!_OverrideMode)
+        {
+            _CharacterMode = cond;
+            if (_playerMovement)
+            {
+                if (_CharacterMode)
+                    _playerMovement.setControlled(true);
+                else
+                    _playerMovement.setControlled(false);
+            }
         }
     }
     private void checkInBounds()

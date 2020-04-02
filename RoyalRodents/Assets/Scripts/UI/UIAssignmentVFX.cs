@@ -14,7 +14,7 @@ public class UIAssignmentVFX : MonoBehaviour
     public void Start()
     {
         setUpVFX();
-       
+        UITroopSelection.Instance.setAssignmentModeButton(this.gameObject);
     }
 
     public void setUpVFX()

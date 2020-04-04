@@ -15,6 +15,7 @@ public class ResourceManagerScript : MonoBehaviour
     //create resource variables
    [SerializeField] private int _food, _trash, _wood, _stone, _shiny;
    [SerializeField] private int _currentPopulation, _currentCapacity;
+    private int _crowns;
 
     //TopPanel UI Resource Bar Text
     public TextMeshProUGUI _TrashText;
@@ -85,6 +86,7 @@ public class ResourceManagerScript : MonoBehaviour
         _wood = 0;
         _stone = 0;
         _shiny = 10;
+        _crowns = 0;
 
         UpdateAllText();
     }
@@ -171,6 +173,12 @@ public class ResourceManagerScript : MonoBehaviour
         return _currentPopulation;
     }
 
+    //Crown Getters
+    public int getCrownCount()
+    {
+        return _crowns;
+    }
+
     //Increment Resource Method
     public void incrementResource(ResourceType type, int amnt)
     {
@@ -218,7 +226,12 @@ public class ResourceManagerScript : MonoBehaviour
     {
         _currentCapacity += amnt;
         UpdatePopulationText();
-       // Debug.Log("Incremented population capacity by " + amnt.ToString());
+    }
+
+    public void incrementCrownCount(int amnt)
+    {
+        _crowns += amnt;
+        UpdateCrownText();
     }
 
     //Update Resource Panel UI Text
@@ -272,6 +285,7 @@ public class ResourceManagerScript : MonoBehaviour
         UpdateResourceText(ResourceType.Trash);
         UpdateResourceText(ResourceType.Wood);
         UpdatePopulationText();
+        UpdateCrownText();
     }
     private void UpdatePopulationText()
     {
@@ -279,6 +293,12 @@ public class ResourceManagerScript : MonoBehaviour
         {
             _PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
         }
+    }
+
+    private void UpdateCrownText()
+    {
+        if (_CrownsText)
+            _CrownsText.text = _crowns.ToString();
     }
 
     public static string GetIconPath(ResourceType type)

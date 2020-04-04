@@ -140,13 +140,15 @@ public class PlayerMovement : MonoBehaviour
             }
 
             GameObject go = MVCController.Instance.checkClick(input);
+            if (!_controlled)
+                StopMoving();
+
             if (go && _controlled)
             {
-
                 // possibly move toward it with normalized direction
                 if (go != MVCController.Instance._dummyObj)
                 {
-                   // Debug.Log("Location for " + go + "   is " + go.transform.position);
+                    //Debug.Log("Location for " + go + "   is " + go.transform.position);
                     //figure out if the collider is on a building we own
                     if (go.transform.parent)
                     {
@@ -161,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
                                 //do nothing - this is our building
                                 StopMoving();
                             }
-                            else if(go.transform.parent.GetComponent<BuildableObject>().getTeam() == 500 )
+                            else if (go.transform.parent.GetComponent<BuildableObject>().getTeam() == 500)
                             {
 
                                 //clicked a searchable object without a rodent assigned 
@@ -179,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
                                     }
                                 }
                                 else //do nothing - clicked a dirt mound
- 
+
                                     StopMoving();
 
                             }
@@ -234,6 +236,12 @@ public class PlayerMovement : MonoBehaviour
                     }
 
 
+                }
+                else
+                {
+                    //To:Do Figure when this happens?
+                    //print("go was dummy.. does this happen?");
+                    //StopMoving();
                 }
             }
             else if (_controlled)

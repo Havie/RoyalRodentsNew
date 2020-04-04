@@ -210,6 +210,42 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 
         return -1;
     }
+    public int getEmployeeCount()
+    {
+        int _count = 0;
+
+        foreach (Employee e in _RoyalGuards)
+        {
+            if (e.isOccupied())
+            {
+                // Debug.Log("Returned index= " + _count);
+                ++_count;
+            }
+
+        }
+
+        return _count;
+    }
+    public List<GameObject> getEmployees()
+    {
+        List<GameObject> employees = new List<GameObject>();
+        foreach (Employee e in _RoyalGuards)
+        {
+            if (e.isOccupied())
+            {
+                Rodent r = e.getCurrentRodent();
+                if (r)
+                {
+                    employees.Add(r.gameObject);
+                }
+                else
+                    Debug.LogError("No Rodent found when should be RoyalGuard?");
+            }
+
+        }
+
+        return employees;
+    }
     public void AssignWorker(Rodent r)
     {
         //Debug.Log("AssignWorker!" + r.getName());

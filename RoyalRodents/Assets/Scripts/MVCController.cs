@@ -249,7 +249,7 @@ public class MVCController : MonoBehaviour
 
                 if(_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
-                    Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+                    //Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
                     if(_debugger)
                         _debugger.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
                 }
@@ -601,7 +601,7 @@ public class MVCController : MonoBehaviour
                     // Debug.LogWarning("Possible to Hit more than 1 thing??");
                     foreach (var h in hits)
                     {
-                        Debug.Log("Found" + h.collider.gameObject);
+                        //Debug.Log("Found" + h.collider.gameObject);
                         if (!h.collider.gameObject.transform.GetComponent<AttackRadius>())
                             return h;
                     }

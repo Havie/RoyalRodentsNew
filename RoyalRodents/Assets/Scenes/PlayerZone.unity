@@ -12140,7 +12140,7 @@ PrefabInstance:
     - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
       propertyPath: cycleTime
-      value: 240
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
@@ -31766,8 +31766,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dayNightScript: {fileID: 282147257}
-  rotateRadius: 7
-  yOffset: -3
+  image: {fileID: 958945669}
+  rotateRadius: 8
+  yOffset: -4
 --- !u!1 &959615777
 GameObject:
   m_ObjectHideFlags: 0
@@ -51168,8 +51169,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dayNightScript: {fileID: 282147257}
-  rotateRadius: 7
-  yOffset: -3
+  image: {fileID: 1499759979}
+  rotateRadius: 8
+  yOffset: -4
 --- !u!1 &1502111908
 GameObject:
   m_ObjectHideFlags: 0

@@ -996,8 +996,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (eType == BuildingType.Outpost)
         {
             bOutpost outpost = GetComponent<bOutpost>();
-            return outpost.getSelected();
+            return ! outpost.getSelected();  // logic is backwards somewhere w the negation sign but this works
         }
+        else
+            Debug.LogWarning("its not an outpost?");
         return false;
     }
 

@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour
         if(_CharacterMode)
             this.transform.position = new Vector3(_target.position.x, _target.transform.position.y, transform.position.z);
 
-        checkInBounds();
+       checkInBounds();
 
     }
     //AssignmentMode
@@ -94,4 +94,21 @@ public class CameraController : MonoBehaviour
         if(this.transform.position.y < _NegYCap)
             this.transform.position = new Vector3(this.transform.position.x, _NegYCap, this.transform.position.z);
     }
+
+    public void ChangeZone(int locX)
+    {
+        if (locX==100 || locX==-130)
+        {
+            _NegXCap = -130;
+            _PosXCap = 100;
+        }
+        else if (locX==175 || locX ==405)
+        {
+            _NegXCap = 175;
+            _PosXCap = 405;
+        }
+        else
+            Debug.LogWarning("no setting for " + locX);
+    }
 }
+

@@ -81,13 +81,32 @@ public class ExitZone : MonoBehaviour
     public List<GameObject> findSelected()
     {
         List<GameObject> chosen = new List<GameObject>();
+
+        //Get the player
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        chosen.Add(player);
+
+        //get the royal guard
+        PlayerStats ps = player.GetComponent<PlayerStats>();
+        if(ps)
+        {
+            foreach (var e in ps.getEmployees())
+            {
+                chosen.Add(e);
+            }
+        }
+        // print("called find selected()   size= " + _outposts.Count);
+
         foreach (var b in _outposts)
         {
+           // print("checking building:" + b.name);
             if (b.checkSelected())
             {
+                //print(b.name + "is true");
                 List<GameObject> recieved = b.getEmployees();
                 foreach (var e in recieved)
                 {
+                    //print("we found employee " + e);
                     chosen.Add(e);
                     //Do we have to remove them from the outpost? what happens if they die
                     // in combat? do they unassign then?
@@ -99,14 +118,13 @@ public class ExitZone : MonoBehaviour
                 }
             }
         }
-        //Dont forget the player
-        chosen.Add(GameObject.FindGameObjectWithTag("Player"));
+
 
         return chosen;
     }
     public void confirmed()
     {
-        _Active.Teleport(findSelected(), new Vector3(160, -189.67f, 0));
+        _Active.Teleport(findSelected());
     }
 
 }

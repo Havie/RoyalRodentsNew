@@ -16,7 +16,11 @@ public class SpawnVolume : MonoBehaviour
 
     GameObject Rat;
 
+    [SerializeField]
     private int _EnemyCount=2;
+
+    [SerializeField]
+    private bool _inPlayerZone;
 
 
     // Start is called before the first frame update
@@ -119,7 +123,8 @@ public class SpawnVolume : MonoBehaviour
                     {
                         r.setTeam(2);      
                         // Force them to be aggressive and head toward player   //hack
-                        r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);
+                        if(_inPlayerZone)
+                            r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);
                     }
                     // Increase some kind of count
                    --_EnemyCount;

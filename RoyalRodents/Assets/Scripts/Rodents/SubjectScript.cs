@@ -368,6 +368,7 @@ public class SubjectScript : MonoBehaviour
 
                     //swap current loc with staged location
                     swapTarget();
+                    // This is probably where we should send the signal for the progress bars
                 }
 
                 else if (farmer || gatherer)
@@ -386,6 +387,7 @@ public class SubjectScript : MonoBehaviour
                     }
 
                     swapTarget();
+                    // This is probably where we should send the signal for the progress bars
 
                 }
             }
@@ -604,7 +606,6 @@ public class SubjectScript : MonoBehaviour
         savedTarget = nTarget;
     }
 
-    // TODO: Cases for Worker, RoyalGuard, and Builder specific behavior
     private void royalGuardBehavior()
     {
         // Follow the king at all times.
@@ -612,7 +613,6 @@ public class SubjectScript : MonoBehaviour
         if (!ShouldIdle)
         {
             Vector3 moveTo = currentTarget.transform.position;
-            //FindNextTargetInRange();
             //Check if ranged. If so, offset the target distance before attacking.
             //if (isRanged)
             //{
@@ -649,6 +649,7 @@ public class SubjectScript : MonoBehaviour
         if (collision.transform.parent)
         {
             Rodent unknownRodent = collision.transform.parent.gameObject.GetComponent<Rodent>();
+            PlayerStats king = collision.transform.parent.gameObject.GetComponent<PlayerStats>();
             BuildableObject unknownBuilding = collision.transform.parent.gameObject.GetComponent<BuildableObject>();
             if (unknownRodent)
             {
@@ -661,7 +662,7 @@ public class SubjectScript : MonoBehaviour
                     // print("called from AgroRadiusTrigger");
                     if (_inRange.Count == 1 && royalGuard)
                     {
-                        print("Newest target added to queue");
+                        //print("Newest target added to queue");
                         currentTarget = unknownRodent.gameObject;
                     }
                 }
@@ -675,9 +676,20 @@ public class SubjectScript : MonoBehaviour
                     _inRange.Add(unknownBuilding.gameObject);
                     if (_inRange.Count == 1 && royalGuard)
                     {
-                        print("Newest target added to queue: " + currentTarget.ToString());
+                        //print("Newest target added to queue: " + currentTarget.ToString());
                         currentTarget = unknownBuilding.gameObject;
                     }
+                }
+            }
+
+            // Special case: Finding King as an attack target
+            else if (team == 2 && king)
+            {
+                _inRange.Add(king.gameObject);
+                if(_inRange.Count == 1)
+                {
+                    //Debug.Log("Enemy rat has found King");
+                    currentTarget = king.gameObject;
                 }
             }
         }
@@ -716,7 +728,7 @@ public class SubjectScript : MonoBehaviour
             }
             // For rodents
             Rodent _EnemyRodent = currentTarget.GetComponent<Rodent>();
-            
+            PlayerStats king = currentTarget.GetComponent<PlayerStats>();
 
             if (_EnemyRodent)
             {
@@ -730,6 +742,11 @@ public class SubjectScript : MonoBehaviour
                     // print("Called from Dead Rodent found");
                     FindNextTargetInRange();
                 }
+            }
+            else if (king)
+            {
+                //Debug.Log("Should be attacking king");
+                king.Damage(attackDamage);
             }
             else
             {
@@ -911,12 +928,16 @@ public class SubjectScript : MonoBehaviour
                 if(currentTarget == townCenterLoc)
                 {
                     Debug.Log("True");
-                    return Random.Range(1, 2);
+                    float delay = Random.Range(1, 2);
+                    Debug.Log("Delay of: " + delay);
+                    return delay;
                 }
                 else
                 {
                     Debug.Log("falsee");
-                    return Random.Range(4, 10);
+                    float delay = Random.Range(4, 10);
+                    Debug.Log("Delay of: " + delay);
+                    return delay;
                 }
                 
             else if (royalGuard || defender)

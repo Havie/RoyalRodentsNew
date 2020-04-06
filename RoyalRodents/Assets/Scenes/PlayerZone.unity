@@ -6476,6 +6476,7 @@ GameObject:
   - component: {fileID: 211813095}
   - component: {fileID: 211813090}
   - component: {fileID: 211813091}
+  - component: {fileID: 211813087}
   m_Layer: 8
   m_Name: KingPoss
   m_TagString: Player
@@ -6483,6 +6484,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &211813087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211813086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa9b1fdec9107448aa3eb1379cdedf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 3556512392540914224, guid: 134b0e1d05f16bf4c8976e163128b4d7,
+    type: 3}
 --- !u!212 &211813088
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12140,7 +12155,7 @@ PrefabInstance:
     - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
       propertyPath: cycleTime
-      value: 60
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
@@ -58261,7 +58276,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 99c7dcd0efb6b6c459871fc06a8a79c9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b03e202805f28d4e9ee5a88a57358dc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

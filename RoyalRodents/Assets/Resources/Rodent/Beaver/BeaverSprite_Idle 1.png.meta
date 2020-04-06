@@ -1,31 +1,28 @@
 fileFormatVersion: 2
-guid: 10309d7ced1961a49b961de4df84a939
+guid: 1409c0c16a623b54997118147cd6b846
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6752663688883715060
-    second: Red_BeaverSprite_MeleeWalk_0
+      213: 7124379885616320985
+    second: Recruit_BeaverSprite_Idle_0
   - first:
-      213: 6318926704261814026
-    second: Red_BeaverSprite_MeleeWalk_1
+      213: 957413560717315990
+    second: Recruit_BeaverSprite_Idle_1
   - first:
-      213: 8361882292137321293
-    second: Red_BeaverSprite_MeleeWalk_2
+      213: -7050853350326090503
+    second: Recruit_BeaverSprite_Idle_2
   - first:
-      213: 4247594653729676473
-    second: Red_BeaverSprite_MeleeWalk_3
+      213: -1302049251227698228
+    second: Recruit_BeaverSprite_Idle_3
   - first:
-      213: 3783632328495521402
-    second: Red_BeaverSprite_MeleeWalk_4
+      213: 1125693091289816846
+    second: Recruit_BeaverSprite_Idle_4
   - first:
-      213: -8919066558476247276
-    second: Red_BeaverSprite_MeleeWalk_5
+      213: 1738250329887419150
+    second: Recruit_BeaverSprite_Idle_5
   - first:
-      213: -4564833049133701491
-    second: Red_BeaverSprite_MeleeWalk_6
-  - first:
-      213: -8747350449881222049
-    second: Red_BeaverSprite_MeleeWalk_7
+      213: -5606714138952201629
+    second: Recruit_BeaverSprite_Idle_6
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -134,7 +131,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_0
+      name: Recruit_BeaverSprite_Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -148,18 +145,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41f47c536b3159e40b342853ad328e7e
-      internalID: -6752663688883715060
+      spriteID: 6d770f2b86388db409318a7205cb4ef9
+      internalID: 7124379885616320985
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_1
+      name: Recruit_BeaverSprite_Idle_1
       rect:
         serializedVersion: 2
         x: 512
-        y: 512
+        y: 511
         width: 512
         height: 512
       alignment: 7
@@ -169,17 +166,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 686f4e627d36d1e4a980c3e0c066425e
-      internalID: 6318926704261814026
+      spriteID: 8e9bed74af8f5d04388a2f2babab8347
+      internalID: 957413560717315990
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_2
+      name: Recruit_BeaverSprite_Idle_2
       rect:
         serializedVersion: 2
-        x: 1024
+        x: 1025
         y: 512
         width: 512
         height: 512
@@ -190,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbfa7a47702ab3143b9103dc329c0d50
-      internalID: 8361882292137321293
+      spriteID: 2db7efdd10756d94b899915c9d789650
+      internalID: -7050853350326090503
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_3
+      name: Recruit_BeaverSprite_Idle_3
       rect:
         serializedVersion: 2
         x: 1536
@@ -211,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86fb298ae771b4143b7d886e10e0f2ff
-      internalID: 4247594653729676473
+      spriteID: 72c2e44dda50cb0489a7df95399b2379
+      internalID: -1302049251227698228
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_4
+      name: Recruit_BeaverSprite_Idle_4
       rect:
         serializedVersion: 2
         x: 0
@@ -232,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1811a5374f049394a8ddd0a26027ff1d
-      internalID: 3783632328495521402
+      spriteID: ae23c489f9557ce4085bd55b60da07d3
+      internalID: 1125693091289816846
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_5
+      name: Recruit_BeaverSprite_Idle_5
       rect:
         serializedVersion: 2
         x: 512
@@ -253,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 802e9da69e1777c46a8685113d7b6158
-      internalID: -8919066558476247276
+      spriteID: b429b32e6f7bc3a41a3add68308d93fd
+      internalID: 1738250329887419150
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_6
+      name: Recruit_BeaverSprite_Idle_6
       rect:
         serializedVersion: 2
         x: 1024
@@ -274,29 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 945e6f852b8201b49961ee4fa2d72448
-      internalID: -4564833049133701491
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Red_BeaverSprite_MeleeWalk_7
-      rect:
-        serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 512
-        height: 512
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0ea4d0e5302f02443a4fe08d3b8a3ea7
-      internalID: -8747350449881222049
+      spriteID: dd97c8f295a3d874f9b156584716deeb
+      internalID: -5606714138952201629
       vertices: []
       indices: 
       edges: []

@@ -143,7 +143,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         {
             Animator a = this.GetComponent<Animator>();
             if (a)
-                a.SetBool("isRanged", true);
+                a.SetBool("isArmedRange", true);
             return true;
         }
         return false;
@@ -235,6 +235,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                     //Debug.Log("Told to set Type of Rat");
                     if (this.GetComponent<Rat>() == null)
                         this.gameObject.AddComponent<Rat>();
+                    break;
+                }
+            case eRodentType.Beaver:
+                {
+                    //Debug.Log("Told to set Type of Beaver");
+                    if (this.GetComponent<Beaver>() == null)
+                        this.gameObject.AddComponent<Beaver>();
                     break;
                 }
         }

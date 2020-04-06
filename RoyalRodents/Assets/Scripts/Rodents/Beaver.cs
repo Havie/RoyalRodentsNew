@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rat : MonoBehaviour
+public class Beaver : MonoBehaviour
 {
     public Sprite _Default;
 
-    private float _Hp = 100f;
-    private float _HpMax = 100f;
+    private float _Hp = 130f;
+    private float _HpMax = 130f;
     [Range(0, 10f)]
-    private float _MoveSpeed = 3f;
-    private float _AttackDamage = 3f;
+    private float _MoveSpeed = 2.6f;
+    private float _AttackDamage = 3.4f;
     [SerializeField]
     private Sprite _Portrait;
 
@@ -29,8 +29,8 @@ public class Rat : MonoBehaviour
 
     private void Awake()
     {
-        _Default = Resources.Load<Sprite>("Rodent/FatRat/RatSprite_0");
-         _Portrait = Resources.Load<Sprite>("TMPAssests/tmpRat");
+        _Default = Resources.Load<Sprite>("Rodent/FatRat/Recruit_Beaversprite_Idle_0");
+        _Portrait = Resources.Load<Sprite>("TMPAssests/tmpBeaver");
     }
 
     // Start is called before the first frame update
@@ -41,7 +41,7 @@ public class Rat : MonoBehaviour
         Rodent r = this.GetComponent<Rodent>();
         if(r)
         {
-            r.setRodentType(Rodent.eRodentType.Rat); 
+            r.setRodentType(Rodent.eRodentType.Beaver); 
             r.setSpeed(_MoveSpeed);
             r.setHpMax(_HpMax);
             r.setHp(_Hp);
@@ -50,29 +50,25 @@ public class Rat : MonoBehaviour
             r.setRecruitmentCost(_RecruitmentCost);
            
         }
-
-
-        //TMP Test - Finds and follows the player
-        // this.GetComponent<SubjectScript>().currentTarget = GameObject.FindObjectOfType<PlayerStats>().gameObject;
     }
 
    private void setUpAnimators()
     {
         _Animator = this.GetComponent<Animator>();
         if (_Animator == null)
-            Debug.LogWarning("Cant Find Animator on Rat??");
+            Debug.LogWarning("Cant Find Animator on Beaver??");
 
-        _NeutralController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/NeutralController");
+        _NeutralController = Resources.Load<RuntimeAnimatorController>("Rodent/Beaver/NeutralController");
         if (_NeutralController == null)
-            Debug.LogWarning("Cant Find Neutral Controller on Rat");
+            Debug.LogWarning("Cant Find Neutral Controller on Beaver");
 
-        _AlliedController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/AlliedContoller");
+        _AlliedController = Resources.Load<RuntimeAnimatorController>("Rodent/Beaver/AlliedController");
         if (_AlliedController == null)
-            Debug.LogWarning("Cant Find Allied Controller on Rat");
+            Debug.LogWarning("Cant Find Allied Controller on Beaver");
 
-        _EnemyController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/EnemyController");
+        _EnemyController = Resources.Load<RuntimeAnimatorController>("Rodent/Beaver/EnemyController");
         if (_EnemyController == null)
-            Debug.LogWarning("Cant Find Enemy Controller on Rat");
+            Debug.LogWarning("Cant Find Enemy Controller on Beaver");
 
         _AnimsSet = true;
     }

@@ -662,7 +662,7 @@ public class SubjectScript : MonoBehaviour
                     // print("called from AgroRadiusTrigger");
                     if (_inRange.Count == 1 && royalGuard)
                     {
-                        print("Newest target added to queue");
+                        //print("Newest target added to queue");
                         currentTarget = unknownRodent.gameObject;
                     }
                 }
@@ -676,7 +676,7 @@ public class SubjectScript : MonoBehaviour
                     _inRange.Add(unknownBuilding.gameObject);
                     if (_inRange.Count == 1 && royalGuard)
                     {
-                        print("Newest target added to queue: " + currentTarget.ToString());
+                        //print("Newest target added to queue: " + currentTarget.ToString());
                         currentTarget = unknownBuilding.gameObject;
                     }
                 }
@@ -688,7 +688,7 @@ public class SubjectScript : MonoBehaviour
                 _inRange.Add(king.gameObject);
                 if(_inRange.Count == 1)
                 {
-                    Debug.Log("Enemy rat has found King");
+                    //Debug.Log("Enemy rat has found King");
                     currentTarget = king.gameObject;
                 }
             }
@@ -745,7 +745,7 @@ public class SubjectScript : MonoBehaviour
             }
             else if (king)
             {
-                Debug.Log("Should be attacking king");
+                //Debug.Log("Should be attacking king");
                 king.Damage(attackDamage);
             }
             else

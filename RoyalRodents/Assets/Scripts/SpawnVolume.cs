@@ -48,10 +48,10 @@ public class SpawnVolume : MonoBehaviour
         if(_timeToSpawn && !_occupied)
         {
             //Spawn random rodent based on prefab
-            int index = Random.Range(0, _AvailableRodents.Count -1);
+            int index = Random.Range(0, _AvailableRodents.Count);
+           // Debug.LogWarning( " Must not be inclusive, chose index=" + index);
             Rodent.eRodentType selected =(Rodent.eRodentType)_AvailableRodents[index];
-            Debug.LogWarning("selected=" + selected + " range max=" + (_AvailableRodents.Count -1) + "  chose index=" +index);
-            SpawnRodent(selected);
+              SpawnRodent(selected);
 
             StartCoroutine(SpawnCountDown());
         }
@@ -109,7 +109,6 @@ public class SpawnVolume : MonoBehaviour
                 }
                 else if (type == Rodent.eRodentType.Beaver)
                 {
-                    Debug.Log("Spawn a beaver!");
                     spawnThis(Beaver, true);
                 }
             }

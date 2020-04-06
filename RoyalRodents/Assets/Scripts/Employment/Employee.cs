@@ -98,7 +98,7 @@ public class Employee : MonoBehaviour
                 _currentRodent.setTarget(null);
                 _PortraitOutline.GetComponent<bWorkerScript>().setWorker(null);
                 _WorkerObj.GetComponent<SpriteRenderer>().sprite = null;
-                print("dismiss");
+                //print("dismiss");
                 _Occupied = false;
                 _currentRodent = null;
                 ShowRedX(false);

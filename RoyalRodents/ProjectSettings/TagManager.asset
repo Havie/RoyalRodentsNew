@@ -23,6 +23,7 @@ TagManager:
   - TopPanel
   - TroopConfirm
   - TroopCancel
+  - TeleportedRodents
   layers:
   - Default
   - TransparentFX

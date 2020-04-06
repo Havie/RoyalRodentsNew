@@ -455,6 +455,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             case (eRodentType.Rat):
                 this.GetComponent<Rat>().setAnimatorByTeam(id);
                 break;
+            case (eRodentType.Beaver):
+                this.GetComponent<Beaver>().setAnimatorByTeam(id);
+                break;
         }
 
 

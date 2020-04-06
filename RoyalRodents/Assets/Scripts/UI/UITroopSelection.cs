@@ -78,6 +78,21 @@ public class UITroopSelection : MonoBehaviour
         else
             _cancelButton = go;
     }
+    //used to teleport back from neutral/enemy zone
+    public void ShowSelection(bool cond, ExitZone zone)
+    {
+        if (_confirmButton == null || _cancelButton == null || _AssignmentModeButton == null)
+        {
+            Debug.LogError("One of The Objects in UI Troop Selection is null");
+            return;
+        }
+
+        _zone = zone;
+        _confirmButton.SetActive(cond);
+        _cancelButton.SetActive(cond);
+
+    }
+    //used to teleport from player zone
     public void ShowSelection(bool cond, int maxTroops, ExitZone zone)
     {
         if(_confirmButton==null || _cancelButton==null || _AssignmentModeButton == null)

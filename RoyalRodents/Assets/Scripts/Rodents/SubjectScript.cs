@@ -649,6 +649,7 @@ public class SubjectScript : MonoBehaviour
         if (collision.transform.parent)
         {
             Rodent unknownRodent = collision.transform.parent.gameObject.GetComponent<Rodent>();
+            PlayerStats king = collision.transform.parent.gameObject.GetComponent<PlayerStats>();
             BuildableObject unknownBuilding = collision.transform.parent.gameObject.GetComponent<BuildableObject>();
             if (unknownRodent)
             {
@@ -678,6 +679,17 @@ public class SubjectScript : MonoBehaviour
                         print("Newest target added to queue: " + currentTarget.ToString());
                         currentTarget = unknownBuilding.gameObject;
                     }
+                }
+            }
+
+            // Special case: Finding King as an attack target
+            else if (team == 2 && king)
+            {
+                _inRange.Add(king.gameObject);
+                if(_inRange.Count == 1)
+                {
+                    Debug.Log("Enemy rat has found King");
+                    currentTarget = king.gameObject;
                 }
             }
         }
@@ -716,7 +728,7 @@ public class SubjectScript : MonoBehaviour
             }
             // For rodents
             Rodent _EnemyRodent = currentTarget.GetComponent<Rodent>();
-            
+            PlayerStats king = currentTarget.GetComponent<PlayerStats>();
 
             if (_EnemyRodent)
             {
@@ -730,6 +742,11 @@ public class SubjectScript : MonoBehaviour
                     // print("Called from Dead Rodent found");
                     FindNextTargetInRange();
                 }
+            }
+            else if (king)
+            {
+                Debug.Log("Should be attacking king");
+                king.Damage(attackDamage);
             }
             else
             {

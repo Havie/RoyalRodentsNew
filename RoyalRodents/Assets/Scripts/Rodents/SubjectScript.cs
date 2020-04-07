@@ -44,7 +44,10 @@ public class SubjectScript : MonoBehaviour
     private string _oldJob;
     private bool _approachingTownCenterasWorker;
     private GameObject townCenterLoc;
-    private bool isRanged;
+    public bool isRanged;
+    private BuildableObject job;
+    public GameObject projectilePrefab;
+    private Transform projectileSpawnPoint;
 
     private const string MOVING_ANIMATION_BOOL = "isMoving";
     private const string ARMED_ANIMATION_BOOL = "isArmed";
@@ -74,6 +77,7 @@ public class SubjectScript : MonoBehaviour
         testSwap();
         townCenterLoc = GameManager.Instance.getTownCenter().transform.gameObject;
         isRanged = this.GetComponent<Rodent>().isRanged();
+        projectileSpawnPoint = gameObject.transform.Find("ProjectileSpawn");
     }
 
     // Update is called once per frame
@@ -182,7 +186,7 @@ public class SubjectScript : MonoBehaviour
         gatherer = false;
         setAnim(ARMED_ANIMATION_BOOL, false, false);
 
-
+        job = currentTarget.GetComponent<BuildableObject>();
         //Get TownCenter location
         GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
@@ -195,6 +199,7 @@ public class SubjectScript : MonoBehaviour
         gatherer = true;
         setAnim(ARMED_ANIMATION_BOOL, false, false);
 
+        job = currentTarget.GetComponent<BuildableObject>();
         //Get TownCenter location
         GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
@@ -208,10 +213,12 @@ public class SubjectScript : MonoBehaviour
         gatherer = false;
         setAnim(ARMED_ANIMATION_BOOL, false, false);
 
-
+        job = currentTarget.GetComponent<BuildableObject>();
         //Get TownCenter location
         GameObject centerLocation = townCenterLoc;
         savedTarget = centerLocation;
+
+        swapTarget();
     }
     public void setDefender()
     {
@@ -318,7 +325,7 @@ public class SubjectScript : MonoBehaviour
 
 
             //Check if we need to attack something as royal guard
-            if (royalGuard)
+            if (royalGuard || defender)
             {
                 bool guardShouldIdle = true;
                 // If target is enemy, attack. Add coroutine for attacking
@@ -326,12 +333,16 @@ public class SubjectScript : MonoBehaviour
                 {
                     if (team == 1 && currentTarget.tag != "Player") // And can attack
                     {
+
                         StartCoroutine(Attack());
+
                         guardShouldIdle = false;
                     }
                     else if (team == 2)
                     {
+
                         StartCoroutine(Attack());
+                        
                         guardShouldIdle = false;
                     }
                 }
@@ -366,9 +377,7 @@ public class SubjectScript : MonoBehaviour
                         _approachingTownCenterasWorker = false;
                     }
 
-                    //swap current loc with staged location
                     swapTarget();
-                    // This is probably where we should send the signal for the progress bars
                 }
 
                 else if (farmer || gatherer)
@@ -637,6 +646,24 @@ public class SubjectScript : MonoBehaviour
             idleInRadius(2);
 
     }
+    //IEnumerator Shoot(Vector3 shootTargetCoordinate)
+    //{
+    //    if (canAttack)
+    //    {
+    //        canAttack = false;
+    //        if (anims)
+    //        {
+    //            anims.SetTrigger(ATK_ANIMATION_TRIGGER);
+    //        }
+    //        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+    //        projectile.transform.parent = projectileSpawnPoint;
+    //        projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
+
+    //    }
+
+    //    yield return new WaitForSeconds(1.16f);
+    //    canAttack = true;
+    //}
 
     public void AgroRadiusTrigger(Collider2D collision)
     {
@@ -808,13 +835,17 @@ public class SubjectScript : MonoBehaviour
 
             foreach (GameObject go in _inRange)
             {
-                float tempDist = Mathf.Abs(transform.position.x - go.transform.position.x);
-                if (tempDist < closestDist)
+                if(go != null)
                 {
-                    closestDist = tempDist;
-                    currentClosest = go;
-                    Debug.Log("Found new target.");
+                    float tempDist = Mathf.Abs(transform.position.x - go.transform.position.x);
+                    if (tempDist < closestDist)
+                    {
+                        closestDist = tempDist;
+                        currentClosest = go;
+                        Debug.Log("Found new target.");
+                    }
                 }
+               
             }
 
             currentTarget = currentClosest;

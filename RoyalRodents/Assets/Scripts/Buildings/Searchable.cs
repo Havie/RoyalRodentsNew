@@ -276,7 +276,7 @@ public class Searchable : MonoBehaviour
         int _ResourceNumber = Random.Range(0, 10);
         int _Amount = Random.Range(0, 100);
 
-        //Cut down to a the amount
+        //Cut down to the real amount
         if (_Amount > 80)
             _Amount = 2;
         else

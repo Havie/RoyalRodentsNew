@@ -42,13 +42,22 @@ public class Teleporter : MonoBehaviour
 
     public void Teleport(List<GameObject> objects)
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        //Tell the Camera its new bounds 
         _cameraController.ChangeZone(_teleportLocX);
-        //Debug.Log("Teleporting to: (" + _teleportLocX + ", this.Y , 0 )" );
+
         foreach (var g in objects)
         {
             g.transform.position = new Vector3(_teleportLocX, g.transform.position.y, 0);
-            // Vector3 loc = new Vector3(_teleportLocX, g.transform.position.y, 0);
-            //Debug.Log("Teleporting " + g.name + " to:" + loc);
+            
+            //if Player tell him to update his Zone
+            if(g==player)
+            {
+                PlayerStats ps = g.GetComponent<PlayerStats>();
+                if (ps)
+                    ps.UpdateInPlayerZone();
+            }
         }
 
     }

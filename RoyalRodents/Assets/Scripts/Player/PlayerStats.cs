@@ -21,6 +21,8 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     public Employee[] _RoyalGuards = new Employee[3];
     private Transform _RoyalGuardParent;
 
+    private bool _inPlayerZone = true;
+
 
     /**Begin Interface stuff*/
     public void Damage(float damageTaken)
@@ -112,7 +114,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
             _RoyalGuardParent.position = this.transform.position;
 
         //Player will trickle restore HP based on stamina
-        if (!InOwnTerritory())
+        if (_inPlayerZone)
         {
             if (_Hp < _HpMax)
                 Damage(-_Stamina / 5000f);
@@ -313,9 +315,9 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 
         }
     }
-    private bool InOwnTerritory()
+    public void UpdateInPlayerZone()
     {
-        //To-Do: implement 
-        return true;
+        _inPlayerZone = GameManager.Instance.CheckInPlayerZone(this.transform.position.x);
     }
+    public bool inPlayerZone() => _inPlayerZone;
 }

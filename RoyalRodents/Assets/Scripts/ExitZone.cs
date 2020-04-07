@@ -19,6 +19,7 @@ public class ExitZone : MonoBehaviour
     private Teleporter _Active;
 
     private List<BuildableObject> _outposts = new List<BuildableObject>();
+    private Dictionary<Rodent, BuildableObject> _TroopLocations = new Dictionary<Rodent, BuildableObject>();
 
     private void Start()
     {
@@ -45,7 +46,16 @@ public class ExitZone : MonoBehaviour
         if(_TeleportDummy==null)
             _TeleportDummy = GameObject.FindGameObjectWithTag("TeleportedRodents");
     }
-
+    public BuildableObject getRodentOutpost(Rodent r)
+    {
+        print("looking for " + r.getName());
+        return _TroopLocations[r];
+    }
+    public void RemoveDeadRodent(Rodent r)
+    {
+        if (_TroopLocations.ContainsKey(r))
+            _TroopLocations.Remove(r);
+    }
 
     public void SetOutpost(BuildableObject outpost)
     {
@@ -109,7 +119,7 @@ public class ExitZone : MonoBehaviour
         //Get the player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         chosen.Add(player);
-
+      
         //get the royal guard
         PlayerStats ps = player.GetComponent<PlayerStats>();
         if (ps)
@@ -124,17 +134,23 @@ public class ExitZone : MonoBehaviour
         foreach (Rodent child in _TeleportDummy.GetComponentsInChildren<Rodent>())
         {
             chosen.Add(child.gameObject);
-            SubjectScript ss = child.GetComponent<SubjectScript>();
-            if (ss)
-            {
-                ss.setDefender();
-                //Need a way to put them back to their place of work
-                
-            }
             //put them back in heirarchy
             child.transform.SetParent(GameObject.FindGameObjectWithTag("PlayerRodents").transform);
         }
 
+        //Reset the rodents to go back to the outpost
+        foreach (BuildableObject b in _outposts)
+        {
+            List<GameObject> workers = b.getEmployees();
+            foreach(var go in workers)
+            {
+                //b.AssignWorker(go.GetComponent<Rodent>());
+                Rodent r = go.GetComponent<Rodent>();
+                if(r)
+                    r.setTarget(b.gameObject); // setting target will reset them back to outpost duties
+            }
+        }
+        _TroopLocations.Clear();
         return chosen;
     }
 
@@ -168,16 +184,22 @@ public class ExitZone : MonoBehaviour
                 {
                     //print("we found employee " + e);
                     chosen.Add(e);
-                    //Do we have to remove them from the outpost? what happens if they die
-                    // in combat? do they unassign then?
-                    var ss = e.GetComponent<SubjectScript>();
-                    if (ss)
+                    Rodent r = e.GetComponent<Rodent>();
+                    if (r)
                     {
-                        ss.setRoyalGuard();
+                        if (!_TroopLocations.ContainsKey(r))
+                            _TroopLocations.Add(r, b);
+                        //Do we have to remove them from the outpost? what happens if they die
+                        // in combat? do they unassign then?
+                        var ss = e.GetComponent<SubjectScript>();
+                        if (ss)
+                        {
+                            ss.setRoyalGuard();
 
+                        }
+                        //Set them to a new item in the heirarchy to teleport back later
+                        e.transform.SetParent(_TeleportDummy.transform);
                     }
-                    //Set them to a new item in the heirarchy to teleport back later
-                    e.transform.SetParent(_TeleportDummy.transform);
                 }
             }
         }

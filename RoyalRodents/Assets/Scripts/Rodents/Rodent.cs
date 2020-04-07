@@ -275,7 +275,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
     public void Die()
     {
-        print(_Name + " is dead");
+        //print(_Name + " is dead");
         //Should this be in Rodent or in AIController which holds the Animator?
         // the player script does this that way but it feels weird 
         //HACK
@@ -290,7 +290,24 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //but this was already here and much cleaner/easier..lmao, oh well i learned alot
         if(_Job)
             _Job.Dismiss(this);  //Unassign self from job 
-        if(_NotifyAnimator)
+
+        //If teleported, have to find an un-assign self from outpost
+          GameObject TeleportDummy = GameObject.FindGameObjectWithTag("TeleportedRodents");
+        if (TeleportDummy && this.transform.parent.gameObject == TeleportDummy)
+        {
+            ExitZone zone = GameManager.Instance.getPlayerZone();
+            if (zone)
+            {
+                BuildableObject garrison = zone.getRodentOutpost(this);
+                if(garrison)
+                {
+                    garrison.DismissWorker(this);
+                }
+                zone.RemoveDeadRodent(this);
+            }
+        }
+
+        if (_NotifyAnimator)
             Destroy(_NotifyAnimator.gameObject);
         yield return new WaitForSeconds(5f);
        Destroy(this.gameObject);
@@ -355,6 +372,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                 {
                     _Status = eStatus.Army; // for all intensive purposes army can behave same for player and defense structure
                     s.setDefender();
+                   // print("Told to be defender");
                 }
                 else if (bo.getType() == BuildableObject.BuildingType.Farm)
                 {

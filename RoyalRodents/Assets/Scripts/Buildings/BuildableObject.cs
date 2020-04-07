@@ -852,7 +852,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         yield return new WaitForSeconds(0.05f);
         // To-Do: update for touch
-        Debug.Log("Will need to get click location from somewhere for Mobile");
+      //  Debug.Log("Will need to get click location from somewhere for Mobile");
         Vector3 Location = Input.mousePosition;
 
         menu.showMenu(cond, Location, this.transform.gameObject, this);
@@ -912,6 +912,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void DismissWorker(Rodent r)
     {
+        //print("dismiss " + r.getName());
         foreach (Employee e in _Workers)
         {
             if (e.isOccupied())

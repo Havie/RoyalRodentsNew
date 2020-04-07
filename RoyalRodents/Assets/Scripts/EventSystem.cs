@@ -13,7 +13,10 @@ public class EventSystem : MonoBehaviour
     public event OnMessageRecieved onComplete; //thing that tells the publisher to fire
 
     public delegate void SpawnEnemies();
-    public event SpawnEnemies spawnTrigger;
+    public event SpawnEnemies WaveTrigger;
+
+    public delegate void SpawnNeutralRodents();
+    public event SpawnNeutralRodents SpawnTrigger;
 
     public delegate void rodentDied(Rodent r);
     public event rodentDied rodentDead; // this event fires the Delegate
@@ -63,10 +66,11 @@ public class EventSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (spawnTrigger != null)
-            {
-                spawnTrigger();
-            }
+            SpawnWave();
+        }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SpawnNeutral();
         }
     }
 
@@ -75,13 +79,24 @@ public class EventSystem : MonoBehaviour
         if (rodentDead != null)
             rodentDead(r);
     }
-    public void SpawnRodents()
+    public void SpawnWave()
     {
-        if (spawnTrigger != null)
+        if (WaveTrigger != null)
         {
-            spawnTrigger();
-            print("Spawned");
+            WaveTrigger();
+            print("Spawned Wave");
         }
+        //        EventSystem.Instance.SpawnWave(); tell ethan 
+    }
+    public void SpawnNeutral()
+    {
+        print("called");
+        if (SpawnTrigger != null)
+        {
+            SpawnTrigger();
+            print("Spawned Neutral");
+        }
+        //        EventSystem.Instance.SpawnNeutral(); tell ethan 
     }
 
     void Test()

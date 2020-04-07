@@ -15278,6 +15278,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012024707856, guid: 49a9eb98707a68649810f1d9d560bb2d, type: 3}
+      propertyPath: m_TagString
+      value: DayNight
+      objectReference: {fileID: 0}
     - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
       propertyPath: night.r
@@ -61357,7 +61361,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1015704529}
+      - m_Target: {fileID: 1861586119}
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -90471,6 +90475,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RatPreFab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1555804207602979339, guid: c7f832cf21dd91e40813a7ba3d83707b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8964597728912425152, guid: c7f832cf21dd91e40813a7ba3d83707b,
         type: 3}

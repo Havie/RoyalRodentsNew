@@ -25,6 +25,7 @@ TagManager:
   - TroopCancel
   - TeleportedRodents
   - BuildingCapWarning
+  - DayNight
   layers:
   - Default
   - TransparentFX

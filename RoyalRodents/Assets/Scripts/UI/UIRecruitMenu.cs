@@ -12,8 +12,9 @@ public class UIRecruitMenu : MonoBehaviour
     private TextMeshProUGUI _Name;
     private TextMeshProUGUI _Name2;
     private Image _weaponClass;
-    private Sprite _weaponSprite;
-   [SerializeField] private Rodent _Rodent;
+    private Sprite _iconMelee;
+    private Sprite _iconRanged;
+    [SerializeField] private Rodent _Rodent;
 
     private bool _active;
 
@@ -33,6 +34,9 @@ public class UIRecruitMenu : MonoBehaviour
     {
         //MVCController.Instance.SetUpRecruitMenu(this);
         showMenu(false, Vector3.zero, "empty", 1, 1);
+
+        _iconMelee = Resources.Load<Sprite>("UI/sword_icon");
+        _iconRanged = Resources.Load<Sprite>("UI/bow_icon");
     }
 
 
@@ -56,13 +60,18 @@ public class UIRecruitMenu : MonoBehaviour
             loc.y = loc.y + 1;
             this.transform.position = loc;
 
+            //get costs
             _FoodCost = r.getRecruitmentCost();
             _PopCost = r.getPopulationCost();
-
-
-
+            //show costs
             _CostPop.text = _FoodCost.ToString();
             _CostFood.text = _PopCost.ToString();
+
+            //show class
+            if (r.isRanged())
+                _weaponClass.sprite = _iconRanged;
+            else
+                _weaponClass.sprite = _iconMelee;
 
 
             //Check if we have enough food

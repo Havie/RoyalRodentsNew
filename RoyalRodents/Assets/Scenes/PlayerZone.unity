@@ -15392,6 +15392,11 @@ PrefabInstance:
       propertyPath: cycleTime
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: startingCycle
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15496,6 +15501,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 223000012575180128, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 223000012575180128, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1859004798}
+    - target: {fileID: 223000012575180128, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 223000012575180128, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012740267506, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: m_ScaleFactor
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49a9eb98707a68649810f1d9d560bb2d, type: 3}
@@ -41332,7 +41377,7 @@ MonoBehaviour:
   _ShinyText: {fileID: 247588678}
   _FoodText: {fileID: 933066596}
   _PopulationText: {fileID: 1922297173}
-  _CrownsText: {fileID: 0}
+  _CrownsText: {fileID: 1608612128}
 --- !u!1 &1015716218
 GameObject:
   m_ObjectHideFlags: 0
@@ -71863,7 +71908,6 @@ GameObject:
   - component: {fileID: 1727935494}
   - component: {fileID: 1727935496}
   - component: {fileID: 1727935495}
-  - component: {fileID: 1741291100}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -72073,36 +72117,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1741291100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727935493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 99c7dcd0efb6b6c459871fc06a8a79c9, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1745525709
 GameObject:
   m_ObjectHideFlags: 0
@@ -76607,7 +76621,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859004796}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 72d3219ba14d33f4997eb7ddd3a4cf87, type: 3}

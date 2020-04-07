@@ -12,16 +12,16 @@ public class Projectile : MonoBehaviour
     void Start()
     {
         //set default targetposition
-        targetPosition = new Vector2(transform.position.x, transform.position.y);
+        targetPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        //Debug.Log(hitInfo.name);
+        Debug.Log(hitInfo.name);
         Destroy(gameObject);
     }
 
-    public void setTarget(Vector2 pos)
+    public void setTarget(Vector3 pos)
     {
         targetPosition = pos;
         setVelocity();

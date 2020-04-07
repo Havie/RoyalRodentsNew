@@ -11,6 +11,8 @@ public class UIRecruitMenu : MonoBehaviour
     private TextMeshProUGUI _CostPop;
     private TextMeshProUGUI _Name;
     private TextMeshProUGUI _Name2;
+    private Image _weaponClass;
+    private Sprite _weaponSprite;
    [SerializeField] private Rodent _Rodent;
 
     private bool _active;
@@ -269,6 +271,11 @@ public class UIRecruitMenu : MonoBehaviour
                 _Name = t.GetComponent<TextMeshProUGUI>();
             else
                 Debug.LogError("Cant Find Text_Name");
+            t = _ButtonChild.transform.Find("Class_icon");
+            if (t)
+                _weaponClass = t.GetComponent<Image>();
+            else
+                Debug.LogError("Cant Find Class_icon");
         }
         else
             Debug.LogError("Cant Find RecruitMenu Child");

@@ -307,6 +307,20 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             }
         }
 
+        //Chance to Spawn Shiny
+        if (_Team == 2)
+        {
+            int roll = Random.Range(0, 15);
+            if (roll == 1)
+            {
+                GameObject shiny = Resources.Load<GameObject>("ResourceIcons/Collectable_Shiny");
+                if (shiny)
+                {
+                    GameObject.Instantiate(shiny, this.transform.position, this.transform.rotation);
+                }
+            }
+        }
+
         if (_NotifyAnimator)
             Destroy(_NotifyAnimator.gameObject);
         yield return new WaitForSeconds(5f);

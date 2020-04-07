@@ -43,7 +43,7 @@ public class EventSystem : MonoBehaviour
         //If instance already exists and it's not this:
         else if (_instance != this)
         {
-            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance.
             Destroy(gameObject);
             return;
         }
@@ -84,19 +84,16 @@ public class EventSystem : MonoBehaviour
         if (WaveTrigger != null)
         {
             WaveTrigger();
-            print("Spawned Wave");
+           // print("Spawned Wave");
         }
-        //        EventSystem.Instance.SpawnWave(); tell ethan 
     }
     public void SpawnNeutral()
     {
-        print("called");
         if (SpawnTrigger != null)
         {
             SpawnTrigger();
-            print("Spawned Neutral");
+           // print("Spawned Neutral");
         }
-        //        EventSystem.Instance.SpawnNeutral(); tell ethan 
     }
 
     void Test()

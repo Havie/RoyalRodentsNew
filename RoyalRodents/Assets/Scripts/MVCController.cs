@@ -287,6 +287,12 @@ public class MVCController : MonoBehaviour
                 }
                 
             }
+            else if(_TMPlastClicked.GetComponent<CoinResource>())
+            {
+               // print("found coin!");
+                _TMPlastClicked.GetComponent<CoinResource>().ImClicked();
+
+            }
             //we fell through the list of available objects, turn menus off
             if (_printStatements)
                 Debug.Log("Fall through Case1");

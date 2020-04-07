@@ -315,11 +315,34 @@ public class GameManager : MonoBehaviour
     {
         if (_PlayerZone)
             _PlayerZone.SetOutpost(b);
+        if (_NeutralZone)
+            _NeutralZone.SetOutpost(b);
+        if (_EnemyZone)
+            _EnemyZone.SetOutpost(b);
     }
 
     public void PlayerOutpostDestroyed(BuildableObject b)
     {
         if (_PlayerZone)
             _PlayerZone.RemoveOutpost(b);
+        if (_NeutralZone)
+            _NeutralZone.RemoveOutpost(b);
+        if (_EnemyZone)
+            _EnemyZone.RemoveOutpost(b);
+    }
+    public ExitZone getPlayerZone()
+    {
+        return _PlayerZone;
+    }
+
+    public bool CheckInPlayerZone(float locX)
+    {
+        //WARNING - this comes from CameraController --> change zone(), 
+        //inconsistency in these #s if changed in 1 location but not the other
+        if (locX <= 100 && locX >= -130)
+        {
+            return true;
+        }
+        return false;
     }
 }

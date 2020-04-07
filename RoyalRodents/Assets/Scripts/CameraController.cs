@@ -95,6 +95,8 @@ public class CameraController : MonoBehaviour
             this.transform.position = new Vector3(this.transform.position.x, _NegYCap, this.transform.position.z);
     }
 
+    //Going to have to get these numbers to the subject script to prevent wandering off?
+    // or just make it so the rodents dont get close to the edges
     public void ChangeZone(int locX)
     {
         if (locX==100 || locX==-130)

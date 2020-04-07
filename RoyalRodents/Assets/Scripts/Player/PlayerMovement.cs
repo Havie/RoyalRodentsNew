@@ -315,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
             _mobileMoveDelay = false;
         }
     }
-        IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
+    IEnumerator MoveDelay(Vector3 input, Vector3 _movePos)
     {
         //Keep track of old Y
         float _oldY = _MoveLocation.transform.position.y;
@@ -339,54 +339,56 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool CheckDig()
     {
-       
-        if (!_InGround && Input.GetKeyDown(KeyCode.DownArrow))
+        if (_PlayerStats.inPlayerZone() == false) // cant dig in own territory
         {
-            if (_CurrentSoilTile )
-            {
-              StartCoroutine(DigDelay(Vector2.down, _CurrentSoilTile));
-            }
-
-        }
-        else if (_InGround && _horizontalMove==0)
-        {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                //Need to check tile to the right
-                if (CheckTile("right"))
-                {
-                    
-                }
-                return true;
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                //Need to check tile to the left
-                if (CheckTile("left"))
-                {
-                   
-                }
-                return true;
-            }
-            else if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                if (CheckTile("up"))
-                {
-
-                }
-                return true;
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (!_InGround && Input.GetKeyDown(KeyCode.DownArrow))
             {
                 if (_CurrentSoilTile)
                 {
-                    if (CheckTile("down"))
+                    StartCoroutine(DigDelay(Vector2.down, _CurrentSoilTile));
+                }
+
+            }
+            else if (_InGround && _horizontalMove == 0)
+            {
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    //Need to check tile to the right
+                    if (CheckTile("right"))
                     {
 
                     }
-                     return true;
+                    return true;
                 }
+                else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    //Need to check tile to the left
+                    if (CheckTile("left"))
+                    {
 
+                    }
+                    return true;
+                }
+                else if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    if (CheckTile("up"))
+                    {
+
+                    }
+                    return true;
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    if (_CurrentSoilTile)
+                    {
+                        if (CheckTile("down"))
+                        {
+
+                        }
+                        return true;
+                    }
+
+                }
             }
         }
         return false;

@@ -483,6 +483,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
             case (BuildingType.Outpost):
                 bOutpost outpost = this.GetComponent<bOutpost>();
+                outpost.DemolishAction();
                 Destroy(outpost);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;

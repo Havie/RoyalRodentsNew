@@ -92,7 +92,13 @@ public class bOutpost : MonoBehaviour
         return (_hitpoints + (_hitPointGrowth * level));
 	}
 
-	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
+    public void DemolishAction()
+    {
+        //To Do: Employment slots set back to normal
+    }
+
+
+    public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
 
 		if (_costLevel1.Count == 0)

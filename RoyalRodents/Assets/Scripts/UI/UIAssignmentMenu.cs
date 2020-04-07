@@ -342,6 +342,8 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void SetOutpostWorkers(Employee[] workers)
     {
+        if (workers == null)
+            return;
         foreach (Employee e in workers)
         {
             if (_OutpostWorkers.Contains(e) == false)
@@ -350,6 +352,8 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void RemoveOutpostWorkers(Employee[] workers)
     {
+        if (workers == null)
+            return;
         foreach (Employee e in workers)
         {
             if (_OutpostWorkers.Contains(e))

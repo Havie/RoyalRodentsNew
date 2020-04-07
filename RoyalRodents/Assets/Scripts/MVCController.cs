@@ -25,6 +25,7 @@ public class MVCController : MonoBehaviour
 
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
+    private UIBuildMenu _BuildingCapMenu;
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
     private List<Employee> _lastRedX = new List<Employee>();
@@ -71,6 +72,8 @@ public class MVCController : MonoBehaviour
         _BuildMenu = o.GetComponent<UIBuildMenu>();
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
+        o = GameObject.FindGameObjectWithTag("BuildingCapWarning");
+        _BuildingCapMenu = o.GetComponent<UIBuildMenu>();
         IgnoreClicks = true;
 
         if (_dummyObj == null)
@@ -394,8 +397,8 @@ public class MVCController : MonoBehaviour
     public void TurnOffBuildMenus()
     {
         ShowBuildMenu(false, Vector3.zero, null, null);
-
         ShowDestroyMenu(false, Vector3.zero, null, null);
+        ShowBuildingCapMenu(false, Vector3.zero, null, null);
     }
     public GameObject TurnThingsoff()
     {
@@ -406,8 +409,8 @@ public class MVCController : MonoBehaviour
             showAssignmenu(false);
 
         ShowBuildMenu(false, Vector3.zero, null, null);
-
         ShowDestroyMenu(false, Vector3.zero, null, null);
+        ShowBuildingCapMenu(false, Vector3.zero, null, null);
 
         //showRedX(false);
 
@@ -458,6 +461,11 @@ public class MVCController : MonoBehaviour
     {
         if (_BuildMenu)
             _BuildMenu.showMenu(cond, loc, go, building);
+    }
+    public void ShowBuildingCapMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building)
+    {
+        if (_BuildingCapMenu)
+            _BuildingCapMenu.showMenu(cond, loc, go, building);
     }
     public void ShowDestroyMenu(bool cond, Vector3 loc, GameObject go, BuildableObject building)
     {

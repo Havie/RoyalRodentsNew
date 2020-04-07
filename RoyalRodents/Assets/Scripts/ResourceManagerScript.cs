@@ -17,6 +17,9 @@ public class ResourceManagerScript : MonoBehaviour
    [SerializeField] private int _currentPopulation, _currentCapacity;
     private int _crowns;
 
+    [SerializeField]
+    private int _buildingSlots;
+
     //TopPanel UI Resource Bar Text
     public TextMeshProUGUI _TrashText;
     public TextMeshProUGUI _WoodText;
@@ -330,6 +333,16 @@ public class ResourceManagerScript : MonoBehaviour
                     return "";
                 }
         }
+    }
+
+    public void IncrementBuildingSlots(int num)
+    {
+        _buildingSlots += num;
+        print("building slots " + _buildingSlots);
+    }
+    public int getNoBuildingSlots()
+    {
+        return _buildingSlots;
     }
 }
 

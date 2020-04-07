@@ -765,7 +765,7 @@ public class PlayerMovement : MonoBehaviour
     //Collect Pickups and search and attack things
     public void OnTriggerEnter2D(Collider2D collision)
     {
-      //  Debug.Log("Enter Trigger with" + collision.transform.gameObject);
+        //Debug.Log("Enter Trigger with" + collision.transform.gameObject);
 
         if (_wantToAttack && _AttackTarget != null)
         {

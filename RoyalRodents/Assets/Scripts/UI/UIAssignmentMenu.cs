@@ -8,7 +8,8 @@ public class UIAssignmentMenu : MonoBehaviour
 {
     private static UIAssignmentMenu _instance;
 
-
+    private Sprite _iconMelee;
+    private Sprite _iconRanged;
 
     public GameObject _ButtonLeft;
     public GameObject _ButtonRight;
@@ -78,6 +79,11 @@ public class UIAssignmentMenu : MonoBehaviour
             _defaultRotation = _buttonTemplate.transform.rotation;
 
         _cameraController = Camera.main.GetComponent<CameraController>();
+
+
+        _iconMelee = Resources.Load<Sprite>("UI/sword_icon");
+        _iconRanged = Resources.Load<Sprite>("UI/bow_icon");
+
         showMenu(false);
 
     }
@@ -239,6 +245,20 @@ public class UIAssignmentMenu : MonoBehaviour
                     if (image)
                         image.sprite = rodent.GetPortrait();
                 }
+                t = b.transform.Find("Weapon");
+                if(t)
+                {
+                   Image image2 = t.GetComponent<Image>();
+                    if ( image2)
+                    {
+                        if (rodent.isRanged())
+                            image2.sprite = _iconRanged;
+                        else
+                            image2.sprite = _iconMelee;
+
+                    }
+                }
+
 
 
             }
@@ -272,6 +292,19 @@ public class UIAssignmentMenu : MonoBehaviour
                     Image image = t.GetComponent<Image>();
                     if (image)
                         image.sprite = rodent.GetPortrait();
+                }
+                t = b.transform.Find("Weapon");
+                if (t)
+                {
+                    Image image2 = t.GetComponent<Image>();
+                    if (image2)
+                    {
+                        if (rodent.isRanged())
+                            image2.sprite = _iconRanged;
+                        else
+                            image2.sprite = _iconMelee;
+
+                    }
                 }
             }
 
@@ -309,6 +342,8 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void SetOutpostWorkers(Employee[] workers)
     {
+        if (workers == null)
+            return;
         foreach (Employee e in workers)
         {
             if (_OutpostWorkers.Contains(e) == false)
@@ -317,6 +352,8 @@ public class UIAssignmentMenu : MonoBehaviour
     }
     public void RemoveOutpostWorkers(Employee[] workers)
     {
+        if (workers == null)
+            return;
         foreach (Employee e in workers)
         {
             if (_OutpostWorkers.Contains(e))

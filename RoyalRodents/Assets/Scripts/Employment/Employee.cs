@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Employee : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Employee : MonoBehaviour
     public GameObject _PortraitOutline;
     public GameObject _RedX;
     public GameObject _UnlockObject;
+    public GameObject _WeaponClass;
 
     [SerializeField]
     private bool _Locked;
@@ -19,6 +21,11 @@ public class Employee : MonoBehaviour
 
     private int test = 0;
     public SpriteRenderer sp;
+
+
+    private Sprite _iconMelee;
+    private Sprite _iconRanged;
+
 
     void Start()
     {
@@ -37,7 +44,12 @@ public class Employee : MonoBehaviour
                 _UnlockObject = child.gameObject;
         }
 
+
+        _iconMelee = Resources.Load<Sprite>("UI/sword_icon");
+        _iconRanged = Resources.Load<Sprite>("UI/bow_icon");
+
         ShowRedX(false);
+        ShowWeaponClass(false);
 
         sSaveManager.Instance.GatherPortaits(this);
     }
@@ -82,7 +94,8 @@ public class Employee : MonoBehaviour
             _Occupied = true;
             _currentRodent = r;
 			r.SetJob(this);
-
+            ShowWeaponClass(true);
+            SetWeaponClassImg(r.isRanged());
             //subscribe to the event system - unused now
             //EventSystem.Instance.rodentDead += Dismiss;
         }
@@ -103,7 +116,7 @@ public class Employee : MonoBehaviour
                 _currentRodent = null;
                 ShowRedX(false);
                 UIAssignmentMenu.Instance.ResetButtons();
-
+                ShowWeaponClass(false);
                 //unsubscribe - unused now
                 //EventSystem.Instance.rodentDead -= Dismiss;
             }
@@ -124,6 +137,25 @@ public class Employee : MonoBehaviour
             //Turn back on the collider possible hack
             if (_PortraitOutline)
                 _PortraitOutline.GetComponent<bWorkerScript>().ToggleCollider(true);
+        }
+    }
+    private void ShowWeaponClass(bool cond)
+    {
+        if (_WeaponClass)
+            _WeaponClass.SetActive(cond);
+    }
+    private void SetWeaponClassImg(bool isRanged)
+    {
+        if (_WeaponClass)
+        {
+            SpriteRenderer wpnImg = _WeaponClass.GetComponent<SpriteRenderer>();
+            if(wpnImg)
+            {
+                if(isRanged)
+                    wpnImg.sprite = _iconRanged;
+                else
+                    wpnImg.sprite = _iconMelee;
+            }
         }
     }
 

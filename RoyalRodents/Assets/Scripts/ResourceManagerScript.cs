@@ -338,7 +338,7 @@ public class ResourceManagerScript : MonoBehaviour
     public void IncrementBuildingSlots(int num)
     {
         _buildingSlots += num;
-        print("building slots " + _buildingSlots);
+        //print("building slots " + _buildingSlots);
     }
     public int getNoBuildingSlots()
     {

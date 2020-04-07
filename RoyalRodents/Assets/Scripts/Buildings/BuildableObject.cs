@@ -901,8 +901,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void AssignWorker(Rodent r)
     {
         // Debug.Log("AssignWorker!" + r.getName() + "to " + this.gameObject);
-        print("USed Slots =" + ResourceManagerScript.Instance.getNoBuildingSlots());
-        print("Max cap = " + GameManager.Instance.GetBuildingCap());
+       // print("USed Slots =" + ResourceManagerScript.Instance.getNoBuildingSlots());
+        //print("Max cap = " + GameManager.Instance.GetBuildingCap());
 
         bool okayToAdd = true;
         int index = findAvailableSlot();
@@ -913,13 +913,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 if (eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
                 {
                     okayToAdd = false;
-                    print("no okay to add  type:" + eType);
+                    //print("not okay to add  type:" + eType);
                 }
             }
         
             if (okayToAdd)
             {
-                print("okay to add");
+                //print("okay to add");
                 _Workers[index].Assign(r);
                 r.setTarget(this.gameObject);
 

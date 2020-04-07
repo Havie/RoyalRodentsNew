@@ -119,7 +119,7 @@ public class ExitZone : MonoBehaviour
         //Get the player
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         chosen.Add(player);
-
+      
         //get the royal guard
         PlayerStats ps = player.GetComponent<PlayerStats>();
         if (ps)

@@ -335,7 +335,7 @@ public class GameManager : MonoBehaviour
         return _PlayerZone;
     }
 
-    public bool CheckInPlayerZone(int locX)
+    public bool CheckInPlayerZone(float locX)
     {
         //WARNING - this comes from CameraController --> change zone(), 
         //inconsistency in these #s if changed in 1 location but not the other

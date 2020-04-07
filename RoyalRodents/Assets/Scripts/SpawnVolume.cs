@@ -39,7 +39,11 @@ public class SpawnVolume : MonoBehaviour
             _EnemySpawnDummy = GameObject.FindGameObjectWithTag("EnemyRodents").transform;
 
         //subscribe to the event system
-        EventSystem.Instance.spawnTrigger += SpawnSomething;
+        if (_EnemySpawn)
+            EventSystem.Instance.WaveTrigger += SpawnSomething;
+        else
+            EventSystem.Instance.SpawnTrigger += SpawnSomething;
+
 
     }
 
@@ -60,7 +64,7 @@ public class SpawnVolume : MonoBehaviour
     void onDisable()
     {
         //unsubscribe
-        EventSystem.Instance.spawnTrigger -= SpawnSomething;
+        EventSystem.Instance.WaveTrigger -= SpawnSomething;
     }
 
     IEnumerator SpawnCountDown()
@@ -159,8 +163,14 @@ public class SpawnVolume : MonoBehaviour
     }
     public void SpawnSomething()
     {
-        _occupied = false;
-        _EnemyCount = 3;
+        //Do a random roll to see if we spawn (50/50)
+        int roll = Random.Range(0, 10);
+        if (roll % 2 == 0)
+        {
+            _occupied = false;
+            if(_EnemySpawn)
+                _EnemyCount = 3; //TO:DO update on some duration or world state, GameTime, Time.Time
+        }
     }
 
     public void SpawnaKing()

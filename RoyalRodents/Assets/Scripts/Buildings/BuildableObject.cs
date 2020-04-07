@@ -901,8 +901,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void AssignWorker(Rodent r)
     {
         // Debug.Log("AssignWorker!" + r.getName() + "to " + this.gameObject);
-       // print("USed Slots =" + ResourceManagerScript.Instance.getNoBuildingSlots());
+        // print("USed Slots =" + ResourceManagerScript.Instance.getNoBuildingSlots());
         //print("Max cap = " + GameManager.Instance.GetBuildingCap());
+        if (eType == BuildingType.Vacant)
+            return;
 
         bool okayToAdd = true;
         int index = findAvailableSlot();

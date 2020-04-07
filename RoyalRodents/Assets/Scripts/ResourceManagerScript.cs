@@ -85,10 +85,10 @@ public class ResourceManagerScript : MonoBehaviour
         _currentCapacity = 5;
         UpdateCurrentPopulation();
         _food = 10;
-        _trash = 0;
-        _wood = 0;
-        _stone = 0;
-        _shiny = 10;
+        _trash = 6;
+        _wood = 5;
+        _stone =2;
+        _shiny = 2;
         _crowns = 0;
 
         UpdateAllText();

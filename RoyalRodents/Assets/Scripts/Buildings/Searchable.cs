@@ -27,7 +27,9 @@ public class Searchable : MonoBehaviour
     //Gathering Resource Icon Data
     public GameObject _ResourceIconAnimObject;
     public Animator _ResourceIconAnimController;
+    SpriteRenderer _ResourceIconSpriteRenderer;
     Sprite _IconSprite;
+    Sprite _IconSprite2; //only needed if Trash Resource Gather Type
 
     private int _StaminaCost = 5;
 
@@ -65,7 +67,10 @@ public class Searchable : MonoBehaviour
 
             //Set Gather Icon Sprite
             _IconSprite = Resources.Load<Sprite>(ResourceManagerScript.GetIconPath(_gatherResourceType));
-            SpriteRenderer _ResourceIconSpriteRenderer = _ResourceIconAnimObject.GetComponent<SpriteRenderer>();
+            if (_gatherResourceType == ResourceType.Trash)
+                _IconSprite2 = Resources.Load<Sprite>(ResourceManagerScript.GetIconPath(ResourceType.Food));
+
+            _ResourceIconSpriteRenderer = _ResourceIconAnimObject.GetComponent<SpriteRenderer>();
             if (_ResourceIconSpriteRenderer)
                 _ResourceIconSpriteRenderer.sprite = _IconSprite;
         }
@@ -110,6 +115,8 @@ public class Searchable : MonoBehaviour
             _Empty = true;
             if(_Searching)
                 _CooldownTime = 0.5f;
+            else
+                _gathering = 0;
             GainSpecifiedResource();
         }
 
@@ -193,6 +200,7 @@ public class Searchable : MonoBehaviour
      * if you want to change how many times player can search and how often just edit
      * the global variables _SearchTimeMax and _Delay
      */
+
     IEnumerator Search()
     {
         _Searching = true;
@@ -211,7 +219,7 @@ public class Searchable : MonoBehaviour
                     Animator am = _MainCharacter.GetComponent<Animator>();
                     if(am)
                         am.SetTrigger("doDig");
-
+                    
                 }
                 else
                     _okayToSearch = false;
@@ -231,7 +239,7 @@ public class Searchable : MonoBehaviour
             _SearchTime += _Delay;
 
             //Gain Resource
-            GainSpecifiedResource(); //- old system
+            //GainSpecifiedResource(); //- old system
             incrementGathering(100);  // - new system
             // trick the progress bar into thinking were using the new system
             //_gathering = (int)_SearchTime * 20;
@@ -297,8 +305,25 @@ public class Searchable : MonoBehaviour
 
     public void GainSpecifiedResource()
     {
-        //Give Player Resource
-        ResourceManagerScript.Instance.incrementResource(_gatherResourceType, _gatherResourceAmount);
+        //if set Resource is Trash, then randomize between Trash and Food
+        if (_gatherResourceType == ResourceType.Trash)
+        {
+            int _ResourceNumber = Random.Range(0, 10);
+            if (_ResourceNumber <= 6) //70% chance of trash
+            {
+                ResourceManagerScript.Instance.incrementResource(ResourceType.Trash, _gatherResourceAmount);
+                if (_ResourceIconSpriteRenderer)
+                    _ResourceIconSpriteRenderer.sprite = _IconSprite;
+            }
+            else
+            {
+                ResourceManagerScript.Instance.incrementResource(ResourceType.Food, _gatherResourceAmount);
+                if (_ResourceIconSpriteRenderer)
+                    _ResourceIconSpriteRenderer.sprite = _IconSprite2;
+            }
+        }
+        else
+            ResourceManagerScript.Instance.incrementResource(_gatherResourceType, _gatherResourceAmount); //Give Player Resource
 
         //Animate Icon
         if (_ResourceIconAnimController)

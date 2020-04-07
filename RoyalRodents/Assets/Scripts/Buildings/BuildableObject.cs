@@ -483,6 +483,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
             case (BuildingType.Outpost):
                 bOutpost outpost = this.GetComponent<bOutpost>();
+                outpost.DemolishAction();
                 Destroy(outpost);
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
@@ -556,6 +557,34 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         _constructionMax = amnt;
         UpdateConstructionBar();
+    }
+
+    IEnumerator BeginConstructionLoop()
+    {
+        yield return new WaitForSeconds(3);
+
+        //Increment Progress bar
+        if (getEmployeeCount() != 0 && eState != BuildingState.Built)
+        {
+            IncrementConstruction(1); //increments more based on species of rodent
+            StartCoroutine(BeginConstructionLoop());
+        }
+        
+        UpdateConstructionBar();
+    }
+
+    IEnumerator BeginSearchLoop()
+    {
+        yield return new WaitForSeconds(3);
+
+        //Increment Progress bar
+        if (getEmployeeCount() != 0 && eState == BuildingState.Built)
+        {
+            Searchable s = GetComponent<Searchable>();
+            if (s) 
+                s.incrementGathering(20 * _level); //increments gathering 20 times the level of the structure
+            StartCoroutine(BeginSearchLoop());
+        }
     }
 
     //Temporary way to delay construction
@@ -867,6 +896,19 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //  else
         //  Debug.Log("no Empty");
 
+        //Start Construction or Gathering
+        if (eState == BuildingState.Building)
+        {
+            if (getEmployeeCount() != 0)
+                StartCoroutine(BeginConstructionLoop());
+        }
+        else if (eState == BuildingState.Built && eType == BuildingType.Farm || eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType != BuildingType.StonePile)
+        {
+            if (getEmployeeCount() != 0)
+            {
+                StartCoroutine(BeginSearchLoop());
+            }
+        }
     }
     public void DismissWorker(Rodent r)
     {

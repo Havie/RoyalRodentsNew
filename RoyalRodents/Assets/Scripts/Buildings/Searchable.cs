@@ -115,6 +115,8 @@ public class Searchable : MonoBehaviour
             _Empty = true;
             if(_Searching)
                 _CooldownTime = 0.5f;
+            else
+                _gathering = 0;
             GainSpecifiedResource();
         }
 
@@ -198,6 +200,7 @@ public class Searchable : MonoBehaviour
      * if you want to change how many times player can search and how often just edit
      * the global variables _SearchTimeMax and _Delay
      */
+
     IEnumerator Search()
     {
         _Searching = true;
@@ -216,7 +219,7 @@ public class Searchable : MonoBehaviour
                     Animator am = _MainCharacter.GetComponent<Animator>();
                     if(am)
                         am.SetTrigger("doDig");
-
+                    
                 }
                 else
                     _okayToSearch = false;

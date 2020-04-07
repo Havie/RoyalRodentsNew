@@ -103,6 +103,8 @@ public class Employee : MonoBehaviour
 
    public void Dismiss(Rodent r)
     {
+        if (r == null)
+            return;
         Debug.Log("heard Dismiss Employee :" + r.getName());
         if (_Occupied)
         {

@@ -192,7 +192,16 @@ public class Cycle2DDN : MonoBehaviour {
 			if (cycle < 3) {
 				cycle++;
 				if (cycle == 3)
+				{
+					//This is Code at the Start of a New Day
 					day_count++;
+					EventSystem.Instance.SpawnNeutral(); //spawn new neautral rodent
+				}
+				else if (cycle == 1)
+				{
+					//This is Code at the Start of a new Night
+					EventSystem.Instance.SpawnWave(); //spawn wave of enemies
+				}
 			} else {
 				cycle = 0;
 			}

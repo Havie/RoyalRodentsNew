@@ -325,7 +325,7 @@ public class UIButtonCosts : MonoBehaviour
     //used in 
     public void updateState()
     {
-        if (_rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny) > _royalGuardSlotCost)
+        if (_rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny) >= _royalGuardSlotCost)
         {
             //subtract the cost - arbitrary for now and i guess heres an okay spot
             //so i dont have to duplicate and add more on click events for each button
@@ -338,7 +338,10 @@ public class UIButtonCosts : MonoBehaviour
             {
                 PlayerStats ps = player.GetComponent<PlayerStats>();
                 if (ps)
+                {
+                    ps.unlockWorkerSlot();
                     ps.ShowRoyalGuard(true);
+                }
             }
         }
     }

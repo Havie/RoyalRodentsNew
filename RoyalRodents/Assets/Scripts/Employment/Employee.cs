@@ -103,7 +103,7 @@ public class Employee : MonoBehaviour
 
    public void Dismiss(Rodent r)
     {
-        //Debug.Log("heard Dismiss In Employee");
+        Debug.Log("heard Dismiss Employee :" + r.getName());
         if (_Occupied)
         {
             if (_currentRodent && _currentRodent==r)
@@ -158,7 +158,7 @@ public class Employee : MonoBehaviour
             }
         }
     }
-
+    //called from button and a few places
     public void Lock(bool cond)
     {
         _Locked = cond;

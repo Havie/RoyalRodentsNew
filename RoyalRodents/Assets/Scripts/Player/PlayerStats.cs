@@ -306,12 +306,24 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
             e.gameObject.SetActive(cond);
             if (firstLocked && e.isLocked())
             {
-                e.showUnlockButton(cond);
+                e.showUnlockButton(cond); 
                 firstLocked = false;
             }
             else
-                e.showUnlockButton(false);
+                e.showUnlockButton(false); //UNKNOWN REASON THIS BREAKS ON BUILD
 
+
+        }
+    }
+    public void unlockWorkerSlot()
+    {
+        foreach (var e in _RoyalGuards)
+        {
+            if (e.isLocked())
+            {
+                e.Lock(false);
+                break;
+            }
 
         }
     }

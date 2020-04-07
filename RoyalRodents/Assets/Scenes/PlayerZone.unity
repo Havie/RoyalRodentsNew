@@ -31724,7 +31724,7 @@ SpriteRenderer:
   m_SortingLayerID: -735521319
   m_SortingLayer: -1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 430a20747bec93244a5df1e8b4add894, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 29cdd0a05d9fed746a16c810ef1b5aa3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -51115,7 +51115,7 @@ SpriteRenderer:
   m_SortingLayerID: -735521319
   m_SortingLayer: -1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: ed7336aae4c18884381ca3b384190933, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9028eccb6ae159c40a91177c4a7096fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -61913,7 +61913,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859004796}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 72d3219ba14d33f4997eb7ddd3a4cf87, type: 3}

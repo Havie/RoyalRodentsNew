@@ -493,6 +493,14 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         }
 
 
+        //Update animator
+        if (isRanged())
+        {
+            Animator a = this.GetComponent<Animator>();
+            if (a)
+                a.SetBool("isArmedRange", true);
+        }
+
     }
     public int getTeam()
     {

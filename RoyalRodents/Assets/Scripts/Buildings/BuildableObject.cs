@@ -306,15 +306,18 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //Create a new menu interaction on a built object, downgrade? Demolish? Show resource output etc. Needs Something
             if (eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
             {
-                //Debug.Log("I am gathering!");
-                Searchable s = GetComponent<Searchable>();
-                if (s)
+                if (getEmployeeCount() == 0) // if someone is working here, player cant gather
                 {
-                    // s.GatherAction(20);
-                    s.ImClicked(); // should use ImClicked instead of GatherAction and encapsulate gather action into searchables functionality
+                    //Debug.Log("I am gathering!");
+                    Searchable s = GetComponent<Searchable>();
+                    if (s)
+                    {
+                        // s.GatherAction(20);
+                        s.ImClicked(); // should use ImClicked instead of GatherAction and encapsulate gather action into searchables functionality
+                    }
                 }
             }
-            if(eType == BuildingType.Outpost && _cameraController.getOverrideMode())
+            else if(eType == BuildingType.Outpost && _cameraController.getOverrideMode())
             {
                 bOutpost outpost = GetComponent<bOutpost>();
                 if (outpost.getSelected())
@@ -820,7 +823,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         yield return new WaitForSeconds(0.05f);
         // To-Do: update for touch
-        // Debug.Log("Will need to get click location from somewhere for Mobile");
+        Debug.Log("Will need to get click location from somewhere for Mobile");
         Vector3 Location = Input.mousePosition;
 
         menu.showMenu(cond, Location, this.transform.gameObject, this);

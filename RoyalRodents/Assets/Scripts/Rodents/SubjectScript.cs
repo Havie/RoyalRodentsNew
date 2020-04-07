@@ -927,16 +927,16 @@ public class SubjectScript : MonoBehaviour
             if (farmer || gatherer)
                 if(currentTarget == townCenterLoc)
                 {
-                    Debug.Log("True");
+                   // Debug.Log("True");
                     float delay = Random.Range(1, 2);
-                    Debug.Log("Delay of: " + delay);
+                    //Debug.Log("Delay of: " + delay);
                     return delay;
                 }
                 else
                 {
-                    Debug.Log("falsee");
+                   // Debug.Log("falsee");
                     float delay = Random.Range(4, 10);
-                    Debug.Log("Delay of: " + delay);
+                    //Debug.Log("Delay of: " + delay);
                     return delay;
                 }
                 

@@ -15,6 +15,7 @@ public class SpawnVolume : MonoBehaviour
     private bool _occupied; 
 
     GameObject Rat;
+    GameObject Beaver;
 
     [SerializeField]
     private int _EnemyCount=2;
@@ -27,8 +28,10 @@ public class SpawnVolume : MonoBehaviour
     void Start()
     {
         AddType(Rodent.eRodentType.Rat);
+        AddType(Rodent.eRodentType.Beaver);
 
         Rat = Resources.Load<GameObject>("Rodent/FatRat/RatPreFab");
+        Beaver = Resources.Load<GameObject>("Rodent/Beaver/BeaverPreFab");
 
         _timeToSpawn = true;
 
@@ -45,10 +48,10 @@ public class SpawnVolume : MonoBehaviour
         if(_timeToSpawn && !_occupied)
         {
             //Spawn random rodent based on prefab
-            int index = Random.Range(0, _AvailableRodents.Count - 1);
+            int index = Random.Range(0, _AvailableRodents.Count);
+           // Debug.LogWarning( " Must not be inclusive, chose index=" + index);
             Rodent.eRodentType selected =(Rodent.eRodentType)_AvailableRodents[index];
-
-            SpawnRodent(selected);
+              SpawnRodent(selected);
 
             StartCoroutine(SpawnCountDown());
         }
@@ -90,16 +93,11 @@ public class SpawnVolume : MonoBehaviour
                 //Spawn Recruitable Rodents
                 if (type == Rodent.eRodentType.Rat)
                 {
-                    _occupied = true;
-                    GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
-                    //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
-                    _spawnedRat.transform.SetParent(this.transform);
-
-                    // Tag becoming obsolete
-                    _spawnedRat.tag = "NeutralRodent";
-                    // Ensure Sprite is Neutral
-                    _spawnedRat.GetComponent<Rodent>().setTeam(0);
-                    // Increase some kind of count
+                    spawnThis(Rat, false);
+                }
+                else if (type == Rodent.eRodentType.Beaver)
+                {
+                    spawnThis(Beaver, false);
                 }
             }
             else
@@ -107,34 +105,58 @@ public class SpawnVolume : MonoBehaviour
                 //Spawn Enemy Rodents
                 if (type == Rodent.eRodentType.Rat)
                 {
-                    GameObject _spawnedRat = GameObject.Instantiate(Rat, this.transform.position, this.transform.rotation);
-
-                    //parent this to keep hierarchy clean
-                    if (_EnemySpawnDummy)
-                        _spawnedRat.transform.SetParent(_EnemySpawnDummy);
-                    else
-                        Debug.LogWarning("No Enemy Dummy for Hierarchy");
-
-                    // Tag becoming obsolete
-                    _spawnedRat.tag = "EnemyRodent";
-                    // Ensure Sprite is Neutral
-                    Rodent r = _spawnedRat.GetComponent<Rodent>();
-                    if (r)
-                    {
-                        r.setTeam(2);      
-                        // Force them to be aggressive and head toward player   //hack
-                        if(_inPlayerZone)
-                            r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);
-                    }
-                    // Increase some kind of count
-                   --_EnemyCount;
-                    if (_EnemyCount == 0)
-                        _occupied = true;
+                    spawnThis(Rat, true);
+                }
+                else if (type == Rodent.eRodentType.Beaver)
+                {
+                    spawnThis(Beaver, true);
                 }
             }
         }
     }
+    private void spawnThis(GameObject toSpawn, bool Enemy)
+    {
+        if(Enemy)
+        {
 
+            GameObject _spawnedRodent = GameObject.Instantiate(toSpawn, this.transform.position, this.transform.rotation);
+
+            //parent this to keep hierarchy clean
+            if (_EnemySpawnDummy)
+                _spawnedRodent.transform.SetParent(_EnemySpawnDummy);
+            else
+                Debug.LogWarning("No Enemy Dummy for Hierarchy");
+
+            // Tag becoming obsolete
+            _spawnedRodent.tag = "EnemyRodent";
+            // Ensure Sprite is Neutral
+            Rodent r = _spawnedRodent.GetComponent<Rodent>();
+            if (r)
+            {
+                r.setTeam(2);
+                // Force them to be aggressive and head toward player   //hack
+                if (_inPlayerZone)
+                    r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);
+            }
+            // Increase some kind of count
+            --_EnemyCount;
+            if (_EnemyCount == 0)
+                _occupied = true;
+        }
+        else
+        {
+            _occupied = true;
+            GameObject _spawnedRat = GameObject.Instantiate(toSpawn, this.transform.position, this.transform.rotation);
+            //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
+            _spawnedRat.transform.SetParent(this.transform);
+
+            // Tag becoming obsolete
+            _spawnedRat.tag = "NeutralRodent";
+            // Ensure Sprite is Neutral
+            _spawnedRat.GetComponent<Rodent>().setTeam(0);
+            // Increase some kind of count
+        }
+    }
     public void SpawnSomething()
     {
         _occupied = false;

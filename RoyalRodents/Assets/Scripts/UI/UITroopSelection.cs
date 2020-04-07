@@ -53,7 +53,7 @@ public class UITroopSelection : MonoBehaviour
     {
         while(_confirmButton == null || _cancelButton == null || _AssignmentModeButton == null)
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.0001f);
         }
         ShowSelection(false, 0, null);
     }
@@ -78,6 +78,32 @@ public class UITroopSelection : MonoBehaviour
         else
             _cancelButton = go;
     }
+    private void setText(string s)
+    {
+        TextMeshProUGUI text = this.GetComponent<TextMeshProUGUI>();
+        if (text)
+            text.text = s;
+        else
+            Debug.LogError("cant find text");
+    }
+    //used to teleport back from neutral/enemy zone
+    public void ShowSelection(bool cond, ExitZone zone)
+    {
+        if (_confirmButton == null || _cancelButton == null || _AssignmentModeButton == null)
+        {
+            Debug.LogError("One of The Objects in UI Troop Selection is null");
+            return;
+        }
+
+        _zone = zone;
+        _confirmButton.SetActive(cond);
+        _cancelButton.SetActive(cond);
+        this.gameObject.SetActive(cond);
+        _amounts.text = "";
+        setText("Leave Zone?");
+
+    }
+    //used to teleport from player zone
     public void ShowSelection(bool cond, int maxTroops, ExitZone zone)
     {
         if(_confirmButton==null || _cancelButton==null || _AssignmentModeButton == null)
@@ -88,6 +114,8 @@ public class UITroopSelection : MonoBehaviour
         _zone = zone;
         _numTroopsMax = maxTroops;
         this.gameObject.SetActive(cond);
+        //set the text
+        setText("Dispatch Garrison Troops");
         _confirmButton.SetActive(cond);
         _cancelButton.SetActive(cond);
         _AssignmentModeButton.SetActive(!cond);
@@ -118,8 +146,19 @@ public class UITroopSelection : MonoBehaviour
         {
             //canceled
         }
+        _numTroops= 0;
+        // Turn all the outposts back to unselected
+        foreach(BuildableObject b in _zone.getOutposts())
+        {
+            bOutpost outpost = b.gameObject.GetComponent<bOutpost>();
+            if(outpost)
+            {
+                outpost.resetSprite(b.getLevel());
+            }
+        }
 
         ShowSelection(false, 0, null);
+
     }
     public void addTroops(int amnt)
     {

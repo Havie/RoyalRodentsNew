@@ -145,4 +145,14 @@ public class bOutpost : MonoBehaviour
     {
         return _selected;
     }
+
+    public void resetSprite(int level)
+    {
+        if (level == 1)
+           this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
+        else if (level == 2)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
+        else if (level == 3)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
+    }
 }

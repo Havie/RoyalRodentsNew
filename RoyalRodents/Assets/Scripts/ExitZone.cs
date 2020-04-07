@@ -11,6 +11,9 @@ public class ExitZone : MonoBehaviour
     public bool _neutralzone;
     public bool _enemyzone;
 
+    [SerializeField]
+    private GameObject _TeleportDummy;
+
     private Teleporter _right;
     private Teleporter _left;
     private Teleporter _Active;
@@ -38,6 +41,9 @@ public class ExitZone : MonoBehaviour
             _right = _locRight.GetComponent<Teleporter>();
         if(_locLeft)
             _left = _locLeft.GetComponent<Teleporter>();
+
+        if(_TeleportDummy==null)
+            _TeleportDummy = GameObject.FindGameObjectWithTag("TeleportedRodents");
     }
 
 
@@ -62,8 +68,16 @@ public class ExitZone : MonoBehaviour
         if (t == _right || t == _left)
             _Active = t;
 
-        selectOutpostMode();
+        if (_playerzone)
+            selectOutpostMode();
+        else 
+            selectDeployedTroops();
 
+    }
+    private void selectDeployedTroops()
+    {
+        //Tell UITroopSelection to show only confirm/cancel
+        UITroopSelection.Instance.ShowSelection(true, this);
     }
 
     private void selectOutpostMode()
@@ -80,6 +94,16 @@ public class ExitZone : MonoBehaviour
     }
     public List<GameObject> findSelected()
     {
+        if (_playerzone)
+            return findfromOutposts();
+        else
+            return findfromCached();
+
+    }
+    private List<GameObject> findfromCached()
+    {
+
+        Debug.Log("Finding from Cached");
         List<GameObject> chosen = new List<GameObject>();
 
         //Get the player
@@ -88,7 +112,43 @@ public class ExitZone : MonoBehaviour
 
         //get the royal guard
         PlayerStats ps = player.GetComponent<PlayerStats>();
-        if(ps)
+        if (ps)
+        {
+            foreach (var e in ps.getEmployees())
+            {
+                chosen.Add(e);
+            }
+        }
+
+        //get the previously teleported troops
+        foreach (Rodent child in _TeleportDummy.GetComponentsInChildren<Rodent>())
+        {
+            chosen.Add(child.gameObject);
+            SubjectScript ss = child.GetComponent<SubjectScript>();
+            if (ss)
+            {
+                ss.setDefender();
+                //Need a way to put them back to their place of work
+                
+            }
+            //put them back in heirarchy
+            child.transform.SetParent(GameObject.FindGameObjectWithTag("PlayerRodents").transform);
+        }
+
+        return chosen;
+    }
+
+        private List<GameObject> findfromOutposts()
+    {
+        List<GameObject> chosen = new List<GameObject>();
+
+        //Get the player
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        chosen.Add(player);
+
+        //get the royal guard
+        PlayerStats ps = player.GetComponent<PlayerStats>();
+        if (ps)
         {
             foreach (var e in ps.getEmployees())
             {
@@ -99,7 +159,7 @@ public class ExitZone : MonoBehaviour
 
         foreach (var b in _outposts)
         {
-           // print("checking building:" + b.name);
+            // print("checking building:" + b.name);
             if (b.checkSelected())
             {
                 //print(b.name + "is true");
@@ -110,17 +170,19 @@ public class ExitZone : MonoBehaviour
                     chosen.Add(e);
                     //Do we have to remove them from the outpost? what happens if they die
                     // in combat? do they unassign then?
-                    var ss= e.GetComponent<SubjectScript>();
-                    if(ss)
+                    var ss = e.GetComponent<SubjectScript>();
+                    if (ss)
                     {
                         ss.setRoyalGuard();
+
                     }
+                    //Set them to a new item in the heirarchy to teleport back later
+                    e.transform.SetParent(_TeleportDummy.transform);
                 }
             }
         }
-
-
         return chosen;
+
     }
     public void confirmed()
     {

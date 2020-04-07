@@ -248,7 +248,6 @@ public class UIAssignmentMenu : MonoBehaviour
                 t = b.transform.Find("Weapon");
                 if(t)
                 {
-                    print("found wepon trans");
                    Image image2 = t.GetComponent<Image>();
                     if ( image2)
                     {
@@ -293,6 +292,19 @@ public class UIAssignmentMenu : MonoBehaviour
                     Image image = t.GetComponent<Image>();
                     if (image)
                         image.sprite = rodent.GetPortrait();
+                }
+                t = b.transform.Find("Weapon");
+                if (t)
+                {
+                    Image image2 = t.GetComponent<Image>();
+                    if (image2)
+                    {
+                        if (rodent.isRanged())
+                            image2.sprite = _iconRanged;
+                        else
+                            image2.sprite = _iconMelee;
+
+                    }
                 }
             }
 

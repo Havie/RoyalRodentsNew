@@ -11,7 +11,10 @@ public class UIRecruitMenu : MonoBehaviour
     private TextMeshProUGUI _CostPop;
     private TextMeshProUGUI _Name;
     private TextMeshProUGUI _Name2;
-   [SerializeField] private Rodent _Rodent;
+    private Image _weaponClass;
+    private Sprite _iconMelee;
+    private Sprite _iconRanged;
+    [SerializeField] private Rodent _Rodent;
 
     private bool _active;
 
@@ -31,6 +34,9 @@ public class UIRecruitMenu : MonoBehaviour
     {
         //MVCController.Instance.SetUpRecruitMenu(this);
         showMenu(false, Vector3.zero, "empty", 1, 1);
+
+        _iconMelee = Resources.Load<Sprite>("UI/sword_icon");
+        _iconRanged = Resources.Load<Sprite>("UI/bow_icon");
     }
 
 
@@ -54,13 +60,18 @@ public class UIRecruitMenu : MonoBehaviour
             loc.y = loc.y + 1;
             this.transform.position = loc;
 
+            //get costs
             _FoodCost = r.getRecruitmentCost();
             _PopCost = r.getPopulationCost();
-
-
-
+            //show costs
             _CostPop.text = _FoodCost.ToString();
             _CostFood.text = _PopCost.ToString();
+
+            //show class
+            if (r.isRanged())
+                _weaponClass.sprite = _iconRanged;
+            else
+                _weaponClass.sprite = _iconMelee;
 
 
             //Check if we have enough food
@@ -269,6 +280,11 @@ public class UIRecruitMenu : MonoBehaviour
                 _Name = t.GetComponent<TextMeshProUGUI>();
             else
                 Debug.LogError("Cant Find Text_Name");
+            t = _ButtonChild.transform.Find("Class_icon");
+            if (t)
+                _weaponClass = t.GetComponent<Image>();
+            else
+                Debug.LogError("Cant Find Class_icon");
         }
         else
             Debug.LogError("Cant Find RecruitMenu Child");

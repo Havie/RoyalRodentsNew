@@ -50,6 +50,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     #region otherClasses
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
+    private UIBuildMenu _BuildingCapMenu;
     private MVCController _controller;
     private CameraController _cameraController;
     #endregion
@@ -163,6 +164,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _BuildMenu = o.GetComponent<UIBuildMenu>();
         o = GameObject.FindGameObjectWithTag("DestroyMenu");
         _DestroyMenu = o.GetComponent<UIBuildMenu>();
+        o = GameObject.FindGameObjectWithTag("BuildingCapWarning");
+        _BuildingCapMenu = o.GetComponent<UIBuildMenu>();
         _cameraController = Camera.main.GetComponent<CameraController>();
 
 
@@ -317,7 +320,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     }
                 }
             }
-            else if(eType == BuildingType.Outpost && _cameraController.getOverrideMode())
+            else if (eType == BuildingType.Outpost && _cameraController.getOverrideMode())
             {
                 bOutpost outpost = GetComponent<bOutpost>();
                 if (outpost.getSelected())
@@ -328,13 +331,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 else
                 {
                     setOutlineAvailable();
-                    UITroopSelection.Instance.addTroops(0-getEmployeeCount());
+                    UITroopSelection.Instance.addTroops(0 - getEmployeeCount());
                 }
             }
             else
             {
                 StartCoroutine(ClickDelay(true, _DestroyMenu));
                 StartCoroutine(ClickDelay(false, _BuildMenu));
+                StartCoroutine(ClickDelay(false, _BuildingCapMenu));
             }
         }
         else if (eState == BuildingState.Available || eState == BuildingState.Idle)
@@ -342,7 +346,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             // Turns off the "notification exclamation mark" as the player is now aware of obj
             eState = BuildingState.Idle;
 
-            StartCoroutine(ClickDelay(true, _BuildMenu));
+            //check if we can afford a building slot
+            if (ResourceManagerScript.Instance.getNoBuildingSlots() < GameManager.Instance.GetBuildingCap())
+            {
+                StartCoroutine(ClickDelay(true, _BuildMenu));
+            }
+            else
+            {
+                //TO-DO: Show new menu that tells player at cap and to upgrade TC
+                StartCoroutine(ClickDelay(true, _BuildingCapMenu));
+            }
             StartCoroutine(ClickDelay(false, _DestroyMenu));
 
             //Disconnect here, MVC controller is now responsible for talking to UI
@@ -357,7 +370,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //SetConstructionMax(5);
         }
 
-        if(!_cameraController.getOverrideMode())
+        if (!_cameraController.getOverrideMode())
             UpdateState();
     }
 
@@ -433,7 +446,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
         }
         UpdateState();
-        _BuildMenu.showMenu(false, Vector3.zero,null, this);
+        _BuildMenu.showMenu(false, Vector3.zero, null, this);
+        ResourceManagerScript.Instance.IncrementBuildingSlots(1);
         //StartCoroutine(BuildCoroutine());
         SetConstructionMax(5);
     }
@@ -526,6 +540,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
+        ResourceManagerScript.Instance.IncrementBuildingSlots(-1);
         StartCoroutine(DemolishCoroutine());
     }
 
@@ -569,7 +584,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             IncrementConstruction(1); //increments more based on species of rodent
             StartCoroutine(BeginConstructionLoop());
         }
-        
+
         UpdateConstructionBar();
     }
 
@@ -581,7 +596,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (getEmployeeCount() != 0 && eState == BuildingState.Built)
         {
             Searchable s = GetComponent<Searchable>();
-            if (s) 
+            if (s)
                 s.incrementGathering(20 * _level); //increments gathering 20 times the level of the structure
             StartCoroutine(BeginSearchLoop());
         }
@@ -852,7 +867,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         yield return new WaitForSeconds(0.05f);
         // To-Do: update for touch
-      //  Debug.Log("Will need to get click location from somewhere for Mobile");
+        //  Debug.Log("Will need to get click location from somewhere for Mobile");
         Vector3 Location = Input.mousePosition;
 
         menu.showMenu(cond, Location, this.transform.gameObject, this);
@@ -886,29 +901,58 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void AssignWorker(Rodent r)
     {
         // Debug.Log("AssignWorker!" + r.getName() + "to " + this.gameObject);
+        // print("USed Slots =" + ResourceManagerScript.Instance.getNoBuildingSlots());
+        //print("Max cap = " + GameManager.Instance.GetBuildingCap());
+        if (eType == BuildingType.Vacant)
+            return;
 
+        bool okayToAdd = true;
         int index = findAvailableSlot();
         if (index > -1)         //This is kind of a hack
         {
-            _Workers[index].Assign(r);
-            r.setTarget(this.gameObject);
-        }
-        //  else
-        //  Debug.Log("no Empty");
-
-        //Start Construction or Gathering
-        if (eState == BuildingState.Building)
-        {
-            if (getEmployeeCount() != 0)
-                StartCoroutine(BeginConstructionLoop());
-        }
-        else if (eState == BuildingState.Built && eType == BuildingType.Farm || eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType != BuildingType.StonePile)
-        {
-            if (getEmployeeCount() != 0)
+            if (ResourceManagerScript.Instance.getNoBuildingSlots() >= GameManager.Instance.GetBuildingCap())
             {
-                StartCoroutine(BeginSearchLoop());
+                if (eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
+                {
+                    okayToAdd = false;
+                    //print("not okay to add  type:" + eType);
+                }
             }
+        
+            if (okayToAdd)
+            {
+                //print("okay to add");
+                _Workers[index].Assign(r);
+                r.setTarget(this.gameObject);
+
+                //Start Construction or Gathering
+                if (eState == BuildingState.Building)
+                {
+                    if (getEmployeeCount() != 0)
+                        StartCoroutine(BeginConstructionLoop());
+                }
+                else if (eState == BuildingState.Built && eType == BuildingType.Farm || eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
+                {
+                    if (getEmployeeCount() != 0)
+                    {
+                        StartCoroutine(BeginSearchLoop());
+                    }
+                    if (eType != BuildingType.Farm)
+                    {
+                        if (ResourceManagerScript.Instance.getNoBuildingSlots() < GameManager.Instance.GetBuildingCap())
+                        {
+                            //Add to our building cap
+                            ResourceManagerScript.Instance.IncrementBuildingSlots(1);
+                        }
+                    }
+
+                }
+
+            }
+            
         }
+
+
     }
     public void DismissWorker(Rodent r)
     {
@@ -921,6 +965,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 {
                     //Debug.Log("We found the right Employee");
                     e.Dismiss(r);
+
+                    //give us back a building slot
+                    if (eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
+                        ResourceManagerScript.Instance.IncrementBuildingSlots(-1);
+
+
                     break;
                 }
             }
@@ -1042,7 +1092,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         if (eType == BuildingType.Outpost)
         {
             bOutpost outpost = GetComponent<bOutpost>();
-            return ! outpost.getSelected();  // logic is backwards somewhere w the negation sign but this works
+            return !outpost.getSelected();  // logic is backwards somewhere w the negation sign but this works
         }
         else
             Debug.LogWarning("its not an outpost?");

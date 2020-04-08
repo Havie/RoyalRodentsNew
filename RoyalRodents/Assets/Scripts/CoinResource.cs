@@ -28,4 +28,12 @@ public class CoinResource : MonoBehaviour
     {
         return active;
     }
+
+    public void ImClicked()
+    {
+        ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Shiny,1);
+        //To:Do Play pick up Anim ?
+
+        Destroy(this.gameObject);
+    }
 }

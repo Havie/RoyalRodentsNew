@@ -87,7 +87,7 @@ public class ResourceManagerScript : MonoBehaviour
         _food = 10;
         _trash = 6;
         _wood = 5;
-        _stone =2;
+        _stone =1;
         _shiny = 2;
         _crowns = 0;
 

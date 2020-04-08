@@ -13,16 +13,32 @@ public class SunMoonMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        SetUpDayNight();
         //Should write an else that gets the daynightscript IF NULL
-        if(dayNightScript)
+        if (dayNightScript)
             cycleFraction = dayNightScript.getCycleFraction();
+    }
+    private void SetUpDayNight()
+    {
+        if (dayNightScript == null)
+        {
+            GameObject go = GameObject.FindGameObjectWithTag("DayNight");
+            if (go)
+                dayNightScript = go.GetComponent<Cycle2DDN>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (dayNightScript == null)
+            SetUpDayNight();
+
         if (dayNightScript)
             cycleFraction = dayNightScript.getCycleFraction();
+        else
+            print("cant find DayNight");
 
         float newX, newY;
         float alpha;

@@ -830,24 +830,28 @@ public class SubjectScript : MonoBehaviour
         {
             // Priming read
             GameObject currentClosest = _inRange[0];
-            Debug.LogWarning("InRange[0] =" + currentClosest);
-            float closestDist = Mathf.Abs(transform.position.x - _inRange[0].transform.position.x);
-
-            foreach (GameObject go in _inRange)
+            if (currentClosest != null) // do we need an is dead check here?
             {
-                if(go != null)
-                {
-                    float tempDist = Mathf.Abs(transform.position.x - go.transform.position.x);
-                    if (tempDist < closestDist)
-                    {
-                        closestDist = tempDist;
-                        currentClosest = go;
-                        Debug.Log("Found new target.");
-                    }
-                }
-               
-            }
+                Debug.LogWarning("InRange[0] =" + currentClosest);
 
+                float closestDist = Mathf.Abs(transform.position.x - _inRange[0].transform.position.x);
+
+                foreach (GameObject go in _inRange)
+                {
+                    if (go != null) // do we need an is dead check here?
+                    {
+                        float tempDist = Mathf.Abs(transform.position.x - go.transform.position.x);
+                        if (tempDist < closestDist)
+                        {
+                            closestDist = tempDist;
+                            currentClosest = go;
+                            Debug.Log("Found new target.");
+                        }
+                    }
+
+                }
+
+            }
             currentTarget = currentClosest;
         }
         // If no valid targets, set to King
@@ -992,7 +996,7 @@ public class SubjectScript : MonoBehaviour
     //As a rodent type changes, we figure out from here
     public void setAttackDamage(float damage)
     {
-        attackDamage = damage + 15;
+        attackDamage = damage;
     }
     //Doing too many get component calls when attacking, this will help
     public void setTeam(int id)

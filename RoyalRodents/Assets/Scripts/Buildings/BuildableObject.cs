@@ -562,7 +562,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //Do this here so when we load from save things dont get wonky
             eState = BuildingState.Built;
 
-            //To:Do Update to kick builder rat off worker_obj
+            //kick builder rat off worker_obj
+            foreach (Employee e in _Workers)
+            {
+                if (e.isOccupied())
+                {
+                    e.Dismiss(e.getCurrentRodent());
+                }
+            }
         }
 
         //update Gather Bar
@@ -611,6 +618,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         eState = BuildingState.Built;
 
         //To:Do Update to kick builder rat off worker_obj
+        
     }
     IEnumerator DemolishCoroutine()
     {
@@ -956,7 +964,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void DismissWorker(Rodent r)
     {
-        //print("dismiss " + r.getName());
+        print("dismiss " + r.getName());
         foreach (Employee e in _Workers)
         {
             if (e.isOccupied())
@@ -1004,7 +1012,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //No need to handle dismissals etc
         //Destroying Parent, destroys children
         foreach (Employee e in _Workers)
+        {
             MVCController.Instance.RemoveRedX(e);
+            e.Dismiss(e.getCurrentRodent()); // get rid of builder 
+        }
         Destroy(_Workers[0].transform.parent.gameObject);
         _Workers = null;
         _Workers = workers;

@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 {
 
-    [SerializeField] private float _Hp = 50f;
-    [SerializeField] private float _HpMax = 100f;
+    [SerializeField] private float _Hp = 150f;
+    [SerializeField] private float _HpMax = 300f;
     [SerializeField] [Range(0, 10f)] private float _MoveSpeed = 40f;
     [SerializeField] private float _AttackDamage = 30f;
     [SerializeField] private float _Stamina = 60f;
@@ -100,7 +100,6 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     // Start is called before the first frame update
     void Start()
     {
-        _Hp = 50f;
         if (_HealthBarObj == null)
             _HealthBarObj = Resources.Load<GameObject>("UI/HealthBarCanvas");
         SetUpHealthBar(_HealthBarObj.gameObject);
@@ -306,12 +305,24 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
             e.gameObject.SetActive(cond);
             if (firstLocked && e.isLocked())
             {
-                e.showUnlockButton(cond);
+                e.showUnlockButton(cond); 
                 firstLocked = false;
             }
             else
-                e.showUnlockButton(false);
+                e.showUnlockButton(false); //UNKNOWN REASON THIS BREAKS ON BUILD
 
+
+        }
+    }
+    public void unlockWorkerSlot()
+    {
+        foreach (var e in _RoyalGuards)
+        {
+            if (e.isLocked())
+            {
+                e.Lock(false);
+                break;
+            }
 
         }
     }

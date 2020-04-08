@@ -558,6 +558,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000012024707856, guid: 49a9eb98707a68649810f1d9d560bb2d, type: 3}
+      propertyPath: m_TagString
+      value: DayNight
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: night.r
+      value: 0.58624065
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: night.g
+      value: 0.46942863
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
+        type: 3}
+      propertyPath: night.b
+      value: 0.7264151
+      objectReference: {fileID: 0}
     - target: {fileID: 224000012665026564, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -662,21 +681,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
-        type: 3}
-      propertyPath: night.r
-      value: 0.58624065
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
-        type: 3}
-      propertyPath: night.g
-      value: 0.46942863
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
-        type: 3}
-      propertyPath: night.b
-      value: 0.7264151
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49a9eb98707a68649810f1d9d560bb2d, type: 3}
@@ -4038,13 +4042,14 @@ MonoBehaviour:
   _food: 0
   _trash: 0
   _wood: 0
-  _metal: 0
+  _stone: 0
   _shiny: 0
   _currentPopulation: 0
   _currentCapacity: 0
+  _buildingSlots: 0
   _TrashText: {fileID: 0}
   _WoodText: {fileID: 0}
-  _MetalText: {fileID: 0}
+  _StoneText: {fileID: 0}
   _ShinyText: {fileID: 0}
   _FoodText: {fileID: 0}
   _PopulationText: {fileID: 0}

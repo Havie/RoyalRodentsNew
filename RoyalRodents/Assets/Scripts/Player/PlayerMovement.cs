@@ -148,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
                 // possibly move toward it with normalized direction
                 if (go != MVCController.Instance._dummyObj)
                 {
-                    Debug.Log("Location for " + go + "   is " + go.transform.position);
+                   // Debug.Log("Location for " + go + "   is " + go.transform.position);
                     //figure out if the collider is on a building we own
                     if (go.transform.parent)
                     {

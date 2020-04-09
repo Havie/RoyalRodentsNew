@@ -47,7 +47,7 @@ public class SubjectScript : MonoBehaviour
     public bool isRanged;
     private BuildableObject job;
     public GameObject projectilePrefab;
-    private Transform projectileSpawnPoint;
+    public Transform projectileSpawnPoint;
 
     private const string MOVING_ANIMATION_BOOL = "isMoving";
     private const string ARMED_ANIMATION_BOOL = "isArmed";
@@ -624,9 +624,7 @@ public class SubjectScript : MonoBehaviour
     void flipDirection()
     {
         facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+        transform.Rotate(0, 180, 0);
 
 
         //Fix Children Health bar and RecruitMenu
@@ -693,24 +691,24 @@ public class SubjectScript : MonoBehaviour
             idleInRadius(2);
 
     }
-    //IEnumerator Shoot(Vector3 shootTargetCoordinate)
-    //{
-    //    if (canAttack)
-    //    {
-    //        canAttack = false;
-    //        if (anims)
-    //        {
-    //            anims.SetTrigger(ATK_ANIMATION_TRIGGER);
-    //        }
-    //        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
-    //        projectile.transform.parent = projectileSpawnPoint;
-    //        projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
+    IEnumerator Shoot(Vector3 shootTargetCoordinate)
+    {
+        if (canAttack)
+        {
+            canAttack = false;
+            if (anims)
+            {
+                anims.SetTrigger(ATK_ANIMATION_TRIGGER);
+            }
+            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+            projectile.transform.parent = projectileSpawnPoint;
+            projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
 
-    //    }
+        }
 
-    //    yield return new WaitForSeconds(1.16f);
-    //    canAttack = true;
-    //}
+        yield return new WaitForSeconds(1.16f);
+        canAttack = true;
+    }
 
     public void AgroRadiusTrigger(Collider2D collision)
     {

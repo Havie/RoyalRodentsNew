@@ -26,9 +26,12 @@ public class ResourceManagerScript : MonoBehaviour
     public TextMeshProUGUI _StoneText;
     public TextMeshProUGUI _ShinyText;
     public TextMeshProUGUI _FoodText;
-
     public TextMeshProUGUI _PopulationText;
     public TextMeshProUGUI _CrownsText;
+
+    //VFX
+    public GameObject _VFXPrefab;
+    private ParticleSystem _VFXResourcePop;
     private bool _started;
 
     //Create Instance of GameManager
@@ -91,7 +94,28 @@ public class ResourceManagerScript : MonoBehaviour
         _shiny = 2;
         _crowns = 0;
 
+        LoadVFX();
         UpdateAllText();
+    }
+    private void LoadVFX()
+    {
+        if (_VFXPrefab == null)
+            _VFXPrefab = Resources.Load<GameObject>("UI/vfx_ResourcePop");
+        var vfx = GameObject.Instantiate(_VFXPrefab, this.transform.position, this.transform.rotation);
+        vfx.transform.SetParent(_FoodText.transform.parent);
+        _VFXResourcePop = vfx.GetComponent<ParticleSystem>();
+
+    }
+    private void PlayVFX(Vector3 loc)
+    {
+        if (_VFXResourcePop)
+        {
+            _VFXResourcePop.gameObject.transform.position = loc;
+            _VFXResourcePop.Stop();
+            _VFXResourcePop.Play();
+        }
+        else
+            LoadVFX();
     }
     //Needed to Find the Correct Objects when new Scene is loaded - otherwise everythings Null
     public void FindTexts()
@@ -245,31 +269,51 @@ public class ResourceManagerScript : MonoBehaviour
             case ResourceType.Food:
                 {
                     if (_FoodText)
+                    {
+                        playAnim(_FoodText);
+                        PlayVFX(_FoodText.transform.position);
                         _FoodText.text = _food.ToString();
+                    }
                     break;
                 }
             case ResourceType.Trash:
                 {
                     if (_TrashText)
+                    {
+                        playAnim(_TrashText);
+                        PlayVFX(_TrashText.transform.position);
                         _TrashText.text = _trash.ToString();
+                    }
                     break;
                 }
             case ResourceType.Wood:
                 {
                     if (_WoodText)
+                    {
+                        playAnim(_WoodText);
+                        PlayVFX(_WoodText.transform.position);
                         _WoodText.text = _wood.ToString();
+                    }
                     break;
                 }
             case ResourceType.Stone:
                 {
                     if (_StoneText)
+                    {
+                        playAnim(_StoneText);
+                        PlayVFX(_StoneText.transform.position);
                         _StoneText.text = _stone.ToString();
+                    }
                     break;
                 }
             case ResourceType.Shiny:
                 {
                     if (_ShinyText)
+                    {
+                        playAnim(_ShinyText);
+                        PlayVFX(_ShinyText.transform.position);
                         _ShinyText.text = _shiny.ToString();
+                    }
                     break;
                 }
             default:
@@ -289,6 +333,12 @@ public class ResourceManagerScript : MonoBehaviour
         UpdateResourceText(ResourceType.Wood);
         UpdatePopulationText();
         UpdateCrownText();
+    }
+    private void playAnim(TextMeshProUGUI text)
+    {
+        Animator animator = text.GetComponent<Animator>();
+        if (animator)
+            animator.SetTrigger("doAnim");
     }
     private void UpdatePopulationText()
     {

@@ -12,7 +12,19 @@ public class bBanner : MonoBehaviour
 	private float _hitpoints = 50;
 	private float _hitPointGrowth = 10;
 
-	private static bool _isSet;
+
+    //unique to banner
+    private float _hpBonusLvl1 = 1.10f;
+    private float _hpBonusLvl2 = 1.15f;
+    private float _hpBonusLvl3 = 1.25f;
+
+
+    private float _gatherBonusLvl1 = 1.05f;
+    private float _gatherBonusLvl2 = 1.08f;
+    private float _gatherBonusLvl3 = 1.13f;
+
+
+    private static bool _isSet;
 
 	//create strucutre costs (costLevel1 is used to BUILD TO level 1, not ON level 1)
 	public static Dictionary<ResourceManagerScript.ResourceType, int> _costLevel1 = new Dictionary<ResourceManagerScript.ResourceType, int>();
@@ -96,4 +108,33 @@ public class bBanner : MonoBehaviour
 	{
 		return maxLevel;
 	}
+
+    public float getHPBonus()
+    {
+        BuildableObject building = GetComponent<BuildableObject>();
+        int level = building.getLevel();
+
+        if (level == 1)
+            return _hpBonusLvl1;
+        else if (level == 2)
+            return _hpBonusLvl2;
+        else if (level == 3)
+            return _hpBonusLvl3;
+
+        return 0;
+    }
+    public float getGatherBonus()
+    {
+        BuildableObject building = GetComponent<BuildableObject>();
+        int level = building.getLevel();
+
+        if (level == 1)
+            return _gatherBonusLvl1;
+        else if (level == 2)
+            return _gatherBonusLvl1;
+        else if (level == 3)
+            return _gatherBonusLvl1;
+
+        return 0;
+    }
 }

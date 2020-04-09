@@ -245,31 +245,46 @@ public class ResourceManagerScript : MonoBehaviour
             case ResourceType.Food:
                 {
                     if (_FoodText)
+                    {
+                        playAnim(_FoodText);
                         _FoodText.text = _food.ToString();
+                    }
                     break;
                 }
             case ResourceType.Trash:
                 {
                     if (_TrashText)
+                    {
+                        playAnim(_TrashText);
                         _TrashText.text = _trash.ToString();
+                    }
                     break;
                 }
             case ResourceType.Wood:
                 {
                     if (_WoodText)
+                    {
+                        playAnim(_WoodText);
                         _WoodText.text = _wood.ToString();
+                    }
                     break;
                 }
             case ResourceType.Stone:
                 {
                     if (_StoneText)
+                    {
+                        playAnim(_StoneText);
                         _StoneText.text = _stone.ToString();
+                    }
                     break;
                 }
             case ResourceType.Shiny:
                 {
                     if (_ShinyText)
+                    {
+                        playAnim(_ShinyText);
                         _ShinyText.text = _shiny.ToString();
+                    }
                     break;
                 }
             default:
@@ -289,6 +304,12 @@ public class ResourceManagerScript : MonoBehaviour
         UpdateResourceText(ResourceType.Wood);
         UpdatePopulationText();
         UpdateCrownText();
+    }
+    private void playAnim(TextMeshProUGUI text)
+    {
+        Animator animator = text.GetComponent<Animator>();
+        if (animator)
+            animator.SetTrigger("doAnim");
     }
     private void UpdatePopulationText()
     {

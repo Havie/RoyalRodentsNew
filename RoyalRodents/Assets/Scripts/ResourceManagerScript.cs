@@ -40,7 +40,7 @@ public class ResourceManagerScript : MonoBehaviour
         get
         {
             if (_instance == null)
-                _instance = new ResourceManagerScript();
+                _instance = GameObject.FindObjectOfType<ResourceManagerScript>();
             return _instance;
         }
     }

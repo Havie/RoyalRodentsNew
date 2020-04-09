@@ -253,14 +253,14 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
     public bool isRanged() => _isRanged;
     public bool isDead() => _isDead;
-    public float getHp() { return _Hp; }
-    public float getHpMax() { return _HpMax; }
-    public float getSpeed() { return _MoveSpeed; }
-    public float getAttackDmg() { return _AttackDamage; }
-    public string getName() { return _Name; }
-    public eRodentType GetRodentType() { return _Type; }
-    public eStatus GetRodentStatus() { return _Status; }
-    public Sprite GetPortrait() { return _Portrait; }
+    public float getHp() => _Hp; 
+    public float getHpMax() => _HpMax; 
+    public float getSpeed() => _MoveSpeed; 
+    public float getAttackDmg() => _AttackDamage; 
+    public string getName() => _Name; 
+    public eRodentType GetRodentType() => _Type; 
+    public eStatus GetRodentStatus() => _Status; 
+    public Sprite GetPortrait() => _Portrait; 
     public GameObject getPlaceOfWork() => _placeOfWork;
     public int getID() => _ID;
 

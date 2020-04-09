@@ -6,11 +6,11 @@ public class Beaver : MonoBehaviour
 {
     public Sprite _Default;
 
-    private float _Hp = 130f;
-    private float _HpMax = 130f;
+    private float _Hp = 135f;
+    private float _HpMax = 135f;
     [Range(0, 10f)]
-    private float _MoveSpeed = 2.6f;
-    private float _AttackDamage = 3.4f;
+    private float _MoveSpeed = 2.4f;
+    private float _AttackDamage = 3.7f;
     [SerializeField]
     private Sprite _Portrait;
 

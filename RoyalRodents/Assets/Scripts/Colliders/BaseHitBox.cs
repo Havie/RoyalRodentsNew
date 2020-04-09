@@ -7,6 +7,8 @@ public class BaseHitBox : MonoBehaviour
     [SerializeField]
     private bool _OnPlayer;
     [SerializeField]
+    private bool _OnBuilding;
+    [SerializeField]
     private bool _DigCollider;
 
     private GameObject _MoveDummy;
@@ -29,6 +31,9 @@ public class BaseHitBox : MonoBehaviour
     //COLLISION
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_OnPlayer && _OnBuilding)
+            Debug.LogWarning("Cant have a collider set to building and player!...");
+
         if (_OnPlayer)
         {
             if (this.transform.parent)
@@ -71,6 +76,44 @@ public class BaseHitBox : MonoBehaviour
             }
 
         }
+        else if (_OnBuilding)
+        {
+            if (this.transform.parent)
+            {
+                Transform t = this.transform.parent;
+                if (t)
+                {
+                    bBanner banner = t.GetComponent<bBanner>();
+                    if (banner)
+                    {
+                        // handle if collider is agro range or base range
+                        if (collision.transform.GetComponent<AttackRadius>())
+                        {
+                            Transform colliderParent = collision.gameObject.transform.parent;
+                            if (colliderParent)
+                            {
+                                Debug.Log(banner.gameObject.name
+                                        + " Collided with :" + colliderParent.gameObject);
+
+                                Rodent r = colliderParent.GetComponent<Rodent>();
+                                if (r)
+                                {
+                                    //Set Max HP
+                                    //Debug.Log("HP was:" + r.getHpMax());
+                                    r.setHpMax(r.getHpMax() * banner.getHPBonus());
+                                    // Debug.Log("HP now:" + r.getHpMax());
+
+                                    // Set HP
+                                    r.setHp(r.getHp() * banner.getHPBonus());
+
+                                    //TO-DO: Gathering Bonuses
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -111,6 +154,42 @@ public class BaseHitBox : MonoBehaviour
 
             }
 
+        }
+        else if (_OnBuilding)
+        {
+            if (this.transform.parent)
+            {
+                Transform t = this.transform.parent;
+                if (t)
+                {
+                    bBanner banner = t.GetComponent<bBanner>();
+                    if (banner)
+                    {
+                        // handle if collider is agro range or base range
+                        if (collision.transform.GetComponent<AttackRadius>())
+                        {
+                            Transform colliderParent = collision.gameObject.transform.parent;
+                            if (colliderParent)
+                            {
+                                Debug.Log(banner.gameObject.name
+                                        + " Collided with :" + colliderParent.gameObject);
+
+                                Rodent r = colliderParent.GetComponent<Rodent>();
+                                if (r)
+                                {
+                                    //Set Max HP
+                                   // Debug.Log("HP was:" + r.getHpMax());
+                                    r.setHpMax(r.getHpMax() / banner.getHPBonus());
+                                   // Debug.Log("HP now:" + r.getHpMax());
+
+                                    // Set HP
+                                    r.setHp(r.getHp() / banner.getHPBonus());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

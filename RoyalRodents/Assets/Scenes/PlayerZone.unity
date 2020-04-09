@@ -1656,6 +1656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 1
+  _OnBuilding: 0
   _DigCollider: 0
 --- !u!61 &59600184
 BoxCollider2D:
@@ -5207,7 +5208,7 @@ Transform:
   - {fileID: 1046973830}
   - {fileID: 2104871356}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &147623543
 GameObject:
@@ -7086,7 +7087,7 @@ Transform:
   - {fileID: 5212899346106347841}
   - {fileID: 2088833534}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &203096278 stripped
 RectTransform:
@@ -10360,6 +10361,7 @@ RectTransform:
   - {fileID: 276676827}
   - {fileID: 489813141}
   - {fileID: 1214337711}
+  - {fileID: 1190300935}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23036,7 +23038,7 @@ Transform:
   - {fileID: 2132679249}
   - {fileID: 337254376}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &643662555
 GameObject:
@@ -25511,6 +25513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 0
+  _OnBuilding: 0
   _DigCollider: 0
 --- !u!1 &722127041
 GameObject:
@@ -34656,6 +34659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 0
+  _OnBuilding: 0
   _DigCollider: 0
 --- !u!61 &882693374
 BoxCollider2D:
@@ -43275,6 +43279,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2534387841676516468, guid: b449ead2722bb964c9d2e93ad1463a77,
+        type: 3}
+      propertyPath: _OnBuilding
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b449ead2722bb964c9d2e93ad1463a77, type: 3}
 --- !u!4 &1038418297 stripped
@@ -50001,6 +50010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 0
+  _OnBuilding: 0
   _DigCollider: 0
 --- !u!61 &1175862688
 BoxCollider2D:
@@ -50686,8 +50696,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190300934}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 846.12866, y: 197.32, z: -5.039829}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 23.42865, y: 10.320007, z: -5.039829}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1600840304}
@@ -50698,8 +50708,8 @@ Transform:
   - {fileID: 1544557923}
   - {fileID: 754574759}
   - {fileID: 2064641084}
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_Father: {fileID: 277402494}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1194699648
 GameObject:
@@ -62971,7 +62981,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1481583898
 GameObject:
@@ -72706,7 +72716,7 @@ Transform:
   - {fileID: 3235395799619603090}
   - {fileID: 3235395800482922105}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1763692809
 GameObject:
@@ -77747,7 +77757,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1881084833
 GameObject:
@@ -80424,6 +80434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 1
+  _OnBuilding: 0
   _DigCollider: 1
 --- !u!61 &1936922549
 BoxCollider2D:
@@ -89158,6 +89169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 0
+  _OnBuilding: 0
   _DigCollider: 0
 --- !u!61 &604731469006898276
 BoxCollider2D:
@@ -90126,6 +90138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 0
+  _OnBuilding: 0
   _DigCollider: 0
 --- !u!4 &3235395801023574406
 Transform:
@@ -90227,6 +90240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPlayer: 0
+  _OnBuilding: 0
   _DigCollider: 0
 --- !u!61 &3235395801232557423
 BoxCollider2D:

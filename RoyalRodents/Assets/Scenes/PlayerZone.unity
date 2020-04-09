@@ -41689,6 +41689,7 @@ MonoBehaviour:
   _FoodText: {fileID: 933066596}
   _PopulationText: {fileID: 1922297173}
   _CrownsText: {fileID: 0}
+  _VFXPrefab: {fileID: 0}
 --- !u!1 &1015917194
 GameObject:
   m_ObjectHideFlags: 0

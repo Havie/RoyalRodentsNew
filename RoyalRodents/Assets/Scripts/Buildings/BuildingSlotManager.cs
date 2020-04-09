@@ -40,7 +40,7 @@ public class BuildingSlotManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+       // DontDestroyOnLoad(gameObject); // cant do because its not a root obj in scene
     }
 
     // Start is called before the first frame update

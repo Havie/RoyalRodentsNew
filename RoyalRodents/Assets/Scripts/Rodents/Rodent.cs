@@ -143,7 +143,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         {
             Animator a = this.GetComponent<Animator>();
             if (a)
-                a.SetBool("isArmedRange", true);
+                a.SetBool("isRanged", true);
             return true;
         }
         return false;
@@ -498,7 +498,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         {
             Animator a = this.GetComponent<Animator>();
             if (a)
-                a.SetBool("isArmedRange", true);
+                a.SetBool("isRanged", true);
         }
 
     }

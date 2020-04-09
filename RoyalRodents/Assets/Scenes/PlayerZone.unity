@@ -3074,7 +3074,7 @@ MonoBehaviour:
   _level: 2
   textTrashCost: {fileID: 324552903}
   textWoodCost: {fileID: 1835748170}
-  textMetalCost: {fileID: 7476057}
+  textStoneCost: {fileID: 0}
   textShinyCost: {fileID: 644603927}
   textTitle: {fileID: 1472960085}
 --- !u!1001 &101920121
@@ -36901,7 +36901,7 @@ MonoBehaviour:
   _level: 1
   textTrashCost: {fileID: 523724631}
   textWoodCost: {fileID: 0}
-  textMetalCost: {fileID: 0}
+  textStoneCost: {fileID: 0}
   textShinyCost: {fileID: 0}
   textTitle: {fileID: 0}
 --- !u!1 &929867316
@@ -56276,7 +56276,7 @@ MonoBehaviour:
   _level: 1
   textTrashCost: {fileID: 798430809}
   textWoodCost: {fileID: 0}
-  textMetalCost: {fileID: 0}
+  textStoneCost: {fileID: 0}
   textShinyCost: {fileID: 0}
   textTitle: {fileID: 0}
 --- !u!1 &1307912584
@@ -64921,7 +64921,7 @@ MonoBehaviour:
   _level: 1
   textTrashCost: {fileID: 338177751}
   textWoodCost: {fileID: 0}
-  textMetalCost: {fileID: 0}
+  textStoneCost: {fileID: 0}
   textShinyCost: {fileID: 0}
   textTitle: {fileID: 0}
 --- !u!1001 &1544557922
@@ -75497,7 +75497,7 @@ MonoBehaviour:
   _level: 1
   textTrashCost: {fileID: 859358923}
   textWoodCost: {fileID: 0}
-  textMetalCost: {fileID: 0}
+  textStoneCost: {fileID: 0}
   textShinyCost: {fileID: 0}
   textTitle: {fileID: 0}
 --- !u!1 &1833481564

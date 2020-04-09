@@ -16,19 +16,19 @@ public class UIButtonCosts : MonoBehaviour
 	//Cost of Upgrade by Resource Vars
 	private int costTrash;
 	private int costWood;
-	private int costMetal;
+	private int costStone;
 	private int costShiny;
 
 	//Current Player Resources Local Vars
 	private int currentTrash;
 	private int currentWood;
-	private int currentMetal;
+	private int currentStone;
 	private int currentShiny;
 
 	//Get reference to Button Text
 	public TextMeshProUGUI textTrashCost; //displays costs of button
 	public TextMeshProUGUI textWoodCost;
-	public TextMeshProUGUI textMetalCost;
+	public TextMeshProUGUI textStoneCost;
 	public TextMeshProUGUI textShinyCost;
 
 	public TextMeshProUGUI textTitle; //displays name of button
@@ -71,7 +71,7 @@ public class UIButtonCosts : MonoBehaviour
 		//update local vars from player resources
 		currentTrash = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Trash);
 		currentWood = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Wood);
-		currentMetal = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Stone);
+		currentStone = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Stone);
 		currentShiny = _rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny);
 	}
 
@@ -122,7 +122,7 @@ public class UIButtonCosts : MonoBehaviour
 		//set default costs to zero before recalculating
 		costTrash = 0;
 		costWood = 0;
-		costMetal = 0;
+		costStone = 0;
 		costShiny = 0;
 
 		//set cost variables from specific cost dictionary
@@ -147,7 +147,7 @@ public class UIButtonCosts : MonoBehaviour
 						}
 					case ResourceManagerScript.ResourceType.Stone:
 						{
-							costMetal = tmp;
+							costStone = tmp;
 							break;
 						}
 					case ResourceManagerScript.ResourceType.Shiny:
@@ -191,19 +191,19 @@ public class UIButtonCosts : MonoBehaviour
 			else
 				textWoodCost.color = good;
 		}
-		//Set Metal Cost Text
-		if (textMetalCost != null)
+		//Set Stone Cost Text
+		if (textStoneCost != null)
 		{
-			if (costMetal == 0) textMetalCost.text = "";
+			if (costStone == 0) textStoneCost.text = "";
 			else
-				textMetalCost.text = costMetal.ToString();
+				textStoneCost.text = costStone.ToString();
 
-			if (currentMetal < costMetal)
+			if (currentStone < costStone)
 			{
-				textMetalCost.color = bad;
+				textStoneCost.color = bad;
 			}
 			else
-				textMetalCost.color = good;
+				textStoneCost.color = good;
 		}
 		//Set Shiny Cost Text
 		if (textShinyCost != null)
@@ -227,7 +227,7 @@ public class UIButtonCosts : MonoBehaviour
         //Debug.LogWarning("Heard UI ApproveCosts");
         UpdateButton();
 
-        if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentMetal >= costWood) && (currentShiny >= costShiny))
+        if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentStone >= costStone) && (currentShiny >= costShiny))
         {
             //call different method if building or upgrading
 			if (name == "Button_Upgrade") MVCController.Instance.MVCUpgradeSomething();
@@ -237,7 +237,7 @@ public class UIButtonCosts : MonoBehaviour
 			//decrement resources based on cost
 			_rm.incrementResource(ResourceManagerScript.ResourceType.Trash, -costTrash);
 			_rm.incrementResource(ResourceManagerScript.ResourceType.Wood, -costWood);
-			_rm.incrementResource(ResourceManagerScript.ResourceType.Stone, -costMetal);
+			_rm.incrementResource(ResourceManagerScript.ResourceType.Stone, -costStone);
 			_rm.incrementResource(ResourceManagerScript.ResourceType.Shiny, -costShiny);
 			// Debug.Log("Cost Approved");
 		}

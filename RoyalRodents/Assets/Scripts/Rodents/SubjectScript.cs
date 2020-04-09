@@ -378,6 +378,7 @@ public class SubjectScript : MonoBehaviour
                     }
 
                     swapTarget();
+                    IncrementBuilding();
                 }
 
                 else if (farmer || gatherer)
@@ -397,7 +398,7 @@ public class SubjectScript : MonoBehaviour
 
                     swapTarget();
                     // This is probably where we should send the signal for the progress bars
-
+                    IncrementGathering();
                 }
             }
 
@@ -405,12 +406,45 @@ public class SubjectScript : MonoBehaviour
             if (MovingInIdle)
                 MovingInIdle = false;
 
-
+                                                                        
 
         }
 
     }
+    private void IncrementBuilding()
+    {
+        if (currentTarget == townCenterLoc)
+        {
+            Debug.Log("INcrement On" + savedTarget.gameObject);
+            savedTarget.GetComponent<BuildableObject>().IncrementConstruction(1);
+            //TO-DO: base increment off rodent stat
+        }
+        else
+            Debug.Log("current target is" + currentTarget.gameObject);
+    }
+    private void IncrementGathering()
+    {
+        if (currentTarget == townCenterLoc)
+        {
+            Debug.Log("INcrement On" + savedTarget.gameObject);
+            savedTarget.GetComponent<BuildableObject>().IncrementGathering(20);
+        }
+        else
+            Debug.Log("current target is" + currentTarget.gameObject);
+    }
 
+    private bool CheckIfRat()
+    {
+        Rodent r = GetComponent<Rodent>();
+        if(r)
+        {
+            if(r.GetRodentType() == Rodent.eRodentType.Rat || r.GetRodentType() == Rodent.eRodentType.Mouse)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     /**  Finds the right Position to idle in */
     public void idleInRadius(int radius)
     {
@@ -430,7 +464,7 @@ public class SubjectScript : MonoBehaviour
 
         if (!coroutineStarted)
         {
-            // Debug.Log("Told to Idle in Radius");
+           // Debug.Log("Told to Idle in Radius , and coroutine started=" +coroutineStarted);
             int _chanceToMove = Random.Range(-radius, radius);
             if (_chanceToMove > 2)
             {
@@ -472,9 +506,8 @@ public class SubjectScript : MonoBehaviour
         }
         else
         {
-            if (_printStatements)
-                Debug.LogError("Told to start timer");
             ShouldIdle = true;
+            //Debug.LogWarning("Start Idle");
 
             float currentTime = Time.time;
             float ExitTime = currentTime + WaitDuration;
@@ -484,7 +517,8 @@ public class SubjectScript : MonoBehaviour
             if (builder)
             {
                    // Fix for builder
-                    flipDirection();
+                   if(CheckIfRat())
+                        flipDirection();
                     if (!_approachingTownCenterasWorker)
                     {
                         setAnim(BUILDING_ANIMATION_BOOL, true, false);
@@ -526,13 +560,15 @@ public class SubjectScript : MonoBehaviour
                 yield return new WaitForSeconds(Time.deltaTime);
             }
             yield return new WaitForSeconds(WaitDuration);
+            //Debug.LogWarning("Stop Idle");
             ShouldIdle = false;
 
             //set false
 
             if (builder)
             {
-                flipDirection();
+                if(CheckIfRat())
+                    flipDirection();
                 setAnim(BUILDING_ANIMATION_BOOL, false, false);
                 setAnim(GATHERHING_ANIMATION_BOOL, false, false);
             }  
@@ -558,18 +594,29 @@ public class SubjectScript : MonoBehaviour
     /** While this is active, the subject will repeatedly move to a location, Upon Reaching that location will wait again before exiting */
     IEnumerator IdleMovetoLoc(Vector3 pos)
     {
-
-        //Debug.LogWarning("Enter Actual Move Coroutine");
-        MovingInIdle = true;
-        coroutineStarted = true;
-        while (MovingInIdle)
+        if (!coroutineStarted)
         {
-            Move(pos);
-            yield return new WaitForSeconds(Time.deltaTime);
 
+
+            // Debug.LogWarning("Enter Actual Move Coroutine");
+            MovingInIdle = true;
+            coroutineStarted = true;
+            while (MovingInIdle)
+            {
+                Move(pos);
+                yield return new WaitForSeconds(Time.deltaTime);
+
+            }
+           // print("wait for " + WaitDuration + " seconds on " + this.gameObject.name);
+            yield return new WaitForSecondsRealtime(WaitDuration);
+           // print("wait is over " + WaitDuration + " " + this.gameObject.name);
+            coroutineStarted = false;
         }
-        yield return new WaitForSeconds(WaitDuration);
-        coroutineStarted = false;
+        else
+        {
+            Debug.Log("Already started.... Return");
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
 
     }
 
@@ -957,19 +1004,20 @@ public class SubjectScript : MonoBehaviour
     /**Figures out how long to idle for based on Occupation and State */
     private float SetWaitDuration(string state)
     {
+      //  print("set wait");
         if (state.Equals("move"))
         {
             if (farmer || gatherer)
-                if(currentTarget == townCenterLoc)
+                if(currentTarget != townCenterLoc)
                 {
-                   // Debug.Log("True");
+                   //Debug.Log("Setting delay for TownCenter work");
                     float delay = Random.Range(1, 2);
                     //Debug.Log("Delay of: " + delay);
                     return delay;
                 }
                 else
                 {
-                   // Debug.Log("falsee");
+                   // Debug.Log("Setting delay for place of Employment work");
                     float delay = Random.Range(4, 10);
                     //Debug.Log("Delay of: " + delay);
                     return delay;
@@ -978,7 +1026,20 @@ public class SubjectScript : MonoBehaviour
             else if (royalGuard || defender)
                 return Random.Range(1, 2.5f);
             else if (builder)
-                return Random.Range(5, 10f);
+                if (currentTarget != townCenterLoc)
+                {
+                    //Debug.Log("Setting delay for TownCenter work");
+                    float delay = Random.Range(1, 2.5f);
+                    //Debug.Log("Delay of: " + delay);
+                    return delay;
+                }
+                else
+                {
+                    //Debug.Log("Setting delay for place of Employment work");
+                    float delay = Random.Range(5, 10);
+                    //Debug.Log("Delay of: " + delay);
+                    return delay;
+                }
         }
         else if (state.Equals("idle"))
         {

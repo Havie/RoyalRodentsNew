@@ -86091,6 +86091,7 @@ MonoBehaviour:
   _underAttackTime: 0
   isRanged: 0
   projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!114 &2088833537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89902,6 +89903,7 @@ MonoBehaviour:
   _underAttackTime: 0
   isRanged: 0
   projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!114 &3235395800080401630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90173,6 +90175,7 @@ MonoBehaviour:
   _underAttackTime: 0
   isRanged: 0
   projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!114 &3235395800290324535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91086,6 +91089,7 @@ MonoBehaviour:
   _underAttackTime: 0
   isRanged: 0
   projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!212 &6942603900305486487
 SpriteRenderer:
   m_ObjectHideFlags: 0

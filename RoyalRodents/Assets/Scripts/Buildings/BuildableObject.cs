@@ -543,6 +543,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         ResourceManagerScript.Instance.IncrementBuildingSlots(-1);
         StartCoroutine(DemolishCoroutine());
     }
+    public void IncrementGathering(int amnt)
+    {
+        Searchable s = GetComponent<Searchable>();
+        if (s)
+            s.incrementGathering(amnt * _level); //increments gathering 20 times the level of the structure
+
+    }
 
     public void IncrementConstruction(int amnt)
     {
@@ -609,7 +616,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
     }
 
-    //Temporary way to delay construction
+    //Temporary way to delay construction- UNUSED
     IEnumerator BuildCoroutine()
     {
         yield return new WaitForSeconds(5f);
@@ -617,7 +624,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //Do this here so when we load from save things dont get wonky
         eState = BuildingState.Built;
 
-        //To:Do Update to kick builder rat off worker_obj
         
     }
     IEnumerator DemolishCoroutine()
@@ -936,14 +942,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 //Start Construction or Gathering
                 if (eState == BuildingState.Building)
                 {
-                    if (getEmployeeCount() != 0)
-                        StartCoroutine(BeginConstructionLoop());
+                   // if (getEmployeeCount() != 0)
+                   //     StartCoroutine(BeginConstructionLoop());
                 }
                 else if (eState == BuildingState.Built && eType == BuildingType.Farm || eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
                 {
                     if (getEmployeeCount() != 0)
                     {
-                        StartCoroutine(BeginSearchLoop());
+                        //StartCoroutine(BeginSearchLoop());   //Old wya to auto do
                     }
                     if (eType != BuildingType.Farm)
                     {

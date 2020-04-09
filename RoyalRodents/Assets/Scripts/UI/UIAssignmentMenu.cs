@@ -40,7 +40,7 @@ public class UIAssignmentMenu : MonoBehaviour
         get
         {
             if (_instance == null)
-                _instance = GameObject.FindObjectOfType<UIAssignmentMenu>(); ;
+                _instance = GameObject.FindObjectOfType<UIAssignmentMenu>();
             return _instance;
         }
     }

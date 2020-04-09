@@ -1,40 +1,31 @@
 fileFormatVersion: 2
-guid: d34ad967297c2484586db6046ca8f9e4
+guid: c2825fb4363d0a34b9da4709a471243d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2426492979333535747
-    second: MCSprite_Death_0
+      213: 3884712345096835378
+    second: EnemySprite_Idle 1_0
   - first:
-      213: -1291844583291632334
-    second: MCSprite_Death_1
+      213: 3322878035412706125
+    second: EnemySprite_Idle 1_1
   - first:
-      213: -3923984121709026263
-    second: MCSprite_Death_2
+      213: -4794935745865397411
+    second: EnemySprite_Idle 1_2
   - first:
-      213: -4942849466450145988
-    second: MCSprite_Death_3
+      213: -3305837955612031915
+    second: EnemySprite_Idle 1_3
   - first:
-      213: -9092444507951679988
-    second: MCSprite_Death_4
+      213: 4403466765766778820
+    second: EnemySprite_Idle 1_4
   - first:
-      213: 8662310670802016545
-    second: MCSprite_Death_5
+      213: -4052951802985036550
+    second: EnemySprite_Idle 1_5
   - first:
-      213: -6131543004134746891
-    second: MCSprite_Death_6
+      213: -8690979605787402568
+    second: EnemySprite_Idle 1_6
   - first:
-      213: 1560648979730772919
-    second: MCSprite_Death_7
-  - first:
-      213: -5876538651147640150
-    second: MCSprite_Death_8
-  - first:
-      213: 4050199401301043356
-    second: MCSprite_Death_9
-  - first:
-      213: -6577959294077343730
-    second: MCSprite_Death_10
+      213: -8977782956734487138
+    second: EnemySprite_Idle 1_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -143,13 +134,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MCSprite_Death_0
+      name: EnemySprite_Idle 1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1024.6667
+        y: 512
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,20 +148,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ab6869575d562140bab729a15f70764
-      internalID: -2426492979333535747
+      spriteID: d3d281adfae448541827513cf734b26b
+      internalID: 3884712345096835378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCSprite_Death_1
+      name: EnemySprite_Idle 1_1
       rect:
         serializedVersion: 2
         x: 512
-        y: 1024.6667
+        y: 512
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,20 +169,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f9310096d1731d44b4f672548a232ec
-      internalID: -1291844583291632334
+      spriteID: c3e39a63960764642a71ebe4fb99b5b5
+      internalID: 3322878035412706125
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCSprite_Death_2
+      name: EnemySprite_Idle 1_2
       rect:
         serializedVersion: 2
         x: 1024
-        y: 1024.6667
+        y: 512
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -199,20 +190,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f509d4aac51077542aab1454c0d88662
-      internalID: -3923984121709026263
+      spriteID: 3645c54cbdfd8ed4daa3e61f56f0a99c
+      internalID: -4794935745865397411
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCSprite_Death_3
+      name: EnemySprite_Idle 1_3
       rect:
         serializedVersion: 2
         x: 1536
-        y: 1024.6667
+        y: 512
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -220,20 +211,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f95612f429ef394abd00d235a914770
-      internalID: -4942849466450145988
+      spriteID: 21fc32a5b1ffedc4aa38059f5dffbdaf
+      internalID: -3305837955612031915
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCSprite_Death_4
+      name: EnemySprite_Idle 1_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 512.6667
+        y: 0
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -241,20 +232,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59f8994693158614c8c38feb14dfcfeb
-      internalID: -9092444507951679988
+      spriteID: 7b7229f811f52a545b80b419a9bc6cfe
+      internalID: 4403466765766778820
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCSprite_Death_5
+      name: EnemySprite_Idle 1_5
       rect:
         serializedVersion: 2
         x: 512
-        y: 512.6667
+        y: 0
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -262,20 +253,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 744a2ac97c210f547ba42e4a5e68af76
-      internalID: 8662310670802016545
+      spriteID: d81662b855d1d7349a647063cd709e1c
+      internalID: -4052951802985036550
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCSprite_Death_6
+      name: EnemySprite_Idle 1_6
       rect:
         serializedVersion: 2
         x: 1024
-        y: 512.6667
+        y: 0
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -283,20 +274,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1989132922bc3f4b8a15b427a606d27
-      internalID: -6131543004134746891
+      spriteID: 8590de8e93faeb640a52f712a63f3c83
+      internalID: -8690979605787402568
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MCSprite_Death_7
+      name: EnemySprite_Idle 1_7
       rect:
         serializedVersion: 2
         x: 1536
-        y: 512.6667
+        y: 0
         width: 512
-        height: 512.3333
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,71 +295,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10757ad7643f52d44a5e3c8a09eed20a
-      internalID: 1560648979730772919
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MCSprite_Death_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0.666687
-        width: 512
-        height: 512.3333
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ef54b9433ea63f4ab757b6825e991e9
-      internalID: -5876538651147640150
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MCSprite_Death_9
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0.666687
-        width: 512
-        height: 512.3333
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d76f99ace09241449a84f9b061580ff4
-      internalID: 4050199401301043356
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MCSprite_Death_10
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0.666687
-        width: 512
-        height: 512.3333
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0b7acb38241785e40bad6ec01618983c
-      internalID: -6577959294077343730
+      spriteID: 3dad417a7b844a2489a9f1fd4577ba12
+      internalID: -8977782956734487138
       vertices: []
       indices: 
       edges: []

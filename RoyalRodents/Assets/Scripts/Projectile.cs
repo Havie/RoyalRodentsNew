@@ -17,8 +17,7 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Debug.Log(hitInfo.name);
-        Destroy(gameObject);
+        // Put proper hit detection code here
     }
 
     public void setTarget(Vector3 pos)

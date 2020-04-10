@@ -15,6 +15,12 @@ public class Projectile : MonoBehaviour
         targetPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
+    private void Update()
+    {
+        // If the projectile goes under the map, destroy it
+        
+    }
+
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
         // Put proper hit detection code here
@@ -32,7 +38,7 @@ public class Projectile : MonoBehaviour
         float time = vSpeed / rb.gravityScale;
 
         //Calculate correct horizonal velocity based on time in air
-        float deltaX = targetPosition.x - transform.position.x;
+        float deltaX = targetPosition.x - (transform.position.x);
         //Debug.Log("PositionX is " + transform.position.x);
         //Debug.Log("TargetX is " + targetPosition.x);
         //Debug.Log("DeltaX is " + deltaX);

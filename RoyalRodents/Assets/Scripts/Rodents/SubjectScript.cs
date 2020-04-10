@@ -55,6 +55,7 @@ public class SubjectScript : MonoBehaviour
     private const string FARMING_ANIMATION_BOOL = "isFarming";
     private const string GATHERHING_ANIMATION_BOOL = "isGathering";
     private const string ATK_ANIMATION_TRIGGER = "doAttack";
+    private const string RANGED_ANIMATION_TRIGGER = "isRanged";
 
 
     private List<GameObject> _inRange = new List<GameObject>();
@@ -159,7 +160,15 @@ public class SubjectScript : MonoBehaviour
         farmer = false;
         builder = false;
         gatherer = false;
-        setAnim(ARMED_ANIMATION_BOOL, true, false);
+        if (isRanged)
+        {
+            setAnim(RANGED_ANIMATION_TRIGGER, true, false);
+        }
+        else
+        {
+            setAnim(ARMED_ANIMATION_BOOL, true, false);
+        }
+        
 
         // Always should have the king in Saved Target if it is not the current target
         currentTarget = GameObject.FindGameObjectWithTag("Player");
@@ -333,16 +342,26 @@ public class SubjectScript : MonoBehaviour
                 {
                     if (team == 1 && currentTarget.tag != "Player") // And can attack
                     {
-
-                        StartCoroutine(Attack());
-
+                        if (isRanged)
+                        {
+                            StartCoroutine(Shoot(currentTarget.transform.position));
+                        }
+                        else
+                        {
+                            StartCoroutine(Attack());
+                        }
                         guardShouldIdle = false;
                     }
                     else if (team == 2)
                     {
-
-                        StartCoroutine(Attack());
-                        
+                        if (isRanged)
+                        {
+                            StartCoroutine(Shoot(currentTarget.transform.position));
+                        }
+                        else
+                        {
+                            StartCoroutine(Attack());
+                        }
                         guardShouldIdle = false;
                     }
                 }
@@ -706,10 +725,10 @@ public class SubjectScript : MonoBehaviour
             projectile.transform.parent = projectileSpawnPoint;
             projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
 
+            yield return new WaitForSeconds(1.16f);
+            canAttack = true;
         }
 
-        yield return new WaitForSeconds(1.16f);
-        canAttack = true;
     }
 
     public void AgroRadiusTrigger(Collider2D collision)

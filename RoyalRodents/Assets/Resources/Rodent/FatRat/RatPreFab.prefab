@@ -228,6 +228,8 @@ MonoBehaviour:
   _HpMax: 100
   _MoveSpeed: 2
   _AttackDamage: 1
+  _buildRate: 1
+  _gatherRate: 1
   _Name: Rodent
   _Type: 6
   _Status: 1
@@ -267,6 +269,7 @@ MonoBehaviour:
   isRanged: 0
   projectilePrefab: {fileID: 3556512392540914224, guid: 134b0e1d05f16bf4c8976e163128b4d7,
     type: 3}
+  projectileSpawnPoint: {fileID: 0}
 --- !u!114 &7176079502479461129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6434182938340123553}
   m_Layer: 8
-  m_Name: ProjectileSpwan
+  m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -138,15 +138,16 @@ public class SubjectScript : MonoBehaviour
         {
             if (!isTrigger)
             {
+               // print("enter " + s + "  cond: " +b  +"  for" + this.gameObject.name);
                 anims.SetBool(s, b);
-                if(!s.Equals("isMoving") && _printStatements)
-                    Debug.Log("We set bool " + s + "  to  " + b);
+                if (s.Equals("isMoving") == false && _printStatements)
+                    Debug.Log("We set bool " + s + "  to  " + b + "  for " + this.gameObject.name);
             }
             else
             {
                 anims.SetTrigger(s);
-                if(_printStatements)
-                    Debug.Log("We set trigger" + s );
+                if (_printStatements)
+                    Debug.Log("We set trigger" + s);
             }
         }
         
@@ -236,11 +237,15 @@ public class SubjectScript : MonoBehaviour
     }
     public void setIdle()
     {
+        print("set idle called");
         royalGuard = false;
         farmer = false;
         builder = false;
         gatherer = false;
-        setAnim(ATK_ANIMATION_TRIGGER, false, true);
+
+        setAnim(FARMING_ANIMATION_BOOL, false, false);
+        setAnim(BUILDING_ANIMATION_BOOL, false, false);
+        setAnim(GATHERHING_ANIMATION_BOOL, false, false);
 
         IdlePos = this.transform.position;
     }
@@ -538,6 +543,7 @@ public class SubjectScript : MonoBehaviour
 
                     if (!_approachingTownCenterasWorker)
                     {
+                         print("turned back on farming");
                         setAnim(FARMING_ANIMATION_BOOL, true, false);
                         setAnim(GATHERHING_ANIMATION_BOOL, false, false);
                     }

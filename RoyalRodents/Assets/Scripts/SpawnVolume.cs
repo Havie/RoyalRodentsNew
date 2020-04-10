@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpawnVolume : MonoBehaviour
 {
     public bool _EnemySpawn = false;
+
+    public bool _rightSide;
     public Transform _EnemySpawnDummy;
 
     private bool _timeToSpawn;
@@ -171,7 +173,12 @@ public class SpawnVolume : MonoBehaviour
             if(_EnemySpawn)
                 _EnemyCount = 2; //TO:DO update on some duration or world state, GameTime, Time.Time
 
-            //TO-DO: Pop up text wave has spawned
+            //Pop up text wave has spawned
+            if(_rightSide)
+                UISpeechBubble.Instance.ShowRightSide(true);
+            else
+                UISpeechBubble.Instance.ShowLeftSide(true);
+
         }
     }
 

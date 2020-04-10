@@ -6,6 +6,7 @@ using TMPro;
 
 public class UIRecruitMenu : MonoBehaviour
 {
+    public GameObject _menuDummy;
     public Button[] buttons;
     private TextMeshProUGUI _CostFood;
     private TextMeshProUGUI _CostPop;
@@ -38,8 +39,26 @@ public class UIRecruitMenu : MonoBehaviour
 
         _iconMelee = Resources.Load<Sprite>("UI/sword_icon");
         _iconRanged = Resources.Load<Sprite>("UI/bow_icon");
+
+        if (_menuDummy)
+            this.gameObject.transform.SetParent(_menuDummy.transform);
+        else
+        {
+            _menuDummy = GameObject.FindGameObjectWithTag("RecruitMenu");
+            if (_menuDummy)
+                this.gameObject.transform.SetParent(_menuDummy.transform);
+            else
+                Debug.Log("Cant find RecruitMenu");
+        }
     }
 
+    private void LateUpdate()
+    {
+        if(_Rodent)
+        {
+            this.transform.position = _Rodent.transform.position;
+        }
+    }
 
     public void showMenu(bool cond, Rodent r)
     {

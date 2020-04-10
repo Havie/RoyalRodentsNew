@@ -13,6 +13,8 @@ public class Rat : MonoBehaviour
     private float _AttackDamage = 3f;
     private int _buildRate = 1;
     private int _gatherRate = 10;
+    private Vector2 _BoxColliderSize = new Vector2(0.8f, 0.8f);
+    private Vector2 _BoxColliderOffset = new Vector2(0, 0.25f);
     [SerializeField]
     private Sprite _Portrait;
 
@@ -53,7 +55,7 @@ public class Rat : MonoBehaviour
             r.setBuildRate(_buildRate);
             r.setGatherRate(_gatherRate);
 
-
+            setUpProperBoxCollider();
         }
 
 
@@ -104,9 +106,18 @@ public class Rat : MonoBehaviour
         else
             Debug.LogWarning("Wrong team passed in");
     }
-
     private void setUpProperBoxCollider()
     {
         //To-Do: Figure out the proper size for this species box Collider, then set it
+        BaseHitBox hitBox = this.gameObject.GetComponentInChildren<BaseHitBox>();
+        if (hitBox)
+        {
+            BoxCollider2D collider = hitBox.GetComponent<BoxCollider2D>();
+            if (collider)
+            {
+                collider.size = _BoxColliderSize;
+                collider.offset = _BoxColliderOffset;
+            }
+        }
     }
 }

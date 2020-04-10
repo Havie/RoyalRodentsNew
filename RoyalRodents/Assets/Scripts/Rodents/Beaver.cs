@@ -13,6 +13,8 @@ public class Beaver : MonoBehaviour
     private float _AttackDamage = 3.7f;
     private int _buildRate = 3;
     private int _gatherRate = 9;
+    private Vector2 _BoxColliderSize = new Vector2(2, 1.5f);
+    private Vector2 _BoxColliderOffset = new Vector2(0, 0.5f);
     [SerializeField]
     private Sprite _Portrait;
 
@@ -52,7 +54,7 @@ public class Beaver : MonoBehaviour
             r.setRecruitmentCost(_RecruitmentCost);
             r.setBuildRate(_buildRate);
             r.setGatherRate(_gatherRate);
-
+            setUpProperBoxCollider();
         }
     }
 
@@ -103,5 +105,15 @@ public class Beaver : MonoBehaviour
     private void setUpProperBoxCollider()
     {
         //To-Do: Figure out the proper size for this species box Collider, then set it
+       BaseHitBox hitBox= this.gameObject.GetComponentInChildren<BaseHitBox>();
+        if(hitBox)
+        {
+            BoxCollider2D collider= hitBox.GetComponent<BoxCollider2D>();
+            if(collider)
+            {
+                collider.size = _BoxColliderSize;
+                collider.offset = _BoxColliderOffset;
+            }
+        }
     }
 }

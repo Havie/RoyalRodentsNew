@@ -29,6 +29,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private eStatus _Status = eStatus.Available;
 
+    private bool _buffed;
+
     private int _RecruitmentCost = 1;
     private int _PopulationCost = 1;
 
@@ -255,7 +257,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void setRodentStatus(eStatus status) => _Status = status;
     public void setPortrait(Sprite s) => _Portrait = s;
-
+    public void setBuffed(bool cond) => _buffed = cond;
     public bool isRanged() => _isRanged;
     public bool isDead() => _isDead;
     public float getHp() => _Hp; 

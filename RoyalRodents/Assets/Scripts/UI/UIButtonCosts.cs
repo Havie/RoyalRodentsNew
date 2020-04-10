@@ -260,59 +260,64 @@ public class UIButtonCosts : MonoBehaviour
 		{
 			if (_type == "house")
 			{
-				txt = "House (LVL ";
+				txt = "House ";
 				_maxlevel = bHouse.getMaxLevel();
 			}
 			else if (_type == "farm")
 			{
-				txt = "Farm (LVL ";
+				txt = "Farm ";
 				_maxlevel = bFarm.getMaxLevel();
 			}
 			else if (_type == "banner")
 			{
-				txt = "Banner (LVL ";
+				txt = "Banner ";
 				_maxlevel = bBanner.getMaxLevel();
 			}
 			else if (_type == "outpost")
 			{
-				txt = "Outpost (LVL ";
+				txt = "Outpost ";
 				_maxlevel = bOutpost.getMaxLevel();
 			}
 			else if (_type == "towncenter")
 			{
-				txt = "Town Center (LVL ";
+				txt = "Town Center ";
 				_maxlevel = bTownCenter.getMaxLevel();
 			}
 			else if (_type == "garbagecan")
 			{
-				txt = "Garbage Can (LVL ";
+				txt = "Garbage Can ";
 				_maxlevel = bGarbageCan.getMaxLevel();
 			}
 			else if (_type == "woodpile")
 			{
-				txt = "Wood Pile (LVL ";
+				txt = "Wood Pile ";
 				_maxlevel = bWoodPile.getMaxLevel();
 			}
 			else if (_type == "stonepile")
 			{
-				txt = "Stone Pile (LVL ";
+				txt = "Stone Pile ";
 				_maxlevel = bStonePile.getMaxLevel();
 			}
 			else
 			{
-				txt = "not specified (LVL ";
+				txt = "not specified ";
 				_maxlevel = 0;
 			}
 			
 			//determine if level is greater than max level, then disable button, otherwise enable
 			if (lvl > _maxlevel)
 			{
-				txt += "MAX)";
+				txt += "(LVL MAX)";
+				GetComponent<Button>().interactable = false;
+			}
+			else if (_type != "towncenter" && lvl > GameManager.Instance.getTownCenter().GetComponent<BuildableObject>().getLevel()) //else if level is greater than TC level, then disable
+			{
+				txt += "(LVL UP TOWN CENTER)";
 				GetComponent<Button>().interactable = false;
 			}
 			else
 			{
-				txt += _level.ToString() + ")";
+				txt += "(LVL " + _level + ")";
 				GetComponent<Button>().interactable = true;
 			}
 

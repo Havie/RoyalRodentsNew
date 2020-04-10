@@ -15374,7 +15374,7 @@ PrefabInstance:
     - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}
       propertyPath: cycleTime
-      value: 240
+      value: 480
       objectReference: {fileID: 0}
     - target: {fileID: 114000012333773708, guid: 49a9eb98707a68649810f1d9d560bb2d,
         type: 3}

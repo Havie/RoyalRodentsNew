@@ -39,13 +39,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     private GameObject _ConstructionBarObj;
     private HealthBar _ConstructionBar;
 
-    // NEW
     public Employee[] _Workers = new Employee[1];
 
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
     [SerializeField]
     private int _ID = 0;
+
+    private bool _doInstantDemolish;
 
     #region otherClasses
     private UIBuildMenu _BuildMenu;
@@ -65,6 +66,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints -= damageTaken;
         else
             _hitpoints = 0;
+
+        if (_hitpoints == 0)
+            ResetToDirtMound();
 
         UpdateHealthBar();
     }
@@ -198,14 +202,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             Damage(5);
         }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            setOutlineAvailable();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            setOutlineSelected();
-        }
     }
     public void setUpWorkers()
     {
@@ -263,7 +259,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             case BuildingState.Built:
                 {
                     _srNotify.enabled = false;
-                    if (eType != BuildingType.TownCenter && eType != BuildingType.Banner  && eType != BuildingType.House && eType != BuildingType.Outpost)
+                    if (eType != BuildingType.TownCenter && eType != BuildingType.Banner && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
                     else
                         ShowWorkers(false);
@@ -447,9 +443,12 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
         _BuildMenu.showMenu(false, Vector3.zero, null, this);
-        ResourceManagerScript.Instance.IncrementBuildingSlots(1);
-        //StartCoroutine(BuildCoroutine());
-        SetConstructionMax(5);
+        if (_level == 1)
+        {
+            ResourceManagerScript.Instance.IncrementBuildingSlots(1);
+            SetConstructionMax(5); // Might want to do every level to make building difficult
+        }
+        //StartCoroutine(BuildCoroutine()); // Old auto way
     }
 
     public void UpgradeSomething()
@@ -504,6 +503,10 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 _sr.sprite = _sStateConstruction;
 
                 //Need to Reset Worker Object to Base
+                // tell UI menu RemoveOutpostWorkers
+                UIAssignmentMenu.Instance.RemoveOutpostWorkers(_Workers);
+                // tell game manager PlayerOutpostDestroyed
+                GameManager.Instance.PlayerOutpostDestroyed(this);
                 ResetWorkers();
                 // Debug.Log("Destroyed an Outpost");
                 break;
@@ -540,7 +543,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
-        ResourceManagerScript.Instance.IncrementBuildingSlots(-1);
+        _level = 0; // handle the other stuff in demolish complete i guess
         StartCoroutine(DemolishCoroutine());
     }
     public void IncrementGathering(int amnt)
@@ -570,13 +573,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             eState = BuildingState.Built;
 
             //kick builder rat off worker_obj
-            foreach (Employee e in _Workers)
-            {
-                if (e.isOccupied())
-                {
-                    e.Dismiss(e.getCurrentRodent());
-                }
-            }
+            dismissCurrentWorker();
         }
 
         //update Gather Bar
@@ -624,11 +621,17 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //Do this here so when we load from save things dont get wonky
         eState = BuildingState.Built;
 
-        
+
     }
     IEnumerator DemolishCoroutine()
     {
-        yield return new WaitForSeconds(5f);
+        if (!_doInstantDemolish)
+            yield return new WaitForSeconds(5f);
+        else
+        {
+            yield return new WaitForSeconds(Time.deltaTime);
+            _doInstantDemolish = false;
+        }
         DemolishComplete();
     }
 
@@ -729,16 +732,25 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         ShowRedX(false);
 
-        //To-Do : Kick the worker rodent off
-
+        //Kick the worker rodent off
+        dismissCurrentWorker();
         //if we have returned to a dirt mount, reset team to default
-        _level = 0;
-        setTeam(500);
+        if (_level == 0)
+        {
+            setTeam(500);
+            ResourceManagerScript.Instance.IncrementBuildingSlots(-1);
+            //set sprite to dirt mound
+            _sr.sprite = _sStatedefault;
+        }
 
-        // if outpost destroyed:
-        //tell UI menu RemoveOutpostWorkers
-        // tell game manager PlayerOutpostDestroyed
+    }
 
+    //This is obsolete becuz we are apparently always reducing to a dirt mound
+    public void ResetToDirtMound()
+    {
+        _level = 1;
+        _doInstantDemolish = true;
+        DemolishSomething();
     }
     private void LoadComponents()
     {  //Debug.Log("LoadingCompnent type=" + eType);
@@ -932,7 +944,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     //print("not okay to add  type:" + eType);
                 }
             }
-        
+
             if (okayToAdd)
             {
                 //print("okay to add");
@@ -942,8 +954,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 //Start Construction or Gathering
                 if (eState == BuildingState.Building)
                 {
-                   // if (getEmployeeCount() != 0)
-                   //     StartCoroutine(BeginConstructionLoop());
+                    // if (getEmployeeCount() != 0)
+                    //     StartCoroutine(BeginConstructionLoop());
                 }
                 else if (eState == BuildingState.Built && eType == BuildingType.Farm || eType == BuildingType.GarbageCan || eType == BuildingType.WoodPile || eType == BuildingType.StonePile)
                 {
@@ -963,7 +975,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
 
             }
-            
+
         }
 
 
@@ -1026,6 +1038,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _Workers = null;
         _Workers = workers;
         UpdateState();
+    }
+    public void dismissCurrentWorker()
+    {
+        foreach (Employee e in _Workers)
+        {
+            if (e.isOccupied())
+            {
+                e.Dismiss(e.getCurrentRodent());
+            }
+        }
     }
     public void UnlockWorkers(int number)
     {

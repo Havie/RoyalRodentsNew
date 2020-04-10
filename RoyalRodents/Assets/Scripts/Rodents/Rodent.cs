@@ -18,6 +18,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private float _AttackDamage = 1f;
     [SerializeField]
+    private int _buildRate = 1;
+    [SerializeField]
+    private int _gatherRate = 1;
+
+    [SerializeField]
     private string _Name = "Rodent";
     [SerializeField]
     private eRodentType _Type = eRodentType.Default;
@@ -256,8 +261,14 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     public float getHp() => _Hp; 
     public float getHpMax() => _HpMax; 
     public float getSpeed() => _MoveSpeed; 
-    public float getAttackDmg() => _AttackDamage; 
-    public string getName() => _Name; 
+    public float getAttackDmg() => _AttackDamage;
+    public int getBuildRate() => _buildRate;
+    public int getGatherRate() => _gatherRate;
+    public string getName() => _Name;
+    public int getTeam() =>_Team;
+    public int getRecruitmentCost() => _RecruitmentCost;
+    public int getPopulationCost() =>_PopulationCost;
+    public Employee GetJob() =>_Job;
     public eRodentType GetRodentType() => _Type; 
     public eStatus GetRodentStatus() => _Status; 
     public Sprite GetPortrait() => _Portrait; 
@@ -453,14 +464,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
         //What if not in Zone?
     }
-    public Employee GetJob()
-    {
-        return _Job;
-    }
-    public void SetJob(Employee e)
-    {
-        _Job = e;
-    }
+
+    public void SetJob(Employee e){  _Job = e; }
     /**Sets the ID for the team
      * 0 = neutral
      * 1 = player
@@ -502,23 +507,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         }
 
     }
-    public int getTeam()
-    {
-        return _Team;
-    }
+    public void setBuildRate(int amnt) { _buildRate = amnt;}
+    public void setGatherRate(int amnt) { _gatherRate = amnt; }
+    public void setRecruitmentCost(int cost)  { _RecruitmentCost = cost;}
 
-    public void setRecruitmentCost(int cost)
-    {
-        _RecruitmentCost = cost;
-    }
-    public int getRecruitmentCost()
-    {
-        return _RecruitmentCost;
-    }
-    public int getPopulationCost()
-    {
-        return _PopulationCost;
-    }
 
     public void imClicked()
     {

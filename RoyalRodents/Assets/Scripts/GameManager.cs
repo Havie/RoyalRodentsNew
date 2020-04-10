@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviour
             BuildableObject bo = _TownCenter.transform.GetComponent<BuildableObject>();
             if (bo)
             {
-                return (bo.getLevel() * 2);
+                return (bo.getLevel() * 4);
             }
         }
         Debug.LogWarning("No TownCenter");

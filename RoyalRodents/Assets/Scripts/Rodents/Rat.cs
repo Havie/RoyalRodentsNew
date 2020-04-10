@@ -11,6 +11,8 @@ public class Rat : MonoBehaviour
     [Range(0, 10f)]
     private float _MoveSpeed = 3f;
     private float _AttackDamage = 3f;
+    private int _buildRate = 1;
+    private int _gatherRate = 10;
     [SerializeField]
     private Sprite _Portrait;
 
@@ -48,7 +50,10 @@ public class Rat : MonoBehaviour
             r.setAttackDmg(_AttackDamage);
             r.setPortrait(_Portrait);
             r.setRecruitmentCost(_RecruitmentCost);
-           
+            r.setBuildRate(_buildRate);
+            r.setGatherRate(_gatherRate);
+
+
         }
 
 

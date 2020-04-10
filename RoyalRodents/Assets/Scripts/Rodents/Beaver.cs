@@ -11,6 +11,8 @@ public class Beaver : MonoBehaviour
     [Range(0, 10f)]
     private float _MoveSpeed = 2.4f;
     private float _AttackDamage = 3.7f;
+    private int _buildRate = 3;
+    private int _gatherRate = 9;
     [SerializeField]
     private Sprite _Portrait;
 
@@ -48,7 +50,9 @@ public class Beaver : MonoBehaviour
             r.setAttackDmg(_AttackDamage);
             r.setPortrait(_Portrait);
             r.setRecruitmentCost(_RecruitmentCost);
-           
+            r.setBuildRate(_buildRate);
+            r.setGatherRate(_gatherRate);
+
         }
     }
 

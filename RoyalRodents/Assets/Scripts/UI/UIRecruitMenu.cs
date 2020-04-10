@@ -10,8 +10,9 @@ public class UIRecruitMenu : MonoBehaviour
     private TextMeshProUGUI _CostFood;
     private TextMeshProUGUI _CostPop;
     private TextMeshProUGUI _Name;
-    private TextMeshProUGUI _Name2;
+    private TextMeshProUGUI _Name2; //dismiss menu
     private Image _weaponClass;
+    private Image _weaponClass2; //dismiss menu
     private Sprite _iconMelee;
     private Sprite _iconRanged;
     [SerializeField] private Rodent _Rodent;
@@ -48,7 +49,7 @@ public class UIRecruitMenu : MonoBehaviour
         if (cond)
         {
             // Tell the MVC were the active menu
-            MVCController.Instance.SetUpRecruitMenu(this);
+            MVCController.Instance.SetRecruitMenu(this);
 
 
             _Rodent = r;
@@ -161,7 +162,7 @@ public class UIRecruitMenu : MonoBehaviour
     public void showKingGuardMenu(bool cond, Rodent r)
     {
         // Tell the MVC were the active menu
-        MVCController.Instance.SetUpRecruitMenu(this);
+        MVCController.Instance.SetRecruitMenu(this);
 
         _active = cond;
         buttons[1].gameObject.SetActive(cond);
@@ -178,14 +179,21 @@ public class UIRecruitMenu : MonoBehaviour
     
 	public void showDismissMenu(bool cond, Rodent r)
 	{
+        MVCController.Instance.TurnThingsoff();
+
 		// Tell the MVC were the active menu
-		MVCController.Instance.SetUpRecruitMenu(this);
+		MVCController.Instance.SetRecruitMenu(this);
 		_Rodent = r;
 
 		_active = cond;
 		buttons[2].gameObject.SetActive(cond);
 		_Name2.text = r.getName();
-	}
+
+        if (r.isRanged())
+            _weaponClass2.sprite = _iconRanged;
+        else
+            _weaponClass2.sprite = _iconMelee;
+    }
 
     public bool isActive()
     {
@@ -279,23 +287,30 @@ public class UIRecruitMenu : MonoBehaviour
             if (t)
                 _Name = t.GetComponent<TextMeshProUGUI>();
             else
-                Debug.LogError("Cant Find Text_Name");
+                Debug.LogError("Cant Find Text_Name (recruit)");
             t = _ButtonChild.transform.Find("Class_icon");
             if (t)
                 _weaponClass = t.GetComponent<Image>();
             else
-                Debug.LogError("Cant Find Class_icon");
+                Debug.LogError("Cant Find Class_icon (recruit)");
         }
         else
             Debug.LogError("Cant Find RecruitMenu Child");
-        _ButtonChild = this.transform.GetChild(1);
+        _ButtonChild = this.transform.GetChild(2);
         if (_ButtonChild)
         {
-            Transform t = _ButtonChild.transform.Find("Text_Name2");
+            Transform t = _ButtonChild.transform.Find("Text_Name3");
             if (t)
                 _Name2 = t.GetComponent<TextMeshProUGUI>();
             else
-                Debug.LogError("Cant Find Text_Name2");
+                Debug.LogError("Cant Find Text_Name3 (dismiss)");
+            t = _ButtonChild.transform.Find("Class_icon");
+            if(t)
+            {
+                _weaponClass2 = t.GetComponent<Image>();
+            }
+            else
+                Debug.LogError("Cant Find Class_icon (dismiss)");
         }
     }
      

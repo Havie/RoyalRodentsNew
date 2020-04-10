@@ -552,7 +552,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Attack()
     {
-        print("attack");
         StopMoving();
         if (!_AttackDelay)
         {
@@ -594,6 +593,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (_AttackTarget != null)
         {
+            print("Attack Target is: " + _AttackTarget.name);
             if (_AttackTarget.GetComponent<Rodent>())
             {
                 _AttackTarget.GetComponent<Rodent>().Damage(_damage);
@@ -653,7 +653,6 @@ public class PlayerMovement : MonoBehaviour
     //Called from Engine-Animation Event
     public void attackDone()
     {
-        print("heard");
         StartCoroutine(AttackDoneC());
     }
     IEnumerator AttackDoneC()

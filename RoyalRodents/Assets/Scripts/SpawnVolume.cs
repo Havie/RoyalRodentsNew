@@ -165,11 +165,11 @@ public class SpawnVolume : MonoBehaviour
     {
         //Do a random roll to see if we spawn (50/50)
         int roll = Random.Range(0, 10);
-        if (roll % 2 == 0)
+        //if (roll % 2 == 0)
         {
             _occupied = false;
             if(_EnemySpawn)
-                _EnemyCount = 1; //TO:DO update on some duration or world state, GameTime, Time.Time
+                _EnemyCount = 2; //TO:DO update on some duration or world state, GameTime, Time.Time
 
             //TO-DO: Pop up text wave has spawned
         }

@@ -416,7 +416,8 @@ public class SubjectScript : MonoBehaviour
         if (currentTarget == townCenterLoc)
         {
             Debug.Log("INcrement On" + savedTarget.gameObject);
-            savedTarget.GetComponent<BuildableObject>().IncrementConstruction(1);
+            Rodent r = this.GetComponent<Rodent>(); // no null check cuz would never happen
+            savedTarget.GetComponent<BuildableObject>().IncrementConstruction(r.getBuildRate());
             //TO-DO: base increment off rodent stat
         }
         else
@@ -427,7 +428,8 @@ public class SubjectScript : MonoBehaviour
         if (currentTarget == townCenterLoc)
         {
             Debug.Log("INcrement On" + savedTarget.gameObject);
-            savedTarget.GetComponent<BuildableObject>().IncrementGathering(20);
+            Rodent r = this.GetComponent<Rodent>(); // no null check cuz would never happen
+            savedTarget.GetComponent<BuildableObject>().IncrementGathering(r.getGatherRate());
         }
         else
             Debug.Log("current target is" + currentTarget.gameObject);

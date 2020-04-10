@@ -99,7 +99,7 @@ public class MVCController : MonoBehaviour
     {
         _BuildMenu = bm;
     }
-    public void SetUpRecruitMenu(UIRecruitMenu rm)
+    public void SetRecruitMenu(UIRecruitMenu rm)
     {
         _RecruitMenu = rm;
     }

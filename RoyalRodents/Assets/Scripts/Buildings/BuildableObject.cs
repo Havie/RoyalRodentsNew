@@ -258,6 +258,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Built:
                 {
+                    print("told to turn off:");
                     _srNotify.enabled = false;
                     if (eType != BuildingType.TownCenter && eType != BuildingType.Banner && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
@@ -571,6 +572,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             BuildComplete();
             //Do this here so when we load from save things dont get wonky
             eState = BuildingState.Built;
+            UpdateState();
 
             //kick builder rat off worker_obj
             dismissCurrentWorker();

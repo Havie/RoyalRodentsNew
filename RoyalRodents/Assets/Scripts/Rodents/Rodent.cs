@@ -459,7 +459,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     //Best way to set up an enemy rat? refactor later?
     public void setTargetEnemyVersion(GameObject o)
     {
-        Debug.Log("Told rat to go to: " + o);
+        //Debug.Log("Told rat to go to: " + o);
         if (o == null)
         {
             Debug.LogWarning("AttackerGiven Null Target??");

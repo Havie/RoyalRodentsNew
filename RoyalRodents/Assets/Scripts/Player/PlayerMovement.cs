@@ -454,7 +454,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
-        print("swipe=default");
+        //print("swipe=default");
         _swipeDir = eSwipeDirection.Default;
     }
     IEnumerator DigDelay(Vector2 dir, DiggableTile dt)

@@ -165,6 +165,7 @@ public class SpawnVolume : MonoBehaviour
     }
     public void SpawnSomething()
     {
+        print("Spawning something.." + this.gameObject.name  + " __ " + this.transform.parent.name);
         //Do a random roll to see if we spawn (50/50)
         int roll = Random.Range(0, 10);
         if (roll % 2 == 0)
@@ -172,16 +173,29 @@ public class SpawnVolume : MonoBehaviour
             _occupied = false;
             if (_EnemySpawn)
             {
-                _EnemyCount = 2; //TO:DO update on some duration or world state, GameTime, Time.Time
-                //TO:DO base this on something (mischief meter RIP)
-                SpawnaKing();
+                if (_inPlayerZone)
+                {
+                    int maxEnemy = (int)System.Math.Ceiling(Cycle2DDN.Instance.getDayCount() / 2.0);
+                   // print(maxEnemy);
+                    _EnemyCount = Random.Range((maxEnemy / 2) + 1, maxEnemy);
+                    //TO:DO base this on something (mischief meter RIP)
+                    SpawnaKing();
+                }
+                else
+                    _EnemyCount = 1;
+
+                //print("EnemyCount= " + _EnemyCount);
             }
             //Pop up text wave has spawned
-            if(_rightSide)
-                UISpeechBubble.Instance.ShowRightSide(true);
+            if (_EnemyCount > 0 && _inPlayerZone)
+            {
+                if (_rightSide)
+                    UISpeechBubble.Instance.ShowRightSide(true);
+                else
+                    UISpeechBubble.Instance.ShowLeftSide(true);
+            }
             else
-                UISpeechBubble.Instance.ShowLeftSide(true);
-
+                print("Failed spawn:" + this.gameObject.name + " __ " + this.transform.parent.name);
         }
     }
 

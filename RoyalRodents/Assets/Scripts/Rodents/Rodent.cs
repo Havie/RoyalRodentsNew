@@ -37,7 +37,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
 
-    public enum eRodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, Default };
+    public enum eRodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, EKing, Default };
     public enum eStatus { Busy, Available, Building, Working, Army, Default };
 
     private SubjectScript _SubjectScript;
@@ -145,8 +145,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     }
     private bool PickRanged()
     {
-        int _chanceToMove = Random.Range(0, 9);
-        if (_chanceToMove > 4)
+        int _chance = Random.Range(0, 9);
+        //print(this.gameObject.name + "  chance for ranged = " +_chance);
+        if (_chance > 4)
         {
             Animator a = this.GetComponent<Animator>();
             if (a)
@@ -216,7 +217,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         GameManager.Instance.AddtoRodents(this);
 
         //Rename Prefab 
-        this.gameObject.name =_ID+ " Rodent: " + _Name + " ";
+        if(_Type!=eRodentType.EKing)
+            this.gameObject.name =_ID+ " Rodent: " + _Name + " ";
 
         _isRanged = PickRanged();
         if(_Team==2)
@@ -234,9 +236,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     {
         _Type = type;
         setTeam(_Team); // why is this here? does removing it break anything?? too lazy to check - might be for rodents that start in the scene?
+        this.gameObject.name += "(" + _Type + ")";
 
         switch (_Type)
         {
+
             case eRodentType.Rat:
                 {
                     //Debug.Log("Told to set Type of Rat");
@@ -251,9 +255,16 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                         this.gameObject.AddComponent<Beaver>();
                     break;
                 }
+            case eRodentType.EKing:
+                {
+                   // Debug.Log("Told to set Type of KING");
+                    this.gameObject.name = 99 + " Enemy (King) ";
+                    if (this.GetComponent<EKing>() == null)
+                        this.gameObject.AddComponent<EKing>();
+                    break;
+                }
         }
 
-        this.gameObject.name += "(" +_Type+")";
     }
     public void setRodentStatus(eStatus status) => _Status = status;
     public void setPortrait(Sprite s) => _Portrait = s;
@@ -323,13 +334,25 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //Chance to Spawn Shiny
         if (_Team == 2)
         {
-            int roll = Random.Range(0, 15);
-            if (roll == 1)
+            if (_Type == eRodentType.EKing)
             {
-                GameObject shiny = Resources.Load<GameObject>("ResourceIcons/Collectable_Shiny");
-                if (shiny)
+                //drop crown 
+                GameObject crown = Resources.Load<GameObject>("ResourceIcons/Collectable_Crown");
+                if (crown)
                 {
-                    GameObject.Instantiate(shiny, this.transform.position, this.transform.rotation);
+                    GameObject.Instantiate(crown, this.transform.position, this.transform.rotation);
+                }
+            }
+            else //drop shiny 
+            {
+                int roll = Random.Range(0, 15);
+                if (roll == 1)
+                {
+                    GameObject shiny = Resources.Load<GameObject>("ResourceIcons/Collectable_Shiny");
+                    if (shiny)
+                    {
+                        GameObject.Instantiate(shiny, this.transform.position, this.transform.rotation);
+                    }
                 }
             }
         }
@@ -352,6 +375,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     /** Responsible for giving SubjectScript new Target and Updating our Status  */
     public void setTarget(GameObject o)
     {
+        //print("set Target called");
+
         _placeOfWork = o;
         //need proper getter/setter someday
         SubjectScript s = this.GetComponent<SubjectScript>();
@@ -497,6 +522,13 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             case (eRodentType.Beaver):
                 this.GetComponent<Beaver>().setAnimatorByTeam(id);
                 break;
+            case (eRodentType.EKing):
+                this.GetComponent<EKing>().setAnimatorByTeam(id);
+                break;
+            case (eRodentType.Default):
+                {
+                    break;
+                }
         }
 
 

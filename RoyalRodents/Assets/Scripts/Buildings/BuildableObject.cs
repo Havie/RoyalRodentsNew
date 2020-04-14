@@ -258,7 +258,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Built:
                 {
-                    print("told to turn off:");
                     _srNotify.enabled = false;
                     if (eType != BuildingType.TownCenter && eType != BuildingType.Banner && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);

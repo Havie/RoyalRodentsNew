@@ -135,7 +135,7 @@ public class SpawnVolume : MonoBehaviour
 
             // Tag becoming obsolete
             _spawnedRodent.tag = "EnemyRodent";
-            // Ensure Sprite is Neutral
+            // Ensure Sprite is enemy
             Rodent r = _spawnedRodent.GetComponent<Rodent>();
             if (r)
             {
@@ -167,12 +167,15 @@ public class SpawnVolume : MonoBehaviour
     {
         //Do a random roll to see if we spawn (50/50)
         int roll = Random.Range(0, 10);
-        //if (roll % 2 == 0)
+        if (roll % 2 == 0)
         {
             _occupied = false;
-            if(_EnemySpawn)
+            if (_EnemySpawn)
+            {
                 _EnemyCount = 2; //TO:DO update on some duration or world state, GameTime, Time.Time
-
+                //TO:DO base this on something (mischief meter RIP)
+                SpawnaKing();
+            }
             //Pop up text wave has spawned
             if(_rightSide)
                 UISpeechBubble.Instance.ShowRightSide(true);
@@ -184,6 +187,19 @@ public class SpawnVolume : MonoBehaviour
 
     public void SpawnaKing()
     {
-        //To-Do: spawn erm
+        GameObject king = Resources.Load<GameObject>("Rodent/King_Enemy/EnemyKingPreFab");
+        GameObject _spawnedRodent = GameObject.Instantiate(king, this.transform.position, this.transform.rotation);
+        if (_EnemySpawnDummy)
+            _spawnedRodent.transform.SetParent(_EnemySpawnDummy);
+
+        Rodent r = _spawnedRodent.GetComponent<Rodent>();
+        if (r)
+        {
+            r.setTeam(2);
+            // Force them to be aggressive and head toward player   //hack
+            if (_inPlayerZone)
+                r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);
+        }
+
     }
 }

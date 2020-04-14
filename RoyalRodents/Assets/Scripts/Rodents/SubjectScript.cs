@@ -138,7 +138,7 @@ public class SubjectScript : MonoBehaviour
         {
             if (!isTrigger)
             {
-               // print("enter " + s + "  cond: " +b  +"  for" + this.gameObject.name);
+               //print("enter " + s + "  cond: " +b  +"  for" + this.gameObject.name);
                 anims.SetBool(s, b);
                 if (s.Equals("isMoving") == false && _printStatements)
                     Debug.Log("We set bool " + s + "  to  " + b + "  for " + this.gameObject.name);
@@ -237,7 +237,7 @@ public class SubjectScript : MonoBehaviour
     }
     public void setIdle()
     {
-        print("set idle called");
+       // print("set idle called");
         royalGuard = false;
         farmer = false;
         builder = false;

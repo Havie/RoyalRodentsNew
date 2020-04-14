@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rat : MonoBehaviour
+public class EKing : MonoBehaviour
 {
     public Sprite _Default;
 
-    private float _Hp = 100f;
-    private float _HpMax = 100f;
+    private float _Hp = 300f;
+    private float _HpMax = 300f;
     [Range(0, 10f)]
-    private float _MoveSpeed = 3f;
-    private float _AttackDamage = 3f;
+    private float _MoveSpeed = 2.7f;
+    private float _AttackDamage = 3.5f;
     private int _buildRate = 1;
     private int _gatherRate = 10;
-    private Vector2 _BoxColliderSize = new Vector2(0.8f, 0.8f);
-    private Vector2 _BoxColliderOffset = new Vector2(0, 0.25f);
+    private Vector2 _BoxColliderSize = new Vector2(1.8f, 1f);
+    private Vector2 _BoxColliderOffset = new Vector2(0, 1f);
     [SerializeField]
     private Sprite _Portrait;
 
@@ -23,8 +23,6 @@ public class Rat : MonoBehaviour
     [SerializeField]
     private Animator _Animator;
     [SerializeField]
-    private RuntimeAnimatorController _NeutralController;
-    private RuntimeAnimatorController _AlliedController;
     private RuntimeAnimatorController _EnemyController;
 
     private bool _AnimsSet;
@@ -33,8 +31,8 @@ public class Rat : MonoBehaviour
 
     private void Awake()
     {
-        _Default = Resources.Load<Sprite>("Rodent/FatRat/RatSprite_0");
-        _Portrait = Resources.Load<Sprite>("TMPAssests/tmpRat");
+        _Default = Resources.Load<Sprite>("Rodent/King_Enemy/EnemySprite_Idle_1_0");
+        _Portrait = Resources.Load<Sprite>("TMPAssests/ElfSkull"); //dont need one?
     }
 
     // Start is called before the first frame update
@@ -45,7 +43,7 @@ public class Rat : MonoBehaviour
         Rodent r = this.GetComponent<Rodent>();
         if(r)
         {
-            r.setRodentType(Rodent.eRodentType.Rat); 
+            r.setRodentType(Rodent.eRodentType.EKing); 
             r.setSpeed(_MoveSpeed);
             r.setHpMax(_HpMax);
             r.setHp(_Hp);
@@ -58,7 +56,6 @@ public class Rat : MonoBehaviour
             setUpProperBoxCollider();
         }
 
-
         //TMP Test - Finds and follows the player
         // this.GetComponent<SubjectScript>().currentTarget = GameObject.FindObjectOfType<PlayerStats>().gameObject;
     }
@@ -69,17 +66,10 @@ public class Rat : MonoBehaviour
         if (_Animator == null)
             Debug.LogWarning("Cant Find Animator on Rat??");
 
-        _NeutralController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/NeutralController");
-        if (_NeutralController == null)
-            Debug.LogWarning("Cant Find Neutral Controller on Rat");
 
-        _AlliedController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/AlliedContoller");
-        if (_AlliedController == null)
-            Debug.LogWarning("Cant Find Allied Controller on Rat");
-
-        _EnemyController = Resources.Load<RuntimeAnimatorController>("Rodent/FatRat/EnemyController");
+        _EnemyController = Resources.Load<RuntimeAnimatorController>("Rodent/King_Enemy/EnemyKingAnims");
         if (_EnemyController == null)
-            Debug.LogWarning("Cant Find Enemy Controller on Rat");
+            Debug.LogWarning("Cant Find Enemy Controller on EKing");
 
         _AnimsSet = true;
     }
@@ -90,16 +80,7 @@ public class Rat : MonoBehaviour
         if (!_AnimsSet)
             setUpAnimators();
 
-
-        if (team == 0)
-        {
-            _Animator.runtimeAnimatorController = _NeutralController;
-        }
-        else if (team == 1)
-        {
-            _Animator.runtimeAnimatorController = _AlliedController;
-        }
-        else if (team == 2)
+        if (team == 2)
         {
             _Animator.runtimeAnimatorController = _EnemyController;
         }

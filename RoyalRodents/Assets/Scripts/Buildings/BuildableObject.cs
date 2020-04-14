@@ -571,6 +571,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             BuildComplete();
             //Do this here so when we load from save things dont get wonky
             eState = BuildingState.Built;
+            UpdateState();
 
             //kick builder rat off worker_obj
             dismissCurrentWorker();
@@ -646,6 +647,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints += difference;
             _construction = 0;
 
+            EventSystem.Instance.SpawnNeutral(); //spawn neutral rodent
         }
         else if (eType == BuildingType.Farm)
         {

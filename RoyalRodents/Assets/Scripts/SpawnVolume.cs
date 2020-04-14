@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpawnVolume : MonoBehaviour
 {
     public bool _EnemySpawn = false;
+
+    public bool _rightSide;
     public Transform _EnemySpawnDummy;
 
     private bool _timeToSpawn;
@@ -133,7 +135,7 @@ public class SpawnVolume : MonoBehaviour
 
             // Tag becoming obsolete
             _spawnedRodent.tag = "EnemyRodent";
-            // Ensure Sprite is Neutral
+            // Ensure Sprite is enemy
             Rodent r = _spawnedRodent.GetComponent<Rodent>();
             if (r)
             {
@@ -163,20 +165,55 @@ public class SpawnVolume : MonoBehaviour
     }
     public void SpawnSomething()
     {
+        print("Spawning something.." + this.gameObject.name  + " __ " + this.transform.parent.name);
         //Do a random roll to see if we spawn (50/50)
         int roll = Random.Range(0, 10);
-        //if (roll % 2 == 0)
+        if (roll % 2 == 0)
         {
             _occupied = false;
-            if(_EnemySpawn)
-                _EnemyCount = 2; //TO:DO update on some duration or world state, GameTime, Time.Time
+            if (_EnemySpawn)
+            {
+                if (_inPlayerZone)
+                {
+                    int maxEnemy = (int)System.Math.Ceiling(Cycle2DDN.Instance.getDayCount() / 2.0);
+                   // print(maxEnemy);
+                    _EnemyCount = Random.Range((maxEnemy / 2) + 1, maxEnemy);
+                    //TO:DO base this on something (mischief meter RIP)
+                    SpawnaKing();
+                }
+                else
+                    _EnemyCount = 1;
 
-            //TO-DO: Pop up text wave has spawned
+                //print("EnemyCount= " + _EnemyCount);
+            }
+            //Pop up text wave has spawned
+            if (_EnemyCount > 0 && _inPlayerZone)
+            {
+                if (_rightSide)
+                    UISpeechBubble.Instance.ShowRightSide(true);
+                else
+                    UISpeechBubble.Instance.ShowLeftSide(true);
+            }
+            else
+                print("Failed spawn:" + this.gameObject.name + " __ " + this.transform.parent.name);
         }
     }
 
     public void SpawnaKing()
     {
-        //To-Do: spawn erm
+        GameObject king = Resources.Load<GameObject>("Rodent/King_Enemy/EnemyKingPreFab");
+        GameObject _spawnedRodent = GameObject.Instantiate(king, this.transform.position, this.transform.rotation);
+        if (_EnemySpawnDummy)
+            _spawnedRodent.transform.SetParent(_EnemySpawnDummy);
+
+        Rodent r = _spawnedRodent.GetComponent<Rodent>();
+        if (r)
+        {
+            r.setTeam(2);
+            // Force them to be aggressive and head toward player   //hack
+            if (_inPlayerZone)
+                r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);
+        }
+
     }
 }

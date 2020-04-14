@@ -252,8 +252,16 @@ public class MVCController : MonoBehaviour
 
                 if(_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
-                    //Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
-                    if(_debugger)
+                    Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+
+                    if(_TMPlastClicked.transform.parent)
+                        if(RayCastExactSpot(MouseRaw, _TMPlastClicked.transform.parent.gameObject))
+                        {
+                            //Change the last clicked to the base hitbox
+                            _TMPlastClicked=  _TMPlastClicked.transform.parent.GetComponentInChildren<BaseHitBox>().gameObject;
+                            print("changed hitbox");
+                        }
+                    if (_debugger)
                         _debugger.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
                 }
 
@@ -484,10 +492,6 @@ public class MVCController : MonoBehaviour
         r.Recruit();
         CheckClicks(true);
     }
-    public void Dismiss(Rodent r, UIRecruitMenu menu)
-    {
-        
-    }
 
 
     private bool AlternateUITest(Vector3 MouseRaw)
@@ -593,8 +597,8 @@ public class MVCController : MonoBehaviour
         Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
         // Gets the layer Mask Via Bitwise operations
-        // This gets the "player" and "buildings" layer, and fails at the UI layer
-        LayerMask _LayerMask = (1 << 8) | (1 << 9) | (1 << 5);
+        // This gets the "player" and "buildings" and "rodents" layer, and fails at the UI layer
+        LayerMask _LayerMask = (1 << 8) | (1 << 9) | (1 << 5) | (1<<12);
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
         RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero, 19f, _LayerMask);
@@ -638,8 +642,8 @@ public class MVCController : MonoBehaviour
         // LayerMask _LayerMask = (LayerMask.GetMask("Buildings"));
 
         // Gets the layer Mask Via Bitwise operations
-        // This gets the "buildings"
-        LayerMask _LayerMask = (1 << 9);
+        // This gets the "buildings" and "rodents" layers
+        LayerMask _LayerMask = (1 << 9) | (1 << 12);
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 19f, _LayerMask);
 
@@ -652,6 +656,47 @@ public class MVCController : MonoBehaviour
         }
 
         return hit;
+    }
+    //Check if mouse if over the base box collider becuz we clicked the aggro one
+    private bool RayCastExactSpot(Vector3 MouseRaw , GameObject parent)
+    {
+        if (_printStatements)
+            Debug.Log("RayCastExactSpot");
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(MouseRaw);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        LayerMask _LayerMask = (1 << 9) | (1 << 12); //idk
+
+        //does it matter that distance is 19 if were dir is 0 vector? is this depth?
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
+
+        if (hits.Length > 1)
+        {
+            print("looking thru hits--- if this code i wana know ab it (steve)");
+            foreach (var h in hits)
+            {
+                print(h.collider.gameObject);
+                //Debug.Log("Found" + h.collider.gameObject);
+                
+                if (h.collider.GetComponent<BaseHitBox>())
+                {
+                    //print("found hitbox");
+                    BaseHitBox hitBox = h.collider.GetComponent<BaseHitBox>();
+                    //print("parent=" + hitBox.transform.parent);
+                    if (hitBox.transform.parent == parent)
+                    {
+                       // print("return t");
+                        return true;
+                    }
+                }
+                   
+            }
+        }
+        else
+            print("WTF");
+
+        return false;
     }
     private GameObject InspectHit(RaycastHit2D hit)
     {

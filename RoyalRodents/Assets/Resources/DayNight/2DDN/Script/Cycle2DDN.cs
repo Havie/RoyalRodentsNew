@@ -10,6 +10,9 @@ using System.Collections.Generic;
 public class Cycle2DDN : MonoBehaviour {
 	public static Cycle2DDN Handler { get; private set; }
 
+	//Make a singleton
+	private static Cycle2DDN _instance;
+
 	[Header ("Settings:")]
 
 	[Tooltip ("Wether or not the system should change the colors of the world.\nIf set to false, the screen will only darken, and colors will remain the same.\nDefault: True")]
@@ -82,6 +85,33 @@ public class Cycle2DDN : MonoBehaviour {
 	Color scrnColor, scrnDay, scrnDusk, scrnNight, scrnDawn;
 
 	public int day_count;
+
+	//Create Instance singleton
+	public static Cycle2DDN Instance
+	{
+		get
+		{
+			if (_instance == null)
+				_instance = GameObject.FindObjectOfType<Cycle2DDN>();
+			return _instance;
+		}
+	}
+	private void Awake()
+	{
+		if (_instance == null)
+		{
+			//if not, set instance to this
+			_instance = this;
+		}
+		//If instance already exists and it's not this:
+		else if (_instance != this)
+		{
+			//Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+			Destroy(gameObject);
+		}
+
+		DontDestroyOnLoad(gameObject);
+	}
 
 	// Use this for initialization
 	void Start () {

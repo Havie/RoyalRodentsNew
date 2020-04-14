@@ -647,6 +647,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints += difference;
             _construction = 0;
 
+            EventSystem.Instance.SpawnNeutral(); //spawn neutral rodent
         }
         else if (eType == BuildingType.Farm)
         {

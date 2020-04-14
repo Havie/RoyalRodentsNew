@@ -571,6 +571,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             BuildComplete();
             //Do this here so when we load from save things dont get wonky
             eState = BuildingState.Built;
+            UpdateState();
 
             //kick builder rat off worker_obj
             dismissCurrentWorker();

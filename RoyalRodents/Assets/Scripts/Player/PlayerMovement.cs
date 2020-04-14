@@ -45,7 +45,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]  bool _controlled;
     private bool _mobileMoveDelay;
 
-    //Debugg
+    private enum eSwipeDirection { Up, Left, Right, Down, Default };
+    private eSwipeDirection _swipeDir= eSwipeDirection.Default;
+    Vector2 firstPressPos;
+    Vector2 secondPressPos;
+
+    //Debug
     public UIDebuggPrints _debugger;
 
     private void Awake()
@@ -339,9 +344,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private bool CheckDig()
     {
+
+        Swipe();
+
         if (_PlayerStats.inPlayerZone() == false) // cant dig in own territory
         {
-            if (!_InGround && Input.GetKeyDown(KeyCode.DownArrow))
+            if (!_InGround && (Input.GetKeyDown(KeyCode.DownArrow) || _swipeDir==eSwipeDirection.Down))
             {
                 if (_CurrentSoilTile)
                 {
@@ -351,7 +359,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_InGround && _horizontalMove == 0)
             {
-                if (Input.GetKeyDown(KeyCode.RightArrow))
+                if (Input.GetKeyDown(KeyCode.RightArrow) || _swipeDir == eSwipeDirection.Right)
                 {
                     //Need to check tile to the right
                     if (CheckTile("right"))
@@ -360,7 +368,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     return true;
                 }
-                else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                else if (Input.GetKeyDown(KeyCode.LeftArrow) || _swipeDir == eSwipeDirection.Left)
                 {
                     //Need to check tile to the left
                     if (CheckTile("left"))
@@ -369,7 +377,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     return true;
                 }
-                else if (Input.GetKeyDown(KeyCode.UpArrow))
+                else if (Input.GetKeyDown(KeyCode.UpArrow) || _swipeDir == eSwipeDirection.Up)
                 {
                     if (CheckTile("up"))
                     {
@@ -377,7 +385,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     return true;
                 }
-                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                else if (Input.GetKeyDown(KeyCode.DownArrow) || _swipeDir == eSwipeDirection.Down)
                 {
                     if (_CurrentSoilTile)
                     {
@@ -392,6 +400,62 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         return false;
+    }
+    private void Swipe()
+    {
+        Vector2 currentSwipe;
+
+        if (Input.touches.Length > 0)
+        {
+            Touch t = Input.GetTouch(0);
+            if (t.phase == TouchPhase.Began)
+            {
+                //save began touch 2d point
+                firstPressPos = new Vector2(t.position.x, t.position.y);
+            }
+            if (t.phase == TouchPhase.Ended)
+            {
+                //save ended touch 2d point
+                secondPressPos = new Vector2(t.position.x, t.position.y);
+
+                //create vector from the two points
+                currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+
+                //normalize the 2d vector
+                currentSwipe.Normalize();
+
+                //swipe upwards
+                if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+             {
+                    Debug.Log("up swipe");
+                    _swipeDir = eSwipeDirection.Up;
+                    return;
+                }
+                //swipe down
+                if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+             {
+                    Debug.Log("down swipe");
+                    _swipeDir = eSwipeDirection.Down;
+                    return;
+                }
+                //swipe left
+                if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+             {
+                    Debug.Log("left swipe");
+                    _swipeDir = eSwipeDirection.Left;
+                    return;
+                }
+                //swipe right
+                if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+             {
+                    Debug.Log("right swipe");
+                    _swipeDir = eSwipeDirection.Right;
+                    return;
+                }
+            }
+        }
+        //print("swipe=default");
+        _swipeDir = eSwipeDirection.Default;
     }
     IEnumerator DigDelay(Vector2 dir, DiggableTile dt)
     {

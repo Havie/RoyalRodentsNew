@@ -14,11 +14,26 @@ public class BaseHitBox : MonoBehaviour
     private GameObject _MoveDummy;
     private void Start()
     {
-        if (_OnPlayer)
+        FigureWhoWereOn();
+
+    }
+    private void FigureWhoWereOn()
+    {
+        PlayerMovement player = this.transform.GetComponentInParent<PlayerMovement>();
+        BuildableObject buiding = this.transform.GetComponentInParent<BuildableObject>();
+        if (player)
         {
-            //Lazy Hack
-            _MoveDummy = this.transform.parent.GetComponent<PlayerMovement>().getDummy();
+            _OnPlayer = true;
+            _OnBuilding = false;
+            _MoveDummy = player.getDummy();
         }
+
+        if (buiding)
+        {
+            _OnPlayer = false;
+            _OnBuilding = true;
+        }
+
     }
 
     //OLD - unused at the moment
@@ -106,7 +121,11 @@ public class BaseHitBox : MonoBehaviour
                                     // Set HP
                                     r.setHp(r.getHp() * banner.getHPBonus());
 
-                                    //TO-DO: Gathering Bonuses
+                                    //set Gathering Bonuses
+                                    print(r.name + " gather was: " + r.getGatherRate());
+                                    r.setGatherRate((int) (r.getGatherRate() * banner.getGatherBonus()));
+                                    print(r.name + " gather is now: " + r.getGatherRate());
+
                                 }
                             }
                         }
@@ -184,6 +203,10 @@ public class BaseHitBox : MonoBehaviour
 
                                     // Set HP
                                     r.setHp(r.getHp() / banner.getHPBonus());
+
+                                    //Undo Gather bonus
+                                    r.setGatherRate((int)(r.getGatherRate() / banner.getGatherBonus()));
+
                                 }
                             }
                         }

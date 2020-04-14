@@ -6,6 +6,8 @@ public class CoinResource : MonoBehaviour
 {
     bool active = false;
 
+    public bool isCrown = false;
+
     public void Awake()
     {
         this.GetComponent<BoxCollider2D>().enabled = false; 
@@ -31,7 +33,10 @@ public class CoinResource : MonoBehaviour
 
     public void ImClicked()
     {
-        ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Shiny,1);
+        if(isCrown)
+            ResourceManagerScript.Instance.incrementCrownCount(1);
+        else
+            ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Shiny,1);
         //To:Do Play pick up Anim ?
 
         Destroy(this.gameObject);

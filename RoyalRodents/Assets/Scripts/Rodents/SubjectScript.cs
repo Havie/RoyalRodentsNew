@@ -652,17 +652,23 @@ public class SubjectScript : MonoBehaviour
         int index = this.transform.childCount;
         for (int i = 0; i < index; ++i)
         {
+
             Transform t = this.transform.GetChild(i);
-            ScaleKeeper sk = t.GetComponent<ScaleKeeper>();
-            if (sk)
+            // Do not include projectile spawn
+            if (t != projectileSpawnPoint)
             {
-                Vector3 _properScale = sk.getScale();
+                ScaleKeeper sk = t.GetComponent<ScaleKeeper>();
+                if (sk)
+                {
+                    Vector3 _properScale = sk.getScale();
 
-                if (facingRight)
-                    _properScale = new Vector3(-_properScale.x, _properScale.y, _properScale.z);
+                    if (facingRight)
+                        _properScale = new Vector3(-_properScale.x, _properScale.y, _properScale.z);
 
-                t.localScale = _properScale;
+                    t.localScale = _properScale;
+                }
             }
+            
         }
 
 
@@ -722,6 +728,8 @@ public class SubjectScript : MonoBehaviour
                 anims.SetTrigger(ATK_ANIMATION_TRIGGER);
             }
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+            projectile.GetComponent<Projectile>().enemyTeam = getEnemyTeam();
+            projectile.GetComponent<Projectile>().attack = attackDamage;
             projectile.transform.parent = projectileSpawnPoint;
             projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
 

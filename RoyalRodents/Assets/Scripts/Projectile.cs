@@ -7,7 +7,9 @@ public class Projectile : MonoBehaviour
     private float hSpeed = 1f;
     private float vSpeed = 5f;
     public Rigidbody2D rb;
-    private Vector2 targetPosition;
+    private Vector3 targetPosition;
+    public int enemyTeam;
+    public float attack;
     
     void Start()
     {
@@ -24,6 +26,32 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter2D(Collider2D hitInfo)
     {
         // Put proper hit detection code here
+        Rodent r = hitInfo.gameObject.GetComponent<Rodent>();
+        
+        // Check for enemy rodent
+        if (r)
+        {
+            if(r.getTeam() == enemyTeam)
+            {
+                Debug.Log("Call Damage");
+                r.Damage(attack);
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            // Check for enemy building
+            BuildableObject b = hitInfo.gameObject.GetComponent<BuildableObject>();
+            if (b)
+            {
+                if (b.getTeam() == enemyTeam)
+                {
+                    b.Damage(attack);
+                    Destroy(gameObject);
+                }
+            }
+        }
+        
     }
 
     public void setTarget(Vector3 pos)
@@ -38,10 +66,10 @@ public class Projectile : MonoBehaviour
         float time = vSpeed / rb.gravityScale;
 
         //Calculate correct horizonal velocity based on time in air
-        float deltaX = targetPosition.x - (transform.position.x);
+        float deltaX = -1 * (targetPosition.x - transform.position.x);
         //Debug.Log("PositionX is " + transform.position.x);
         //Debug.Log("TargetX is " + targetPosition.x);
-        //Debug.Log("DeltaX is " + deltaX);
+        
         hSpeed = deltaX / time;
 
         //Set velocity from hSpeed and vSpeed

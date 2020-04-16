@@ -40,14 +40,14 @@ public class bOutpost : MonoBehaviour
 		if (!_isSet)
 		{
 			//Set Upgrade/Build Costs (1-3 levels)
-			_costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 4);
+			_costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 5);
 
-			_costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 4);
-			_costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 2);
+			_costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 8);
+			_costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 5);
 
-			_costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 6);
-			_costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 4);
-			_costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 2);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 13);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 8);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 5);
 
 			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost");
             _builtSpriteLevel1_available = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost_available");

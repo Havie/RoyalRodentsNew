@@ -12,7 +12,7 @@ public class Beaver : MonoBehaviour
     private float _MoveSpeed = 2.4f;
     private float _AttackDamage = 3.7f;
     private int _buildRate = 3;
-    private int _gatherRate = 9;
+    private int _gatherRate = 5;
     private Vector2 _BoxColliderSize = new Vector2(2, 1.5f);
     private Vector2 _BoxColliderOffset = new Vector2(0, 0.5f);
     [SerializeField]

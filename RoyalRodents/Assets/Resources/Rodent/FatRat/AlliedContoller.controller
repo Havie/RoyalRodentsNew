@@ -304,6 +304,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: isArmed
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isRanged
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2390456416322214037}
   m_Solo: 0
@@ -615,7 +618,7 @@ AnimatorStateMachine:
     m_Position: {x: 60, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5084985011899862532}
-    m_Position: {x: -120, y: 270, z: 0}
+    m_Position: {x: -130, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3178206432603706685}
     m_Position: {x: -120, y: 430, z: 0}

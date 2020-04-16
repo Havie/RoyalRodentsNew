@@ -383,8 +383,6 @@ public class PlayerMovement : MonoBehaviour
                     {
 
                     }
-                    else
-                        Debug.Log("PROBLEM");
                     return true;
                 }
                 else if (Input.GetKeyDown(KeyCode.DownArrow) || _swipeDir == eSwipeDirection.Down)
@@ -566,22 +564,20 @@ public class PlayerMovement : MonoBehaviour
         //Have to be able to find the current tile were on first (Note: _CurrentTile Global is next tile at this point)
         if (initialHit.collider)
         {
-            //this should be the current tile we are standing on
-            Debug.Log("Local current tile=" + initialHit.collider.gameObject);
+            //Debug.Log("Local current tile=" + initialHit.collider.gameObject);
             localCurrentTile = initialHit.collider.gameObject;
 
             foreach (RaycastHit2D h in hits)
             {
-                //look threw the hits and find a tile we are not on
                 if (h.collider.gameObject != localCurrentTile)
                 {
                     if (h.collider.gameObject.GetComponent<DiggableTile>())
                     {
-                        Debug.Log("Found DiggableTile:" + h.collider.gameObject);
+                      //  Debug.Log("Found DiggableTile:" + h.collider.gameObject);
                         DiggableTile dt = h.collider.gameObject.GetComponent<DiggableTile>();
                         if (dt.isDiggable())
                         {
-                           Debug.Log("Its True:" + h.collider.gameObject);
+                           // Debug.Log("Its True:" + h.collider.gameObject);
                             if ((directionVector == Vector2.right || directionVector == Vector2.left))
                             {
                                 if (!dt.isTopSoil())
@@ -593,7 +589,6 @@ public class PlayerMovement : MonoBehaviour
                             }
                             else // up and down
                             {
-                                print("else");
                                 StartCoroutine(DigDelay(directionVector, dt));
                                 return true;
                             }

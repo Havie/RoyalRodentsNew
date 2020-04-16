@@ -12,7 +12,7 @@ public class Rat : MonoBehaviour
     private float _MoveSpeed = 3f;
     private float _AttackDamage = 3f;
     private int _buildRate = 1;
-    private int _gatherRate = 10;
+    private int _gatherRate = 5;
     private Vector2 _BoxColliderSize = new Vector2(0.8f, 0.8f);
     private Vector2 _BoxColliderOffset = new Vector2(0, 0.25f);
     [SerializeField]

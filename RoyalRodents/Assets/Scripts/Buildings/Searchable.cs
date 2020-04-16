@@ -20,9 +20,9 @@ public class Searchable : MonoBehaviour
 
     //Gathering Data
     public ResourceType _gatherResourceType = ResourceType.Food;
-    public int _gatherResourceAmount = 1 ;
-    private int _gathering = 0;
-    private int _gatheringMax = 100;
+    public int _gatherResourceAmount = 1;
+    public int _gathering = 0;
+    public int _gatheringMax = 5;
 
     //Gathering Resource Icon Data
     public GameObject _ResourceIconAnimObject;
@@ -240,7 +240,7 @@ public class Searchable : MonoBehaviour
 
             //Gain Resource
             //GainSpecifiedResource(); //- old system
-            incrementGathering(100);  // - new system
+            incrementGathering(_gatheringMax);  // - new system
             // trick the progress bar into thinking were using the new system
             //_gathering = (int)_SearchTime * 20;
 

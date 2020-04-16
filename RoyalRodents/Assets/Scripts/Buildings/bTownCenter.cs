@@ -37,22 +37,24 @@ public class bTownCenter : MonoBehaviour
         if (!_isSet)
         {
             //Set Upgrade/Build Costs (1-5 levels)
-            _costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 4);
+            _costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 6);
 
-            _costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 4);
-            _costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 2);
+            _costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 10);
+            _costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 6);
 
-            _costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 6);
-            _costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 4);
-            _costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 2);
+            _costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 18);
+            _costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 10);
+            _costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 6);
 
-            _costLevel4.Add(ResourceManagerScript.ResourceType.Trash, 6);
-            _costLevel4.Add(ResourceManagerScript.ResourceType.Wood, 4);
-            _costLevel4.Add(ResourceManagerScript.ResourceType.Stone, 2);
+            _costLevel4.Add(ResourceManagerScript.ResourceType.Trash, 32);
+            _costLevel4.Add(ResourceManagerScript.ResourceType.Wood, 18);
+            _costLevel4.Add(ResourceManagerScript.ResourceType.Stone, 10);
+            _costLevel4.Add(ResourceManagerScript.ResourceType.Shiny, 2);
 
-            _costLevel5.Add(ResourceManagerScript.ResourceType.Trash, 6);
-            _costLevel5.Add(ResourceManagerScript.ResourceType.Wood, 4);
-            _costLevel5.Add(ResourceManagerScript.ResourceType.Stone, 2);
+            _costLevel5.Add(ResourceManagerScript.ResourceType.Trash, 57);
+            _costLevel5.Add(ResourceManagerScript.ResourceType.Wood, 32);
+            _costLevel5.Add(ResourceManagerScript.ResourceType.Stone, 18);
+            _costLevel5.Add(ResourceManagerScript.ResourceType.Shiny, 5);
 
             _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
             _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/TownCenter/wood_town_center");

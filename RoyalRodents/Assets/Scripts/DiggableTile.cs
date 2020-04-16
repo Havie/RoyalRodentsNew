@@ -10,7 +10,7 @@ public class DiggableTile : MonoBehaviour
     [SerializeField] private bool _isOpen;
     private Sprite _TunnelSprite;
 
-    private bool _Debugg = true;
+    private bool _Debugg = false;
 
     private void Awake()
     {

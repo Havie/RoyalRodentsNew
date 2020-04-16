@@ -94,28 +94,39 @@ public class ResourceManagerScript : MonoBehaviour
         _shiny = 2;
         _crowns = 0;
 
-        LoadVFX();
+        //LoadVFX();
         UpdateAllText();
     }
-    private void LoadVFX()
+    private GameObject LoadVFX()
     {
         if (_VFXPrefab == null)
             _VFXPrefab = Resources.Load<GameObject>("UI/vfx_ResourcePop");
         var vfx = GameObject.Instantiate(_VFXPrefab, this.transform.position, this.transform.rotation);
-        vfx.transform.SetParent(_FoodText.transform.parent);
+
+        return vfx;
+    }
+    private void PlayVFX(TextMeshProUGUI obj)
+    {
+        if (obj == null)
+            return;
+
+        Vector3 loc = obj.transform.position;
+        var vfx = LoadVFX();
+        vfx.transform.SetParent(obj.transform);
         _VFXResourcePop = vfx.GetComponent<ParticleSystem>();
 
-    }
-    private void PlayVFX(Vector3 loc)
-    {
         if (_VFXResourcePop)
         {
             _VFXResourcePop.gameObject.transform.position = loc;
             _VFXResourcePop.Stop();
             _VFXResourcePop.Play();
+            StartCoroutine(destroyVFX(vfx));
         }
-        else
-            LoadVFX();
+    }
+    private IEnumerator destroyVFX(GameObject vfx)
+    {
+        yield return new WaitForSeconds(5);
+        Destroy(vfx);
     }
     //Needed to Find the Correct Objects when new Scene is loaded - otherwise everythings Null
     public void FindTexts()
@@ -271,7 +282,7 @@ public class ResourceManagerScript : MonoBehaviour
                     if (_FoodText)
                     {
                         playAnim(_FoodText);
-                        PlayVFX(_FoodText.transform.position);
+                        PlayVFX(_FoodText);
                         _FoodText.text = _food.ToString();
                     }
                     break;
@@ -281,7 +292,7 @@ public class ResourceManagerScript : MonoBehaviour
                     if (_TrashText)
                     {
                         playAnim(_TrashText);
-                        PlayVFX(_TrashText.transform.position);
+                        PlayVFX(_TrashText);
                         _TrashText.text = _trash.ToString();
                     }
                     break;
@@ -291,7 +302,7 @@ public class ResourceManagerScript : MonoBehaviour
                     if (_WoodText)
                     {
                         playAnim(_WoodText);
-                        PlayVFX(_WoodText.transform.position);
+                        PlayVFX(_WoodText);
                         _WoodText.text = _wood.ToString();
                     }
                     break;
@@ -301,7 +312,7 @@ public class ResourceManagerScript : MonoBehaviour
                     if (_StoneText)
                     {
                         playAnim(_StoneText);
-                        PlayVFX(_StoneText.transform.position);
+                        PlayVFX(_StoneText);
                         _StoneText.text = _stone.ToString();
                     }
                     break;
@@ -311,7 +322,7 @@ public class ResourceManagerScript : MonoBehaviour
                     if (_ShinyText)
                     {
                         playAnim(_ShinyText);
-                        PlayVFX(_ShinyText.transform.position);
+                        PlayVFX(_ShinyText);
                         _ShinyText.text = _shiny.ToString();
                     }
                     break;

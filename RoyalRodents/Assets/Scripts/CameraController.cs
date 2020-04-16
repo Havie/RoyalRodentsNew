@@ -99,10 +99,10 @@ public class CameraController : MonoBehaviour
     // or just make it so the rodents dont get close to the edges
     public void ChangeZone(int locX)
     {
-        if (locX==100 || locX==-130)
+        if (locX==20 || locX==-64)
         {
-            _NegXCap = -130;
-            _PosXCap = 100;
+            _NegXCap = -64;
+            _PosXCap = 20;
         }
         else if (locX==175 || locX ==405)
         {

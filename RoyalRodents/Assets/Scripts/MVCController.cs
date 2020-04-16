@@ -550,7 +550,11 @@ public class MVCController : MonoBehaviour
                 //Might need to check certain buttons scripts to set assignmentDummy=true;
                 return false;
             }
-            
+            else if (result.gameObject.GetComponent<UIStaminaHitBox>())
+            {
+                result.gameObject.GetComponent<UIStaminaHitBox>().imClicked();
+            }
+
         }
        if(results.Count<=0 && (_printStatements))
             Debug.LogWarning("We tried to GraphicRaycast UI and failed @" + m_PointerEventData.position);

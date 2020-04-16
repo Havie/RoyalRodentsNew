@@ -7,6 +7,8 @@ public class UIStaminaButton : MonoBehaviour
     private PlayerStats _PS;
     private int _RestoreAmount = 10;
 
+    private bool clickTimer;
+
     public void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -20,12 +22,23 @@ public class UIStaminaButton : MonoBehaviour
 
     public void imClicked()
     {
+        if (clickTimer)
+            return;
+
+        StartCoroutine(clickDelay());
         if (ResourceManagerScript.Instance.GetResourceCount(ResourceManagerScript.ResourceType.Food) > 0 && _PS.getStamina() <= _PS.getStaminaMax() - _RestoreAmount)
         {
             ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Food, -1);
             _PS.IncrementStamina(_RestoreAmount);
         }
-        //To:Do play sound 
+        //TO:DO play sound 
 
+    }
+
+    private IEnumerator clickDelay()
+    {
+        clickTimer = true;
+        yield return new WaitForSeconds(1);
+        clickTimer = false;
     }
 }

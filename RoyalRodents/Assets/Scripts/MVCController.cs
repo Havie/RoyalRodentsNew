@@ -252,7 +252,7 @@ public class MVCController : MonoBehaviour
 
                 if(_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
-                    Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+                   // Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
 
                     if(_TMPlastClicked.transform.parent)
                         if(RayCastExactSpot(MouseRaw, _TMPlastClicked.transform.parent.gameObject))
@@ -550,7 +550,11 @@ public class MVCController : MonoBehaviour
                 //Might need to check certain buttons scripts to set assignmentDummy=true;
                 return false;
             }
-            
+            else if (result.gameObject.GetComponent<UIStaminaHitBox>())
+            {
+                result.gameObject.GetComponent<UIStaminaHitBox>().imClicked();
+            }
+
         }
        if(results.Count<=0 && (_printStatements))
             Debug.LogWarning("We tried to GraphicRaycast UI and failed @" + m_PointerEventData.position);
@@ -676,7 +680,7 @@ public class MVCController : MonoBehaviour
             print("looking thru hits--- if this code i wana know ab it (steve)");
             foreach (var h in hits)
             {
-                print(h.collider.gameObject);
+                //print(h.collider.gameObject);
                 //Debug.Log("Found" + h.collider.gameObject);
                 
                 if (h.collider.GetComponent<BaseHitBox>())
@@ -693,8 +697,6 @@ public class MVCController : MonoBehaviour
                    
             }
         }
-        else
-            print("WTF");
 
         return false;
     }

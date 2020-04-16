@@ -11,6 +11,9 @@ public class UIAssignmentVFX : MonoBehaviour
     public ParticleSystem[] _onClicked;
     public ParticleSystem[] _glowVFX;
 
+
+    private bool clickTimer;
+
     public void Start()
     {
         setUpVFX();
@@ -87,20 +90,17 @@ public class UIAssignmentVFX : MonoBehaviour
 
     public void imClicked()
     {
+        if (clickTimer)
+            return;
+        StartCoroutine(clickDelay());
         UIAssignmentMenu.Instance.ToggleMenu();
         PlayClickAnim();
     }
 
-
-    //No Better script to put this on sadly
-    public void OnMouseEnter()
+    private IEnumerator clickDelay()
     {
-        //MVCController.Instance.CheckClicks(false);
-       // MVCController.Instance.SetAssignmentDummy(true);
-    }
-    public void OnMouseExit()
-    {
-       // MVCController.Instance.CheckClicks(true);
-       // MVCController.Instance.SetAssignmentDummy(false);
+        clickTimer = true;
+        yield return new WaitForSeconds(1);
+        clickTimer = false;
     }
 }

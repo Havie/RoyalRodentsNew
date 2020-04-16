@@ -958,6 +958,7 @@ public class SubjectScript : MonoBehaviour
 
         if (!ShouldIdle)
         {
+            // Skip this if ranger with an enemy as a target
             Move(targetPos);
         }
 

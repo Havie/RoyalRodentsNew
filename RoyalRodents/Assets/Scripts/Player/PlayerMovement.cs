@@ -566,11 +566,13 @@ public class PlayerMovement : MonoBehaviour
         //Have to be able to find the current tile were on first (Note: _CurrentTile Global is next tile at this point)
         if (initialHit.collider)
         {
+            //this should be the current tile we are standing on
             Debug.Log("Local current tile=" + initialHit.collider.gameObject);
             localCurrentTile = initialHit.collider.gameObject;
 
             foreach (RaycastHit2D h in hits)
             {
+                //look threw the hits and find a tile we are not on
                 if (h.collider.gameObject != localCurrentTile)
                 {
                     if (h.collider.gameObject.GetComponent<DiggableTile>())

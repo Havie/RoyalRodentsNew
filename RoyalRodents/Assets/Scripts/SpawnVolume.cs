@@ -165,7 +165,7 @@ public class SpawnVolume : MonoBehaviour
     }
     public void SpawnSomething()
     {
-        print("Spawning something.." + this.gameObject.name  + " __ " + this.transform.parent.name);
+        //print("Spawning something.." + this.gameObject.name  + " __ " + this.transform.parent.name);
         //Do a random roll to see if we spawn (50/50)
         int roll = Random.Range(0, 10);
         if (roll % 2 == 0)

@@ -1118,7 +1118,7 @@ public class SubjectScript : MonoBehaviour
             _underAttack = false;
             _underAttackCoroutineOn = false;
             restoreLastJob();
-            Debug.LogError("Were NOT under attack @" + Time.time + "  " + this.gameObject);
+           // Debug.LogError("Were NOT under attack @" + Time.time + "  " + this.gameObject);
         }
     }
 

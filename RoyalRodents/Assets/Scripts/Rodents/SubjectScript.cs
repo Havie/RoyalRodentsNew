@@ -338,15 +338,29 @@ public class SubjectScript : MonoBehaviour
                 {
                     if (team == 1 && currentTarget.tag != "Player") // And can attack
                     {
+                        if (isRanged)
+                        {
+                            StartCoroutine(Shoot(currentTarget.transform.position));
+                        }
+                        else
+                        {
+                            StartCoroutine(Attack());
+                        }
 
-                        StartCoroutine(Attack());
 
                         guardShouldIdle = false;
                     }
                     else if (team == 2)
                     {
+                        if (isRanged)
+                        {
+                            StartCoroutine(Shoot(currentTarget.transform.position));
+                        }
+                        else
+                        {
+                            StartCoroutine(Attack());
+                        }
 
-                        StartCoroutine(Attack());
                         
                         guardShouldIdle = false;
                     }
@@ -710,12 +724,15 @@ public class SubjectScript : MonoBehaviour
             }
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
             projectile.transform.parent = projectileSpawnPoint;
+            projectile.GetComponent<Projectile>().setDamage(attackDamage);
+            projectile.GetComponent<Projectile>().setEnemyTeam(getEnemyTeam());
             projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
 
+
+            yield return new WaitForSeconds(1.16f);
+            canAttack = true;
         }
 
-        yield return new WaitForSeconds(1.16f);
-        canAttack = true;
     }
 
     public void AgroRadiusTrigger(Collider2D collision)

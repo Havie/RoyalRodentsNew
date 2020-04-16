@@ -392,8 +392,9 @@ MonoBehaviour:
   rangedAttacker: 0
   _underAttackTime: 0
   isRanged: 0
-  projectilePrefab: {fileID: 0}
-  projectileSpawnPoint: {fileID: 0}
+  projectilePrefab: {fileID: 3556512392540914224, guid: 134b0e1d05f16bf4c8976e163128b4d7,
+    type: 3}
+  projectileSpawnPoint: {fileID: 1121268446791702122}
 --- !u!114 &3854028680787155671
 MonoBehaviour:
   m_ObjectHideFlags: 0

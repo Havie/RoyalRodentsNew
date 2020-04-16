@@ -668,48 +668,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-
-        /* This logic is only finding the portrait outline?? perhaps my transform height is off
-        // Defines a layer mask that only looks at the "buildings" and "Player" Layer(s)
-        LayerMask _LayerMask = (1 << 8) | (1 << 9);
-        RaycastHit2D hit = Physics2D.Raycast(_startPos, _ourDir, 3.75f, _LayerMask);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(_startPos, _ourDir, 3.75f, _LayerMask);
-
-        //Drawing a Ray doesnt work?
-        //Debug.DrawRay(_startPos, _ourDir, Color.red);
-
-        foreach (var h in hits)
-        {
-            Debug.Log(h.collider.gameObject);
-
-        }
-
-        Debug.Log("Hit Dis:" + hit.distance);
-
-        if (hit.collider != null)
-        {
-            Debug.Log("Found :" + hit.collider.gameObject.name);
-            GameObject go = hit.collider.gameObject;
-            if (go == _AttackTarget)
-            {
-               if(go.GetComponent<Rodent>())
-                {
-                    go.GetComponent<Rodent>().Damage(_damage);
-                }
-               else if (go.GetComponent<BuildableObject>())
-                {
-                    go.GetComponent<BuildableObject>().Damage(_damage);
-                }
-            }
-
-           
-            AIController ai = hit.collider.GetComponent<AIController>();
-            if (ai)
-            {
-                ai.Damage(_damage);
-            }
-        }
-        */
         yield return new WaitForSeconds(0.85f);
         _AttackDelay = false;
     }
@@ -727,6 +685,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
+        print("die called");
+        if (isDead)
+            return;
+
         isDead = true;
         _animator.SetTrigger("Dead");
         GameManager.Instance.youLose();
@@ -817,6 +779,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void setAttacking(bool cond) => _isAttacking = cond;
     public void setControlled(bool cond)
     {
         // Debug.Log("Player Is Controlled=" + cond);

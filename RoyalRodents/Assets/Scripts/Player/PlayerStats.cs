@@ -22,6 +22,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     private Transform _RoyalGuardParent;
 
     private bool _inPlayerZone = true;
+    private bool _isDead = false;
 
 
     /**Begin Interface stuff*/
@@ -37,7 +38,10 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
                 //Sloppy?
                 PlayerMovement pm = this.GetComponent<PlayerMovement>();
                 if (pm)
+                {
                     pm.Die();
+                    _isDead = true;
+                }
                 else
                     Debug.LogError("Should have died but cant find PlayerMovement");
             }
@@ -113,7 +117,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
             _RoyalGuardParent.position = this.transform.position;
 
         //Player will trickle restore HP based on stamina
-        if (_inPlayerZone)
+        if (_inPlayerZone && !_isDead)
         {
             if (_Hp < _HpMax)
                 Damage(-_Stamina / 5000f);
@@ -171,6 +175,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     {
         return _AttackDamage;
     }
+    public bool isDead() => _isDead;
     public float getHealth()
     {
         return _Hp;
@@ -195,6 +200,7 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
 
         ShowRoyalGuard(false);
     }
+    public void setDead(bool cond) => _isDead = cond;
     private int findAvailableSlot()
     {
         int _count = 0;

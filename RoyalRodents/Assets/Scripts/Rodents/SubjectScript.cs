@@ -825,8 +825,15 @@ public class SubjectScript : MonoBehaviour
             }
             else if (king)
             {
-                //Debug.Log("Should be attacking king");
-                king.Damage(attackDamage);
+                if (!king.isDead())
+                {
+                    king.Damage(attackDamage);
+                }
+                else
+                {
+                    _inRange.Remove(currentTarget);
+                    FindNextTargetInRange();
+                }
             }
             else
             {

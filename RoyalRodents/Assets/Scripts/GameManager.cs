@@ -185,6 +185,7 @@ public class GameManager : MonoBehaviour
     }
     public void youLose()
     {
+        print("you lose");
         if (_LoseAnimator)
         {
             _LoseAnimator.SetTrigger("PlayAnim");
@@ -198,7 +199,7 @@ public class GameManager : MonoBehaviour
         ShowPauseMenu();
 
     }
-    private void ShowPauseMenu()
+    public void ShowPauseMenu()
     {
         if (_PauseMenu)
         {

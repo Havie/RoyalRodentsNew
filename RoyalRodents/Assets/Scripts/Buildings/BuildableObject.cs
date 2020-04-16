@@ -35,7 +35,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private int _construction = 0;
     [SerializeField]
-    private int _constructionMax = 100;
+    private int _constructionMax = 5;
     private GameObject _ConstructionBarObj;
     private HealthBar _ConstructionBar;
 

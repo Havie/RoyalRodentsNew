@@ -48,14 +48,14 @@ public class bBanner : MonoBehaviour
 		if (!_isSet)
 		{
 			//Set Upgrade/Build Costs (1-3 levels)
-			_costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 2);
+			_costLevel1.Add(ResourceManagerScript.ResourceType.Trash, 6);
 
-			_costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 4);
-			_costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 2);
+			_costLevel2.Add(ResourceManagerScript.ResourceType.Trash, 9);
+			_costLevel2.Add(ResourceManagerScript.ResourceType.Wood, 6);
 
-			_costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 6);
-			_costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 4);
-			_costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 2);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Trash, 14);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 9);
+			_costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 6);
 
 			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Banner/trash_banner");
 			_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Banner/wood_banner");

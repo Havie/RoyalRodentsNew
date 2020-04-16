@@ -745,6 +745,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _sr.sprite = _sStatedefault;
         }
 
+        //Drop Demolished Resources
+        GameObject pickup = Resources.Load<GameObject>("ResourceIcons/Collectable_Resource");
+        if (pickup)
+        {
+            GameObject ppp = GameObject.Instantiate(pickup, this.transform.position, this.transform.rotation);
+            ppp.GetComponent<CoinResource>().setResourceType(ResourceManagerScript.ResourceType.Trash);
+        }
+
     }
 
     //This is obsolete becuz we are apparently always reducing to a dirt mound

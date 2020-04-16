@@ -345,15 +345,16 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             }
             else //drop shiny 
             {
-                int roll = Random.Range(0, 15);
-                if (roll == 1)
-                {
-                    GameObject shiny = Resources.Load<GameObject>("ResourceIcons/Collectable_Shiny");
-                    if (shiny)
+                //int roll = Random.Range(0, 15);
+                //if (roll == 1)
+                //{
+                    GameObject pickup = Resources.Load<GameObject>("ResourceIcons/Collectable_Resource");
+                    if (pickup)
                     {
-                        GameObject.Instantiate(shiny, this.transform.position, this.transform.rotation);
+                        GameObject ppp = GameObject.Instantiate(pickup, this.transform.position, this.transform.rotation);
+                        ppp.GetComponent<CoinResource>().setResourceType(ResourceManagerScript.ResourceType.Shiny);
                     }
-                }
+                //}
             }
         }
 

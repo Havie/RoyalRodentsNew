@@ -1448,7 +1448,7 @@ MonoBehaviour:
   _level: 2
   textTrashCost: {fileID: 324552903}
   textWoodCost: {fileID: 1835748170}
-  textStoneCost: {fileID: 0}
+  textStoneCost: {fileID: 7476057}
   textShinyCost: {fileID: 644603927}
   textTitle: {fileID: 1472960085}
 --- !u!1001 &101920121
@@ -34726,7 +34726,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -41.0343, w: 0}
+  m_margin: {x: 0, y: 0, z: -147.07935, w: 0}
   m_textInfo:
     textComponent: {fileID: 1472960085}
     characterCount: 15

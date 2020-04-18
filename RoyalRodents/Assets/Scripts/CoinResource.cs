@@ -9,6 +9,7 @@ public class CoinResource : MonoBehaviour
 
     public bool isCrown = false;
     public ResourceType _resource;
+    public int _amount = 1;
 
     public void Awake()
     {
@@ -45,12 +46,17 @@ public class CoinResource : MonoBehaviour
             renderer.sprite = spr;
     }
 
+    public void setResourceAmount(int amnt)
+    {
+        _amount = amnt;
+    }
+
     public void ImClicked()
     {
         if(isCrown)
             ResourceManagerScript.Instance.incrementCrownCount(1);
         else
-            ResourceManagerScript.Instance.incrementResource(_resource, 1);
+            ResourceManagerScript.Instance.incrementResource(_resource, _amount);
         //To:Do Play pick up Anim ?
 
         Destroy(this.gameObject);

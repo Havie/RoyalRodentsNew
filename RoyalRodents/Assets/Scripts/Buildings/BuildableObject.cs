@@ -541,6 +541,33 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 break;
         }
 
+        //Drop Demolished Resources
+        GameObject pickup = Resources.Load<GameObject>("ResourceIcons/Collectable_Resource");
+        if (pickup)
+        {
+            if (_level >= 1)
+            {
+                GameObject ppp = GameObject.Instantiate(pickup, this.transform.position, this.transform.rotation);
+                CoinResource cr = ppp.GetComponent<CoinResource>();
+                cr.setResourceType(ResourceManagerScript.ResourceType.Trash);
+                cr.setResourceAmount(2 * _level);
+            }
+            if (_level >= 2)
+            {
+                GameObject ppp = GameObject.Instantiate(pickup, this.transform.position, this.transform.rotation);
+                CoinResource cr = ppp.GetComponent<CoinResource>();
+                cr.setResourceType(ResourceManagerScript.ResourceType.Wood);
+                cr.setResourceAmount(2 * _level);
+            }
+            if (_level >= 3)
+            {
+                GameObject ppp = GameObject.Instantiate(pickup, this.transform.position, this.transform.rotation);
+                CoinResource cr = ppp.GetComponent<CoinResource>();
+                cr.setResourceType(ResourceManagerScript.ResourceType.Stone);
+                cr.setResourceAmount(2 * _level);
+            }
+        }
+
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         _level = 0; // handle the other stuff in demolish complete i guess
@@ -744,15 +771,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //set sprite to dirt mound
             _sr.sprite = _sStatedefault;
         }
-
-        //Drop Demolished Resources
-        GameObject pickup = Resources.Load<GameObject>("ResourceIcons/Collectable_Resource");
-        if (pickup)
-        {
-            GameObject ppp = GameObject.Instantiate(pickup, this.transform.position, this.transform.rotation);
-            ppp.GetComponent<CoinResource>().setResourceType(ResourceManagerScript.ResourceType.Trash);
-        }
-
     }
 
     //This is obsolete becuz we are apparently always reducing to a dirt mound

@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour
     private Vector3 _offset;
 
     private float _NegYCap = -194;
-    private float _NegXCap = -130;
-    private float _PosXCap = 100;
+    private float _NegXCap = -52;
+    private float _PosXCap = 13;
 
     private bool _CharacterMode=true;
     private bool _OverrideMode = false; //Really should have been on GameManger

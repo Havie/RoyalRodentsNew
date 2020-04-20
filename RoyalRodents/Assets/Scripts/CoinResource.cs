@@ -54,7 +54,12 @@ public class CoinResource : MonoBehaviour
     public void ImClicked()
     {
         if(isCrown)
+        {
             ResourceManagerScript.Instance.incrementCrownCount(1);
+
+            //ETHAN TODO: Add Notification: YOU GOT A CROWN!
+
+        }
         else
             ResourceManagerScript.Instance.incrementResource(_resource, _amount);
         //To:Do Play pick up Anim ?

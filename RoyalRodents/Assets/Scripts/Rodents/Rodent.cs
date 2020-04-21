@@ -303,6 +303,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //Should this be in Rodent or in AIController which holds the Animator?
         // the player script does this that way but it feels weird 
         //ETHAN TODO: Add Notification: RODENT DIED
+        //NewNotification("YOUR RODENT DIED!", name + " died!");
 
         //HACK
         _isDead = true;

@@ -169,7 +169,7 @@ MonoBehaviour:
   isRanged: 0
   projectilePrefab: {fileID: 3556512392540914224, guid: 134b0e1d05f16bf4c8976e163128b4d7,
     type: 3}
-  projectileSpawnPoint: {fileID: 0}
+  projectileSpawnPoint: {fileID: 7182425767880940539}
 --- !u!114 &1532969498411895717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,7 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7182425767880940539}
   m_Layer: 12
-  m_Name: ProjectileSpwan
+  m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

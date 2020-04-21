@@ -217,9 +217,18 @@ public class Searchable : MonoBehaviour
                     _PlayerStats.IncrementStamina(-_StaminaCost);
                     //Tell MC to play Animation
                     Animator am = _MainCharacter.GetComponent<Animator>();
-                    if(am)
+                    if (am)
+                    {
                         am.SetTrigger("doDig");
-                    
+                        // hack to disable movement
+                        PlayerMovement _pm = _MainCharacter.GetComponent<PlayerMovement>();
+                        if (_pm)
+                            _pm.setAttacking(true); // Dig anim turns it off
+
+                    }
+
+
+
                 }
                 else
                     _okayToSearch = false;

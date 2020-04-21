@@ -252,7 +252,8 @@ public class MVCController : MonoBehaviour
 
                 if(_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
-                   // Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
+                    if (_printStatements)
+                        Debug.LogWarning("We Clicked an AttackRadius ON" + _TMPlastClicked.transform.parent.gameObject);
 
                     if(_TMPlastClicked.transform.parent)
                         if(RayCastExactSpot(MouseRaw, _TMPlastClicked.transform.parent.gameObject))
@@ -268,6 +269,8 @@ public class MVCController : MonoBehaviour
                 //Clicked the Portrait Employee Object - collider isn't on child, but it has a parent so its safe to do this in here
                 if(CheckWorkerObject(_TMPlastClicked))
                 {
+                    if (_printStatements)
+                        Debug.LogWarning("Found a worker");
                     GameObject go = FoundWorkerObj(_TMPlastClicked);
                     if (go)
                         return go;
@@ -275,9 +278,19 @@ public class MVCController : MonoBehaviour
                 // We clicked something tangible, not an agro collider 
                 if (!_TMPlastClicked.transform.GetComponent<AttackRadius>())
                 {
+                    if (_printStatements)
+                        Debug.LogWarning("Found somethihng w.o atack radius");
+
                     //prevents us from opening a menu accidentally
                     if (UIAssignmentMenu.Instance.isActive())
-                        return null;
+                    {
+                         if (CheckDismiss(_TMPlastClicked))
+                        {
+                            return FoundDismiss(_TMPlastClicked);
+                        }
+                         else
+                            return null;
+                    }
 
                     if (CheckRodent(_TMPlastClicked))
                     {
@@ -291,10 +304,7 @@ public class MVCController : MonoBehaviour
                     {
                         return FoundBuilding(_TMPlastClicked);
                     }
-                    else if (CheckTeleporter(_TMPlastClicked))
-                    {
-                        return FoundTeleporter(_TMPlastClicked);
-                    }
+                   
                 }
                 
             }
@@ -677,7 +687,7 @@ public class MVCController : MonoBehaviour
 
         if (hits.Length > 1)
         {
-            print("looking thru hits--- if this code i wana know ab it (steve)");
+           // print("looking thru hits--- if this code i wana know ab it (steve)");
             foreach (var h in hits)
             {
                 //print(h.collider.gameObject);
@@ -730,7 +740,10 @@ public class MVCController : MonoBehaviour
     private bool CheckTeleporter(GameObject _TMPlastClicked)
     {
         return (_TMPlastClicked.GetComponent<Teleporter>());
-      
+    }
+    private bool CheckDismiss(GameObject _TMPlastClicked)
+    {
+        return (_TMPlastClicked.GetComponent<DismissalScript>());
     }
     private bool CheckWorkerObject(GameObject _TMPlastClicked)
     {
@@ -828,6 +841,11 @@ public class MVCController : MonoBehaviour
     private GameObject FoundTeleporter(GameObject _TMPlastClicked)
     {
         _TMPlastClicked.GetComponent<Teleporter>().imClicked();
+        return _TMPlastClicked;
+    }
+    private GameObject FoundDismiss(GameObject _TMPlastClicked)
+    {
+        _TMPlastClicked.GetComponent<DismissalScript>().imClicked();
         return _TMPlastClicked;
     }
 }

@@ -92,7 +92,8 @@ public class EventSystem : MonoBehaviour
         if (SpawnTrigger != null)
         {
             SpawnTrigger();
-           // print("Spawned Neutral");
+            // print("Spawned Neutral");
+            //ETHAN TODO: Add Notification: NEW RODENT HAS ARRIVED!
         }
     }
 

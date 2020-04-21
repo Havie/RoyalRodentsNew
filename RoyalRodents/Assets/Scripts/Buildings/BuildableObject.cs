@@ -736,6 +736,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _construction = 0;
         }
         UpdateState();
+
+        //ETHAN TODO: Add Notification: COMPLETED BUILDING
+
         //Debug.Log("Built a level " + _level + " structure");
 
         //If the state is dirt mount, set it to player team - will have to figure out
@@ -749,6 +752,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void DemolishComplete()
     {
+        //ETHAN TODO: Add Notification: BUILDING DESTROYED
+
         eState = BuildingState.Available;
         _sr.sprite = _sStatedefault;
         _construction = 0;

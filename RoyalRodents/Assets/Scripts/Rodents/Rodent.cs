@@ -302,6 +302,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //print(_Name + " is dead");
         //Should this be in Rodent or in AIController which holds the Animator?
         // the player script does this that way but it feels weird 
+        //ETHAN TODO: Add Notification: RODENT DIED
+        //NewNotification("YOUR RODENT DIED!", name + " died!");
+
         //HACK
         _isDead = true;
         this.GetComponent<Animator>().SetBool("isDead", true);
@@ -345,16 +348,16 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             }
             else //drop shiny 
             {
-                //int roll = Random.Range(0, 15);
-                //if (roll == 1)
-                //{
+                int roll = Random.Range(0, 10);
+                if (roll == 1)
+                {
                     GameObject pickup = Resources.Load<GameObject>("ResourceIcons/Collectable_Resource");
                     if (pickup)
                     {
                         GameObject ppp = GameObject.Instantiate(pickup, this.transform.position, this.transform.rotation);
                         ppp.GetComponent<CoinResource>().setResourceType(ResourceManagerScript.ResourceType.Shiny);
                     }
-                //}
+                }
             }
         }
 
@@ -486,6 +489,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     {
         _Status = eStatus.Available;
         setTeam(1);
+
+        //ETHAN TODO: Add Notification: RODENT RECRUITED
+
         // No new Behavior?
 
         // Go to Town Center? 

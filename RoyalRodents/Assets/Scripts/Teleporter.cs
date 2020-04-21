@@ -20,14 +20,12 @@ public class Teleporter : MonoBehaviour
         // TO-DO:
         // check time of day to see if player goes with royal guard or brings army
 
-       // print("Clicked me:" + this.gameObject);
+        //print("Clicked me:" + this.gameObject);
 
         //get the outposts from parent
         if(_parent)
             _parent.childClicked(this);
 
-        //TMP`8
-       // startInvasion();
 
     }
 

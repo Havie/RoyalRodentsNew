@@ -304,6 +304,10 @@ public class MVCController : MonoBehaviour
                     {
                         return FoundBuilding(_TMPlastClicked);
                     }
+                    else if (CheckTeleporter(_TMPlastClicked))
+                    {
+                        return FoundTeleporter(_TMPlastClicked);
+                    }
                    
                 }
                 

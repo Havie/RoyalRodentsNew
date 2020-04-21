@@ -706,7 +706,17 @@ public class SubjectScript : MonoBehaviour
             //    }
 
             //}
-            Move(moveTo);
+
+            // Prevent the rodent from moving if it's ranged and targetting something to attack
+            if(currentTarget && isRanged && !(currentTarget.tag == "player"))
+            {
+                Shoot(moveTo);
+            }
+            else
+            {
+                Move(moveTo);
+            }
+           
 
         }
         else

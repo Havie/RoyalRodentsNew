@@ -131,9 +131,9 @@ public class bBanner : MonoBehaviour
         if (level == 1)
             return _gatherBonusLvl1;
         else if (level == 2)
-            return _gatherBonusLvl1;
+            return _gatherBonusLvl2;
         else if (level == 3)
-            return _gatherBonusLvl1;
+            return _gatherBonusLvl3;
 
         return 0;
     }

@@ -390,6 +390,11 @@ public class UIAssignmentMenu : MonoBehaviour
         _vfx = vfx;
     }
 
+    public bool getAssignmentMenuActive()
+    {
+        return _active;
+    }
+
     /************************************************************************/
     /* Potential issues:
      *  Can Click and recruit random rodents while in Assignment Mode,

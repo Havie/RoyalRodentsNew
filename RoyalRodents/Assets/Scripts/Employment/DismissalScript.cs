@@ -43,10 +43,10 @@ public class DismissalScript : MonoBehaviour
 
     }
 
-    //@WARNING Really should phase this into MVC
-    private void OnMouseDown()
+
+    public void imClicked()
     {
-        //Debug.Log("!!!heardMouse Down in Dismissal!!");
+        Debug.Log("!!!heardMouse Down in Dismissal!!");
         if (_ws)
             _ws.dismissRodent();
         else

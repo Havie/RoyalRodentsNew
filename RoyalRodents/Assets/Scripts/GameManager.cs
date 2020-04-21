@@ -101,6 +101,10 @@ public class GameManager : MonoBehaviour
             StartScene();
             SceneStarted(true);
         }
+        else
+            _rm = ResourceManagerScript.Instance;
+        if (_PauseMenu)
+            _PauseMenu.SetActive(false);
     }
 
     public void StartScene()
@@ -185,6 +189,7 @@ public class GameManager : MonoBehaviour
     }
     public void youLose()
     {
+        print("you lose");
         if (_LoseAnimator)
         {
             _LoseAnimator.SetTrigger("PlayAnim");
@@ -198,7 +203,7 @@ public class GameManager : MonoBehaviour
         ShowPauseMenu();
 
     }
-    private void ShowPauseMenu()
+    public void ShowPauseMenu()
     {
         if (_PauseMenu)
         {
@@ -252,7 +257,10 @@ public class GameManager : MonoBehaviour
             else
             {
                 _PlayerRodents.Add(r);
-                _rm.UpdateCurrentPopulation();
+                if (_rm)
+                    _rm.UpdateCurrentPopulation();
+                else
+                    ResourceManagerScript.Instance.UpdateCurrentPopulation();
 
                 //Keep organized in hierarchy 
                 r.gameObject.transform.SetParent(_PlayerRodentDummy);

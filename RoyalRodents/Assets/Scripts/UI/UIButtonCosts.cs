@@ -34,7 +34,7 @@ public class UIButtonCosts : MonoBehaviour
 	public TextMeshProUGUI textTitle; //displays name of button
 
 	//Set Text Colors
-	private Color bad = Color.red;
+	private Color bad = new Color(0.7f, 0f, 0f);
 	private Color good = Color.black;
 
 	//Get Resource Manager Instance

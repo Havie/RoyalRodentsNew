@@ -85,7 +85,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             if (!_HealthBar)
                 Debug.LogError("Cant Find Health bar");
             _HealthBarObj.transform.SetParent(this.transform);
-            _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+            _HealthBarObj.transform.localPosition = new Vector3(0, -6f, 0);
         }
         else
             Debug.LogError("Cant Find Health bar Prefab");

@@ -75,6 +75,7 @@ public class ExitZone : MonoBehaviour
 
     public void childClicked(Teleporter t)
     {
+       // print("CLICKED CHILD" + t.gameObject);
         if (t == _right || t == _left)
             _Active = t;
 
@@ -113,7 +114,7 @@ public class ExitZone : MonoBehaviour
     private List<GameObject> findfromCached()
     {
 
-        Debug.Log("Finding from Cached");
+       // Debug.Log("Finding from Cached");
         List<GameObject> chosen = new List<GameObject>();
 
         //Get the player

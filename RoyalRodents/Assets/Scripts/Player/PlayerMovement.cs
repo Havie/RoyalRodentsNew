@@ -657,7 +657,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (_AttackTarget != null)
         {
-            print("Attack Target is: " + _AttackTarget.name);
+           // print("Attack Target is: " + _AttackTarget.name);
             if (_AttackTarget.GetComponent<Rodent>())
             {
                 _AttackTarget.GetComponent<Rodent>().Damage(_damage);

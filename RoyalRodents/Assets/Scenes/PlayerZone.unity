@@ -25950,7 +25950,7 @@ MonoBehaviour:
   _PlayerRodentDummy: {fileID: 1474519966}
   _NeutralRodentDummy: {fileID: 199615411}
   _EnemyRodentDummy: {fileID: 1751986553}
-  _PauseMenu: {fileID: 0}
+  _PauseMenu: {fileID: 1251979427}
 --- !u!4 &1015704530
 Transform:
   m_ObjectHideFlags: 0

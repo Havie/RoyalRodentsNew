@@ -56,11 +56,11 @@ public class bTownCenter : MonoBehaviour
             _costLevel5.Add(ResourceManagerScript.ResourceType.Stone, 18);
             _costLevel5.Add(ResourceManagerScript.ResourceType.Shiny, 5);
 
-            _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-            _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/TownCenter/wood_town_center");
-            _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/stone_town_center");
-            _builtSpriteLevel4 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
-            _builtSpriteLevel5 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+            _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/tc_1_final");
+            _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/TownCenter/tc_2_blue_final");
+            _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/TownCenter/tc_3_blue_final");
+            _builtSpriteLevel4 = Resources.Load<Sprite>("Buildings/TownCenter/tc_4_blue_final");
+            _builtSpriteLevel5 = Resources.Load<Sprite>("Buildings/TownCenter/tc_5_blue_final");
             _isSet = true;
         }
     }
@@ -89,7 +89,7 @@ public class bTownCenter : MonoBehaviour
     {
         if (!_builtSpriteLevel1)
         {
-            _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/trash_town_center");
+            _builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/TownCenter/tc_1_final");
         }
         this.transform.GetComponent<BuildableObject>().SetType("TownCenter");
         this.transform.GetComponent<BuildableObject>().SetLevel(1);

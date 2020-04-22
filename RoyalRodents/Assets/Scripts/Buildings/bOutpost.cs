@@ -8,8 +8,12 @@ public class bOutpost : MonoBehaviour
     private static Sprite _builtSpriteLevel1_available;
     private static Sprite _builtSpriteLevel1_selected;
     private static Sprite _builtSpriteLevel2;
-	private static Sprite _builtSpriteLevel3;
-	private static int maxLevel = 3;
+    private static Sprite _builtSpriteLevel2_available;
+    private static Sprite _builtSpriteLevel2_selected;
+    private static Sprite _builtSpriteLevel3;
+    private static Sprite _builtSpriteLevel3_available;
+    private static Sprite _builtSpriteLevel3_selected;
+    private static int maxLevel = 3;
 
 	private float _hitpoints = 50;
 	private float _hitPointGrowth = 10;
@@ -49,13 +53,17 @@ public class bOutpost : MonoBehaviour
 			_costLevel3.Add(ResourceManagerScript.ResourceType.Wood, 8);
 			_costLevel3.Add(ResourceManagerScript.ResourceType.Stone, 5);
 
-			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost");
-            _builtSpriteLevel1_available = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost_available");
-            _builtSpriteLevel1_selected = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost_selected");
-            _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Outpost/wood_outpost");
-			_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/Outpost/stone_outpost");
+			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/Outpost/trash_outpost_blue_final");
+            _builtSpriteLevel1_available = Resources.Load<Sprite>("Buildings/Outpost/outline_trash_outpost_final");
+            _builtSpriteLevel1_selected = Resources.Load<Sprite>("Buildings/Outpost/outline_select_trash_outpost_final");
+            _builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Outpost/wood_outpost_blue_final");
+            _builtSpriteLevel2_available = Resources.Load<Sprite>("Buildings/Outpost/outline_wood_outpost_final");
+            _builtSpriteLevel2_selected = Resources.Load<Sprite>("Buildings/Outpost/outline_select_wood_outpost_final");
+            _builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/Outpost/stone_outpost_final");
+            _builtSpriteLevel3_available = Resources.Load<Sprite>("Buildings/Outpost/outline_stone_outpost_final");
+            _builtSpriteLevel3_selected = Resources.Load<Sprite>("Buildings/Outpost/outline_select_stone_outpost_final");
 
-			_isSet = true;
+            _isSet = true;
 		}
 	}
 
@@ -131,6 +139,10 @@ public class bOutpost : MonoBehaviour
     {
         if (level == 1)
             return _builtSpriteLevel1_available;
+        if (level == 2)
+            return _builtSpriteLevel2_available;
+        if (level == 3)
+            return _builtSpriteLevel3_available;
 
         else return null;
     }
@@ -139,6 +151,10 @@ public class bOutpost : MonoBehaviour
     {
         if (level == 1)
             return _builtSpriteLevel1_selected;
+        if (level == 2)
+            return _builtSpriteLevel2_selected;
+        if (level == 3)
+            return _builtSpriteLevel3_selected;
 
         return null;
     }

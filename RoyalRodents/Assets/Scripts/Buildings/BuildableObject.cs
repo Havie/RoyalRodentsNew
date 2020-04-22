@@ -85,7 +85,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             if (!_HealthBar)
                 Debug.LogError("Cant Find Health bar");
             _HealthBarObj.transform.SetParent(this.transform);
-            _HealthBarObj.transform.localPosition = new Vector3(0, 0.75f, 0);
+            _HealthBarObj.transform.localPosition = new Vector3(0, -6f, 0);
         }
         else
             Debug.LogError("Cant Find Health bar Prefab");
@@ -738,6 +738,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         UpdateState();
 
         //ETHAN TODO: Add Notification: COMPLETED BUILDING
+        NotificationFeed.Instance.NewNotification("CONSTRUCTION COMPLETE!", eType.ToString() + " (Level " + _level + ") has completed construction!", 4, transform.position.x);
 
         //Debug.Log("Built a level " + _level + " structure");
 
@@ -753,6 +754,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void DemolishComplete()
     {
         //ETHAN TODO: Add Notification: BUILDING DESTROYED
+        NotificationFeed.Instance.NewNotification("BUILDING DESTROYED!", "Building was demolished!", 2, transform.position.x);
 
         eState = BuildingState.Available;
         _sr.sprite = _sStatedefault;

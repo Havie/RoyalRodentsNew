@@ -34,7 +34,7 @@ public class UIButtonCosts : MonoBehaviour
 	public TextMeshProUGUI textTitle; //displays name of button
 
 	//Set Text Colors
-	private Color bad = Color.red;
+	private Color bad = new Color(0.7f, 0f, 0f);
 	private Color good = Color.black;
 
 	//Get Resource Manager Instance
@@ -308,16 +308,19 @@ public class UIButtonCosts : MonoBehaviour
 			if (lvl > _maxlevel)
 			{
 				txt += "(LVL MAX)";
+				textTitle.color = bad;
 				GetComponent<Button>().interactable = false;
 			}
 			else if (_type != "towncenter" && lvl > GameManager.Instance.getTownCenter().GetComponent<BuildableObject>().getLevel()) //else if level is greater than TC level, then disable
 			{
 				txt += "(LVL UP TOWN CENTER)";
+				textTitle.color = bad;
 				GetComponent<Button>().interactable = false;
 			}
 			else
 			{
 				txt += "(LVL " + _level + ")";
+				textTitle.color = good;
 				GetComponent<Button>().interactable = true;
 			}
 

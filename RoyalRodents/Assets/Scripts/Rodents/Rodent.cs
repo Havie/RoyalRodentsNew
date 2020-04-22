@@ -303,7 +303,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //Should this be in Rodent or in AIController which holds the Animator?
         // the player script does this that way but it feels weird 
         //ETHAN TODO: Add Notification: RODENT DIED
-        //NewNotification("YOUR RODENT DIED!", name + " died!");
+        if (_Team == 1)
+            NotificationFeed.Instance.NewNotification("YOUR RODENT DIED!", _Name + " the " + _Type.ToString() + " was destroyed!", 2, transform.position.x);
 
         //HACK
         _isDead = true;
@@ -491,6 +492,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         setTeam(1);
 
         //ETHAN TODO: Add Notification: RODENT RECRUITED
+        NotificationFeed.Instance.NewNotification("WELCOME NEW RODENT!", _Name + " the " + _Type.ToString() + " was successfully recruited!", 3, transform.position.x);
 
         // No new Behavior?
 

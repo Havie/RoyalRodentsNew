@@ -51,6 +51,12 @@ public class CameraController : MonoBehaviour
         if(!_CharacterMode)
          this.transform.position += new Vector3(amount, 0, 0);
     }
+    //Used to Jump Camera for Notification Buttons
+    public void SetCameraX(float posX)
+    {
+        if (!_CharacterMode)
+            this.transform.position = new Vector3(posX, transform.position.y, transform.position.z);
+    }
     //used by outpost to lock us into assignment mode without allowing UiAssignment Interaction
     public void setOverrideMode(bool cond)
     {

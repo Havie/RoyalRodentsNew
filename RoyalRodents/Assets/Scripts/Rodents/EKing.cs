@@ -32,7 +32,7 @@ public class EKing : MonoBehaviour
     private void Awake()
     {
         _Default = Resources.Load<Sprite>("Rodent/King_Enemy/EnemySprite_Idle_1_0");
-        _Portrait = Resources.Load<Sprite>("TMPAssests/ElfSkull"); //dont need one?
+        _Portrait = Resources.Load<Sprite>("UI/RodentIcons/EnemyIcon"); //dont need one?
     }
 
     // Start is called before the first frame update

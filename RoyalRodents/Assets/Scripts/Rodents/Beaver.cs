@@ -34,7 +34,7 @@ public class Beaver : MonoBehaviour
     private void Awake()
     {
         _Default = Resources.Load<Sprite>("Rodent/FatRat/Recruit_Beaversprite_Idle_0");
-        _Portrait = Resources.Load<Sprite>("TMPAssests/tmpBeaver");
+        _Portrait = Resources.Load<Sprite>("UI/RodentIcons/BeaverIcon");
     }
 
     // Start is called before the first frame update

@@ -51,11 +51,14 @@ public class Rat : MonoBehaviour
             r.setHp(_Hp);
             r.setAttackDmg(_AttackDamage);
             r.setPortrait(_Portrait);
-            r.setRecruitmentCost(_RecruitmentCost);
             r.setBuildRate(_buildRate);
             r.setGatherRate(_gatherRate);
 
             setUpProperBoxCollider();
+
+
+            int curr = ResourceManagerScript.Instance.getCurrentPopulation();
+            r.setRecruitmentCost(_RecruitmentCost + curr);
         }
 
 

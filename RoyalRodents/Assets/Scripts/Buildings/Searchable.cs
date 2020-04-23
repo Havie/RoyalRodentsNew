@@ -176,7 +176,6 @@ public class Searchable : MonoBehaviour
     public void setActive(bool cond)
     {
         _MainCharacterInRange = cond;
-       // print("Set Active= " + cond);
     }
 
 

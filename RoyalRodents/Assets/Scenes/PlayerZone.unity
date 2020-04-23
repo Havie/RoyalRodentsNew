@@ -20940,10 +20940,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: GarbageCanSlot Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5569368671710265326, guid: 0bfbc459fdd77054cacfef9bcf03287b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5569368672579025562, guid: 0bfbc459fdd77054cacfef9bcf03287b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -841.77
+      value: -860.67
       objectReference: {fileID: 0}
     - target: {fileID: 5569368672579025562, guid: 0bfbc459fdd77054cacfef9bcf03287b,
         type: 3}
@@ -26019,10 +26024,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: GarbageCanSlot Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5569368671710265326, guid: 0bfbc459fdd77054cacfef9bcf03287b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5569368672579025562, guid: 0bfbc459fdd77054cacfef9bcf03287b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -891.91
+      value: -873.84
       objectReference: {fileID: 0}
     - target: {fileID: 5569368672579025562, guid: 0bfbc459fdd77054cacfef9bcf03287b,
         type: 3}
@@ -36588,107 +36598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593c0e9e4b74083409bbf3298cfdc723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1634317711
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1634317714}
-  - component: {fileID: 1634317713}
-  - component: {fileID: 1634317712}
-  m_Layer: 0
-  m_Name: EnemySprite_TailSwipe_0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!95 &1634317712
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634317711}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1a365eca44df9244b9849fd704493dc2, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!212 &1634317713
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634317711}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7600865545281947341, guid: 4f55782d1b89c6043a8f8d7a64686679,
-    type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 4, y: 4}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &1634317714
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1634317711}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.370453, y: -192.96979, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 20
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1638247408
 GameObject:
   m_ObjectHideFlags: 0
@@ -38688,6 +38597,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StonePileSlot Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5816122691286328268, guid: fb6acb6b335e4e34eb5f1f6da7b9c49f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5816122690411275960, guid: fb6acb6b335e4e34eb5f1f6da7b9c49f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -38917,7 +38831,7 @@ PrefabInstance:
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -873.54
+      value: -892.64
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -49074,12 +48988,12 @@ PrefabInstance:
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -860.58
+      value: -843
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -385.09
+      value: -384.99
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -49344,6 +49258,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WoodPileSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1985859734920596792, guid: ae72d0abad75ae141a332f88fa66b8de,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1985859734045575244, guid: ae72d0abad75ae141a332f88fa66b8de,
         type: 3}
@@ -49893,6 +49812,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StonePileSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816122691286328268, guid: fb6acb6b335e4e34eb5f1f6da7b9c49f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5816122690411275960, guid: fb6acb6b335e4e34eb5f1f6da7b9c49f,
         type: 3}

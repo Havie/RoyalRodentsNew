@@ -34,7 +34,7 @@ public class Rat : MonoBehaviour
     private void Awake()
     {
         _Default = Resources.Load<Sprite>("Rodent/FatRat/RatSprite_0");
-        _Portrait = Resources.Load<Sprite>("TMPAssests/tmpRat");
+        _Portrait = Resources.Load<Sprite>("UI/RodentIcons/RatIcon");
     }
 
     // Start is called before the first frame update

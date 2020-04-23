@@ -12374,7 +12374,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c94da9d8a6cc58f4abeac2834069f81b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa56c9a848f59194c94c2a6ef649179a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20263,6 +20263,41 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 855320095}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &858799939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858799940}
+  m_Layer: 5
+  m_Name: TutorialController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &858799940
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858799939}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1987579656}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &859104866
 GameObject:
   m_ObjectHideFlags: 0
@@ -21378,7 +21413,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 540fea1830b579c4bb5acea35f99d4cd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a8d353c419885d849a2c6839c350b593, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25997,7 +26032,7 @@ PrefabInstance:
     - target: {fileID: 5569368672579025562, guid: 0bfbc459fdd77054cacfef9bcf03287b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -873.84
+      value: -876.13
       objectReference: {fileID: 0}
     - target: {fileID: 5569368672579025562, guid: 0bfbc459fdd77054cacfef9bcf03287b,
         type: 3}
@@ -32908,7 +32943,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 540fea1830b579c4bb5acea35f99d4cd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a8d353c419885d849a2c6839c350b593, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -33365,8 +33400,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.175, y: 3.03}
-  m_SizeDelta: {x: 107.83, y: 79.83}
+  m_AnchoredPosition: {x: 11, y: 2}
+  m_SizeDelta: {x: 99.61, y: 89.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1379950058
 MonoBehaviour:
@@ -33388,7 +33423,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9b2a36a9b70284d459b21e4c93454579, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d2659188428fa44b9d3cf8b43c20bbd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -38279,7 +38314,7 @@ MonoBehaviour:
   _hitpoints: 0
   _hitpointsMax: 0
   _construction: 0
-  _constructionMax: 100
+  _constructionMax: 5
   _Workers:
   - {fileID: 1674734002}
   _Team: 0
@@ -41159,7 +41194,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2f635d1b09cc2a44aa2370d32b591388, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03067aafde98c2e47a6f1c0f762dde25, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -45349,6 +45384,7 @@ RectTransform:
   - {fileID: 890122726}
   - {fileID: 1041721417}
   - {fileID: 852519612}
+  - {fileID: 858799940}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -226,6 +226,7 @@ public class UIButtonCosts : MonoBehaviour
     {
         //Debug.LogWarning("Heard UI ApproveCosts");
         UpdateButton();
+        SoundManager.Instance.PlayClick();
 
         if ((currentTrash >= costTrash) && (currentWood >= costWood) && (currentStone >= costStone) && (currentShiny >= costShiny))
         {

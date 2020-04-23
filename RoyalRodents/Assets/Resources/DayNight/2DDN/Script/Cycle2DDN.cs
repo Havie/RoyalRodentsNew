@@ -225,12 +225,14 @@ public class Cycle2DDN : MonoBehaviour {
 				{
 					//This is Code at the Start of a New Day
 					day_count++;
-					EventSystem.Instance.SpawnNeutral(); //spawn new neautral rodent
+                    SoundManager.Instance.PlayDay();
+                    EventSystem.Instance.SpawnNeutral(); //spawn new neautral rodent
 				}
 				else if (cycle == 1)
 				{
-					//This is Code at the Start of a new Night
-					EventSystem.Instance.SpawnWave(); //spawn wave of enemies
+                    //This is Code at the Start of a new Night
+                    SoundManager.Instance.PlayNight();
+                    EventSystem.Instance.SpawnWave(); //spawn wave of enemies
 				}
 			} else {
 				cycle = 0;

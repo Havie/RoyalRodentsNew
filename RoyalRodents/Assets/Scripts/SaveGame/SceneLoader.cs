@@ -14,13 +14,16 @@ public class SceneLoader : MonoBehaviour
     public void Save()
     {
         PlayerPrefs.SetInt("SceneSaved", SceneManager.GetActiveScene().buildIndex);
+        SoundManager.Instance.PlayClick();
     }
     public void Load()
     {
         SceneManager.LoadScene(PlayerPrefs.GetInt(("SceneSaved")));
+        SoundManager.Instance.PlayClick();
     }
     public void Quit()
     {
+        SoundManager.Instance.PlayClick();
         Application.Quit();
     }
     public void LoadGame()

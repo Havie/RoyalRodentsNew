@@ -842,6 +842,7 @@ public class SubjectScript : MonoBehaviour
                 if (!_EnemyRodent.isDead())
                 {// Reduce enemy health
                     _EnemyRodent.Damage(attackDamage);
+                    SoundManager.Instance.PlayCombat();
                 }
                 else
                 {
@@ -855,6 +856,7 @@ public class SubjectScript : MonoBehaviour
                 if (!king.isDead())
                 {
                     king.Damage(attackDamage);
+                    SoundManager.Instance.PlayCombat();
                 }
                 else
                 {
@@ -868,6 +870,7 @@ public class SubjectScript : MonoBehaviour
                 if(_enemyBuilding.getHP() > 0)
                 {
                     _enemyBuilding.Damage(attackDamage);
+                    SoundManager.Instance.PlayCombat();
                 }
                 else
                 {

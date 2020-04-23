@@ -193,6 +193,8 @@ public class SpawnVolume : MonoBehaviour
                     UISpeechBubble.Instance.ShowRightSide(true);
                 else
                     UISpeechBubble.Instance.ShowLeftSide(true);
+
+                SoundManager.Instance.PlayHorn();
             }
             else
                 print("Failed spawn:" + this.gameObject.name + " __ " + this.transform.parent.name);

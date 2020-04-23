@@ -662,6 +662,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 _AttackTarget.GetComponent<BuildableObject>().Damage(_damage);
             }
+            SoundManager.Instance.PlayCombat();
         }
 
         yield return new WaitForSeconds(0.85f);

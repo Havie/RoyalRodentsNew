@@ -373,6 +373,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // Called from MVC controller to Build or Upgrade a building
     public void BuildSomething(string type)
     {
+        SoundManager.Instance.PlayConstruction();
         // Debug.Log("Time to Build Something type=" + type);
         switch (type)
         {
@@ -465,6 +466,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // Called from MVC controller
     public void DemolishSomething()
     {
+
+        SoundManager.Instance.PlayDemolish();
         // Debug.Log("Time to Destroy Something" );
         switch (eType)
         {

@@ -39,7 +39,7 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
                 if (_AssignmentButton)
                 {
-                    GameObject go = MVCController.Instance.checkClick(Input.mousePosition);
+                    GameObject go = MVCController.Instance.CheckClick(Input.mousePosition);
                     if (go != null)
                     {
                         if (go.GetComponent<BuildableObject>())

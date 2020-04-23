@@ -179,7 +179,7 @@ public class MVCController : MonoBehaviour
     /** This function is now called by the Player in PlayerMovement
     *   Responsible for checking what was clicked
     */
-    public GameObject checkClick(Vector3 MouseRaw)
+    public GameObject CheckClick(Vector3 MouseRaw)
     {
         if (_printStatements)
             Debug.Log("Check Click!");

@@ -88,9 +88,14 @@ public class bGarbageCan : MonoBehaviour
 				}
 			}
 		}
+        StartCoroutine(ShowWorkerDelay(bo));
 	}
-
-	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
+    IEnumerator ShowWorkerDelay(BuildableObject b)
+    {
+        yield return new WaitForSeconds(1);
+        b.ShowWorkers(true);
+    }
+    public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{
 
 		if (_costLevel1.Count == 0)

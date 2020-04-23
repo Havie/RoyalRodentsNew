@@ -223,6 +223,11 @@ public class GameManager : MonoBehaviour
         {
             _HelpMenuOpen = !_HelpMenuOpen;
             _HelpMenu.SetActive(_HelpMenuOpen);
+            MVCController.Instance.CheckClicks(!_HelpMenuOpen);
+            if (_HelpMenuOpen)
+                Time.timeScale = 0;
+            else
+                Time.timeScale = 1;
         }
     }
     public List<Rodent> getPlayerRodents()

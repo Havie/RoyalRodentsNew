@@ -222,7 +222,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         else
             Debug.LogWarning("Building has No Workers");
     }
-    private void UpdateState()
+    public void UpdateState()
     {
         //Debug.Log("UpdateState =" + eState);
         switch (eState)
@@ -870,6 +870,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         // Debug.Log("Heard set Type");
         switch (type)
         {
+
             case ("TownCenter"):
                 {
                     eType = BuildingType.TownCenter;

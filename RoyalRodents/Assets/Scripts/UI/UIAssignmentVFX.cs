@@ -98,6 +98,7 @@ public class UIAssignmentVFX : MonoBehaviour
         StartCoroutine(clickDelay());
         UIAssignmentMenu.Instance.ToggleMenu();
         PlayClickAnim();
+        SoundManager.Instance.PlayClick();
     }
 
     private IEnumerator clickDelay()

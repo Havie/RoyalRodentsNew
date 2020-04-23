@@ -7,5 +7,6 @@ public class HelpButton : MonoBehaviour
     public void imClicked()
     {
         GameManager.Instance.ShowHelpMenu();
+        SoundManager.Instance.PlayClick();
     }
 }

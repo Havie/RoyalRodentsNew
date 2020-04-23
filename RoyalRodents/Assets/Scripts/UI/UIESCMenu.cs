@@ -7,5 +7,6 @@ public class UIESCMenu : MonoBehaviour
     public void imClicked()
     {
         GameManager.Instance.ShowPauseMenu();
+        SoundManager.Instance.PlayClick();
     }
 }

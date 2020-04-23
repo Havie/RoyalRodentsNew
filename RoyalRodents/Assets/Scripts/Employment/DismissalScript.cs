@@ -46,7 +46,8 @@ public class DismissalScript : MonoBehaviour
 
     public void imClicked()
     {
-        Debug.Log("!!!heardMouse Down in Dismissal!!");
+       // Debug.Log("!!!heardMouse Down in Dismissal!!");
+        SoundManager.Instance.PlayClick();
         if (_ws)
             _ws.dismissRodent();
         else

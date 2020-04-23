@@ -98,6 +98,7 @@ public class Employee : MonoBehaviour
             SetWeaponClassImg(r.isRanged());
             //subscribe to the event system - unused now
             //EventSystem.Instance.rodentDead += Dismiss;
+            SoundManager.Instance.PlayAssign();
         }
     }
 
@@ -121,6 +122,7 @@ public class Employee : MonoBehaviour
                 ShowWeaponClass(false);
                 //unsubscribe - unused now
                 //EventSystem.Instance.rodentDead -= Dismiss;
+                SoundManager.Instance.PlayDismiss();
             }
         }
     }

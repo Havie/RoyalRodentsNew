@@ -258,6 +258,8 @@ public class ResourceManagerScript : MonoBehaviour
                     break;
                 }
         }
+        if(amnt>0)
+            SoundManager.Instance.PlayResource();
     }
 
     public void incrementPopulationCapacity(int amnt)
@@ -270,6 +272,7 @@ public class ResourceManagerScript : MonoBehaviour
     {
         _crowns += amnt;
         UpdateCrownText();
+        SoundManager.Instance.PlayCrown();
     }
 
     //Update Resource Panel UI Text
@@ -282,7 +285,7 @@ public class ResourceManagerScript : MonoBehaviour
                     if (_FoodText)
                     {
                         playAnim(_FoodText);
-                        PlayVFX(_FoodText);
+                        PlayVFX(_FoodText); // do we want this ti play if subtracting?
                         _FoodText.text = _food.ToString();
                     }
                     break;

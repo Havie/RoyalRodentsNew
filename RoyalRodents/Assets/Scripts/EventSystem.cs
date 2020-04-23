@@ -94,6 +94,7 @@ public class EventSystem : MonoBehaviour
             SpawnTrigger();
             // print("Spawned Neutral");
             //ETHAN TODO: Add Notification: NEW RODENT HAS ARRIVED!
+            NotificationFeed.Instance.NewNotification("NEW RODENT HAS ARRIVED!", "Rodent is available for recruitment!", 1, -1);
         }
     }
 

@@ -58,12 +58,12 @@ public class CoinResource : MonoBehaviour
             ResourceManagerScript.Instance.incrementCrownCount(1);
 
             //ETHAN TODO: Add Notification: YOU GOT A CROWN!
-
+            NotificationFeed.Instance.NewNotification("YOU GOT A CROWN!", "Only a few more to go!", 0, -1f);
         }
         else
             ResourceManagerScript.Instance.incrementResource(_resource, _amount);
         //To:Do Play pick up Anim ?
 
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

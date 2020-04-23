@@ -30,9 +30,11 @@ public class GameManager : MonoBehaviour
 	public Transform _NeutralRodentDummy;
 	public Transform _EnemyRodentDummy;
     public GameObject _PauseMenu;
+    public GameObject _HelpMenu;
     private bool _Paused;
+    private bool _HelpMenuOpen;
 
-	private bTownCenter _TownCenter;
+    private bTownCenter _TownCenter;
     private ExitZone _PlayerZone;
     private ExitZone _NeutralZone;
     private ExitZone _EnemyZone;
@@ -135,6 +137,10 @@ public class GameManager : MonoBehaviour
         //Developer Tools to get resources
         if (Input.GetKeyDown(KeyCode.Z))
             _rm.incrementResource(ResourceManagerScript.ResourceType.Trash, 1);
+        if (Input.GetKeyDown(KeyCode.X))
+            _rm.incrementResource(ResourceManagerScript.ResourceType.Wood, 1);
+        if (Input.GetKeyDown(KeyCode.C))
+            _rm.incrementResource(ResourceManagerScript.ResourceType.Stone, 1);
         if (Input.GetKeyDown(KeyCode.Escape))
             ShowPauseMenu();
     }
@@ -209,6 +215,14 @@ public class GameManager : MonoBehaviour
         {
             _Paused = !_Paused;
             _PauseMenu.SetActive(_Paused);
+        }
+    }
+    public void ShowHelpMenu()
+    {
+        if (_HelpMenu)
+        {
+            _HelpMenuOpen = !_HelpMenuOpen;
+            _HelpMenu.SetActive(_HelpMenuOpen);
         }
     }
     public List<Rodent> getPlayerRodents()

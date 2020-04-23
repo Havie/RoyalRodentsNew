@@ -126,11 +126,6 @@ public class Searchable : MonoBehaviour
         //Debug.Log("Gathering: " + _gathering + "/" + _gatheringMax);
     }
 
-    public void GatherAction(int gatheramnt)
-    {
-        incrementGathering(gatheramnt);
-    }
-
     public void SetUpProgressBar(GameObject go)
     {
         if (_ProgressBarObj != null)
@@ -318,7 +313,7 @@ public class Searchable : MonoBehaviour
         if (_gatherResourceType == ResourceType.Trash)
         {
             int _ResourceNumber = Random.Range(0, 10);
-            if (_ResourceNumber <= 6) //70% chance of trash
+            if (_ResourceNumber <= 7) //80% chance of trash
             {
                 ResourceManagerScript.Instance.incrementResource(ResourceType.Trash, _gatherResourceAmount);
                 if (_ResourceIconSpriteRenderer)

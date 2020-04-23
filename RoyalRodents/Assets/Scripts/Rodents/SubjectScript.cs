@@ -689,28 +689,13 @@ public class SubjectScript : MonoBehaviour
         if (!ShouldIdle)
         {
             Vector3 moveTo = currentTarget.transform.position;
-            //Check if ranged. If so, offset the target distance before attacking.
-            //if (isRanged)
-            //{
-            //    Vector3 targetPos = currentTarget.transform.position;
-            //    // Run further out into attack range before attacking
-            //    if (transform.position.x - currentTarget.transform.position.x < 0)
-            //    {
-            //        // On the left of the target
-            //        moveTo.x -= 8;
-            //    }
-            //    else
-            //    {
-            //        // On the right
-            //        moveTo.x += 8;
-            //    }
 
-            //}
 
             // Prevent the rodent from moving if it's ranged and targetting something to attack
-            if(currentTarget && isRanged && !(currentTarget.tag == "player"))
+            if(currentTarget && isRanged && currentTarget.tag != "Player")
             {
-                Shoot(moveTo);
+                StartCoroutine(Shoot(moveTo));
+                Debug.Log("Schuut");
             }
             else
             {
@@ -909,6 +894,8 @@ public class SubjectScript : MonoBehaviour
         }
         //else debug error 
 
+        // TODO: UNset removed target from currentTarget
+
     }
 
     // Parses the list and finds the next suitable target
@@ -979,7 +966,15 @@ public class SubjectScript : MonoBehaviour
         if (!ShouldIdle)
         {
             // Skip this if ranger with an enemy as a target
-            Move(targetPos);
+            if(isRanged && currentTarget.tag != "Player")
+            {
+                StartCoroutine(Shoot(currentTarget.transform.position));
+            }
+            else
+            {
+                Move(targetPos);
+            }
+            
         }
 
         // Maybe don't include idle so they seem more attentive at the wall?

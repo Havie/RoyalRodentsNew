@@ -37,7 +37,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     [SerializeField]
     private int _Team = 0; // 0 is neutral, 1 is player, 2 is enemy
 
-    public enum eRodentType { Rat, Badger, Beaver, Raccoon, Mouse, Porcupine, EKing, Default };
+    public enum eRodentType { Rat, Badger, Beaver, Rabbit, Mouse, Porcupine, EKing, Default };
     public enum eStatus { Busy, Available, Building, Working, Army, Default };
 
     private SubjectScript _SubjectScript;
@@ -146,8 +146,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
     private bool PickRanged()
     {
         int _chance = Random.Range(0, 9);
+        int _chanceCap = 4;
+        if (eRodentType.Porcupine == _Type)
+            _chanceCap = 0; // porcupines always ranged
         //print(this.gameObject.name + "  chance for ranged = " +_chance);
-        if (_chance > 4)
+        if (_chance > _chanceCap)
         {
             Animator a = this.GetComponent<Animator>();
             if (a)
@@ -237,7 +240,6 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         _Type = type;
         setTeam(_Team); // why is this here? does removing it break anything?? too lazy to check - might be for rodents that start in the scene?
         this.gameObject.name += "(" + _Type + ")";
-
         switch (_Type)
         {
 
@@ -253,6 +255,20 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                     //Debug.Log("Told to set Type of Beaver");
                     if (this.GetComponent<Beaver>() == null)
                         this.gameObject.AddComponent<Beaver>();
+                    break;
+                }
+            case eRodentType.Rabbit:
+                {
+                    //Debug.Log("Told to set Type of Rabbit");
+                    if (this.GetComponent<Rabbit>() == null)
+                        this.gameObject.AddComponent<Rabbit>();
+                    break;
+                }
+            case eRodentType.Porcupine:
+                {
+                    //Debug.Log("Told to set Type of Porcupine");
+                    if (this.GetComponent<Porcupine>() == null)
+                        this.gameObject.AddComponent<Porcupine>();
                     break;
                 }
             case eRodentType.EKing:
@@ -533,6 +549,12 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                 break;
             case (eRodentType.EKing):
                 this.GetComponent<EKing>().setAnimatorByTeam(id);
+                break;
+            case (eRodentType.Porcupine):
+                this.GetComponent<Porcupine>().setAnimatorByTeam(id);
+                break;
+            case (eRodentType.Rabbit):
+                this.GetComponent<Rabbit>().setAnimatorByTeam(id);
                 break;
             case (eRodentType.Default):
                 {

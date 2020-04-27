@@ -18,6 +18,8 @@ public class SpawnVolume : MonoBehaviour
 
     GameObject Rat;
     GameObject Beaver;
+    GameObject Porcupine;
+    GameObject Rabbit;
 
     [SerializeField]
     private int _EnemyCount=2;
@@ -31,9 +33,13 @@ public class SpawnVolume : MonoBehaviour
     {
         AddType(Rodent.eRodentType.Rat);
         AddType(Rodent.eRodentType.Beaver);
+        AddType(Rodent.eRodentType.Porcupine);
+        AddType(Rodent.eRodentType.Rabbit);
 
         Rat = Resources.Load<GameObject>("Rodent/FatRat/RatPreFab");
         Beaver = Resources.Load<GameObject>("Rodent/Beaver/BeaverPreFab");
+        Porcupine = Resources.Load<GameObject>("Rodent/Porcupine/PorcupinePreFab");
+        Rabbit = Resources.Load<GameObject>("Rodent/Rabbit/RabbitPreFab");
 
         _timeToSpawn = true;
 
@@ -94,30 +100,23 @@ public class SpawnVolume : MonoBehaviour
     {
         if (!_occupied)
         {
-            if (!_EnemySpawn)
-            {
                 //Spawn Recruitable Rodents
                 if (type == Rodent.eRodentType.Rat)
                 {
-                    spawnThis(Rat, false);
+                    spawnThis(Rat, !_EnemySpawn);
                 }
                 else if (type == Rodent.eRodentType.Beaver)
                 {
-                    spawnThis(Beaver, false);
+                    spawnThis(Beaver, !_EnemySpawn);
                 }
-            }
-            else
-            {
-                //Spawn Enemy Rodents
-                if (type == Rodent.eRodentType.Rat)
+                else if (type == Rodent.eRodentType.Porcupine)
                 {
-                    spawnThis(Rat, true);
+                    spawnThis(Porcupine, !_EnemySpawn);
                 }
-                else if (type == Rodent.eRodentType.Beaver)
+                else if (type == Rodent.eRodentType.Rabbit)
                 {
-                    spawnThis(Beaver, true);
+                    spawnThis(Rabbit, !_EnemySpawn);
                 }
-            }
         }
     }
     private void spawnThis(GameObject toSpawn, bool Enemy)

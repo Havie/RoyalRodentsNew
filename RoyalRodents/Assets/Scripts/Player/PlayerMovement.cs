@@ -682,7 +682,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        print("die called");
+        //print("die called");
         if (isDead)
             return;
 

@@ -695,7 +695,7 @@ public class SubjectScript : MonoBehaviour
             if(currentTarget && isRanged && currentTarget.tag != "Player")
             {
                 StartCoroutine(Shoot(moveTo));
-                Debug.Log("Schuut");
+               // Debug.Log("Schuut");
             }
             else
             {

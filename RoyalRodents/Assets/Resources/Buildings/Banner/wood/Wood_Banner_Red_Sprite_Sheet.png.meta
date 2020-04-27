@@ -1,31 +1,37 @@
 fileFormatVersion: 2
-guid: a312de94808d09c4b96efd0771120567
+guid: 27faafd3d18b5484a828b80531d7f159
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8451895225366158337
-    second: Stone_Banner_Red_Sprite_Sheet_0
+      213: 8983570390773859362
+    second: Wood_Banner_Red_Sprite_Sheet_0
   - first:
-      213: -61025351899845597
-    second: Stone_Banner_Red_Sprite_Sheet_1
+      213: 445847491304436747
+    second: Wood_Banner_Red_Sprite_Sheet_1
   - first:
-      213: 6187733568171116938
-    second: Stone_Banner_Red_Sprite_Sheet_2
+      213: 2227801948293209968
+    second: Wood_Banner_Red_Sprite_Sheet_2
   - first:
-      213: 5493557002561576043
-    second: Stone_Banner_Red_Sprite_Sheet_3
+      213: -4667285591780494771
+    second: Wood_Banner_Red_Sprite_Sheet_3
   - first:
-      213: -1827319577713105185
-    second: Stone_Banner_Red_Sprite_Sheet_4
+      213: -8054441078239756887
+    second: Wood_Banner_Red_Sprite_Sheet_4
   - first:
-      213: 8111032271097361916
-    second: Stone_Banner_Red_Sprite_Sheet_5
+      213: -6384292489064677459
+    second: Wood_Banner_Red_Sprite_Sheet_5
   - first:
-      213: -1366774768552793476
-    second: Stone_Banner_Red_Sprite_Sheet_6
+      213: 8272409503681855310
+    second: Wood_Banner_Red_Sprite_Sheet_6
   - first:
-      213: -1045356971020337462
-    second: Stone_Banner_Red_Sprite_Sheet_7
+      213: -5569359949131931630
+    second: Wood_Banner_Red_Sprite_Sheet_7
+  - first:
+      213: 7859519552990979304
+    second: Wood_Banner_Red_Sprite_Sheet_8
+  - first:
+      213: -41030075914481842
+    second: Wood_Banner_Red_Sprite_Sheet_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -134,7 +140,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_0
+      name: Wood_Banner_Red_Sprite_Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -148,14 +154,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e931b3f007b094640af33af9173e061e
-      internalID: 8451895225366158337
+      spriteID: b4c3285f705060241b1e2ead65f411b9
+      internalID: 8983570390773859362
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_1
+      name: Wood_Banner_Red_Sprite_Sheet_1
       rect:
         serializedVersion: 2
         x: 256
@@ -169,14 +175,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4afc85f13d65af2499305f5e0f2a1b89
-      internalID: -61025351899845597
+      spriteID: c5d9f67f6de691e469ac51abd42f1ecb
+      internalID: 445847491304436747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_2
+      name: Wood_Banner_Red_Sprite_Sheet_2
       rect:
         serializedVersion: 2
         x: 512
@@ -190,14 +196,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b74c19445e0b70e4a8e4c9083c288509
-      internalID: 6187733568171116938
+      spriteID: 77ce0c2c814b0dd4ab2abbb57784c12f
+      internalID: 2227801948293209968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_3
+      name: Wood_Banner_Red_Sprite_Sheet_3
       rect:
         serializedVersion: 2
         x: 768
@@ -211,14 +217,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0b5cc09aada0cf34ca4f79d6a2536c4f
-      internalID: 5493557002561576043
+      spriteID: 5265f3742b71f3a49a19b870c20263a4
+      internalID: -4667285591780494771
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_4
+      name: Wood_Banner_Red_Sprite_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 512
+        width: 256
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cd4e7f153c0c1d4497b4f3fe5430bbf
+      internalID: -8054441078239756887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood_Banner_Red_Sprite_Sheet_5
       rect:
         serializedVersion: 2
         x: 0
@@ -232,14 +259,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8e83f82ac4f4c5498d3f175334cd220
-      internalID: -1827319577713105185
+      spriteID: 0464f57cbe6ade4498aa9a3075db2e95
+      internalID: -6384292489064677459
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_5
+      name: Wood_Banner_Red_Sprite_Sheet_6
       rect:
         serializedVersion: 2
         x: 256
@@ -253,14 +280,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f97a11795418054daf865c3272b4c6d
-      internalID: 8111032271097361916
+      spriteID: 10bda3aac511dd145a803cd4765c39e3
+      internalID: 8272409503681855310
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_6
+      name: Wood_Banner_Red_Sprite_Sheet_7
       rect:
         serializedVersion: 2
         x: 512
@@ -274,14 +301,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 704a3c6b6a82de540b5987f78b028562
-      internalID: -1366774768552793476
+      spriteID: 19c509bcbbc89544b952b68c439a194b
+      internalID: -5569359949131931630
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Stone_Banner_Red_Sprite_Sheet_7
+      name: Wood_Banner_Red_Sprite_Sheet_8
       rect:
         serializedVersion: 2
         x: 768
@@ -295,8 +322,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbfcb571b4ba38e44a29bc0ea8f97ac5
-      internalID: -1045356971020337462
+      spriteID: c51b67a6ccbd8964e8802c70923fc1ce
+      internalID: 7859519552990979304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wood_Banner_Red_Sprite_Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20af081f253f87d48ae8f3a034844616
+      internalID: -41030075914481842
       vertices: []
       indices: 
       edges: []

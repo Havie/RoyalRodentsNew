@@ -34,7 +34,7 @@ public class Rat : MonoBehaviour
     private void Awake()
     {
         _Default = Resources.Load<Sprite>("Rodent/FatRat/RatSprite_0");
-        _Portrait = Resources.Load<Sprite>("TMPAssests/tmpRat");
+        _Portrait = Resources.Load<Sprite>("UI/RodentIcons/RatIcon");
     }
 
     // Start is called before the first frame update
@@ -51,11 +51,14 @@ public class Rat : MonoBehaviour
             r.setHp(_Hp);
             r.setAttackDmg(_AttackDamage);
             r.setPortrait(_Portrait);
-            r.setRecruitmentCost(_RecruitmentCost);
             r.setBuildRate(_buildRate);
             r.setGatherRate(_gatherRate);
 
             setUpProperBoxCollider();
+
+
+            int curr = ResourceManagerScript.Instance.getCurrentPopulation();
+            r.setRecruitmentCost(_RecruitmentCost + curr);
         }
 
 

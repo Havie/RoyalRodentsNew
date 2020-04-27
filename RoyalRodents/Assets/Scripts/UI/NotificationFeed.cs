@@ -42,7 +42,7 @@ public class NotificationFeed : MonoBehaviour
 	public void NewNotification(string title, string des, int iconIndex, float posX)
     {
         GameObject iii = Instantiate(NotificationPrefab, transform.position, transform.rotation);
-		iii.transform.parent = gameObject.transform;
+        iii.transform.SetParent(gameObject.transform);
 		NotificationButton scr = iii.GetComponent<NotificationButton>();
         if (scr)
             scr.setButton(title, des, iconSprites[iconIndex], posX);

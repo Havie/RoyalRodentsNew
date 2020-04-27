@@ -90,11 +90,15 @@ public class UIAssignmentVFX : MonoBehaviour
 
     public void imClicked()
     {
+       // print("Called");
         if (clickTimer)
             return;
+
+       // print("passed");
         StartCoroutine(clickDelay());
         UIAssignmentMenu.Instance.ToggleMenu();
         PlayClickAnim();
+        SoundManager.Instance.PlayClick();
     }
 
     private IEnumerator clickDelay()

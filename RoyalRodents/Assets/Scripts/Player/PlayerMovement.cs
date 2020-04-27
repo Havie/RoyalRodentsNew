@@ -144,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
                     _debugger.Log("TOUCH COUNT =" + count);
             }
 
-            GameObject go = MVCController.Instance.checkClick(input);
+            GameObject go = MVCController.Instance.CheckClick(input);
             if (!_controlled)
                 StopMoving();
 
@@ -180,9 +180,7 @@ public class PlayerMovement : MonoBehaviour
 
                                     else
                                     {
-                                        //TO-DO: Figure out why the fuck i walk slower here?
-                                        _MoveLocation.transform.position = go.transform.position;
-                                        _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                        StartCoroutine(MoveDelay(input));
                                     }
                                 }
                                 else //do nothing - clicked a dirt mound
@@ -193,9 +191,7 @@ public class PlayerMovement : MonoBehaviour
                             else // enemy team move to it ( no such thing as neutral buildings?)
                             {
                                 //To:Do will have to handle in range  just like searchable object above for enemy
-
-                                _MoveLocation.transform.position = go.transform.position;
-                                _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                StartCoroutine(MoveDelay(input));
                             }
                         }
                         //check if its a rodent place 1 - parent could be the spawn volume or Player Rodent list
@@ -228,8 +224,8 @@ public class PlayerMovement : MonoBehaviour
                                     StartCoroutine(MoveDelay(input, go.transform.position));
 
                                     _MoveLocation.transform.position = go.transform.position;
-                                    float _MoveAmnt = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
-
+                                    float emptyQ = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                    //Should this be Horiz move=
                                 }
                             }
                         }
@@ -666,6 +662,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 _AttackTarget.GetComponent<BuildableObject>().Damage(_damage);
             }
+            SoundManager.Instance.PlayCombat();
         }
 
         yield return new WaitForSeconds(0.85f);
@@ -699,7 +696,8 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(float move, bool crouch, bool jump)
     {
-        //Debug.Log("we are moving This much:" + move);
+        if(move>=45)
+             Debug.Log("we are moving This much:" + move);
 
         if (!_isAttacking)
         {
@@ -859,14 +857,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.GetComponent<Searchable>())
-        {
-            Searchable s = collision.transform.GetComponent<Searchable>();
-            {
-                s.setActive(false);
-            }
-        }
-        else if (collision.transform.GetComponent<DiggableTile>())
+        if (collision.transform.GetComponent<DiggableTile>())
         {
             // Debug.Log("Exited Collision w diggable tile");
 
@@ -885,7 +876,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (collision.transform.parent.GetComponent<BuildableObject>())
                 {
+                    //Add to our list of interactable things in range
                     _InRange.Remove(collision.transform.parent.gameObject);
+                    //Can we search it?
+                    if (collision.transform.parent.GetComponent<Searchable>())
+                    {
+                        Searchable s = collision.transform.parent.GetComponent<Searchable>();
+                        {
+                            s.setActive(false);
+                            // Debug.LogWarning("Players in range");
+                        }
+                    }
                 }
 
                 else if (collision.transform.parent.GetComponent<Rodent>())

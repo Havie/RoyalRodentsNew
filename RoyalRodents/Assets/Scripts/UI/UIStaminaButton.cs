@@ -31,7 +31,8 @@ public class UIStaminaButton : MonoBehaviour
             ResourceManagerScript.Instance.incrementResource(ResourceManagerScript.ResourceType.Food, -1);
             _PS.IncrementStamina(_RestoreAmount);
         }
-        //TO:DO play sound 
+        // play sound 
+        SoundManager.Instance.PlayClick();
 
     }
 

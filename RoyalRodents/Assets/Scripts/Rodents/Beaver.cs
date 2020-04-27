@@ -34,7 +34,7 @@ public class Beaver : MonoBehaviour
     private void Awake()
     {
         _Default = Resources.Load<Sprite>("Rodent/FatRat/Recruit_Beaversprite_Idle_0");
-        _Portrait = Resources.Load<Sprite>("TMPAssests/tmpBeaver");
+        _Portrait = Resources.Load<Sprite>("UI/RodentIcons/BeaverIcon");
     }
 
     // Start is called before the first frame update
@@ -51,10 +51,13 @@ public class Beaver : MonoBehaviour
             r.setHp(_Hp);
             r.setAttackDmg(_AttackDamage);
             r.setPortrait(_Portrait);
-            r.setRecruitmentCost(_RecruitmentCost);
             r.setBuildRate(_buildRate);
             r.setGatherRate(_gatherRate);
             setUpProperBoxCollider();
+
+            int curr=ResourceManagerScript.Instance.getCurrentPopulation();
+            r.setRecruitmentCost(_RecruitmentCost+curr);
+
         }
     }
 

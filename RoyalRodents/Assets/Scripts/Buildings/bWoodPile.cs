@@ -56,7 +56,7 @@ public class bWoodPile : MonoBehaviour
 	{
 		if (!_builtSpriteLevel1)
 		{
-			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/GarbageCan/garbagecan");
+			_builtSpriteLevel1 = Resources.Load<Sprite>("Buildings/WoodPile/wood_pile");
 		}
 		this.transform.GetComponent<BuildableObject>().SetType("GarbageCan");
 		this.transform.GetComponent<BuildableObject>().SetLevel(1);
@@ -69,7 +69,7 @@ public class bWoodPile : MonoBehaviour
 		//MEGA hack of all Hacks
 		// this.transform.GetComponentInChildren<Employee>().gameObject.GetComponentInChildren<eWorkerOBJ>().gameObject.GetComponent<SpriteRenderer>().sprite = null;
 		BuildableObject bo = this.GetComponent<BuildableObject>();
-		foreach (Employee e in bo._Workers)
+        foreach (Employee e in bo._Workers)
 		{
 			GameObject go = e.gameObject;
 			if (go)
@@ -87,7 +87,14 @@ public class bWoodPile : MonoBehaviour
 				}
 			}
 		}
+        StartCoroutine(ShowWorkerDelay(bo));
 	}
+
+    IEnumerator ShowWorkerDelay(BuildableObject b)
+    {
+        yield return new WaitForSeconds(1);
+        b.ShowWorkers(true);
+    }
 
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{

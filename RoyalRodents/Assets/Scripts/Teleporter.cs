@@ -5,14 +5,27 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour
 {
     ExitZone _parent;
-    public int _teleportLocX; // must be set in scene
+    private float _teleportX; // must be set in scene
     CameraController _cameraController;
+
+    public GameObject _destinationObject;  //used to teleport to position
+
+    public int _goToZone;
+    public bool _goToZoneIsRight;
 
     // Start is called before the first frame update
     void Start()
     {
         _parent = this.transform.parent.GetComponent<ExitZone>();
         _cameraController = Camera.main.GetComponent<CameraController>();
+
+        if (_destinationObject)
+            _teleportX = _destinationObject.transform.position.x;
+        else
+        {
+            _teleportX = 0;
+            Debug.Log("teleportDestination for teleporter script not assigned properly");
+        }
     }
 
    public void imClicked()
@@ -40,14 +53,16 @@ public class Teleporter : MonoBehaviour
 
     public void Teleport(List<GameObject> objects)
     {
+        GameManager.Instance.setCurrentZone(_goToZone, _goToZoneIsRight);
+        
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         //Tell the Camera its new bounds 
-        _cameraController.ChangeZone(_teleportLocX);
+        _cameraController.ChangeZone(_goToZone, _goToZoneIsRight);
 
         foreach (var g in objects)
         {
-            g.transform.position = new Vector3(_teleportLocX, g.transform.position.y, 0);
+            g.transform.position = new Vector3(_teleportX, g.transform.position.y, 0);
             
             //if Player tell him to update his Zone
             if(g==player)

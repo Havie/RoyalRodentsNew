@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     private ExitZone _PlayerZone;
     private ExitZone _NeutralZone;
     private ExitZone _EnemyZone;
+    public int _currentZone; //0 = neutral, 1 = player, 2 = enemy
+    public bool _isRightZone; //true = right, false = left (does not matter for player zone)
 
     private bool _IsMobileMode;
 
@@ -333,14 +335,37 @@ public class GameManager : MonoBehaviour
     {
         return +_RodentIndex++;
     }
-    public void setExitZone(string s , ExitZone ez)
+    public void setExitZone(int zone, bool isRight, ExitZone ez)
     {
+        /*
         if (s.Equals("playerzone"))
             _PlayerZone = ez;
         else if (s.Equals("neutralzone"))
             _NeutralZone = ez;
         else if (s.Equals("enemyzone"))
             _NeutralZone = ez;
+        */
+        
+        if (zone == 1)
+            _PlayerZone = ez;
+        if (zone == 0)
+            _NeutralZone = ez;
+        if (zone == 2)
+            _EnemyZone = ez;
+    }
+    public void setCurrentZone(int zone, bool isRight)
+    {
+        //set zone variables
+        _currentZone = zone;
+        _isRightZone = isRight;
+    }
+    public int getCurrentZone()
+    {
+        return _currentZone;
+    }
+    public bool getIsRightZone()
+    {
+        return _isRightZone;
     }
     public void PlayerOutpostCreated(BuildableObject b)
     {

@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour
     private Vector3 _offset;
 
     private float _NegYCap = -194;
-    private float _NegXCap = -52;
-    private float _PosXCap = 13;
+    private float _NegXCap = -54;
+    private float _PosXCap = 15;
 
     private bool _CharacterMode=true;
     private bool _OverrideMode = false; //Really should have been on GameManger
@@ -103,8 +103,41 @@ public class CameraController : MonoBehaviour
 
     //Going to have to get these numbers to the subject script to prevent wandering off?
     // or just make it so the rodents dont get close to the edges
-    public void ChangeZone(int locX)
+    public void ChangeZone(int zone, bool isRight)
     {
+        if (zone == 1)
+        {
+            _NegXCap = -54;
+            _PosXCap = 15;
+        }
+        else if (zone == 0)
+        {
+            if (isRight)
+            {
+                _NegXCap = 58;
+                _PosXCap = 128;
+            }
+            else
+            {
+                _NegXCap = -166;
+                _PosXCap = -96;
+            }
+        }
+        else if (zone == 2)
+        {
+            if (isRight)
+            {
+                _NegXCap = 172;
+                _PosXCap = 242;
+            }
+            else
+            {
+                _NegXCap = -275;
+                _PosXCap = -205;
+            }
+        }
+
+        /*
         if (locX==20 || locX==-64)
         {
             _NegXCap = -64;
@@ -117,6 +150,7 @@ public class CameraController : MonoBehaviour
         }
         else
             Debug.LogWarning("no setting for " + locX);
+        */
     }
 }
 

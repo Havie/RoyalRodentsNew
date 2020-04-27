@@ -343,7 +343,7 @@ public class PlayerMovement : MonoBehaviour
 
         Swipe();
 
-        if (_PlayerStats.inPlayerZone() == false) // cant dig in own territory
+        if (GameManager.Instance.getCurrentZone() != 1) // cant dig in own territory
         {
             if (!_InGround && (Input.GetKeyDown(KeyCode.DownArrow) || _swipeDir==eSwipeDirection.Down))
             {

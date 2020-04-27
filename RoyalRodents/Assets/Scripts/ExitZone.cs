@@ -7,9 +7,12 @@ public class ExitZone : MonoBehaviour
     public GameObject _locRight;
     public GameObject _locLeft;
 
-    public bool _playerzone;
-    public bool _neutralzone;
-    public bool _enemyzone;
+    //public bool _playerzone;
+    //public bool _neutralzone;
+    //public bool _enemyzone;
+    // vvv
+    public int _zone;
+    public bool _isRightZone;
 
     [SerializeField]
     private GameObject _TeleportDummy;
@@ -24,19 +27,22 @@ public class ExitZone : MonoBehaviour
     private void Start()
     {
 
-        if( (_playerzone && (_enemyzone || _neutralzone)) || (_neutralzone && (_enemyzone || _playerzone)))
-        {
-            Debug.LogError(this.transform.gameObject + "  is set to multiple zones");
-        }
-        else
-        {
-            if (_playerzone)
+        //if( (_playerzone && (_enemyzone || _neutralzone)) || (_neutralzone && (_enemyzone || _playerzone)))
+        //{
+            //Debug.LogError(this.transform.gameObject + "  is set to multiple zones");
+        //}
+        //else
+        //{
+            /*
+            if (_zone == 1)
                 GameManager.Instance.setExitZone("playerzone", this);
-            if (_neutralzone)
+            if (_zone == 0)
                 GameManager.Instance.setExitZone("neutralzone", this);
-            if (_enemyzone)
+            if (_zone = 2)
                 GameManager.Instance.setExitZone("enemyzone", this);
-        }
+            */
+            GameManager.Instance.setExitZone(_zone, _isRightZone, this);
+        //}
 
         if (_locRight)
             _right = _locRight.GetComponent<Teleporter>();
@@ -79,7 +85,7 @@ public class ExitZone : MonoBehaviour
         if (t == _right || t == _left)
             _Active = t;
 
-        if (_playerzone)
+        if (_zone == 1)
             selectOutpostMode();
         else 
             selectDeployedTroops();
@@ -105,7 +111,7 @@ public class ExitZone : MonoBehaviour
     }
     public List<GameObject> findSelected()
     {
-        if (_playerzone)
+        if (_zone == 1)
             return findfromOutposts();
         else
             return findfromCached();

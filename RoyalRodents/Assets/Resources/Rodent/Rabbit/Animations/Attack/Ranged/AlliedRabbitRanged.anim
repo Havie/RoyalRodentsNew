@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlueStoneBanner
+  m_Name: AlliedRabbitRanged
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,28 +20,28 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 8313131013360940070, guid: a377aa391e17f69459fcd6f289a872d2,
+      value: {fileID: 545101197659871646, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
         type: 3}
-    - time: 0.25
-      value: {fileID: 1727039299113559206, guid: a377aa391e17f69459fcd6f289a872d2,
+    - time: 0.16666667
+      value: {fileID: 4289550231353298537, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
+        type: 3}
+    - time: 0.33333334
+      value: {fileID: -60461364169084617, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
         type: 3}
     - time: 0.5
-      value: {fileID: 1187353593061003070, guid: a377aa391e17f69459fcd6f289a872d2,
+      value: {fileID: -718186209323123605, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
         type: 3}
-    - time: 0.75
-      value: {fileID: 7020292196454193842, guid: a377aa391e17f69459fcd6f289a872d2,
+    - time: 0.6666667
+      value: {fileID: 8295613459318213139, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
+        type: 3}
+    - time: 0.8333333
+      value: {fileID: 2074464686036568452, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
         type: 3}
     - time: 1
-      value: {fileID: -7893330948653546182, guid: a377aa391e17f69459fcd6f289a872d2,
+      value: {fileID: -1669259721682844661, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
         type: 3}
-    - time: 1.25
-      value: {fileID: -6975883131867364911, guid: a377aa391e17f69459fcd6f289a872d2,
-        type: 3}
-    - time: 1.5
-      value: {fileID: -7624239721256093488, guid: a377aa391e17f69459fcd6f289a872d2,
-        type: 3}
-    - time: 1.75
-      value: {fileID: 7352328378931104020, guid: a377aa391e17f69459fcd6f289a872d2,
+    - time: 1.1666666
+      value: {fileID: -7929513713612905242, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094,
         type: 3}
     attribute: m_Sprite
     path: 
@@ -62,20 +62,20 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 8313131013360940070, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
-    - {fileID: 1727039299113559206, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
-    - {fileID: 1187353593061003070, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
-    - {fileID: 7020292196454193842, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
-    - {fileID: -7893330948653546182, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
-    - {fileID: -6975883131867364911, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
-    - {fileID: -7624239721256093488, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
-    - {fileID: 7352328378931104020, guid: a377aa391e17f69459fcd6f289a872d2, type: 3}
+    - {fileID: 545101197659871646, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
+    - {fileID: 4289550231353298537, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
+    - {fileID: -60461364169084617, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
+    - {fileID: -718186209323123605, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
+    - {fileID: 8295613459318213139, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
+    - {fileID: 2074464686036568452, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
+    - {fileID: -1669259721682844661, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
+    - {fileID: -7929513713612905242, guid: 32f8c1e771b536c4d8e1ebcc1fdb0094, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.7666667
+    m_StopTime: 1.1833333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

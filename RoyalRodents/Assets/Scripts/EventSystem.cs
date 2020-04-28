@@ -18,6 +18,14 @@ public class EventSystem : MonoBehaviour
     public delegate void SpawnNeutralRodents();
     public event SpawnNeutralRodents SpawnTrigger;
 
+    public delegate void SpawnKingInEnemyZone();
+    public event SpawnKingInEnemyZone KingTriggerL;
+    public event SpawnKingInEnemyZone KingTriggerR;
+
+    public delegate void ShutDownZone();
+    public event ShutDownZone ZoneL;
+    public event ShutDownZone ZoneR;
+
     public delegate void rodentDied(Rodent r);
     public event rodentDied rodentDead; // this event fires the Delegate
                                         // in a backwards way its like the delegate has a return type of r 
@@ -96,6 +104,30 @@ public class EventSystem : MonoBehaviour
             //ETHAN TODO: Add Notification: NEW RODENT HAS ARRIVED!
             NotificationFeed.Instance.NewNotification("NEW RODENT HAS ARRIVED!", "Rodent is available for recruitment!", 1, -1);
         }
+    }
+    
+    public void SpawnKing(string s)
+    {
+        print("event:::King__" + s);
+
+        if (s.Equals("left"))
+            KingTriggerL?.Invoke();//Easier way to say if !=null then trigger
+        else
+            KingTriggerR?.Invoke();
+
+
+        //here we know we spawned a king through the event system
+        //So we should gather the info needed to teleport the player back home and Lock the zone
+
+    }
+    //tell the teleporter to ShutDown the Zone
+    public void CloseZone(bool right)
+    {
+        if (right)
+            ZoneR?.Invoke();
+        else
+            ZoneL?.Invoke();
+
     }
 
     void Test()

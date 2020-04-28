@@ -691,10 +691,19 @@ public class SubjectScript : MonoBehaviour
 
 
             // Prevent the rodent from moving if it's ranged and targetting something to attack
-            if(currentTarget && isRanged && currentTarget.tag != "Player")
+            // Target exists & Ranged Unit & within a range (aggro range)
+            if(currentTarget && isRanged && Mathf.Abs(transform.position.x - currentTarget.transform.position.x) < 10f)
             {
-                StartCoroutine(Shoot(moveTo));
-               // Debug.Log("Schuut");
+                if(team == 1 && currentTarget.tag == "Player")
+                {
+                    // Do nothing if Allied and following the King
+                }
+                else
+                {
+                    StartCoroutine(Shoot(moveTo));
+                    // Debug.Log("Schuut");
+                }
+
             }
             else
             {
@@ -968,9 +977,17 @@ public class SubjectScript : MonoBehaviour
         if (!ShouldIdle)
         {
             // Skip this if ranger with an enemy as a target
-            if(isRanged && currentTarget.tag != "Player")
+            if(isRanged && Mathf.Abs(transform.position.x - currentTarget.transform.position.x) < 10f)
             {
-                StartCoroutine(Shoot(currentTarget.transform.position));
+                if(team == 1 && currentTarget.tag == "Player")
+                {
+                    // Do nothing if Allied and targetting king
+                }
+                else
+                {
+                    StartCoroutine(Shoot(currentTarget.transform.position));
+                }
+
             }
             else
             {

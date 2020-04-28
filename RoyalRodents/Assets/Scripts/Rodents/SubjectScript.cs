@@ -636,7 +636,6 @@ public class SubjectScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("Already started.... Return");
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
@@ -880,6 +879,11 @@ public class SubjectScript : MonoBehaviour
     {
         // Remove objects from the list
         GameObject go = c.gameObject;
+        // TODO: UNset removed target from currentTarget
+        if(c == currentTarget)
+        {
+            currentTarget = savedTarget;
+        }
         if (_inRange.Contains(go))
         {
 
@@ -894,7 +898,7 @@ public class SubjectScript : MonoBehaviour
         }
         //else debug error 
 
-        // TODO: UNset removed target from currentTarget
+        
 
     }
 
@@ -909,7 +913,6 @@ public class SubjectScript : MonoBehaviour
             GameObject currentClosest = _inRange[0];
             if (currentClosest != null) // do we need an is dead check here?
             {
-                Debug.LogWarning("InRange[0] =" + currentClosest);
 
                 float closestDist = Mathf.Abs(transform.position.x - _inRange[0].transform.position.x);
 
@@ -922,7 +925,6 @@ public class SubjectScript : MonoBehaviour
                         {
                             closestDist = tempDist;
                             currentClosest = go;
-                            Debug.Log("Found new target.");
                         }
                     }
 
@@ -954,12 +956,12 @@ public class SubjectScript : MonoBehaviour
         // Check which side of the map the rodent is on
         if (currentTarget.transform.position.x - townCenterLoc.transform.position.x < 0)
         {
-            targetPos = new Vector3(currentTarget.transform.position.x + 10, this.transform.position.y, 0);
+            targetPos = new Vector3(currentTarget.transform.position.x + 5, this.transform.position.y, 0);
             
         }
         else
         {
-           targetPos = new Vector3(currentTarget.transform.position.x - 10, this.transform.position.y, 0);
+           targetPos = new Vector3(currentTarget.transform.position.x - 5, this.transform.position.y, 0);
             
         }
 

@@ -152,15 +152,20 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
         _srNotify.sprite = _sNotification;
 
+        _animator = GetComponentInChildren<Animator>();
 
-        if (eType != BuildingType.TownCenter && eType != BuildingType.GarbageCan && eType != BuildingType.WoodPile && eType != BuildingType.StonePile)
+        if (eType == BuildingType.Vacant)
         {
             eState = BuildingState.Available;
-            eType = BuildingType.Vacant;
-        }
-        if (eType == BuildingType.Vacant)
             _sr.sprite = _sStatedefault;
-        _animator = GetComponentInChildren<Animator>();
+            
+            //Possible error here in assigning something to be a dirtmound
+            if (eType == BuildingType.Vacant)
+            {
+                print("HERE1" + gameObject.name);
+                setTeam(500); // default value for destroyed state
+            }
+        }
 
 
         //Other classes
@@ -186,8 +191,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _ConstructionBarObj = Resources.Load<GameObject>("UI/ConstructionBarCanvas");
         SetUpConstructionBar(_ConstructionBarObj);
 
-        if (_Team < 3)
-            setTeam(500); // default value for destroyed state
         UpdateState();
         setUpWorkers();
         UpdateHealthBar();
@@ -229,8 +232,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             case BuildingState.Available:
                 {
-                    _srNotify.sprite = _sNotification;
-                    _srNotify.enabled = true;
+                    if (_srNotify)
+                    {
+                        _srNotify.sprite = _sNotification;
+                        _srNotify.enabled = true;
+                    }
                     ShowWorkers(false);
                     _animator.SetBool("Notify", true);
                     _animator.SetBool("Building", false);
@@ -238,8 +244,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Building:
                 {
-                    _srNotify.sprite = _sBuildingHammer;
-                    _srNotify.enabled = true;
+                    if (_srNotify)
+                    {
+                        _srNotify.sprite = _sBuildingHammer;
+                        _srNotify.enabled = true;
+                    }
                     //need special case for Outpost
                     ShowWorkers(true); //_srWorker.enabled = true;
                     _animator.SetBool("Building", true);
@@ -247,7 +256,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Idle:
                 {
-                    _srNotify.enabled = false;
+                    if (_srNotify)
+                        _srNotify.enabled = false;
                     if (eType != BuildingType.TownCenter && eType != BuildingType.Banner && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
                     else
@@ -258,7 +268,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Built:
                 {
-                    _srNotify.enabled = false;
+                    if(_srNotify)
+                        _srNotify.enabled = false;
                     if (eType != BuildingType.TownCenter && eType != BuildingType.Banner && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
                     else
@@ -288,6 +299,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     * Also handles updating the Animator based on Type*/
     public void setTeam(int id)
     {
+        print("Setting team to " + id + "   for " + gameObject.name);
         if (id > -1 && id < 3)
             _Team = id;
         else if (id == 500) // dummy setting for dirt mount
@@ -776,6 +788,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //if we have returned to a dirt mount, reset team to default
         if (_level == 0)
         {
+            print("HERE" +gameObject.name);
             setTeam(500);
             ResourceManagerScript.Instance.IncrementBuildingSlots(-1);
             //set sprite to dirt mound
@@ -904,6 +917,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     _hitpoints = bStonePile.getHPStats();
                     _hitpointsMax = bStonePile.getHPStats();
                     UpdateHealthBar();
+                    break;
+                }
+            case ("Outpost"):
+                {
+                    eType = BuildingType.Outpost;
                     break;
                 }
         }

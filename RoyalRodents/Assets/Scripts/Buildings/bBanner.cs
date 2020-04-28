@@ -35,6 +35,7 @@ public class bBanner : MonoBehaviour
     void Start()
     {
 		SetUpComponent();
+        StartCoroutine(EnemyCheckDelay());
 	}
 
     // Update is called once per frame
@@ -65,7 +66,26 @@ public class bBanner : MonoBehaviour
 		}
 	}
 
-	public float BuildingComplete(int level)
+    IEnumerator EnemyCheckDelay()
+    {
+        yield return new WaitForSeconds(1);
+        CheckEnemy();
+    }
+
+    public void CheckEnemy()
+    {
+        BuildableObject b = this.GetComponent<BuildableObject>();
+        if (b)
+        {
+            if (b.getTeam() == 2)
+            {
+                b.SetType("Banner");
+                b.SetLevel(1);
+                b.BuildComplete();
+            }
+        }
+    }
+    public float BuildingComplete(int level)
 	{
 		if (!_isSet)
 			SetUpComponent();

@@ -986,6 +986,7 @@ public class SubjectScript : MonoBehaviour
                 else
                 {
                     StartCoroutine(Shoot(currentTarget.transform.position));
+
                 }
 
             }

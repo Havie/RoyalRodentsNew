@@ -1,37 +1,34 @@
 fileFormatVersion: 2
-guid: 27faafd3d18b5484a828b80531d7f159
+guid: 286b47d5fce7eb04cbeb588a61441b91
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8983570390773859362
-    second: Wood_Banner_Red_Sprite_Sheet_0
+      213: 2208317510823250315
+    second: Red_RabbitSprite_Searching_0
   - first:
-      213: 445847491304436747
-    second: Wood_Banner_Red_Sprite_Sheet_1
+      213: 3721496352368436964
+    second: Red_RabbitSprite_Searching_1
   - first:
-      213: 2227801948293209968
-    second: Wood_Banner_Red_Sprite_Sheet_2
+      213: -8258018127085714625
+    second: Red_RabbitSprite_Searching_2
   - first:
-      213: -4667285591780494771
-    second: Wood_Banner_Red_Sprite_Sheet_3
+      213: -4693287041063423589
+    second: Red_RabbitSprite_Searching_3
   - first:
-      213: -8054441078239756887
-    second: Wood_Banner_Red_Sprite_Sheet_4
+      213: -2797947813979333079
+    second: Red_RabbitSprite_Searching_4
   - first:
-      213: -6384292489064677459
-    second: Wood_Banner_Red_Sprite_Sheet_5
+      213: -8958642488040771746
+    second: Red_RabbitSprite_Searching_5
   - first:
-      213: 8272409503681855310
-    second: Wood_Banner_Red_Sprite_Sheet_6
+      213: -5025103060168352782
+    second: Red_RabbitSprite_Searching_6
   - first:
-      213: -5569359949131931630
-    second: Wood_Banner_Red_Sprite_Sheet_7
+      213: 5031234290384420750
+    second: Red_RabbitSprite_Searching_7
   - first:
-      213: 7859519552990979304
-    second: Wood_Banner_Red_Sprite_Sheet_8
-  - first:
-      213: -41030075914481842
-    second: Wood_Banner_Red_Sprite_Sheet_9
+      213: -1641413876431378116
+    second: Red_RabbitSprite_Searching_8
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -75,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 50
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -140,211 +137,190 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_0
+      name: Red_RabbitSprite_Searching_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfb633d9915b24e4e978426b960d7473
+      internalID: 2208317510823250315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_RabbitSprite_Searching_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c72be744a42e3134d93f816241d73ea3
+      internalID: 3721496352368436964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_RabbitSprite_Searching_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c2a231651c2a2340b05cfe72b3b2e32
+      internalID: -8258018127085714625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_RabbitSprite_Searching_3
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf1497a3ddae13e438f9e9ffe62f02f2
+      internalID: -4693287041063423589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_RabbitSprite_Searching_4
       rect:
         serializedVersion: 2
         x: 0
         y: 512
-        width: 256
+        width: 512
         height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ce6b401bd0b7814e922c8b0bcdb6e71
-      internalID: 8983570390773859362
+      spriteID: 13f527abe7a590e46a955fc6cd4ca4b7
+      internalID: -2797947813979333079
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 512
-        width: 256
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3961324ec1834da4a882a3875bece8ca
-      internalID: 445847491304436747
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_2
+      name: Red_RabbitSprite_Searching_5
       rect:
         serializedVersion: 2
         x: 512
         y: 512
-        width: 256
+        width: 512
         height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2040fdaa7876024591f2a068af633ba
-      internalID: 2227801948293209968
+      spriteID: a000837650924a44d905c5f625faf6d1
+      internalID: -8958642488040771746
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 512
-        width: 256
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8df02c977ac614140a64f8606e2bf222
-      internalID: -4667285591780494771
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_4
+      name: Red_RabbitSprite_Searching_6
       rect:
         serializedVersion: 2
         x: 1024
         y: 512
-        width: 256
+        width: 512
         height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6aa1a05d9ff15e546ac6cae636401111
-      internalID: -8054441078239756887
+      spriteID: 52bed9d796ed8f94ba5de3ec8d585376
+      internalID: -5025103060168352782
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_5
+      name: Red_RabbitSprite_Searching_7
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 248138b0678a10b4094b8e9c30c6ac7c
+      internalID: 5031234290384420750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red_RabbitSprite_Searching_8
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
+        width: 512
         height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69f29bea12426e1489c8808ecf82acd2
-      internalID: -6384292489064677459
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_6
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 256
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 65f1a5a9a8dc4e748b5fbe5030cfd7e3
-      internalID: 8272409503681855310
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_7
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 256
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bf4ab9e15047af94b80a8cbc0afcac65
-      internalID: -5569359949131931630
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_8
-      rect:
-        serializedVersion: 2
-        x: 768
-        y: 0
-        width: 256
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f976f82f7f22a5e4ab2b2dc1e5b57dad
-      internalID: 7859519552990979304
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wood_Banner_Red_Sprite_Sheet_9
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 256
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9d60949a05c422b4886dc185e81acb3c
-      internalID: -41030075914481842
+      spriteID: d3efcd9ddda9f924e805f2a88c831115
+      internalID: -1641413876431378116
       vertices: []
       indices: 
       edges: []

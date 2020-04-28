@@ -750,8 +750,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
 
-        //ETHAN TODO: Add Notification: COMPLETED BUILDING
-        NotificationFeed.Instance.NewNotification("CONSTRUCTION COMPLETE!", eType.ToString() + " (Level " + _level + ") has completed construction!", 4, transform.position.x);
+        if (_Team == 1)
+            NotificationFeed.Instance.NewNotification("CONSTRUCTION COMPLETE!", eType.ToString() + " (Level " + _level + ") has completed construction!", 4, transform.position.x);
 
         //Debug.Log("Built a level " + _level + " structure");
 
@@ -766,13 +766,13 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void DemolishComplete()
     {
-        //ETHAN TODO: Add Notification: BUILDING DESTROYED
-        NotificationFeed.Instance.NewNotification("BUILDING DESTROYED!", "Building was demolished!", 2, transform.position.x);
+        if (_Team == 1)
+            NotificationFeed.Instance.NewNotification("BUILDING DESTROYED!", "Your building was demolished!", 2, transform.position.x);
 
         eState = BuildingState.Available;
         _sr.sprite = _sStatedefault;
         _construction = 0;
-        _constructionMax = 100;
+        _constructionMax = 5;
         UpdateConstructionBar();
         _hitpointsMax = 5;
         _hitpoints = 0;

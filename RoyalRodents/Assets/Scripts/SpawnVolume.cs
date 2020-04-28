@@ -103,19 +103,19 @@ public class SpawnVolume : MonoBehaviour
                 //Spawn Recruitable Rodents
                 if (type == Rodent.eRodentType.Rat)
                 {
-                    spawnThis(Rat, !_EnemySpawn);
+                    spawnThis(Rat, _EnemySpawn);
                 }
                 else if (type == Rodent.eRodentType.Beaver)
                 {
-                    spawnThis(Beaver, !_EnemySpawn);
+                    spawnThis(Beaver, _EnemySpawn);
                 }
                 else if (type == Rodent.eRodentType.Porcupine)
                 {
-                    spawnThis(Porcupine, !_EnemySpawn);
+                    spawnThis(Porcupine, _EnemySpawn);
                 }
                 else if (type == Rodent.eRodentType.Rabbit)
                 {
-                    spawnThis(Rabbit, !_EnemySpawn);
+                    spawnThis(Rabbit, _EnemySpawn);
                 }
         }
     }

@@ -466,7 +466,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // Called from MVC controller
     public void DemolishSomething()
     {
-
+        //Dismiss all workers
+        dismissCurrentWorker();
         SoundManager.Instance.PlayDemolish();
         // Debug.Log("Time to Destroy Something" );
         switch (eType)
@@ -570,7 +571,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 cr.setResourceAmount(2 * _level);
             }
         }
-
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         _level = 0; // handle the other stuff in demolish complete i guess
@@ -1021,7 +1021,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void DismissWorker(Rodent r)
     {
-        print("dismiss " + r.getName());
+       // print("dismiss " + r.getName());
         foreach (Employee e in _Workers)
         {
             if (e.isOccupied())

@@ -54,7 +54,7 @@ public class ExitZone : MonoBehaviour
     }
     public BuildableObject getRodentOutpost(Rodent r)
     {
-        print("looking for " + r.getName());
+       // print("looking for " + r.getName());
         return _TroopLocations[r];
     }
     public void RemoveDeadRodent(Rodent r)
@@ -117,6 +117,7 @@ public class ExitZone : MonoBehaviour
             return findfromCached();
 
     }
+    /**Find rodents whove been teleported */
     private List<GameObject> findfromCached()
     {
 
@@ -145,23 +146,28 @@ public class ExitZone : MonoBehaviour
             child.transform.SetParent(GameObject.FindGameObjectWithTag("PlayerRodents").transform);
         }
 
-        //Reset the rodents to go back to the outpost
-        foreach (BuildableObject b in _outposts)
+        //If were coming back from the neutral zone to player zone
+        if ((_zone == 2 && !_isRightZone) || (_zone == 3 && _isRightZone))
         {
-            List<GameObject> workers = b.getEmployees();
-            foreach(var go in workers)
+            //Reset the rodents to go back to the outpost
+            foreach (BuildableObject b in _outposts)
             {
-                //b.AssignWorker(go.GetComponent<Rodent>());
-                Rodent r = go.GetComponent<Rodent>();
-                if(r)
-                    r.setTarget(b.gameObject); // setting target will reset them back to outpost duties
+                List<GameObject> workers = b.getEmployees();
+                foreach (var go in workers)
+                {
+                    //b.AssignWorker(go.GetComponent<Rodent>());
+                    Rodent r = go.GetComponent<Rodent>();
+                    if (r)
+                        r.setTarget(b.gameObject); // setting target will reset them back to outpost duties
+                }
             }
         }
         _TroopLocations.Clear();
         return chosen;
     }
 
-        private List<GameObject> findfromOutposts()
+    /** Find rodents from the players outpost */
+    private List<GameObject> findfromOutposts()
     {
         List<GameObject> chosen = new List<GameObject>();
 

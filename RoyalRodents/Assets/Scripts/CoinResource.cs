@@ -11,6 +11,8 @@ public class CoinResource : MonoBehaviour
     public ResourceType _resource;
     public int _amount = 1;
 
+    public bool KingdomSide;
+
     public void Awake()
     {
         this.GetComponent<BoxCollider2D>().enabled = false; 
@@ -50,7 +52,10 @@ public class CoinResource : MonoBehaviour
     {
         _amount = amnt;
     }
-
+    public void setKingdomSide(bool cond)
+    {
+        KingdomSide = cond;
+    }
     public void ImClicked()
     {
         if(isCrown)
@@ -59,6 +64,10 @@ public class CoinResource : MonoBehaviour
 
             //ETHAN TODO: Add Notification: YOU GOT A CROWN!
             NotificationFeed.Instance.NewNotification("YOU GOT A CROWN!", "Only a few more to go!", 0, -1f);
+
+            //Handle which zone this crown represented
+            EventSystem.Instance.CloseZone(KingdomSide);
+
         }
         else
             ResourceManagerScript.Instance.incrementResource(_resource, _amount);

@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
     private int _RodentIndex =0;
     private bool _SceneStarted = false;
 
+    public bool RightSideKingAlive = false;
+    public bool LeftSideKingAlive = false;
 
 
     //Create Instance of GameManager
@@ -109,6 +111,19 @@ public class GameManager : MonoBehaviour
             _rm = ResourceManagerScript.Instance;
         if (_PauseMenu)
             _PauseMenu.SetActive(false);
+
+        setupAnimators();
+    }
+    private void setupAnimators()
+    {
+        if (_WinAnimator && _LoseAnimator)
+        {
+            print("Animators passed");
+            _WinAnimator = _WinImg.GetComponent<Animator>();
+            _LoseAnimator = _LoseImg.GetComponent<Animator>();
+        }
+        else
+            print("animsf ailed");
     }
 
     public void StartScene()
@@ -123,11 +138,7 @@ public class GameManager : MonoBehaviour
 
         //Have to Find a New Way Because Loading from mainMenu doesn't have these
         //Set up our animators
-        if (_WinAnimator && _LoseAnimator)
-        {
-            _WinAnimator = _WinImg.GetComponent<Animator>();
-            _LoseAnimator = _LoseImg.GetComponent<Animator>();
-        }
+       
         //Need a Delay or Finds Objects before scene loads
         StartCoroutine(SceneDelay());
 
@@ -189,10 +200,14 @@ public class GameManager : MonoBehaviour
     }
     public void youWin()
     {
+        print("YouWin");
         if (_WinAnimator)
         {
+            print("dotrigger");
             _WinAnimator.SetTrigger("PlayAnim");
         }
+        else
+            print("no win animator??");
         StartCoroutine(QuitMenu());
     }
     public void youLose()

@@ -31,7 +31,8 @@ public class bOutpost : MonoBehaviour
     void Start()
     {
 		SetUpComponent();
-	}
+        StartCoroutine(EnemyCheckDelay());
+    }
 
     // Update is called once per frame
     void Update()
@@ -66,6 +67,26 @@ public class bOutpost : MonoBehaviour
             _isSet = true;
 		}
 	}
+
+    IEnumerator EnemyCheckDelay()
+    {
+        yield return new WaitForSeconds(1);
+        CheckEnemy();
+    }
+
+    public void CheckEnemy()
+    {
+        BuildableObject b = this.GetComponent<BuildableObject>();
+        if (b)
+        {
+            if (b.getTeam() == 2)
+            {
+                b.SetType("Outpost");
+                b.SetLevel(1);
+                b.BuildComplete();
+            }
+        }
+    }
 
 	public float BuildingComplete(int level)
 	{

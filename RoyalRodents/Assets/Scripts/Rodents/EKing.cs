@@ -27,6 +27,8 @@ public class EKing : MonoBehaviour
 
     private bool _AnimsSet;
 
+    private bool _rightSideKing;
+
 
 
     private void Awake()
@@ -101,4 +103,10 @@ public class EKing : MonoBehaviour
             }
         }
     }
+
+    public void setRightSideCrown(bool cond)
+    {
+        _rightSideKing = cond;
+    }
+    public bool getCrownSide() => _rightSideKing;
 }

@@ -91,12 +91,18 @@ public class ResourceManagerScript : MonoBehaviour
         _trash = 6;
         _wood = 5;
         _stone =1;
-        _shiny = 2;
+        _shiny = 9;
         _crowns = 0;
 
         //LoadVFX();
         UpdateAllText();
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+            incrementCrownCount(1);
+    }
+
     private GameObject LoadVFX()
     {
         if (_VFXPrefab == null)
@@ -273,6 +279,11 @@ public class ResourceManagerScript : MonoBehaviour
         _crowns += amnt;
         UpdateCrownText();
         SoundManager.Instance.PlayCrown();
+        //Check win condition
+        if(_crowns>=2)
+        {
+            GameManager.Instance.youWin();
+        }
     }
 
     //Update Resource Panel UI Text

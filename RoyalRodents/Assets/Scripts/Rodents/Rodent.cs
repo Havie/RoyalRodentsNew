@@ -360,7 +360,17 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
                 GameObject crown = Resources.Load<GameObject>("ResourceIcons/Collectable_Crown");
                 if (crown)
                 {
-                    GameObject.Instantiate(crown, this.transform.position, this.transform.rotation);
+                    crown = GameObject.Instantiate(crown, this.transform.position, this.transform.rotation);
+                    var c = crown.GetComponent<CoinResource>();
+                    if(c)
+                    {
+                        var eKing = this.GetComponent<EKing>();
+                        if(eKing)
+                        {
+                            c.setKingdomSide(eKing.getCrownSide());
+                        }
+                        
+                    }
                 }
             }
             else //drop shiny 

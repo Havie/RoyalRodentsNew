@@ -21,6 +21,9 @@ public class ExitZone : MonoBehaviour
     private Teleporter _left;
     private Teleporter _Active;
 
+    public bool test=false;
+    private bool _shutDown = false;
+
     private List<BuildableObject> _outposts = new List<BuildableObject>();
     private Dictionary<Rodent, BuildableObject> _TroopLocations = new Dictionary<Rodent, BuildableObject>();
 
@@ -51,10 +54,28 @@ public class ExitZone : MonoBehaviour
 
         if(_TeleportDummy==null)
             _TeleportDummy = GameObject.FindGameObjectWithTag("TeleportedRodents");
+
+        if(_zone==2)
+        {
+            //Tell the event system were important 
+            if (_isRightZone)
+                EventSystem.Instance.ZoneR += ShutDown;
+            else 
+                EventSystem.Instance.ZoneL += ShutDown;
+        }
+    }
+
+    private void Update()
+    {
+        if (test)
+        {
+            ShutDown();
+            test = false;
+        }
     }
     public BuildableObject getRodentOutpost(Rodent r)
     {
-        print("looking for " + r.getName());
+       // print("looking for " + r.getName());
         return _TroopLocations[r];
     }
     public void RemoveDeadRodent(Rodent r)
@@ -117,6 +138,7 @@ public class ExitZone : MonoBehaviour
             return findfromCached();
 
     }
+    /**Find rodents whove been teleported */
     private List<GameObject> findfromCached()
     {
 
@@ -134,6 +156,17 @@ public class ExitZone : MonoBehaviour
             foreach (var e in ps.getEmployees())
             {
                 chosen.Add(e);
+                //everytime we teleport clear previous targets and go back to royal guarding
+                Rodent r = e.GetComponent<Rodent>();
+                if (r)
+                {
+                    var ss = e.GetComponent<SubjectScript>();
+                    if (ss)
+                    {
+                        ss.setRoyalGuard();
+
+                    }
+                }
             }
         }
 
@@ -145,23 +178,28 @@ public class ExitZone : MonoBehaviour
             child.transform.SetParent(GameObject.FindGameObjectWithTag("PlayerRodents").transform);
         }
 
-        //Reset the rodents to go back to the outpost
-        foreach (BuildableObject b in _outposts)
+        //If were coming back from the neutral zone to player zone
+        if ((_zone == 2 && !_isRightZone) || (_zone == 3 && _isRightZone))
         {
-            List<GameObject> workers = b.getEmployees();
-            foreach(var go in workers)
+            //Reset the rodents to go back to the outpost
+            foreach (BuildableObject b in _outposts)
             {
-                //b.AssignWorker(go.GetComponent<Rodent>());
-                Rodent r = go.GetComponent<Rodent>();
-                if(r)
-                    r.setTarget(b.gameObject); // setting target will reset them back to outpost duties
+                List<GameObject> workers = b.getEmployees();
+                foreach (var go in workers)
+                {
+                    //b.AssignWorker(go.GetComponent<Rodent>());
+                    Rodent r = go.GetComponent<Rodent>();
+                    if (r)
+                        r.setTarget(b.gameObject); // setting target will reset them back to outpost duties
+                }
             }
         }
         _TroopLocations.Clear();
         return chosen;
     }
 
-        private List<GameObject> findfromOutposts()
+    /** Find rodents from the players outpost */
+    private List<GameObject> findfromOutposts()
     {
         List<GameObject> chosen = new List<GameObject>();
 
@@ -213,9 +251,24 @@ public class ExitZone : MonoBehaviour
         return chosen;
 
     }
+
+    public void ShutDown()
+    {
+        if (_Active == null)
+            _Active = _right.isActiveAndEnabled ? _right : _left ; //if rights gameobject is active, chose right, else do left. If left is inactive, were fucked
+
+        if (_Active == null)
+        {
+            Debug.LogError("Active is null return");
+            return;
+        }
+        _shutDown = true;
+        confirmed();
+    }
+    //Need this to subscribe to the event system for unique Locs
     public void confirmed()
     {
-        _Active.Teleport(findSelected());
+        _Active.Teleport(findSelected(), _shutDown);
     }
 
 }

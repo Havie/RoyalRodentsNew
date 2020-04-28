@@ -152,15 +152,19 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
         _srNotify.sprite = _sNotification;
 
+        _animator = GetComponentInChildren<Animator>();
 
-        if (eType != BuildingType.TownCenter && eType != BuildingType.GarbageCan && eType != BuildingType.WoodPile && eType != BuildingType.StonePile)
+        if (eType == BuildingType.Vacant)
         {
             eState = BuildingState.Available;
-            eType = BuildingType.Vacant;
-        }
-        if (eType == BuildingType.Vacant)
             _sr.sprite = _sStatedefault;
-        _animator = GetComponentInChildren<Animator>();
+            
+            //Possible error here in assigning something to be a dirtmound
+            if (eType == BuildingType.Vacant)
+            {
+                setTeam(500); // default value for destroyed state
+            }
+        }
 
 
         //Other classes
@@ -186,8 +190,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _ConstructionBarObj = Resources.Load<GameObject>("UI/ConstructionBarCanvas");
         SetUpConstructionBar(_ConstructionBarObj);
 
-        if (_Team < 3)
-            setTeam(500); // default value for destroyed state
         UpdateState();
         setUpWorkers();
         UpdateHealthBar();
@@ -229,8 +231,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             case BuildingState.Available:
                 {
-                    _srNotify.sprite = _sNotification;
-                    _srNotify.enabled = true;
+                    if (_srNotify)
+                    {
+                        _srNotify.sprite = _sNotification;
+                        _srNotify.enabled = true;
+                    }
                     ShowWorkers(false);
                     _animator.SetBool("Notify", true);
                     _animator.SetBool("Building", false);
@@ -238,8 +243,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Building:
                 {
-                    _srNotify.sprite = _sBuildingHammer;
-                    _srNotify.enabled = true;
+                    if (_srNotify)
+                    {
+                        _srNotify.sprite = _sBuildingHammer;
+                        _srNotify.enabled = true;
+                    }
                     //need special case for Outpost
                     ShowWorkers(true); //_srWorker.enabled = true;
                     _animator.SetBool("Building", true);
@@ -247,7 +255,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Idle:
                 {
-                    _srNotify.enabled = false;
+                    if (_srNotify)
+                        _srNotify.enabled = false;
                     if (eType != BuildingType.TownCenter && eType != BuildingType.Banner && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
                     else
@@ -258,7 +267,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 }
             case BuildingState.Built:
                 {
-                    _srNotify.enabled = false;
+                    if(_srNotify)
+                        _srNotify.enabled = false;
                     if (eType != BuildingType.TownCenter && eType != BuildingType.Banner && eType != BuildingType.House && eType != BuildingType.Outpost)
                         ShowWorkers(true);
                     else
@@ -466,7 +476,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     // Called from MVC controller
     public void DemolishSomething()
     {
-
+        //Dismiss all workers
+        dismissCurrentWorker();
         SoundManager.Instance.PlayDemolish();
         // Debug.Log("Time to Destroy Something" );
         switch (eType)
@@ -570,7 +581,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 cr.setResourceAmount(2 * _level);
             }
         }
-
         UpdateState();
         _DestroyMenu.showMenu(false, Vector3.zero, null, this);
         _level = 0; // handle the other stuff in demolish complete i guess
@@ -906,6 +916,11 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                     UpdateHealthBar();
                     break;
                 }
+            case ("Outpost"):
+                {
+                    eType = BuildingType.Outpost;
+                    break;
+                }
         }
 
         eState = BuildingState.Built;
@@ -1021,7 +1036,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void DismissWorker(Rodent r)
     {
-        print("dismiss " + r.getName());
+       // print("dismiss " + r.getName());
         foreach (Employee e in _Workers)
         {
             if (e.isOccupied())

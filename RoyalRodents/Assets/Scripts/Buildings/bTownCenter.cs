@@ -28,7 +28,7 @@ public class bTownCenter : MonoBehaviour
     void Start()
     {
         SetUpComponent();
-        GameManager.Instance.setTownCenter(this);
+        StartCoroutine(EnemyCheckDelay());
     }
 
 
@@ -65,6 +65,27 @@ public class bTownCenter : MonoBehaviour
         }
     }
 
+    IEnumerator EnemyCheckDelay()
+    {
+        yield return new WaitForSeconds(1);
+        CheckEnemy();
+    }
+
+    public void CheckEnemy()
+    {
+        BuildableObject b = this.GetComponent<BuildableObject>();
+        if (b)
+        {
+            if (b.getTeam() == 2)
+            {
+                b.SetType("TownCenter");
+                b.SetLevel(1); GameManager.Instance.setTownCenter(this);
+                b.BuildComplete();
+            }
+            else
+                GameManager.Instance.setTownCenter(this);
+        }
+    }
     public float BuildingComplete(int level)
     {
         if (!_isSet)

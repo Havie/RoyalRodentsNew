@@ -7,7 +7,11 @@ public class bBanner : MonoBehaviour
 	private static Sprite _builtSpriteLevel1;
 	private static Sprite _builtSpriteLevel2;
 	private static Sprite _builtSpriteLevel3;
-	private static int maxLevel = 3;
+
+    private static RuntimeAnimatorController _builtAnimatorLevel1;
+    private static RuntimeAnimatorController _builtAnimatorLevel2;
+    private static RuntimeAnimatorController _builtAnimatorLevel3;
+    private static int maxLevel = 3;
 
 	private float _hitpoints = 50;
 	private float _hitPointGrowth = 10;
@@ -57,7 +61,12 @@ public class bBanner : MonoBehaviour
 			_builtSpriteLevel2 = Resources.Load<Sprite>("Buildings/Banner/wood_banner");
 			_builtSpriteLevel3 = Resources.Load<Sprite>("Buildings/Banner/stone_banner");
 
-			_isSet = true;
+            //WILL have to Handle Enemy Sprites in final week
+            _builtAnimatorLevel1 = Resources.Load<RuntimeAnimatorController>("Buildings/Banner/trash/BlueBanner");
+            _builtAnimatorLevel2 = Resources.Load<RuntimeAnimatorController>("Buildings/Banner/wood/BlueBanner");
+            _builtAnimatorLevel3 = Resources.Load<RuntimeAnimatorController>("Buildings/Banner/stone/BlueBanner");
+
+            _isSet = true;
 		}
 	}
 
@@ -85,15 +94,30 @@ public class bBanner : MonoBehaviour
 		if (!_isSet)
 			SetUpComponent();
 
-		if (level == 1)
-			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
-		else if (level == 2)
-			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
-		else if (level == 3)
-			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
+        if (level == 1)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel1;
+        else if (level == 2)
+        this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel2;
+        else if (level == 3)
+            this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
 
-		return (_hitpoints + (_hitPointGrowth * level));
+        setAnimator(level);
+
+        return (_hitpoints + (_hitPointGrowth * level));
 	}
+    private void setAnimator(int level)
+    {
+        Animator a = this.GetComponent<Animator>();
+        if(a==null)
+             a= this.gameObject.AddComponent<Animator>();
+
+        if (level == 1)
+            a.runtimeAnimatorController = _builtAnimatorLevel1;
+        else if (level == 2)
+            a.runtimeAnimatorController = _builtAnimatorLevel2;
+        else if (level == 3)
+            a.runtimeAnimatorController = _builtAnimatorLevel3;
+    }
 
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)
 	{

@@ -162,7 +162,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //Possible error here in assigning something to be a dirtmound
             if (eType == BuildingType.Vacant)
             {
-                print("HERE1" + gameObject.name);
                 setTeam(500); // default value for destroyed state
             }
         }
@@ -299,7 +298,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     * Also handles updating the Animator based on Type*/
     public void setTeam(int id)
     {
-        print("Setting team to " + id + "   for " + gameObject.name);
         if (id > -1 && id < 3)
             _Team = id;
         else if (id == 500) // dummy setting for dirt mount
@@ -788,7 +786,6 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //if we have returned to a dirt mount, reset team to default
         if (_level == 0)
         {
-            print("HERE" +gameObject.name);
             setTeam(500);
             ResourceManagerScript.Instance.IncrementBuildingSlots(-1);
             //set sprite to dirt mound

@@ -21,6 +21,9 @@ public class ExitZone : MonoBehaviour
     private Teleporter _left;
     private Teleporter _Active;
 
+    public bool test=false;
+    private bool _shutDown = false;
+
     private List<BuildableObject> _outposts = new List<BuildableObject>();
     private Dictionary<Rodent, BuildableObject> _TroopLocations = new Dictionary<Rodent, BuildableObject>();
 
@@ -51,6 +54,24 @@ public class ExitZone : MonoBehaviour
 
         if(_TeleportDummy==null)
             _TeleportDummy = GameObject.FindGameObjectWithTag("TeleportedRodents");
+
+        if(_zone==2)
+        {
+            //Tell the event system were important 
+            if (_isRightZone)
+                EventSystem.Instance.ZoneR += ShutDown;
+            else 
+                EventSystem.Instance.ZoneL += ShutDown;
+        }
+    }
+
+    private void Update()
+    {
+        if (test)
+        {
+            ShutDown();
+            test = false;
+        }
     }
     public BuildableObject getRodentOutpost(Rodent r)
     {
@@ -135,6 +156,17 @@ public class ExitZone : MonoBehaviour
             foreach (var e in ps.getEmployees())
             {
                 chosen.Add(e);
+                //everytime we teleport clear previous targets and go back to royal guarding
+                Rodent r = e.GetComponent<Rodent>();
+                if (r)
+                {
+                    var ss = e.GetComponent<SubjectScript>();
+                    if (ss)
+                    {
+                        ss.setRoyalGuard();
+
+                    }
+                }
             }
         }
 
@@ -219,9 +251,24 @@ public class ExitZone : MonoBehaviour
         return chosen;
 
     }
+
+    public void ShutDown()
+    {
+        if (_Active == null)
+            _Active = _right.isActiveAndEnabled ? _right : _left ; //if rights gameobject is active, chose right, else do left. If left is inactive, were fucked
+
+        if (_Active == null)
+        {
+            Debug.LogError("Active is null return");
+            return;
+        }
+        _shutDown = true;
+        confirmed();
+    }
+    //Need this to subscribe to the event system for unique Locs
     public void confirmed()
     {
-        _Active.Teleport(findSelected());
+        _Active.Teleport(findSelected(), _shutDown);
     }
 
 }

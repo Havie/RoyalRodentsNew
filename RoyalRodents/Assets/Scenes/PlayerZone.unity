@@ -7291,7 +7291,7 @@ GameObject:
   - component: {fileID: 178066672}
   - component: {fileID: 178066671}
   m_Layer: 9
-  m_Name: ExitLeft
+  m_Name: ExitLeft neutral R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7315,6 +7315,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &178066672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9806,7 +9807,7 @@ PrefabInstance:
     - target: {fileID: 2534387841011693494, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -12288,6 +12289,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!4 &293081249
 Transform:
   m_ObjectHideFlags: 0
@@ -14640,6 +14642,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!1 &338177749
 GameObject:
   m_ObjectHideFlags: 0
@@ -15328,7 +15331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &348588370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16304,7 +16307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &364887237
 Transform:
   m_ObjectHideFlags: 0
@@ -16313,7 +16316,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364887236}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23.28, y: -2.7902832, z: -6.620016}
+  m_LocalPosition: {x: -6.4, y: -2.7902832, z: -6.620016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1729222371}
@@ -16335,8 +16338,9 @@ MonoBehaviour:
   _rightSide: 0
   _EnemySpawnDummy: {fileID: 1751986553}
   _occupied: 0
-  _EnemyCount: 2
-  _inPlayerZone: 1
+  _EnemyCount: 1
+  _inPlayerZone: 0
+  _EnemyKingLoc: 1
 --- !u!1 &368893420
 GameObject:
   m_ObjectHideFlags: 0
@@ -16799,7 +16803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &378954019
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20146,7 +20150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &477089242
 Transform:
   m_ObjectHideFlags: 0
@@ -20179,6 +20183,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!1 &478872784
 GameObject:
   m_ObjectHideFlags: 0
@@ -27348,6 +27353,7 @@ MonoBehaviour:
   _zone: 1
   _isRightZone: 0
   _TeleportDummy: {fileID: 0}
+  test: 0
 --- !u!4 &640952621
 Transform:
   m_ObjectHideFlags: 0
@@ -27538,7 +27544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &645642927
 Transform:
   m_ObjectHideFlags: 0
@@ -27570,7 +27576,8 @@ MonoBehaviour:
   _EnemySpawnDummy: {fileID: 1751986553}
   _occupied: 0
   _EnemyCount: 2
-  _inPlayerZone: 1
+  _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!1 &646927644
 GameObject:
   m_ObjectHideFlags: 0
@@ -35819,6 +35826,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!4 &810884182
 Transform:
   m_ObjectHideFlags: 0
@@ -36719,7 +36727,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &838483717
 Transform:
   m_ObjectHideFlags: 0
@@ -36751,7 +36759,8 @@ MonoBehaviour:
   _EnemySpawnDummy: {fileID: 1751986553}
   _occupied: 0
   _EnemyCount: 2
-  _inPlayerZone: 1
+  _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!1 &838595640
 GameObject:
   m_ObjectHideFlags: 0
@@ -40840,7 +40849,7 @@ PrefabInstance:
     - target: {fileID: 2534387841011693494, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -41296,7 +41305,7 @@ GameObject:
   - component: {fileID: 862241736}
   - component: {fileID: 862241737}
   m_Layer: 2
-  m_Name: SpawnVolume
+  m_Name: SpawnVolume (KingR)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41328,12 +41337,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12ab20200e3de043bdcdb8817b72632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _EnemySpawn: 0
-  _rightSide: 0
+  _EnemySpawn: 1
+  _rightSide: 1
   _EnemySpawnDummy: {fileID: 1751986553}
   _occupied: 0
   _EnemyCount: 2
-  _inPlayerZone: 1
+  _inPlayerZone: 0
+  _EnemyKingLoc: 1
 --- !u!1 &863483800
 GameObject:
   m_ObjectHideFlags: 0
@@ -44859,9 +44869,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _locRight: {fileID: 1110357285}
   _locLeft: {fileID: 1588873562}
-  _zone: 3
+  _zone: 0
   _isRightZone: 0
   _TeleportDummy: {fileID: 0}
+  test: 0
 --- !u!4 &924145647
 Transform:
   m_ObjectHideFlags: 0
@@ -46255,9 +46266,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _locRight: {fileID: 1090685072}
   _locLeft: {fileID: 1572861335}
-  _zone: 5
+  _zone: 2
   _isRightZone: 0
   _TeleportDummy: {fileID: 0}
+  test: 0
 --- !u!4 &935993787
 Transform:
   m_ObjectHideFlags: 0
@@ -50328,8 +50340,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _WinImg: {fileID: 1833481567}
   _LoseImg: {fileID: 316976829}
-  _WinAnimator: {fileID: 0}
-  _LoseAnimator: {fileID: 0}
+  _WinAnimator: {fileID: 1833481566}
+  _LoseAnimator: {fileID: 1833481566}
   _SplashScreen: {fileID: 504911883}
   _rm: {fileID: 0}
   _PlayerRodents: []
@@ -50340,6 +50352,8 @@ MonoBehaviour:
   _HelpMenu: {fileID: 852519611}
   _currentZone: 1
   _isRightZone: 0
+  RightSideKingAlive: 0
+  LeftSideKingAlive: 0
 --- !u!4 &1015704530
 Transform:
   m_ObjectHideFlags: 0
@@ -52820,6 +52834,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &1090685074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54234,6 +54249,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &1110357287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55918,12 +55934,12 @@ GameObject:
   - component: {fileID: 1127071002}
   - component: {fileID: 1127071001}
   m_Layer: 9
-  m_Name: ExitRight
+  m_Name: ExitRight_enemy R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1127071001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55942,6 +55958,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &1127071002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56073,11 +56090,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127071000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 150.95, y: -199.54, z: 0}
+  m_LocalPosition: {x: 150.94998, y: -199.54, z: 0}
   m_LocalScale: {x: 1.4475, y: 1.4475, z: 1.4475}
   m_Children: []
   m_Father: {fileID: 2021813560}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1128867016
 GameObject:
@@ -56110,9 +56127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _locRight: {fileID: 1758427004}
   _locLeft: {fileID: 178066670}
-  _zone: 2
+  _zone: 0
   _isRightZone: 1
   _TeleportDummy: {fileID: 0}
+  test: 0
 --- !u!4 &1128867018
 Transform:
   m_ObjectHideFlags: 0
@@ -56218,7 +56236,7 @@ PrefabInstance:
     - target: {fileID: 2534387841011693494, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -58937,7 +58955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1190300935
 Transform:
   m_ObjectHideFlags: 0
@@ -63576,7 +63594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1282142895
 Transform:
   m_ObjectHideFlags: 0
@@ -67444,7 +67462,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1368525319
 Transform:
   m_ObjectHideFlags: 0
@@ -72565,7 +72583,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1482342593}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.67, y: -189.56, z: -2.127181}
+  m_LocalPosition: {x: 17.8, y: -189.56, z: -2.127181}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1717141093}
@@ -76570,6 +76588,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!1 &1566485626
 GameObject:
   m_ObjectHideFlags: 0
@@ -77171,7 +77190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1572861336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77190,6 +77209,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &1572861337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77957,7 +77977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1582657694
 Transform:
   m_ObjectHideFlags: 0
@@ -77990,6 +78010,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!1 &1584596236
 GameObject:
   m_ObjectHideFlags: 0
@@ -78075,6 +78096,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!1 &1588100944
 GameObject:
   m_ObjectHideFlags: 0
@@ -78260,6 +78282,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &1588873564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80037,7 +80060,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1635863995
 Transform:
   m_ObjectHideFlags: 0
@@ -80069,7 +80092,8 @@ MonoBehaviour:
   _EnemySpawnDummy: {fileID: 1751986553}
   _occupied: 0
   _EnemyCount: 2
-  _inPlayerZone: 1
+  _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!1 &1637713471
 GameObject:
   m_ObjectHideFlags: 0
@@ -80955,7 +80979,7 @@ PrefabInstance:
     - target: {fileID: 2534387841011693494, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -81761,6 +81785,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!114 &1674734002 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5639404865155590739, guid: 6097b0180abd510498598431fc1b4827,
@@ -84382,7 +84407,7 @@ PrefabInstance:
     - target: {fileID: 2534387841011693494, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
@@ -86095,7 +86120,7 @@ GameObject:
   - component: {fileID: 1758427006}
   - component: {fileID: 1758427005}
   m_Layer: 9
-  m_Name: ExitRight
+  m_Name: ExitRight neutral R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86119,6 +86144,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &1758427006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88945,7 +88971,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1815592152
 Transform:
   m_ObjectHideFlags: 0
@@ -88977,7 +89003,8 @@ MonoBehaviour:
   _EnemySpawnDummy: {fileID: 1751986553}
   _occupied: 0
   _EnemyCount: 2
-  _inPlayerZone: 1
+  _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!1 &1819493733
 GameObject:
   m_ObjectHideFlags: 0
@@ -99780,6 +99807,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!4 &2008500957
 Transform:
   m_ObjectHideFlags: 0
@@ -100210,9 +100238,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _locRight: {fileID: 1127071000}
   _locLeft: {fileID: 2118203768}
-  _zone: 4
+  _zone: 2
   _isRightZone: 1
   _TeleportDummy: {fileID: 0}
+  test: 0
 --- !u!4 &2021813560
 Transform:
   m_ObjectHideFlags: 0
@@ -100224,8 +100253,8 @@ Transform:
   m_LocalPosition: {x: 100.6, y: 5.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1127071007}
   - {fileID: 2118203775}
+  - {fileID: 1127071007}
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102042,7 +102071,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2047233361
 Transform:
   m_ObjectHideFlags: 0
@@ -102075,6 +102104,7 @@ MonoBehaviour:
   _occupied: 0
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!1 &2047285144
 GameObject:
   m_ObjectHideFlags: 0
@@ -105905,7 +105935,7 @@ GameObject:
   - component: {fileID: 2118203770}
   - component: {fileID: 2118203769}
   m_Layer: 9
-  m_Name: ExitLeft
+  m_Name: ExitLeft_enemy R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105929,6 +105959,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 0
+  _EnemyKingLoc: 0
 --- !u!114 &2118203770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106064,7 +106095,7 @@ Transform:
   m_LocalScale: {x: 1.4475, y: 1.4475, z: 1.4475}
   m_Children: []
   m_Father: {fileID: 2021813560}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2118857894 stripped
 Transform:
@@ -106713,6 +106744,7 @@ MonoBehaviour:
   _occupied: 1
   _EnemyCount: 2
   _inPlayerZone: 1
+  _EnemyKingLoc: 0
 --- !u!1 &2132872308
 GameObject:
   m_ObjectHideFlags: 0
@@ -108415,7 +108447,7 @@ PrefabInstance:
     - target: {fileID: 2534387841011693494, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534387840140866242, guid: b449ead2722bb964c9d2e93ad1463a77,
         type: 3}

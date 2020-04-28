@@ -38,11 +38,6 @@ public class bBanner : MonoBehaviour
         StartCoroutine(EnemyCheckDelay());
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
 	private static void SetUpComponent()
 	{

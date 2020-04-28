@@ -105,12 +105,16 @@ public class CameraController : MonoBehaviour
     // or just make it so the rodents dont get close to the edges
     public void ChangeZone(int zone, bool isRight)
     {
-        if (zone == 1)
+        //Stop Player from wandering off screen
+        if(_playerMovement)
+            _playerMovement.StopMoving();
+
+        if (zone == 1) // player
         {
             _NegXCap = -54;
             _PosXCap = 15;
         }
-        else if (zone == 0)
+        else if (zone == 0) // neutral
         {
             if (isRight)
             {
@@ -123,34 +127,23 @@ public class CameraController : MonoBehaviour
                 _PosXCap = -96;
             }
         }
-        else if (zone == 2)
+        else if (zone == 2) // enemy
         {
             if (isRight)
             {
                 _NegXCap = 172;
                 _PosXCap = 242;
+                //Spawn an Enemy King
+                EventSystem.Instance.SpawnKing("right");
             }
             else
             {
                 _NegXCap = -275;
                 _PosXCap = -205;
+                EventSystem.Instance.SpawnKing("left");
             }
         }
 
-        /*
-        if (locX==20 || locX==-64)
-        {
-            _NegXCap = -64;
-            _PosXCap = 20;
-        }
-        else if (locX==175 || locX ==405)
-        {
-            _NegXCap = 175;
-            _PosXCap = 405;
-        }
-        else
-            Debug.LogWarning("no setting for " + locX);
-        */
     }
 }
 

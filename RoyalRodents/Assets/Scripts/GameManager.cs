@@ -118,12 +118,9 @@ public class GameManager : MonoBehaviour
     {
         if (_WinAnimator && _LoseAnimator)
         {
-            print("Animators passed");
             _WinAnimator = _WinImg.GetComponent<Animator>();
             _LoseAnimator = _LoseImg.GetComponent<Animator>();
         }
-        else
-            print("animsf ailed");
     }
 
     public void StartScene()

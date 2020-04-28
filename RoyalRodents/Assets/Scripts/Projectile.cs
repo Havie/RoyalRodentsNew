@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour
             }
             else if (unknownBuilding)
             {
-                if (unknownBuilding.getTeam() == enemyTeam)
+                if (unknownBuilding.getTeam() == enemyTeam && unknownBuilding.getType() != BuildableObject.BuildingType.TownCenter)
                 {
                     unknownBuilding.Damage(attackDamage);
                     Destroy(gameObject);

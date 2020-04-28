@@ -773,12 +773,18 @@ public class SubjectScript : MonoBehaviour
             {
                 if(unknownBuilding.getTeam() == getEnemyTeam())
                 {
-                    _inRange.Add(unknownBuilding.gameObject);
-                    if (_inRange.Count == 1 && royalGuard)
+                    // Ensure this isn't a natural resource
+                    if(unknownBuilding.getType() != BuildableObject.BuildingType.WoodPile && unknownBuilding.getType() != BuildableObject.BuildingType.StonePile 
+                        && unknownBuilding.getType() != BuildableObject.BuildingType.GarbageCan)
                     {
-                        //print("Newest target added to queue: " + currentTarget.ToString());
-                        currentTarget = unknownBuilding.gameObject;
+                        _inRange.Add(unknownBuilding.gameObject);
+                        if (_inRange.Count == 1 && royalGuard)
+                        {
+                            //print("Newest target added to queue: " + currentTarget.ToString());
+                            currentTarget = unknownBuilding.gameObject;
+                        }
                     }
+                   
                 }
             }
 
@@ -860,7 +866,7 @@ public class SubjectScript : MonoBehaviour
             else
             {
                 BuildableObject _enemyBuilding = currentTarget.GetComponent<BuildableObject>();
-                if(_enemyBuilding.getHP() > 0)
+                if(_enemyBuilding.getHP() > 0 && _enemyBuilding.getType() != BuildableObject.BuildingType.TownCenter)
                 {
                     _enemyBuilding.Damage(attackDamage);
                     SoundManager.Instance.PlayCombat();

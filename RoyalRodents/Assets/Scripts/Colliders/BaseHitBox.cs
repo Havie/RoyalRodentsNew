@@ -107,8 +107,8 @@ public class BaseHitBox : MonoBehaviour
                             Transform colliderParent = collision.gameObject.transform.parent;
                             if (colliderParent)
                             {
-                                Debug.Log(banner.gameObject.name
-                                        + " Collided with :" + colliderParent.gameObject);
+                               // Debug.Log(banner.gameObject.name
+                                    //    + " Collided with :" + colliderParent.gameObject);
 
                                 Rodent r = colliderParent.GetComponent<Rodent>();
                                 if (r)
@@ -122,9 +122,9 @@ public class BaseHitBox : MonoBehaviour
                                     r.setHp(r.getHp() * banner.getHPBonus());
 
                                     //set Gathering Bonuses
-                                    print(r.name + " gather was: " + r.getGatherRate());
+                                   // print(r.name + " gather was: " + r.getGatherRate());
                                     r.setGatherRate((int) (r.getGatherRate() * banner.getGatherBonus()));
-                                    print(r.name + " gather is now: " + r.getGatherRate());
+                                  //  print(r.name + " gather is now: " + r.getGatherRate());
 
                                 }
                             }
@@ -190,8 +190,8 @@ public class BaseHitBox : MonoBehaviour
                             Transform colliderParent = collision.gameObject.transform.parent;
                             if (colliderParent)
                             {
-                                Debug.Log(banner.gameObject.name
-                                        + " Collided with :" + colliderParent.gameObject);
+                               // Debug.Log(banner.gameObject.name
+                                    //    + " Collided with :" + colliderParent.gameObject);
 
                                 Rodent r = colliderParent.GetComponent<Rodent>();
                                 if (r)

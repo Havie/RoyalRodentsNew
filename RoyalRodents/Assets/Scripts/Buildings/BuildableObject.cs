@@ -456,6 +456,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         _BuildMenu.showMenu(false, Vector3.zero, null, this);
         if (_level == 1)
         {
+           // print("Called increment Slots on" + this.gameObject);
             ResourceManagerScript.Instance.IncrementBuildingSlots(1);
             SetConstructionMax(5); // Might want to do every level to make building difficult
         }
@@ -478,6 +479,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     {
         //Dismiss all workers
         dismissCurrentWorker();
+        SoundManager.Instance.PlayDemolish();
         SoundManager.Instance.PlayDemolish();
         // Debug.Log("Time to Destroy Something" );
         switch (eType)
@@ -506,6 +508,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
                 eType = BuildingType.Vacant;
                 eState = BuildingState.Building;
                 _sr.sprite = _sStateConstruction;
+                Destroy(this.GetComponent<Animator>());
                 // Debug.Log("Destroyed a Banner");
                 break;
             case (BuildingType.Outpost):

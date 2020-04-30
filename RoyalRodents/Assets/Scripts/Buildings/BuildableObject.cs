@@ -684,6 +684,14 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     //Upon completion let the correct script know to assign the new Sprite, and update our HP/Type.
     public void BuildComplete()
     {
+        //If the state is dirt mount, set it to player team - will have to figure out
+        // how to over ride for enemy / natural resources later on
+        if (_Team == 500)
+            setTeam(1);
+
+        if (_Team == 1)
+            NotificationFeed.Instance.NewNotification("CONSTRUCTION COMPLETE!", eType.ToString() + " (Level " + _level + ") has completed construction!", 4, transform.position.x);
+
         if (eType == BuildingType.House)
         {
             float oldMax = _hitpointsMax;
@@ -692,7 +700,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             _hitpoints += difference;
             _construction = 0;
 
-            EventSystem.Instance.SpawnNeutral(); //spawn neutral rodent
+            if (_Team == 1)
+                EventSystem.Instance.SpawnNeutral(); //spawn neutral rodent
         }
         else if (eType == BuildingType.Farm)
         {
@@ -755,16 +764,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         UpdateState();
 
-        if (_Team == 1)
-            NotificationFeed.Instance.NewNotification("CONSTRUCTION COMPLETE!", eType.ToString() + " (Level " + _level + ") has completed construction!", 4, transform.position.x);
-
-        //Debug.Log("Built a level " + _level + " structure");
-
-        //If the state is dirt mount, set it to player team - will have to figure out
-        // how to over ride for enemy / natural resources later on
-        if (_Team == 500)
-            setTeam(1);
-
+       
         //Resets it so we can click again without clicking off first
         if (_controller.getLastClicked() == this.gameObject)
             _controller.clearLastClicked();

@@ -94,15 +94,28 @@ public class bHouse :MonoBehaviour
 			this.transform.GetComponent<SpriteRenderer>().sprite = _builtSpriteLevel3;
 		}
 		//increment Population Capacity
-        //Note: its okay that this is called again when Loading Save Data, becuz the save data gets called after and overwrites it thankfully
-		ResourceManagerScript.Instance.incrementPopulationCapacity(capacityIncrementAmount[level] - capacityIncrementAmount[level-1]);
+		//Note: its okay that this is called again when Loading Save Data, becuz the save data gets called after and overwrites it thankfully
+		BuildableObject scr = GetComponent<BuildableObject>();
+		if (scr)
+		{
+			if (scr.getTeam() == 1)
+				ResourceManagerScript.Instance.incrementPopulationCapacity(capacityIncrementAmount[level] - capacityIncrementAmount[level - 1]);
+		}
+			
 
 		return (_hitpoints + (_hitPointGrowth*level));
     }
 
 	public void DemolishAction(int level)
 	{
-		ResourceManagerScript.Instance.incrementPopulationCapacity(-capacityIncrementAmount[level]);
+		//decrement Population Capacity
+		BuildableObject scr = GetComponent<BuildableObject>();
+		//get if on player team
+		if (scr)
+		{
+			if (scr.getTeam() == 1)
+				ResourceManagerScript.Instance.incrementPopulationCapacity(-capacityIncrementAmount[level]);
+		}	
 	}
    
 	public static Dictionary<ResourceManagerScript.ResourceType, int> getCost(int level)

@@ -69,7 +69,7 @@ public class UIAssignmentMenu : MonoBehaviour
         MVCController.Instance.SetUpAssignmentMenu(this); // pointless now because were a singleton
         //We will need to actually calculate this somehow at some point
         if (_aspectHeight == 0)
-            _aspectHeight = 17;
+            _aspectHeight = 12;
 
         //Get our prefab if it isn't manually assigned
         if (!_buttonTemplate)

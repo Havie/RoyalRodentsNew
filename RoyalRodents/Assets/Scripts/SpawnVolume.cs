@@ -172,6 +172,7 @@ public class SpawnVolume : MonoBehaviour
     {
         if (_EnemyKingLoc)
         {
+            print("Spawn King");
             SpawnaKing();
         }
         else // spawn a regular rodent or wave
@@ -193,24 +194,28 @@ public class SpawnVolume : MonoBehaviour
                         //TO:DO base this on something (mischief meter RIP)
                         if(roll>8)
                             SpawnaKing();
+
+                        //Pop up text wave has spawned
+                        if (_EnemyCount > 0 && _inPlayerZone && _EnemySpawn)
+                        {
+                            print("This called speechbubble: " + this.gameObject);
+                            if (_rightSide)
+                                UISpeechBubble.Instance.ShowRightSide(true);
+                            else
+                                UISpeechBubble.Instance.ShowLeftSide(true);
+
+                            SoundManager.Instance.PlayHorn();
+                        }
+                        else
+                            print("Failed spawn:" + this.gameObject.name + " __ " + this.transform.parent.name);
+
                     }
                     else
                         _EnemyCount = 1;
 
                     //print("EnemyCount= " + _EnemyCount);
                 }
-                //Pop up text wave has spawned
-                if (_EnemyCount > 0 && _inPlayerZone)
-                {
-                    if (_rightSide)
-                        UISpeechBubble.Instance.ShowRightSide(true);
-                    else
-                        UISpeechBubble.Instance.ShowLeftSide(true);
-
-                    SoundManager.Instance.PlayHorn();
-                }
-                else
-                    print("Failed spawn:" + this.gameObject.name + " __ " + this.transform.parent.name);
+                //here is where we can display info that a neutral rate has spawned?
             }
         }
     }
@@ -218,7 +223,7 @@ public class SpawnVolume : MonoBehaviour
     public void SpawnaKing()
     {
         //Cant spawn multiple
-        if ( (GameManager.Instance.RightSideKingAlive && !_rightSide) || (GameManager.Instance.LeftSideKingAlive && _rightSide))
+        if ((!GameManager.Instance.RightSideKingAlive && _rightSide) || (!GameManager.Instance.LeftSideKingAlive && !_rightSide))
         {
             GameObject king = Resources.Load<GameObject>("Rodent/King_Enemy/EnemyKingPreFab");
             GameObject _spawnedRodent = GameObject.Instantiate(king, this.transform.position, this.transform.rotation);
@@ -241,5 +246,7 @@ public class SpawnVolume : MonoBehaviour
             else
                 GameManager.Instance.LeftSideKingAlive = true;
         }
+        else
+            print("Failed " + this.gameObject.name);
     }
 }

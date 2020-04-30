@@ -14002,7 +14002,7 @@ GameObject:
   - component: {fileID: 337254371}
   - component: {fileID: 337254377}
   m_Layer: 9
-  m_Name: ExitLeft
+  m_Name: ExitLeft_playerzone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53132,7 +53132,7 @@ GameObject:
   - component: {fileID: 1090685074}
   - component: {fileID: 1090685073}
   m_Layer: 9
-  m_Name: ExitRight
+  m_Name: ExitRight_enemy L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54619,7 +54619,7 @@ GameObject:
   - component: {fileID: 1110357287}
   - component: {fileID: 1110357286}
   m_Layer: 9
-  m_Name: ExitRight
+  m_Name: ExitRight_Nz L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79342,7 +79342,7 @@ GameObject:
   - component: {fileID: 1588873564}
   - component: {fileID: 1588873563}
   m_Layer: 9
-  m_Name: ExitLeft
+  m_Name: ExitLeft_Nz L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108284,7 +108284,7 @@ GameObject:
   - component: {fileID: 2132679252}
   - component: {fileID: 2132679253}
   m_Layer: 9
-  m_Name: ExitRight
+  m_Name: ExitRight_playerzone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

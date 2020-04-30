@@ -15,9 +15,9 @@ public class DiggableTile : MonoBehaviour
     private void Awake()
     {
         if(_TopSoil)
-            _TunnelSprite = Resources.Load<Sprite>("Environment/Dirt_03_topSoil");
+            _TunnelSprite = Resources.Load<Sprite>("Environment/top_dug_dirt_tile");
         else
-            _TunnelSprite = Resources.Load<Sprite>("Environment/GDD_200_Royal_Rodents_Dirt_02_Tile");
+            _TunnelSprite = Resources.Load<Sprite>("Environment/dug_dirt_tile");
 
         if(_Debugg)
         {

@@ -152,7 +152,10 @@ public class SubjectScript : MonoBehaviour
         }
         
     }
-
+    public void setIsRanged(bool cond)
+    {
+        isRanged = cond;
+    }
     /** Sets rodent roles, ensuring there is only 1 active at a time */
     public void setRoyalGuard()
     {
@@ -332,6 +335,7 @@ public class SubjectScript : MonoBehaviour
             //Check if we need to attack something as royal guard
             if (royalGuard || defender)
             {
+                print(this.gameObject.name + "  Wants to attack");
                 bool guardShouldIdle = true;
                 // If target is enemy, attack. Add coroutine for attacking
                 if (_inRange.Count > 0 && currentTarget)
@@ -352,12 +356,15 @@ public class SubjectScript : MonoBehaviour
                     }
                     else if (team == 2)
                     {
+                        print("in range pass");
                         if (isRanged)
                         {
+                            print("want to shoot");
                             StartCoroutine(Shoot(currentTarget.transform.position));
                         }
                         else
                         {
+                            print("want to melee");
                             StartCoroutine(Attack());
                         }
 
@@ -751,6 +758,7 @@ public class SubjectScript : MonoBehaviour
             Rodent unknownRodent = collision.transform.parent.gameObject.GetComponent<Rodent>();
             PlayerStats king = collision.transform.parent.gameObject.GetComponent<PlayerStats>();
             BuildableObject unknownBuilding = collision.transform.parent.gameObject.GetComponent<BuildableObject>();
+
             if (unknownRodent)
             {
                 // Debug.LogWarning("Found Rodent" + unknownRodent.getName() + " on team:  " + unknownRodent.getTeam());
@@ -771,10 +779,10 @@ public class SubjectScript : MonoBehaviour
             }
             else if (unknownBuilding)
             {
-                if(unknownBuilding.getTeam() == getEnemyTeam())
+                if (unknownBuilding.getTeam() == getEnemyTeam())
                 {
                     // Ensure this isn't a natural resource
-                    if(unknownBuilding.getType() != BuildableObject.BuildingType.WoodPile && unknownBuilding.getType() != BuildableObject.BuildingType.StonePile 
+                    if (unknownBuilding.getType() != BuildableObject.BuildingType.WoodPile && unknownBuilding.getType() != BuildableObject.BuildingType.StonePile
                         && unknownBuilding.getType() != BuildableObject.BuildingType.GarbageCan)
                     {
                         _inRange.Add(unknownBuilding.gameObject);
@@ -784,20 +792,23 @@ public class SubjectScript : MonoBehaviour
                             currentTarget = unknownBuilding.gameObject;
                         }
                     }
-                   
+
                 }
             }
 
             // Special case: Finding King as an attack target
             else if (team == 2 && king)
             {
+                print("foudn king");
                 _inRange.Add(king.gameObject);
-                if(_inRange.Count == 1)
+                if (_inRange.Count == 1)
                 {
-                    //Debug.Log("Enemy rat has found King");
+                    Debug.Log("Enemy rat has found King");
                     currentTarget = king.gameObject;
                 }
             }
+            else if (king)
+                Debug.Log("My team =" + team);
         }
     }
     private int getEnemyTeam()
@@ -909,6 +920,7 @@ public class SubjectScript : MonoBehaviour
             }
 
             _inRange.Remove(go);
+            Debug.Log("Rodent removed from targets");
             Debug.Log("Rodent removed from targets");
         }
         //else debug error 

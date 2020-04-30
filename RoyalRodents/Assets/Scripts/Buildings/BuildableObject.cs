@@ -309,6 +309,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void imClicked()
     {
 
+        if (_Team == 2)
+            return;
         // Debug.Log("Building is Clicked state is" + eState);
         if (eState == BuildingState.Built)
         {

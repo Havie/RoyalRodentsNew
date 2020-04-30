@@ -91,6 +91,6 @@ public class Projectile : MonoBehaviour
 
         //Set velocity from hSpeed and vSpeed
         rb.velocity = (transform.right * hSpeed * 5f) + (transform.up * vSpeed);
-        Debug.Log("Shooting at: " + deltaX);
+        //Debug.Log("Shooting at: " + deltaX);
     }
 }

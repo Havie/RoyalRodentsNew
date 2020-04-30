@@ -211,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
                                 {
                                     //decide if we need to flip to face in case we walked past
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
-                                    // Debug.Log("Attack!");
+                                    Debug.Log("In range contains, so Attack!");
                                     Attack();
                                 }
                                 else
@@ -629,13 +629,15 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+        else
+            Debug.LogWarning("IN ATTACK DELAY CANCEL ATK");
 
     }
     /** A Coroutine that can set a delay that is partly responsible for how long till we can attack again
     * also handles our damage output via ray casting in front of us */
     IEnumerator AttackRoutine()
     {
-
+        print("Starting Attack Routine");
         _AttackDelay = true;
         yield return new WaitForSeconds(0.1f);
 
@@ -653,10 +655,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (_AttackTarget != null)
         {
-           // print("Attack Target is: " + _AttackTarget.name);
+            print("Attack Target is: " + _AttackTarget.name + "Going to DMG");
             if (_AttackTarget.GetComponent<Rodent>())
             {
                 _AttackTarget.GetComponent<Rodent>().Damage(_damage);
+                print("Dmg Rodent:");
             }
             else if (_AttackTarget.GetComponent<BuildableObject>())
             {
@@ -664,6 +667,8 @@ public class PlayerMovement : MonoBehaviour
             }
             SoundManager.Instance.PlayCombat();
         }
+        else
+            Debug.LogError("some how attack target is null");
 
         yield return new WaitForSeconds(0.85f);
         _AttackDelay = false;

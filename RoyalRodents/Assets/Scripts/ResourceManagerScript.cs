@@ -101,6 +101,8 @@ public class ResourceManagerScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
             incrementCrownCount(1);
+        if (Input.GetKeyDown(KeyCode.F))
+            incrementResource(ResourceType.Food, 1);
     }
 
     private GameObject LoadVFX()

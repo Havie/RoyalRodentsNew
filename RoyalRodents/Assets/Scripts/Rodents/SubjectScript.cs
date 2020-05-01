@@ -720,6 +720,15 @@ public class SubjectScript : MonoBehaviour
     {
         if (canAttack)
         {
+            //Flip if needed
+            float dist = shootTargetCoordinate.x - transform.position.x;
+            if(dist > 0 && !facingRight)
+            {
+                flipDirection();
+            }
+            else if(dist < 0 && facingRight){
+                flipDirection();
+            }
             canAttack = false;
             if (anims)
             {

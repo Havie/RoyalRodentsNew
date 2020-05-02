@@ -229,8 +229,21 @@ public class GameManager : MonoBehaviour
         {
             _Paused = !_Paused;
             _PauseMenu.SetActive(_Paused);
-            if(_Paused)
+            MVCController.Instance.CheckClicks(!_Paused);
+            if (_Paused)
+            {
+                //if opened pause menu, turn help menu off
+                if (_HelpMenu)
+                {
+                    if (_HelpMenuOpen)
+                    {
+                        _HelpMenuOpen = false;
+                        _HelpMenu.SetActive(_HelpMenuOpen);
+                    }
+                }
+
                 Time.timeScale = 0;
+            }
             else
                 Time.timeScale = 1;
         }
@@ -243,7 +256,15 @@ public class GameManager : MonoBehaviour
             _HelpMenu.SetActive(_HelpMenuOpen);
             MVCController.Instance.CheckClicks(!_HelpMenuOpen);
             if (_HelpMenuOpen)
+            {
+                if (_Paused)
+                {
+                    _Paused = false;
+                    _PauseMenu.SetActive(_Paused);
+                }
+                
                 Time.timeScale = 0;
+            }
             else
                 Time.timeScale = 1;
         }

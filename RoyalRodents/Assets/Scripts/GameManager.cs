@@ -106,14 +106,12 @@ public class GameManager : MonoBehaviour
         if (sceneid != 0)
         {
             StartScene();
-            SceneStarted(true);
+            //SceneStarted(true);
         }
         else
             _rm = ResourceManagerScript.Instance;
         if (_PauseMenu)
             _PauseMenu.SetActive(false);
-
-        _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
 
         setupAnimators();
     }
@@ -128,6 +126,7 @@ public class GameManager : MonoBehaviour
 
     public void StartScene()
     {
+        
         Time.timeScale = 0;
         //Figure out if on mobile device
         _IsMobileMode = Application.isMobilePlatform;
@@ -187,6 +186,13 @@ public class GameManager : MonoBehaviour
 
         ResourceManagerScript.Instance.FindTexts();
         ResourceManagerScript.Instance.UpdateAllText();
+
+        //hack
+        if (_ZoneDisplayReference == null)
+            _ZoneDisplayReference = GameObject.FindGameObjectWithTag("Ribbon").GetComponent<RibbonZoneDisplay>();
+
+            if (_ZoneDisplayReference)
+            _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
     }
     private IEnumerator SceneDelay()
     {
@@ -196,6 +202,7 @@ public class GameManager : MonoBehaviour
     }
     public void SceneStarted(bool b)
     {
+        print("called scene start");
         _SceneStarted = b;
     }
     public void youWin()

@@ -39,7 +39,7 @@ public class UIStaminaButton : MonoBehaviour
     private IEnumerator clickDelay()
     {
         clickTimer = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.4f);
         clickTimer = false;
     }
 }

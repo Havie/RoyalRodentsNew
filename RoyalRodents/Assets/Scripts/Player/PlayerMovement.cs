@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]  bool _controlled;
     private bool _mobileMoveDelay;
 
+    [SerializeField] private bool _animMoveDelay;
+
     private enum eSwipeDirection { Up, Left, Right, Down, Default };
     private eSwipeDirection _swipeDir= eSwipeDirection.Default;
     Vector2 firstPressPos;
@@ -123,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
             //old code from game jam
             Heal();
         }
-        if (!CheckDig() && (Input.GetMouseButtonDown(0) || Input.touchCount > 0) && !_InGround)
+        if (!CheckDig() && (Input.GetMouseButtonDown(0) || Input.touchCount > 0) && !_InGround && !_animMoveDelay)
         {
 
             Vector3 input = Input.mousePosition;
@@ -285,7 +287,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!isDead)
+        if (!isDead && !_animMoveDelay)
         {
             // move our character
             if (_horizontalMove != 0)
@@ -477,7 +479,7 @@ public class PlayerMovement : MonoBehaviour
     }
     IEnumerator DigDelay(Vector2 dir, DiggableTile dt)
     {
-        bool _okayToMove=true;
+        bool _okayToDig=true;
         StopMoving();
         if (dt.isDiggable())
         {
@@ -488,14 +490,18 @@ public class PlayerMovement : MonoBehaviour
                     _PlayerStats.IncrementStamina(-_TunnelCost);
                     //play Anim
                     _animator.SetTrigger("doDig");
+                    _animMoveDelay = true;
+                    StopMoving();
                     yield return new WaitForSeconds(2f);
+                    _animMoveDelay = false;
                     dt.DigTile();
                 }
                 else
-                    _okayToMove = false;
+                    _okayToDig = false;
             }
-            if (_okayToMove)
+            if (_okayToDig)
             {
+                _controlled = false;
                 if (!_InGround)
                 {
                     _animator.SetBool("InGround", true);
@@ -805,7 +811,7 @@ public class PlayerMovement : MonoBehaviour
     public void setAttacking(bool cond) => _isAttacking = cond;
     public void setControlled(bool cond)
     {
-        // Debug.Log("Player Is Controlled=" + cond);
+       // Debug.Log("Player Is Controlled=" + cond);
         _controlled = cond;
     }
     public GameObject getDummy()

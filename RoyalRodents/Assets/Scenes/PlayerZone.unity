@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 4630225}
   m_Layer: 5
   m_Name: RibbonZoneDisplay
-  m_TagString: Untagged
+  m_TagString: Ribbon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8872,6 +8872,7 @@ MonoBehaviour:
   _CurrentTunnelTile: {fileID: 0}
   isDead: 0
   _controlled: 0
+  _animMoveDelay: 0
   _debugger: {fileID: 0}
 --- !u!114 &211813094
 MonoBehaviour:
@@ -12917,7 +12918,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a120fa2c0ce843f4197d0b205e9c984a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61c742140b3607c4cbb5d8cbb451753e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -91830,7 +91831,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 1442fb4e0991beb45b2ef166f8f73eb0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d8ebb0befc38a14c8ea1b6ef9eacfc2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

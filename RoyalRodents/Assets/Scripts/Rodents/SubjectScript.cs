@@ -799,16 +799,12 @@ public class SubjectScript : MonoBehaviour
             // Special case: Finding King as an attack target
             else if (team == 2 && king)
             {
-                print("foudn king");
                 _inRange.Add(king.gameObject);
                 if (_inRange.Count == 1)
                 {
-                    Debug.Log("Enemy rat has found King");
                     currentTarget = king.gameObject;
                 }
             }
-            else if (king)
-                Debug.Log("My team =" + team);
         }
     }
     private int getEnemyTeam()

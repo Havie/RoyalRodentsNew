@@ -41,7 +41,14 @@ public class NotificationFeed : MonoBehaviour
 
 	public void NewNotification(string title, string des, int iconIndex, float posX)
     {
-        GameObject iii = Instantiate(NotificationPrefab, transform.position, transform.rotation);
+		//If Other Notifications Exist, Destroy Them
+		foreach (Transform child in transform)
+		{
+			Destroy(child.gameObject);
+		}
+
+		//Create New Notification Object
+		GameObject iii = Instantiate(NotificationPrefab, transform.position, transform.rotation);
         iii.transform.SetParent(gameObject.transform);
 		NotificationButton scr = iii.GetComponent<NotificationButton>();
         if (scr)

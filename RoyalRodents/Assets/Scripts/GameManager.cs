@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     private ExitZone _EnemyZone;
     public int _currentZone; //0 = neutral, 1 = player, 2 = enemy
     public bool _isRightZone; //true = right, false = left (does not matter for player zone)
+    public RibbonZoneDisplay _ZoneDisplayReference;
 
     private bool _IsMobileMode;
 
@@ -111,6 +112,8 @@ public class GameManager : MonoBehaviour
             _rm = ResourceManagerScript.Instance;
         if (_PauseMenu)
             _PauseMenu.SetActive(false);
+
+        _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
 
         setupAnimators();
     }
@@ -229,8 +232,21 @@ public class GameManager : MonoBehaviour
         {
             _Paused = !_Paused;
             _PauseMenu.SetActive(_Paused);
-            if(_Paused)
+            MVCController.Instance.CheckClicks(!_Paused);
+            if (_Paused)
+            {
+                //if opened pause menu, turn help menu off
+                if (_HelpMenu)
+                {
+                    if (_HelpMenuOpen)
+                    {
+                        _HelpMenuOpen = false;
+                        _HelpMenu.SetActive(_HelpMenuOpen);
+                    }
+                }
+
                 Time.timeScale = 0;
+            }
             else
                 Time.timeScale = 1;
         }
@@ -243,7 +259,15 @@ public class GameManager : MonoBehaviour
             _HelpMenu.SetActive(_HelpMenuOpen);
             MVCController.Instance.CheckClicks(!_HelpMenuOpen);
             if (_HelpMenuOpen)
+            {
+                if (_Paused)
+                {
+                    _Paused = false;
+                    _PauseMenu.SetActive(_Paused);
+                }
+                
                 Time.timeScale = 0;
+            }
             else
                 Time.timeScale = 1;
         }
@@ -370,6 +394,9 @@ public class GameManager : MonoBehaviour
         //set zone variables
         _currentZone = zone;
         _isRightZone = isRight;
+
+        //update zone Ribbon Display
+        _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
     }
     public int getCurrentZone()
     {

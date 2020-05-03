@@ -13,11 +13,12 @@ public class RibbonZoneDisplay : MonoBehaviour
     void Start()
     {
         _sr = GetComponent<Image>();
+        SetZoneRibbonDisplay(1);
     }
 
     public void SetZoneRibbonDisplay(int zone)
     {
-        Debug.Log("Attempting to set ribbon color");
+        //Debug.Log("Attempting to set ribbon color");
         
         if (_sr)
         {

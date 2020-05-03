@@ -29,6 +29,9 @@ public class SpawnVolume : MonoBehaviour
 
     public bool _EnemyKingLoc;
 
+    private float _spawnY= -193.94f;
+    private Vector3 _spawnLoc;
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +45,8 @@ public class SpawnVolume : MonoBehaviour
         Beaver = Resources.Load<GameObject>("Rodent/Beaver/BeaverPreFab");
         Porcupine = Resources.Load<GameObject>("Rodent/Porcupine/PorcupinePreFab");
         Rabbit = Resources.Load<GameObject>("Rodent/Rabbit/RabbitPreFab");
+
+        _spawnLoc = new Vector3(this.transform.position.x, _spawnY, this.transform.position.z);
 
         _timeToSpawn = true;
 
@@ -130,7 +135,7 @@ public class SpawnVolume : MonoBehaviour
         if(Enemy)
         {
 
-            GameObject _spawnedRodent = GameObject.Instantiate(toSpawn, this.transform.position, this.transform.rotation);
+            GameObject _spawnedRodent = GameObject.Instantiate(toSpawn, _spawnLoc, this.transform.rotation);
 
             //parent this to keep hierarchy clean
             if (_EnemySpawnDummy)
@@ -157,7 +162,7 @@ public class SpawnVolume : MonoBehaviour
         else
         {
             _occupied = true;
-            GameObject _spawnedRat = GameObject.Instantiate(toSpawn, this.transform.position, this.transform.rotation);
+            GameObject _spawnedRat = GameObject.Instantiate(toSpawn, _spawnLoc, this.transform.rotation);
             //parent this thing to this obj keep hierarchy cleaner? Might end up negatively affecting the subject Script?
             _spawnedRat.transform.SetParent(this.transform);
 
@@ -226,7 +231,7 @@ public class SpawnVolume : MonoBehaviour
         if ((!GameManager.Instance.RightSideKingAlive && _rightSide) || (!GameManager.Instance.LeftSideKingAlive && !_rightSide))
         {
             GameObject king = Resources.Load<GameObject>("Rodent/King_Enemy/EnemyKingPreFab");
-            GameObject _spawnedRodent = GameObject.Instantiate(king, this.transform.position, this.transform.rotation);
+            GameObject _spawnedRodent = GameObject.Instantiate(king, _spawnLoc, this.transform.rotation);
             if (_EnemySpawnDummy)
                 _spawnedRodent.transform.SetParent(_EnemySpawnDummy);
 

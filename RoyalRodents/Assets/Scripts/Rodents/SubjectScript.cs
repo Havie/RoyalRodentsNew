@@ -335,7 +335,7 @@ public class SubjectScript : MonoBehaviour
             //Check if we need to attack something as royal guard
             if (royalGuard || defender)
             {
-                print(this.gameObject.name + "  Wants to attack");
+                //print(this.gameObject.name + "  Wants to attack");
                 bool guardShouldIdle = true;
                 // If target is enemy, attack. Add coroutine for attacking
                 if (_inRange.Count > 0 && currentTarget)
@@ -444,10 +444,8 @@ public class SubjectScript : MonoBehaviour
             //Debug.Log("INcrement On" + savedTarget.gameObject);
             Rodent r = this.GetComponent<Rodent>(); // no null check cuz would never happen
             savedTarget.GetComponent<BuildableObject>().IncrementConstruction(r.getBuildRate());
-            //TO-DO: base increment off rodent stat
         }
-        else
-            Debug.Log("current target is" + currentTarget.gameObject);
+
     }
     private void IncrementGathering()
     {

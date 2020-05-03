@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     private ExitZone _PlayerZone;
     private ExitZone _NeutralZone;
     private ExitZone _EnemyZone;
-    public int _currentZone; //0 = neutral, 1 = player, 2 = enemy
+    public int _currentZone=1; //0 = neutral, 1 = player, 2 = enemy
     public bool _isRightZone; //true = right, false = left (does not matter for player zone)
     public RibbonZoneDisplay _ZoneDisplayReference;
 
@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
         if (sceneid != 0)
         {
             StartScene();
+            Time.timeScale = 1;
             //SceneStarted(true);
         }
         else
@@ -155,6 +156,7 @@ public class GameManager : MonoBehaviour
             _rm.incrementResource(ResourceManagerScript.ResourceType.Stone, 1);
         if (Input.GetKeyDown(KeyCode.Escape))
             ShowPauseMenu();
+
     }
     public void setTownCenter(bTownCenter tc)
     {
@@ -192,7 +194,7 @@ public class GameManager : MonoBehaviour
             _ZoneDisplayReference = GameObject.FindGameObjectWithTag("Ribbon").GetComponent<RibbonZoneDisplay>();
 
             if (_ZoneDisplayReference)
-            _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
+            _ZoneDisplayReference.SetZoneRibbonDisplay(1);
     }
     private IEnumerator SceneDelay()
     {
@@ -202,7 +204,7 @@ public class GameManager : MonoBehaviour
     }
     public void SceneStarted(bool b)
     {
-        print("called scene start");
+        //print("called scene start");
         _SceneStarted = b;
     }
     public void youWin()

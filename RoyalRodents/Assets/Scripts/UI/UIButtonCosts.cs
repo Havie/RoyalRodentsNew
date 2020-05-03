@@ -331,7 +331,7 @@ public class UIButtonCosts : MonoBehaviour
 
 		UpdateButton();
 	}
-    //used in 
+    //used in roalguard
     public void updateState()
     {
         if (_rm.GetResourceCount(ResourceManagerScript.ResourceType.Shiny) >= _royalGuardSlotCost)

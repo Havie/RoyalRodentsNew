@@ -91,7 +91,7 @@ public class ResourceManagerScript : MonoBehaviour
         _trash = 6;
         _wood = 5;
         _stone =1;
-        _shiny = 9;
+        _shiny = 1;
         _crowns = 0;
 
         //LoadVFX();

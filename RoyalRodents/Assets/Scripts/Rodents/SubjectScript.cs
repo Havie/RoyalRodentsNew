@@ -356,15 +356,12 @@ public class SubjectScript : MonoBehaviour
                     }
                     else if (team == 2)
                     {
-                        print("in range pass");
                         if (isRanged)
                         {
-                            print("want to shoot");
                             StartCoroutine(Shoot(currentTarget.transform.position));
                         }
                         else
                         {
-                            print("want to melee");
                             StartCoroutine(Attack());
                         }
 
@@ -702,11 +699,11 @@ public class SubjectScript : MonoBehaviour
                 if(team == 1 && currentTarget.tag == "Player")
                 {
                     // Do nothing if Allied and following the King
+                    Move(moveTo);
                 }
                 else
                 {
                     StartCoroutine(Shoot(moveTo));
-                    // Debug.Log("Schuut");
                 }
 
             }
@@ -740,7 +737,6 @@ public class SubjectScript : MonoBehaviour
                 anims.SetTrigger(ATK_ANIMATION_TRIGGER);
             }
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
-            projectile.transform.parent = projectileSpawnPoint;
             projectile.GetComponent<Projectile>().setDamage(attackDamage);
             projectile.GetComponent<Projectile>().setEnemyTeam(getEnemyTeam());
             projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);

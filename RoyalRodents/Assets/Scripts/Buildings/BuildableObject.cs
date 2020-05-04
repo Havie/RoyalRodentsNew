@@ -48,6 +48,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     private bool _doInstantDemolish;
 
+    private GameObject _InstanceConstructionButton;
+
     #region otherClasses
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
@@ -150,6 +152,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
         //SetUp the NotifyObj
         _srNotify = _NotificationObject.transform.GetComponent<SpriteRenderer>();
+
+        _sNotification=  Resources.Load<Sprite>("UI/Exclamation_Icon");
         _srNotify.sprite = _sNotification;
 
         _animator = GetComponentInChildren<Animator>();
@@ -197,6 +201,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         //Feel like these could load in a different order on start
         _ID = GameManager.Instance.getBuildingIndex();
         // Debug.Log(this.gameObject + " ID is: " + _ID);
+
+        setUpInstantConstruction();
     }
     private void LateUpdate()
     {
@@ -204,6 +210,19 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             Damage(5);
         }
+    }
+
+    public void setUpInstantConstruction()
+    {
+        var prefab = Resources.Load<GameObject>("UI/SpeedUpgradeButton");
+
+        _InstanceConstructionButton = Instantiate(prefab);
+        _InstanceConstructionButton.transform.SetParent(this.gameObject.transform);
+        _InstanceConstructionButton.transform.localPosition = new Vector3(0, -6, 0);
+
+        _InstanceConstructionButton.SetActive(false);
+
+
     }
     public void setUpWorkers()
     {
@@ -309,6 +328,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
     public void imClicked()
     {
 
+        if (_Team == 2)
+            return;
         // Debug.Log("Building is Clicked state is" + eState);
         if (eState == BuildingState.Built)
         {
@@ -368,12 +389,9 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         }
         else if (eState == BuildingState.Building)
         {
-            IncrementConstruction(1);
-            //Default
-            //Debug.LogWarning("Does this Happen?");
-            //eState = BuildingState.Idle;
-            // StartCoroutine(ClickDelay(true, _DestroyMenu));
-            //SetConstructionMax(5);
+            //IncrementConstruction(1);
+            //Show a menu that asks to spend a shiny to increment
+            _InstanceConstructionButton.SetActive(true);
         }
 
         if (!_cameraController.getOverrideMode())

@@ -155,6 +155,8 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             Animator a = this.GetComponent<Animator>();
             if (a)
                 a.SetBool("isRanged", true);
+            if (_SubjectScript)
+                _SubjectScript.setIsRanged(true);
             return true;
         }
         return false;
@@ -199,10 +201,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         SetUpHealthBar(_HealthBarObj.gameObject);
         SetUpRecruitMenu();
 
-        setTeam(_Team);
         _SubjectScript = this.GetComponent<SubjectScript>();
         if (_SubjectScript == null)
             Debug.LogError("Warning No SubjectScript found for Rodent");
+
+        setTeam(_Team);
 
         //get a name
         _Name = RodentNames.getRandomName();
@@ -543,6 +546,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         if (_SubjectScript)
             _SubjectScript.setTeam(_Team);
 
+
         if (_Team == 1)
             GameManager.Instance.addToPlayerRodents(this);
         else if (oldTeam == 1)
@@ -579,6 +583,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             Animator a = this.GetComponent<Animator>();
             if (a)
                 a.SetBool("isRanged", true);
+            if (_SubjectScript)
+                _SubjectScript.setIsRanged(true);
+            else
+                Debug.LogError("Subjectscipt null?!");
         }
 
     }

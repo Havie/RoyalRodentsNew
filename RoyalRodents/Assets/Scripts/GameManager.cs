@@ -38,8 +38,9 @@ public class GameManager : MonoBehaviour
     private ExitZone _PlayerZone;
     private ExitZone _NeutralZone;
     private ExitZone _EnemyZone;
-    public int _currentZone; //0 = neutral, 1 = player, 2 = enemy
+    public int _currentZone=1; //0 = neutral, 1 = player, 2 = enemy
     public bool _isRightZone; //true = right, false = left (does not matter for player zone)
+    public RibbonZoneDisplay _ZoneDisplayReference;
 
     private bool _IsMobileMode;
 
@@ -105,7 +106,8 @@ public class GameManager : MonoBehaviour
         if (sceneid != 0)
         {
             StartScene();
-            SceneStarted(true);
+            Time.timeScale = 1;
+            //SceneStarted(true);
         }
         else
             _rm = ResourceManagerScript.Instance;
@@ -125,6 +127,7 @@ public class GameManager : MonoBehaviour
 
     public void StartScene()
     {
+        
         Time.timeScale = 0;
         //Figure out if on mobile device
         _IsMobileMode = Application.isMobilePlatform;
@@ -153,6 +156,7 @@ public class GameManager : MonoBehaviour
             _rm.incrementResource(ResourceManagerScript.ResourceType.Stone, 1);
         if (Input.GetKeyDown(KeyCode.Escape))
             ShowPauseMenu();
+
     }
     public void setTownCenter(bTownCenter tc)
     {
@@ -184,6 +188,13 @@ public class GameManager : MonoBehaviour
 
         ResourceManagerScript.Instance.FindTexts();
         ResourceManagerScript.Instance.UpdateAllText();
+
+        //hack
+        if (_ZoneDisplayReference == null)
+            _ZoneDisplayReference = GameObject.FindGameObjectWithTag("Ribbon").GetComponent<RibbonZoneDisplay>();
+
+            if (_ZoneDisplayReference)
+            _ZoneDisplayReference.SetZoneRibbonDisplay(1);
     }
     private IEnumerator SceneDelay()
     {
@@ -193,6 +204,7 @@ public class GameManager : MonoBehaviour
     }
     public void SceneStarted(bool b)
     {
+        //print("called scene start");
         _SceneStarted = b;
     }
     public void youWin()
@@ -229,8 +241,21 @@ public class GameManager : MonoBehaviour
         {
             _Paused = !_Paused;
             _PauseMenu.SetActive(_Paused);
-            if(_Paused)
+            MVCController.Instance.CheckClicks(!_Paused);
+            if (_Paused)
+            {
+                //if opened pause menu, turn help menu off
+                if (_HelpMenu)
+                {
+                    if (_HelpMenuOpen)
+                    {
+                        _HelpMenuOpen = false;
+                        _HelpMenu.SetActive(_HelpMenuOpen);
+                    }
+                }
+
                 Time.timeScale = 0;
+            }
             else
                 Time.timeScale = 1;
         }
@@ -243,7 +268,15 @@ public class GameManager : MonoBehaviour
             _HelpMenu.SetActive(_HelpMenuOpen);
             MVCController.Instance.CheckClicks(!_HelpMenuOpen);
             if (_HelpMenuOpen)
+            {
+                if (_Paused)
+                {
+                    _Paused = false;
+                    _PauseMenu.SetActive(_Paused);
+                }
+                
                 Time.timeScale = 0;
+            }
             else
                 Time.timeScale = 1;
         }
@@ -370,6 +403,9 @@ public class GameManager : MonoBehaviour
         //set zone variables
         _currentZone = zone;
         _isRightZone = isRight;
+
+        //update zone Ribbon Display
+        _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
     }
     public int getCurrentZone()
     {

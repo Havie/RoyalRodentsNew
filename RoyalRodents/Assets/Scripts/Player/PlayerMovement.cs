@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]  bool _controlled;
     private bool _mobileMoveDelay;
 
+    [SerializeField] private bool _animMoveDelay;
+
     private enum eSwipeDirection { Up, Left, Right, Down, Default };
     private eSwipeDirection _swipeDir= eSwipeDirection.Default;
     Vector2 firstPressPos;
@@ -123,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
             //old code from game jam
             Heal();
         }
-        if (!CheckDig() && (Input.GetMouseButtonDown(0) || Input.touchCount > 0) && !_InGround)
+        if (!CheckDig() && (Input.GetMouseButtonDown(0) || Input.touchCount > 0) && !_InGround && !_animMoveDelay)
         {
 
             Vector3 input = Input.mousePosition;
@@ -191,7 +193,26 @@ public class PlayerMovement : MonoBehaviour
                             else // enemy team move to it ( no such thing as neutral buildings?)
                             {
                                 //To:Do will have to handle in range  just like searchable object above for enemy
-                                StartCoroutine(MoveDelay(input));
+                                if (_InRange.Contains(go.transform.parent.gameObject))
+                                {
+                                    //decide if we need to flip to face in case we walked past
+                                    DecideIfNeedToFlip(go.gameObject.transform.position);
+                                    _AttackTarget = go.transform.parent.gameObject;
+                                    Attack();
+                                }
+                                else
+                                {
+                                    //Debug.LogWarning("move to attck target" + go.gameObject);
+                                    // Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
+                                    //and set goal to attack it
+                                    _wantToAttack = true;
+                                    _AttackTarget = go.transform.parent.gameObject;
+                                    //move towards it
+                                    StartCoroutine(MoveDelay(input, go.transform.position));
+                                    _MoveLocation.transform.position = go.transform.position;
+                                    //this might be completely extra?
+                                    _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                }
                             }
                         }
                         //check if its a rodent place 1 - parent could be the spawn volume or Player Rodent list
@@ -212,10 +233,12 @@ public class PlayerMovement : MonoBehaviour
                                     //decide if we need to flip to face in case we walked past
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
                                     Debug.Log("In range contains, so Attack!");
+                                    _AttackTarget = go.gameObject;
                                     Attack();
                                 }
                                 else
                                 {
+                                    Debug.LogWarning("move to attck target");
                                     // Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
                                     //and set goal to attack it
                                     _wantToAttack = true;
@@ -224,7 +247,8 @@ public class PlayerMovement : MonoBehaviour
                                     StartCoroutine(MoveDelay(input, go.transform.position));
 
                                     _MoveLocation.transform.position = go.transform.position;
-                                    float emptyQ = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
+                                    //this might be completely extra?
+                                    _horizontalMove = (_MoveLocation.transform.position - this.transform.position).normalized.x * _moveSpeed;
                                     //Should this be Horiz move=
                                 }
                             }
@@ -263,7 +287,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!isDead)
+        if (!isDead && !_animMoveDelay)
         {
             // move our character
             if (_horizontalMove != 0)
@@ -455,7 +479,7 @@ public class PlayerMovement : MonoBehaviour
     }
     IEnumerator DigDelay(Vector2 dir, DiggableTile dt)
     {
-        bool _okayToMove=true;
+        bool _okayToDig=true;
         StopMoving();
         if (dt.isDiggable())
         {
@@ -466,14 +490,18 @@ public class PlayerMovement : MonoBehaviour
                     _PlayerStats.IncrementStamina(-_TunnelCost);
                     //play Anim
                     _animator.SetTrigger("doDig");
+                    _animMoveDelay = true;
+                    StopMoving();
                     yield return new WaitForSeconds(2f);
+                    _animMoveDelay = false;
                     dt.DigTile();
                 }
                 else
-                    _okayToMove = false;
+                    _okayToDig = false;
             }
-            if (_okayToMove)
+            if (_okayToDig)
             {
+                _controlled = false;
                 if (!_InGround)
                 {
                     _animator.SetBool("InGround", true);
@@ -629,15 +657,13 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        else
-            Debug.LogWarning("IN ATTACK DELAY CANCEL ATK");
 
     }
     /** A Coroutine that can set a delay that is partly responsible for how long till we can attack again
     * also handles our damage output via ray casting in front of us */
     IEnumerator AttackRoutine()
     {
-        print("Starting Attack Routine");
+       // print("Starting Attack Routine");
         _AttackDelay = true;
         yield return new WaitForSeconds(0.1f);
 
@@ -655,11 +681,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (_AttackTarget != null)
         {
-            print("Attack Target is: " + _AttackTarget.name + "Going to DMG");
+            //print("Attack Target is: " + _AttackTarget.name + "Going to DMG");
             if (_AttackTarget.GetComponent<Rodent>())
             {
                 _AttackTarget.GetComponent<Rodent>().Damage(_damage);
-                print("Dmg Rodent:");
+               // print("Dmg Rodent:");
             }
             else if (_AttackTarget.GetComponent<BuildableObject>())
             {
@@ -785,7 +811,7 @@ public class PlayerMovement : MonoBehaviour
     public void setAttacking(bool cond) => _isAttacking = cond;
     public void setControlled(bool cond)
     {
-        // Debug.Log("Player Is Controlled=" + cond);
+       // Debug.Log("Player Is Controlled=" + cond);
         _controlled = cond;
     }
     public GameObject getDummy()
@@ -823,11 +849,13 @@ public class PlayerMovement : MonoBehaviour
             // handle if collider is agro range or base range
             if (collision.transform.GetComponent<BaseHitBox>())
             {
-
+                //print("Collided with a  base hitbox");
                 if (collision.transform.parent.GetComponent<BuildableObject>())
                 {
+                   // print("collded with a buildng hitbox");
                     //Add to our list of interactable things in range
                     _InRange.Add(collision.transform.parent.gameObject);
+                    //print("Added: " + collision.transform.parent.gameObject);
                     //Can we search it?
                     if (collision.transform.parent.GetComponent<Searchable>())
                     {
@@ -842,7 +870,9 @@ public class PlayerMovement : MonoBehaviour
                 else if (collision.transform.parent.GetComponent<Rodent>())
                 {
                     //Add to our list of interactable things in range
-                    _InRange.Add(collision.transform.parent.gameObject);
+                    Rodent r = collision.transform.parent.GetComponent<Rodent>();
+                    if(r.getTeam()==2 && _InRange.Contains(collision.transform.parent.gameObject) ==false)
+                         _InRange.Add(collision.transform.parent.gameObject);
                 }
                 
             }
@@ -896,7 +926,8 @@ public class PlayerMovement : MonoBehaviour
 
                 else if (collision.transform.parent.GetComponent<Rodent>())
                 {
-                    _InRange.Remove(collision.transform.parent.gameObject);
+                    if(_InRange.Contains(collision.transform.parent.gameObject))
+                        _InRange.Remove(collision.transform.parent.gameObject);
                 }
             }
         }

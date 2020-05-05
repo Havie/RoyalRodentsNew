@@ -378,7 +378,7 @@ public class ResourceManagerScript : MonoBehaviour
             _PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
         }
     }
-    private void UpdateBuildingText()
+    public void UpdateBuildingText()
     {
         if (_BuildingsText)
         {

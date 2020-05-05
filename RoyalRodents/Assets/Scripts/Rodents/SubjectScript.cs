@@ -477,7 +477,6 @@ public class SubjectScript : MonoBehaviour
             Debug.LogError("Cant Idle, Current Target is Null");
             return;
         }
-        print("IDLE2");
         idleInRadius(currentTarget.transform.position, radius);
     }
     /** This will pick a location nearby to move to and start a coroutine if one isn't already started 
@@ -648,7 +647,6 @@ public class SubjectScript : MonoBehaviour
 
     void flipDirection()
     {
-        print("Told to flip @" + Time.time);
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
 

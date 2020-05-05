@@ -754,6 +754,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             float difference = _hitpointsMax - oldMax;
             _hitpoints += difference;
             _construction = 0;
+            ResourceManagerScript.Instance.UpdateBuildingText();
         }
         else if (eType == BuildingType.GarbageCan)
         {

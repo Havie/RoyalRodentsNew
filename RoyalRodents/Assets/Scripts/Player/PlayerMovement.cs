@@ -369,6 +369,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (GameManager.Instance.getCurrentZone() != 1) // cant dig in own territory
         {
+
             if (!_InGround && (Input.GetKeyDown(KeyCode.DownArrow) || _swipeDir==eSwipeDirection.Down))
             {
                 if (_CurrentSoilTile)

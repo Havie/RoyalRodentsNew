@@ -112,13 +112,14 @@ public class SubjectScript : MonoBehaviour
                 else
                 {
                     //Shouldnt happen?
-                    //  Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
+                    // Debug.LogWarning("This shouldn't happen, if it does, I want to know about it");
                     idleInRadius(IdlePos, 5);
                 }
             }
             else
             {
                 //free movement for rats with no target
+               // print("IDLE1");
                 idleInRadius(IdlePos, 5);
             }
         }
@@ -281,7 +282,6 @@ public class SubjectScript : MonoBehaviour
 
         Vector3 pos = new Vector3(loc.x, 0, 0);
 
-
         //If we are far enough away
         if (Mathf.Abs(pos.x - transform.position.x) > 1.5f)
 
@@ -356,15 +356,12 @@ public class SubjectScript : MonoBehaviour
                     }
                     else if (team == 2)
                     {
-                        print("in range pass");
                         if (isRanged)
                         {
-                            print("want to shoot");
                             StartCoroutine(Shoot(currentTarget.transform.position));
                         }
                         else
                         {
-                            print("want to melee");
                             StartCoroutine(Attack());
                         }
 
@@ -480,6 +477,7 @@ public class SubjectScript : MonoBehaviour
             Debug.LogError("Cant Idle, Current Target is Null");
             return;
         }
+        print("IDLE2");
         idleInRadius(currentTarget.transform.position, radius);
     }
     /** This will pick a location nearby to move to and start a coroutine if one isn't already started 
@@ -630,6 +628,7 @@ public class SubjectScript : MonoBehaviour
             coroutineStarted = true;
             while (MovingInIdle)
             {
+                //print("1");
                 Move(pos);
                 yield return new WaitForSeconds(Time.deltaTime);
 
@@ -649,6 +648,7 @@ public class SubjectScript : MonoBehaviour
 
     void flipDirection()
     {
+        print("Told to flip @" + Time.time);
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
 
@@ -688,6 +688,7 @@ public class SubjectScript : MonoBehaviour
 
     private void royalGuardBehavior()
     {
+       // print("RoyalguardBehavior,  shoulIdle= " + ShouldIdle);
         // Follow the king at all times.
         // Future: Attack enemies within a radius of the king
         if (!ShouldIdle)
@@ -697,21 +698,24 @@ public class SubjectScript : MonoBehaviour
 
             // Prevent the rodent from moving if it's ranged and targetting something to attack
             // Target exists & Ranged Unit & within a range (aggro range)
-            if(currentTarget && isRanged && Mathf.Abs(transform.position.x - currentTarget.transform.position.x) < 10f)
+            if (currentTarget && isRanged && Mathf.Abs(moveTo.x - transform.position.x) < 10f)
             {
                 if(team == 1 && currentTarget.tag == "Player")
                 {
                     // Do nothing if Allied and following the King
+                   // print("2");
+                    Move(moveTo);
                 }
                 else
                 {
+                    //print("Start shoot to move??" + moveTo);
                     StartCoroutine(Shoot(moveTo));
-                    // Debug.Log("Schuut");
                 }
 
             }
             else
             {
+               // print("3");
                 Move(moveTo);
             }
            
@@ -725,13 +729,22 @@ public class SubjectScript : MonoBehaviour
     {
         if (canAttack)
         {
+            Debug.LogWarning("SHOOT");
+            //Flip if needed
+            float dist = shootTargetCoordinate.x - transform.position.x;
+            if(dist > 0 && !facingRight)
+            {
+               flipDirection();
+            }
+            else if(dist < 0 && facingRight){
+               flipDirection();
+            }
             canAttack = false;
             if (anims)
             {
                 anims.SetTrigger(ATK_ANIMATION_TRIGGER);
             }
             GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
-            projectile.transform.parent = projectileSpawnPoint;
             projectile.GetComponent<Projectile>().setDamage(attackDamage);
             projectile.GetComponent<Projectile>().setEnemyTeam(getEnemyTeam());
             projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
@@ -768,7 +781,7 @@ public class SubjectScript : MonoBehaviour
                     // print("called from AgroRadiusTrigger");
                     if (_inRange.Count == 1 && royalGuard)
                     {
-                        //print("Newest target added to queue");
+                        print("Newest target added to queue: " + unknownRodent.gameObject);
                         currentTarget = unknownRodent.gameObject;
                     }
                 }
@@ -786,7 +799,7 @@ public class SubjectScript : MonoBehaviour
                         _inRange.Add(unknownBuilding.gameObject);
                         if (_inRange.Count == 1 && royalGuard)
                         {
-                            //print("Newest target added to queue: " + currentTarget.ToString());
+                            print("Newest target added to queue: " + currentTarget.ToString());
                             currentTarget = unknownBuilding.gameObject;
                         }
                     }
@@ -800,7 +813,11 @@ public class SubjectScript : MonoBehaviour
                 _inRange.Add(king.gameObject);
                 if (_inRange.Count == 1)
                 {
+                    print("Newest target added to queue: " + king.gameObject);
                     currentTarget = king.gameObject;
+                    //Should probably update state to stop moving, and start attacking
+                    MovingInIdle = false;
+
                 }
             }
         }
@@ -1004,6 +1021,7 @@ public class SubjectScript : MonoBehaviour
             }
             else
             {
+                print("4");
                 Move(targetPos);
             }
             

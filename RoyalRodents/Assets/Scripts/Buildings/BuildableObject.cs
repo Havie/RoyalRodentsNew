@@ -392,6 +392,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
             //IncrementConstruction(1);
             //Show a menu that asks to spend a shiny to increment
             _InstanceConstructionButton.SetActive(true);
+            MVCController.Instance.setLastInstantConstruction(_InstanceConstructionButton);
         }
 
         if (!_cameraController.getOverrideMode())

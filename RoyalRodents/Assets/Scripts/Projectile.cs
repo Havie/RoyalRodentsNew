@@ -43,7 +43,9 @@ public class Projectile : MonoBehaviour
             }
             else if (unknownBuilding)
             {
-                if (unknownBuilding.getTeam() == enemyTeam && unknownBuilding.getType() != BuildableObject.BuildingType.TownCenter)
+                if (unknownBuilding.getTeam() == enemyTeam && unknownBuilding.getType() != BuildableObject.BuildingType.TownCenter 
+                    && unknownBuilding.getType() != BuildableObject.BuildingType.WoodPile && unknownBuilding.getType() != BuildableObject.BuildingType.StonePile
+                    && unknownBuilding.getType() != BuildableObject.BuildingType.GarbageCan)
                 {
                     unknownBuilding.Damage(attackDamage);
                     Destroy(gameObject);
@@ -83,14 +85,21 @@ public class Projectile : MonoBehaviour
         float time = vSpeed / rb.gravityScale;
 
         //Calculate correct horizonal velocity based on time in air
-        float deltaX = targetPosition.x - transform.position.x;
+        float deltaX = transform.position.x - targetPosition.x;
         //Debug.Log("PositionX is " + transform.position.x);
         //Debug.Log("TargetX is " + targetPosition.x);
         //Debug.Log("DeltaX is " + deltaX);
         hSpeed = deltaX / time;
 
         //Set velocity from hSpeed and vSpeed
-        rb.velocity = (transform.right * hSpeed * 5f) + (transform.up * vSpeed);
-        //Debug.Log("Shooting at: " + deltaX);
+        if(deltaX < 0)
+        {
+            rb.velocity = (transform.right * hSpeed * 5f) + (transform.up * vSpeed);
+        }
+        else
+        {
+            rb.velocity = -1 * (transform.right * hSpeed * 5f) + (transform.up * vSpeed);
+        }
+
     }
 }

@@ -58,6 +58,7 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
     private bool _isDead;
     private bool _isRanged;
+    private bool _isDismissMode;
 
     /**Begin Interface Stuff */
     public void Damage(float damageTaken)
@@ -602,8 +603,9 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
         //Tell any old Menu To close
         _RecruitMenu.showMenu(false, Vector3.zero, null, 0, 0);
 
+        //print("IM CLICKED " + _Name + " dismissmode:" + _isDismissMode  + "status:" + _Status);
 
-        if (_Status == eStatus.Available && _Team == 0)
+        if (_Status == eStatus.Available && _Team == 0 && !_isDismissMode && !UIAssignmentMenu.Instance.isActive())
         {
             if (_RecruitMenu)
             {
@@ -612,16 +614,17 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             else
                 Debug.LogError("No RecruitMenu");
         }
-        else if (_Status != eStatus.Available && _Team == 1)
+        //_Status != eStatus.Available &&
+        else if (_Team == 1 && _isDismissMode)
         {
             //Show Dismiss Button
-            if (_RecruitMenu)
-                _RecruitMenu.showDismissMenu(true, this);
+           if (_RecruitMenu)
+               _RecruitMenu.showDismissMenu(true, this);
         }
         else if (_Status == eStatus.Available && _Team == 1)
         {
 
-            // Debug.Log("Show AssignmentMenu");
+            //Debug.Log("Show AssignmentMenu from Rodent");
 
 
             // Show the Royal guard above players head
@@ -633,6 +636,10 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
 
 
         }
+    }
+    public void ShowDismissMenu(bool cond)
+    {
+        _isDismissMode = cond;
     }
 
 }

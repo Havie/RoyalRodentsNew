@@ -18,12 +18,6 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private float _Wiggle3 = -0.1f;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,7 +30,6 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
             if (Input.GetMouseButtonUp(0))
             {
-
                 if (_AssignmentButton)
                 {
                     GameObject go = MVCController.Instance.CheckClick(Input.mousePosition);
@@ -45,21 +38,29 @@ public class UIDraggableButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
                         if (go.GetComponent<BuildableObject>())
                         {
                             _selected = false;
-                           // Debug.Log("Successful Raycast1 =" + go.gameObject);
+                            Debug.Log("Successful Raycast1 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
                         }
-                        else if(go.GetComponent<PlayerStats>())
+                        else if (go.GetComponent<PlayerStats>())
                         {
                             _selected = false;
-                          // Debug.Log("Successful Raycast2 =" + go.gameObject);
+                            Debug.Log("Successful Raycast2 =" + go.gameObject);
                             this.transform.GetComponent<UIRodentHolder>().ImSelected();
+                        }
+                        else if (go.GetComponent<UIDismissCan>())
+                        {
+                            _selected = false;
+                            Debug.Log("Successful Raycast3 =" + go.gameObject);
+                            this.transform.GetComponent<UIRodentHolder>().ImDismissed();
                         }
                         else
                         {
                             _selected = false;
-                           // Debug.Log("Failed Raycast =" + go.gameObject);
+                            Debug.Log("Failed Raycast =" + go.gameObject);
                         }
                     }
+                    else
+                        print("##");
 
                 }
                 _selected = false;

@@ -21,6 +21,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip _demolish;
     public AudioClip _assign;
     public AudioClip _dismiss;
+    public AudioClip _wilbur;
 
     public AudioClip[] _pickup;
     public AudioClip _crown;
@@ -238,5 +239,23 @@ public class SoundManager : MonoBehaviour
             SFXController3.Stop();
             SFXController3.clip = _horn;
             SFXController3.Play();
+    }
+    public void PlayWilbur()
+    {
+        if (!SFXController || !SFXController2)
+            return;
+
+        if (SFXController.isPlaying == false)
+        {
+            SFXController.Stop();
+            SFXController.clip = _wilbur;
+            SFXController.Play();
+        }
+        else
+        {
+            SFXController2.Stop();
+            SFXController2.clip = _wilbur;
+            SFXController2.Play();
+        }
     }
 }

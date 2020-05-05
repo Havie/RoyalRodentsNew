@@ -83,6 +83,9 @@ public class UISpeechBubble : MonoBehaviour
     //Would like to set up a fade animation is time permits
     IEnumerator OffDelay(char side)
     {
+        //PlaySound
+        SoundManager.Instance.PlayWilbur();
+
         yield return new WaitForSecondsRealtime(6);
         if (side == 'r')
             ShowRightSide(false);

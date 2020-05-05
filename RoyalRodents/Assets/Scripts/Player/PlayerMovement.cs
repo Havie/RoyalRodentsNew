@@ -193,9 +193,11 @@ public class PlayerMovement : MonoBehaviour
                             else // enemy team move to it ( no such thing as neutral buildings?)
                             {
                                 //To:Do will have to handle in range  just like searchable object above for enemy
-                                if (_InRange.Contains(go.transform.parent.gameObject))
+                                if (_InRange.Contains(go.transform.parent.gameObject) 
+                                    && go.transform.parent.GetComponent<BuildableObject>().getTeam()==2)
                                 {
                                     //decide if we need to flip to face in case we walked past
+                                    print("ATTACK BUILDING???");
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
                                     _AttackTarget = go.transform.parent.gameObject;
                                     Attack();
@@ -205,8 +207,10 @@ public class PlayerMovement : MonoBehaviour
                                     //Debug.LogWarning("move to attck target" + go.gameObject);
                                     // Debug.Log("Move toward Rodent on Team:" + go.GetComponent<Rodent>().getTeam());
                                     //and set goal to attack it
-                                    _wantToAttack = true;
-                                    _AttackTarget = go.transform.parent.gameObject;
+
+                                    //Having this on would make us attack neutral buildings
+                                    // _wantToAttack = true;
+                                    //_AttackTarget = go.transform.parent.gameObject;
                                     //move towards it
                                     StartCoroutine(MoveDelay(input, go.transform.position));
                                     _MoveLocation.transform.position = go.transform.position;
@@ -234,6 +238,7 @@ public class PlayerMovement : MonoBehaviour
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
                                     Debug.Log("In range contains, so Attack!");
                                     _AttackTarget = go.gameObject;
+                                    print("AttackRodent");
                                     Attack();
                                 }
                                 else
@@ -829,6 +834,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (collision.gameObject.transform.parent)
             {
+                print("ATTACK$44?");
                 if (collision.gameObject.transform.parent.gameObject == _AttackTarget)
                     Attack();
             }

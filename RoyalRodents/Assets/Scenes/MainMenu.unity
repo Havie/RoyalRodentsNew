@@ -4839,7 +4839,7 @@ MonoBehaviour:
   _EnemyRodentDummy: {fileID: 0}
   _PauseMenu: {fileID: 0}
   _HelpMenu: {fileID: 0}
-  _currentZone: 0
+  _currentZone: 1
   _isRightZone: 0
   _ZoneDisplayReference: {fileID: 0}
   _ZoneDisplayReference2: {fileID: 0}
@@ -4890,6 +4890,7 @@ MonoBehaviour:
   _FoodText: {fileID: 0}
   _PopulationText: {fileID: 0}
   _CrownsText: {fileID: 0}
+  _BuildingsText: {fileID: 0}
   _VFXPrefab: {fileID: 0}
 --- !u!1 &1158910560
 GameObject:

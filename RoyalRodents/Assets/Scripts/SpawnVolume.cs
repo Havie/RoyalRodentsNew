@@ -150,6 +150,11 @@ public class SpawnVolume : MonoBehaviour
             if (r)
             {
                 r.setTeam(2);
+                SubjectScript ss = r.GetComponent<SubjectScript>();
+                if(ss)
+                {
+                    ss.setRoyalGuard();
+                }
                 // Force them to be aggressive and head toward player   //hack
                 if (_inPlayerZone)
                     r.setTargetEnemyVersion(GameManager.Instance.getTownCenter().gameObject);

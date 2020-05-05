@@ -29,12 +29,18 @@ public class MVCController : MonoBehaviour
     private UIAssignmentMenu _AssignmentMenu;
     private UIRecruitMenu _RecruitMenu;
     private List<Employee> _lastRedX = new List<Employee>();
+    private GameObject _instantConstructionMenu;
 
     private bool _recruitDummy;
     private bool _assignDummy;
 
     //Debugg
     private bool _printStatements;
+
+    private bool _DismissOveride;
+    private UIDismissCan _DismissCan;
+    private bool _DismissMode;
+
     public UIDebuggPrints _debugger;
 
     public static MVCController Instance
@@ -188,8 +194,15 @@ public class MVCController : MonoBehaviour
 
         // Will detect UI Elements in the canvas
         CheckClicks(AlternateUITest(MouseRaw));
+
+        if(_DismissOveride)
+        {
+            _DismissOveride = false;
+            return _DismissCan.gameObject;
+        }
         // Chance we dont want to do anything
         if (!IgnoreClicks && !UIAssignmentMenu.Instance.isActive())
+        //if (!IgnoreClicks && UIAssignmentMenu.Instance.isActive())
         {
             if (_RecruitMenu) // if the menus open, conditions to close it becuz we clicked off it
             {
@@ -288,8 +301,10 @@ public class MVCController : MonoBehaviour
                         {
                             return FoundDismiss(_TMPlastClicked);
                         }
-                         else
+                         else if(!_DismissMode)
+                        {
                             return null;
+                        }
                     }
 
                     if (CheckRodent(_TMPlastClicked))
@@ -363,6 +378,22 @@ public class MVCController : MonoBehaviour
     {
         _lastClicked = null;
     }
+    public void setDismissMode(bool cond)
+    {
+        _DismissMode = cond;
+    }
+    public void RodentDismissed(Rodent _Rodent )
+    {
+        Employee _Job = _Rodent.GetJob();
+        if(_Job)
+            _Job.Dismiss(_Rodent);
+        //remove from player rodent list (in gamemanager)
+        GameManager.Instance.RemovePlayerRodent(_Rodent);
+        //make rodent available again (no hat)
+        _Rodent.setTeam(0);
+        _Rodent.ShowDismissMenu(false);
+        Debug.Log("SETTING FALSE");
+    }
     public void RodentAssigned(Rodent r)
     {
         if (_printStatements)
@@ -434,11 +465,18 @@ public class MVCController : MonoBehaviour
         ShowDestroyMenu(false, Vector3.zero, null, null);
         ShowBuildingCapMenu(false, Vector3.zero, null, null);
 
+        if (_instantConstructionMenu)
+            _instantConstructionMenu.SetActive(false);
+
         //showRedX(false);
 
         clearLastClicked();
 
         return null;
+    }
+    public void setLastInstantConstruction( GameObject go)
+    {
+        _instantConstructionMenu = go;
     }
     public void setLastRedX(Employee redxHolder)
     {
@@ -465,7 +503,8 @@ public class MVCController : MonoBehaviour
     }
     public void showAssignmenu(bool cond)
     {
-       // Debug.Log("ShowAssignMenu in MVC " + cond);
+        if(_printStatements)
+            Debug.Log("ShowAssignMenu in MVC " + cond);
         if (_AssignmentMenu && !_assignDummy)
             _AssignmentMenu.showMenu(cond, _lastClicked);  // TO-DO: NEED TO PHASE OUT?
     }
@@ -537,32 +576,41 @@ public class MVCController : MonoBehaviour
             if(result.gameObject.GetComponent<Button>())
             {
                 if (_printStatements)
-                    Debug.Log("Found a Button Setting clicks to false");
+                    Debug.Log("Found a Button Setting clicks to false" + result.gameObject);
 
-                if (result.gameObject.GetComponent<UIDraggableButton>())
+                 if (result.gameObject.GetComponent<UIDismissCan>())
+                {
+                    _DismissOveride = true;
+                    _DismissCan = result.gameObject.GetComponent<UIDismissCan>();
+                    return false;
+                }
+                else if(result.gameObject.GetComponent<UIDraggableButton>())
                 {
 
                     if (!result.gameObject.GetComponent<UIDraggableButton>().isSelected())
                     {
                         result.gameObject.GetComponent<UIDraggableButton>().imClicked();
+                        return false;
                     }
 
                 }
                 else if (result.gameObject.GetComponent<UIAssignmentVFX>())
                 {
                     result.gameObject.GetComponent<UIAssignmentVFX>().imClicked();
+                    return false;
                 }
                 else if (result.gameObject.GetComponent<UIStaminaButton>())
                 {
                     result.gameObject.GetComponent<UIStaminaButton>().imClicked();
+                    return false;
                 }
                 else if (result.gameObject.GetComponent<UIAssignmentMovement>())
                 {
                     result.gameObject.GetComponent<UIAssignmentMovement>().imClicked();
+
+                    return false;
                 }
 
-                //Might need to check certain buttons scripts to set assignmentDummy=true;
-                return false;
             }
             else if (result.gameObject.GetComponent<UIStaminaHitBox>())
             {
@@ -761,7 +809,7 @@ public class MVCController : MonoBehaviour
             // Debug.Log("Last Clicked is a building obj:" + lastClicked.name);
             BuildableObject buildObj = _TMPlastClicked.transform.parent.GetComponent<BuildableObject>();
             buildObj.imClicked();
-
+           
             _AssignmentMenu.showMenu(false, null);
             showRedX(false);
             showRecruitMenu(false, Vector3.zero, "", 0, 0);

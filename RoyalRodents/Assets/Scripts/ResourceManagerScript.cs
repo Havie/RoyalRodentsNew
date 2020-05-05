@@ -28,6 +28,7 @@ public class ResourceManagerScript : MonoBehaviour
     public TextMeshProUGUI _FoodText;
     public TextMeshProUGUI _PopulationText;
     public TextMeshProUGUI _CrownsText;
+    public TextMeshProUGUI _BuildingsText;
 
     //VFX
     public GameObject _VFXPrefab;
@@ -168,6 +169,9 @@ public class ResourceManagerScript : MonoBehaviour
             t = _topPanel.transform.Find("VictoryPoints");
             if (t)
                 _CrownsText = t.GetComponent<TextMeshProUGUI>();
+            t = _topPanel.transform.Find("Building Display");
+            if (t)
+                _BuildingsText = t.GetComponent<TextMeshProUGUI>();
         }
 
     }
@@ -374,7 +378,13 @@ public class ResourceManagerScript : MonoBehaviour
             _PopulationText.text = _currentPopulation.ToString() + "/" + _currentCapacity.ToString();
         }
     }
-
+    private void UpdateBuildingText()
+    {
+        if (_BuildingsText)
+        {
+            _BuildingsText.text = _buildingSlots.ToString() + "/" + GameManager.Instance.GetBuildingCap().ToString();
+        }
+    }
     private void UpdateCrownText()
     {
         if (_CrownsText)
@@ -415,7 +425,7 @@ public class ResourceManagerScript : MonoBehaviour
     public void IncrementBuildingSlots(int num)
     {
         _buildingSlots += num;
-        //print("building slots " + _buildingSlots);
+        UpdateBuildingText();
     }
     public int getNoBuildingSlots()
     {

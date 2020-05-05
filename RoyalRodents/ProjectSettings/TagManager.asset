@@ -28,6 +28,7 @@ TagManager:
   - DayNight
   - RecruitMenu
   - Ribbon
+  - HelpMenu
   layers:
   - Default
   - TransparentFX

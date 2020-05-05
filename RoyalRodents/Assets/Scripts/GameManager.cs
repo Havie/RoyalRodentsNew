@@ -186,6 +186,9 @@ public class GameManager : MonoBehaviour
         else
             Debug.Log("PauseMenu done gone Missing again..");
 
+        if (_HelpMenu == null)
+            _HelpMenu = GameObject.FindGameObjectWithTag("HelpMenu");
+
         ResourceManagerScript.Instance.FindTexts();
         ResourceManagerScript.Instance.UpdateAllText();
 
@@ -264,8 +267,16 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
         }
     }
+    public void setHelpMenu(GameObject helpmenu)
+    {
+        _HelpMenu = helpmenu;
+    }
     public void ShowHelpMenu()
     {
+        //Doesnt work because its turned off
+        if (_HelpMenu == null)
+            _HelpMenu = GameObject.FindGameObjectWithTag("HelpMenu");
+
         if (_HelpMenu)
         {
             _HelpMenuOpen = !_HelpMenuOpen;
@@ -278,7 +289,7 @@ public class GameManager : MonoBehaviour
                     _Paused = false;
                     _PauseMenu.SetActive(_Paused);
                 }
-                
+
                 Time.timeScale = 0;
             }
             else

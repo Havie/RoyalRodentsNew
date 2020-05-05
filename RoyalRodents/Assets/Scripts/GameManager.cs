@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private ExitZone _EnemyZone;
     public int _currentZone=1; //0 = neutral, 1 = player, 2 = enemy
     public bool _isRightZone; //true = right, false = left (does not matter for player zone)
-    public RibbonZoneDisplay _ZoneDisplayReference;
+    public RibbonZoneDisplay _ZoneDisplayReference, _ZoneDisplayReference2;
 
     private bool _IsMobileMode;
 
@@ -191,10 +191,14 @@ public class GameManager : MonoBehaviour
 
         //hack
         if (_ZoneDisplayReference == null)
-            _ZoneDisplayReference = GameObject.FindGameObjectWithTag("Ribbon").GetComponent<RibbonZoneDisplay>();
+            _ZoneDisplayReference = GameObject.Find("RibbonZoneDisplay").GetComponent<RibbonZoneDisplay>();
+        if (_ZoneDisplayReference2 == null)
+            _ZoneDisplayReference2 = GameObject.Find("RibbonZoneDisplay2").GetComponent<RibbonZoneDisplay>();
 
-            if (_ZoneDisplayReference)
+        if (_ZoneDisplayReference)
             _ZoneDisplayReference.SetZoneRibbonDisplay(1);
+        if (_ZoneDisplayReference2)
+            _ZoneDisplayReference2.SetZoneRibbonDisplay(1);
     }
     private IEnumerator SceneDelay()
     {
@@ -405,7 +409,10 @@ public class GameManager : MonoBehaviour
         _isRightZone = isRight;
 
         //update zone Ribbon Display
-        _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
+        if (_ZoneDisplayReference)
+            _ZoneDisplayReference.SetZoneRibbonDisplay(_currentZone);
+        if (_ZoneDisplayReference2)
+            _ZoneDisplayReference2.SetZoneRibbonDisplay(_currentZone);
     }
     public int getCurrentZone()
     {

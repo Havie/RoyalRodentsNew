@@ -694,11 +694,12 @@ public class SubjectScript : MonoBehaviour
 
             // Prevent the rodent from moving if it's ranged and targetting something to attack
             // Target exists & Ranged Unit & within a range (aggro range)
-            if(currentTarget && isRanged && Mathf.Abs(transform.position.x - currentTarget.transform.position.x) < 10f)
+            if (currentTarget && isRanged && Mathf.Abs(moveTo.x - transform.position.x) < 10f)
             {
                 if(team == 1 && currentTarget.tag == "Player")
                 {
                     // Do nothing if Allied and following the King
+
                     Move(moveTo);
                 }
                 else

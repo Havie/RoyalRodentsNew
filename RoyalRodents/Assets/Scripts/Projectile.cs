@@ -84,9 +84,9 @@ public class Projectile : MonoBehaviour
 
         //Calculate correct horizonal velocity based on time in air
         float deltaX = transform.position.x - targetPosition.x;
-        Debug.Log("PositionX is " + transform.position.x);
-        Debug.Log("TargetX is " + targetPosition.x);
-        Debug.Log("DeltaX is " + deltaX);
+        //Debug.Log("PositionX is " + transform.position.x);
+        //Debug.Log("TargetX is " + targetPosition.x);
+        //Debug.Log("DeltaX is " + deltaX);
         hSpeed = deltaX / time;
 
         //Set velocity from hSpeed and vSpeed

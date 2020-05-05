@@ -198,7 +198,7 @@ public class UIRecruitMenu : MonoBehaviour
     
 	public void showDismissMenu(bool cond, Rodent r)
 	{
-        MVCController.Instance.TurnThingsoff();
+        //MVCController.Instance.TurnThingsoff();
 
 		// Tell the MVC were the active menu
 		MVCController.Instance.SetRecruitMenu(this);
@@ -262,13 +262,15 @@ public class UIRecruitMenu : MonoBehaviour
 
 		//Unassign from its assigned structure
 		Employee _Job= _Rodent.GetJob();
-		_Job.Dismiss(_Rodent);
+        if(_Job)
+		    _Job.Dismiss(_Rodent);
 		//remove from player rodent list (in gamemanager)
 		GameManager.Instance.RemovePlayerRodent(_Rodent);
 		//make rodent available again (no hat)
 		_Rodent.setTeam(0);
+        _Rodent.ShowDismissMenu(false);
 
-		showMenu(false, null);
+        showMenu(false, null);
 
 
 	}

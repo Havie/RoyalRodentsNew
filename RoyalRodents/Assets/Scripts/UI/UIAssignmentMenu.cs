@@ -13,6 +13,7 @@ public class UIAssignmentMenu : MonoBehaviour
 
     public GameObject _ButtonLeft;
     public GameObject _ButtonRight;
+    public GameObject _ButtonDismiss;
 
     [SerializeField]
     private GameObject _buttonTemplate;
@@ -102,6 +103,8 @@ public class UIAssignmentMenu : MonoBehaviour
     //new Menu that will tell us which object showed menu
     public void showMenu(bool cond, GameObject ObjectThatCalled)
     {
+        //print("ShowMenu " + cond + "  :" + ObjectThatCalled);
+
         showMenu(cond);
         //I am not even sure we need to keep track of this as buttons can be dragged into any receiver..
         _owner = ObjectThatCalled;
@@ -135,6 +138,7 @@ public class UIAssignmentMenu : MonoBehaviour
 
         }
         ShowArrowButtons(cond);
+        ShowDismissButton(cond);
         if(_cameraController.getOverrideMode() ==false)
             ShowOutpostWorkers(cond);
 
@@ -322,6 +326,21 @@ public class UIAssignmentMenu : MonoBehaviour
         _index = 0;
         FindAvailable();
     }
+    private void ShowDismissButton(bool cond)
+    {
+        if (_ButtonDismiss)
+        {
+            _ButtonDismiss.SetActive(cond);
+            if(!cond)
+            {
+                UIDismissCan can = _ButtonDismiss.GetComponent<UIDismissCan>();
+                if(can)
+                {
+                    can.setOff();
+                }
+            }
+        }
+    }
     public void ShowArrowButtons(bool cond)
     {
         //Debug.Log("Show Arrow COND???=" + cond);
@@ -360,6 +379,7 @@ public class UIAssignmentMenu : MonoBehaviour
                 _OutpostWorkers.Remove(e);
         }
     }
+    
 
     /** used by UI button */
     public void ToggleMenu()

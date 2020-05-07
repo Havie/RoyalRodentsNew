@@ -197,7 +197,6 @@ public class PlayerMovement : MonoBehaviour
                                     && go.transform.parent.GetComponent<BuildableObject>().getTeam()==2)
                                 {
                                     //decide if we need to flip to face in case we walked past
-                                    print("ATTACK BUILDING???");
                                     DecideIfNeedToFlip(go.gameObject.transform.position);
                                     _AttackTarget = go.transform.parent.gameObject;
                                     Attack();

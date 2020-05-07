@@ -113,6 +113,12 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void LateUpdate()
     {
+
+        if (Input.GetKeyDown(KeyCode.M))
+            Damage(-100);
+
+
+
         if (_RoyalGuardParent)
             _RoyalGuardParent.position = this.transform.position;
 

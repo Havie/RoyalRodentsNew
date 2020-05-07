@@ -153,7 +153,8 @@ public class SpawnVolume : MonoBehaviour
                 SubjectScript ss = r.GetComponent<SubjectScript>();
                 if(ss)
                 {
-                    ss.setRoyalGuard();
+                    ss.setDefender();
+                    StartCoroutine(RoyalGuardDelay(ss));
                 }
                 // Force them to be aggressive and head toward player   //hack
                 if (_inPlayerZone)
@@ -177,6 +178,12 @@ public class SpawnVolume : MonoBehaviour
             _spawnedRat.GetComponent<Rodent>().setTeam(0);
             // Increase some kind of count
         }
+    }
+    IEnumerator RoyalGuardDelay(SubjectScript ss)
+    {
+        yield return new WaitForSeconds(2f);
+        ss.setDefender();
+
     }
     public void SpawnSomething()
     {

@@ -1006,7 +1006,7 @@ public class SubjectScript : MonoBehaviour
             // Skip this if ranger with an enemy as a target
             if(isRanged && Mathf.Abs(transform.position.x - currentTarget.transform.position.x) < 10f)
             {
-                if(team == 1 && currentTarget.tag == "Player")
+                if(team == 1 && currentTarget.tag == "Player" || currentTarget.GetComponent<BuildableObject>().getTeam() == team)
                 {
                     // Do nothing if Allied and targetting king
                 }

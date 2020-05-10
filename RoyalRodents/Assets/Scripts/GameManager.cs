@@ -461,7 +461,7 @@ public class GameManager : MonoBehaviour
     {
         //WARNING - this comes from CameraController --> change zone(), 
         //inconsistency in these #s if changed in 1 location but not the other
-        if (locX <= 100 && locX >= -130)
+        if (locX <= 26 && locX >= -65)
         {
             return true;
         }

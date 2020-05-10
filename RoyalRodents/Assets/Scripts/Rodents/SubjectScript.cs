@@ -358,6 +358,21 @@ public class SubjectScript : MonoBehaviour
                     {
                         if (isRanged)
                         {
+                            if(currentTarget.tag=="Player")
+                            {
+                                //Check if hes in the ground
+                                PlayerMovement pm = currentTarget.GetComponent<PlayerMovement>();
+                                if(pm)
+                                {
+                                    if(pm.getInGround())
+                                    {
+                                        _inRange.Remove(currentTarget);
+                                        FindNextTargetInRange();
+                                    }
+                                    else
+                                        StartCoroutine(Shoot(currentTarget.transform.position));
+                                }
+                            }
                             StartCoroutine(Shoot(currentTarget.transform.position));
                         }
                         else
@@ -448,12 +463,10 @@ public class SubjectScript : MonoBehaviour
     {
         if (currentTarget == townCenterLoc)
         {
-            Debug.Log("INcrement On" + savedTarget.gameObject);
+            //Debug.Log("INcrement On" + savedTarget.gameObject);
             Rodent r = this.GetComponent<Rodent>(); // no null check cuz would never happen
             savedTarget.GetComponent<BuildableObject>().IncrementGathering(r.getGatherRate());
         }
-        else
-            Debug.Log("current target is" + currentTarget.gameObject);
     }
 
     private bool CheckIfRat()
@@ -474,7 +487,7 @@ public class SubjectScript : MonoBehaviour
 
         if (currentTarget == null)
         {
-            Debug.LogError("Cant Idle, Current Target is Null");
+           // Debug.LogError("Cant Idle, Current Target is Null");
             return;
         }
         idleInRadius(currentTarget.transform.position, radius);
@@ -559,7 +572,6 @@ public class SubjectScript : MonoBehaviour
 
                     if (!_approachingTownCenterasWorker)
                     {
-                         print("turned back on farming");
                         setAnim(FARMING_ANIMATION_BOOL, true, false);
                         setAnim(GATHERHING_ANIMATION_BOOL, false, false);
                     }
@@ -701,8 +713,16 @@ public class SubjectScript : MonoBehaviour
                 if(team == 1 && currentTarget.tag == "Player")
                 {
                     // Do nothing if Allied and following the King
-                   // print("2");
-                    Move(moveTo);
+                    // print("2");
+
+                    //Check if player is in ground
+                    PlayerMovement pm = currentTarget.GetComponent<PlayerMovement>();
+                    if(pm)
+                    {
+                        if(pm.getInGround()==false)
+                            Move(moveTo);
+                    }
+                    
                 }
                 else
                 {
@@ -713,7 +733,6 @@ public class SubjectScript : MonoBehaviour
             }
             else
             {
-               // print("3");
                 Move(moveTo);
             }
            
@@ -727,7 +746,7 @@ public class SubjectScript : MonoBehaviour
     {
         if (canAttack)
         {
-            Debug.LogWarning("SHOOT");
+            //Debug.LogWarning("SHOOT");
             //Flip if needed
             float dist = shootTargetCoordinate.x - transform.position.x;
             if(dist > 0 && !facingRight)
@@ -765,7 +784,7 @@ public class SubjectScript : MonoBehaviour
         if (collision.transform.parent)
         {
             Rodent unknownRodent = collision.transform.parent.gameObject.GetComponent<Rodent>();
-            PlayerStats king = collision.transform.parent.gameObject.GetComponent<PlayerStats>();
+            PlayerMovement king = collision.transform.parent.gameObject.GetComponent<PlayerMovement>();
             BuildableObject unknownBuilding = collision.transform.parent.gameObject.GetComponent<BuildableObject>();
 
             if (unknownRodent)
@@ -779,7 +798,7 @@ public class SubjectScript : MonoBehaviour
                     // print("called from AgroRadiusTrigger");
                     if (_inRange.Count == 1 && royalGuard)
                     {
-                        print("Newest target added to queue: " + unknownRodent.gameObject);
+                       // print("Newest target added to queue: " + unknownRodent.gameObject);
                         currentTarget = unknownRodent.gameObject;
                     }
                 }
@@ -797,7 +816,7 @@ public class SubjectScript : MonoBehaviour
                         _inRange.Add(unknownBuilding.gameObject);
                         if (_inRange.Count == 1 && royalGuard)
                         {
-                            print("Newest target added to queue: " + currentTarget.ToString());
+                            //print("Newest target added to queue: " + currentTarget.ToString());
                             currentTarget = unknownBuilding.gameObject;
                         }
                     }
@@ -808,14 +827,17 @@ public class SubjectScript : MonoBehaviour
             // Special case: Finding King as an attack target
             else if (team == 2 && king)
             {
-                _inRange.Add(king.gameObject);
-                if (_inRange.Count == 1)
+                if (king.getInGround() == false)
                 {
-                    print("Newest target added to queue: " + king.gameObject);
-                    currentTarget = king.gameObject;
-                    //Should probably update state to stop moving, and start attacking
-                    MovingInIdle = false;
+                    _inRange.Add(king.gameObject);
+                    if (_inRange.Count == 1)
+                    {
+                       // print("Newest target added to queue: " + king.gameObject);
+                        currentTarget = king.gameObject;
+                        //Should probably update state to stop moving, and start attacking
+                        MovingInIdle = false;
 
+                    }
                 }
             }
         }
@@ -872,15 +894,19 @@ public class SubjectScript : MonoBehaviour
             }
             else if (king)
             {
-                if (!king.isDead())
+                PlayerMovement pm = king.GetComponent<PlayerMovement>();
+                if (pm)
                 {
-                    king.Damage(attackDamage);
-                    SoundManager.Instance.PlayCombat();
-                }
-                else
-                {
-                    _inRange.Remove(currentTarget);
-                    FindNextTargetInRange();
+                    if (!king.isDead() && !pm.getInGround())
+                    {
+                        king.Damage(attackDamage);
+                        SoundManager.Instance.PlayCombat();
+                    }
+                    else
+                    {
+                        _inRange.Remove(currentTarget);
+                        FindNextTargetInRange();
+                    }
                 }
             }
             else
@@ -924,13 +950,10 @@ public class SubjectScript : MonoBehaviour
 
             if (go == currentTarget || currentTarget == null)
             {
-                print("Called from Remove from AgroRange");
                 FindNextTargetInRange();
             }
 
             _inRange.Remove(go);
-            Debug.Log("Rodent removed from targets");
-            Debug.Log("Rodent removed from targets");
         }
         //else debug error 
 
@@ -1006,20 +1029,38 @@ public class SubjectScript : MonoBehaviour
             // Skip this if ranger with an enemy as a target
             if(isRanged && Mathf.Abs(transform.position.x - currentTarget.transform.position.x) < 10f)
             {
-                if(team == 1 && currentTarget.tag == "Player" || currentTarget.GetComponent<BuildableObject>().getTeam() == team)
+                BuildableObject b = currentTarget.GetComponent<BuildableObject>();
+                if (team == 1 && currentTarget.tag == "Player")
                 {
                     // Do nothing if Allied and targetting king
+                }
+                else if(b)
+                {
+                    if (currentTarget.GetComponent<BuildableObject>().getTeam() == team)
+                    {
+                        //do nothing
+                    }
+                    //Seems like we could use an else here to shoot, but when would a defender
+                    // have an enemy building in his agro list? shouldnt happen
+                }
+                else if(currentTarget.GetComponent<PlayerMovement>())
+                {
+                    if (currentTarget.GetComponent<PlayerMovement>().getInGround()==false)
+                        StartCoroutine(Shoot(currentTarget.transform.position));
+                    else
+                    {
+                        _inRange.Remove(currentTarget);
+                        FindNextTargetInRange();
+                    }
                 }
                 else
                 {
                     StartCoroutine(Shoot(currentTarget.transform.position));
-
                 }
 
             }
             else
             {
-                print("4");
                 Move(targetPos);
             }
             

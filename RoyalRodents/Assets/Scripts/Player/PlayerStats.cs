@@ -341,6 +341,14 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     public void UpdateInPlayerZone()
     {
         _inPlayerZone = GameManager.Instance.CheckInPlayerZone(this.transform.position.x);
+        StartCoroutine(showButtonDelay());
+    }
+    //UGLY hack
+    IEnumerator showButtonDelay()
+    {
+        yield return new WaitForFixedUpdate();
+        UITroopSelection.Instance.ShowAssignmentButton(_inPlayerZone);
+    
     }
     public bool inPlayerZone() => _inPlayerZone;
 }

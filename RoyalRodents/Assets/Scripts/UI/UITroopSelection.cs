@@ -118,7 +118,7 @@ public class UITroopSelection : MonoBehaviour
         setText("Dispatch Garrison Troops");
         _confirmButton.SetActive(cond);
         _cancelButton.SetActive(cond);
-        _AssignmentModeButton.SetActive(!cond);
+        ShowAssignmentButton(!cond);
         MVCController.Instance.TurnOffBuildMenus();
         UIAssignmentMenu.Instance.ShowOutpostWorkers(cond);
         //order matters here
@@ -172,6 +172,11 @@ public class UITroopSelection : MonoBehaviour
     public void updateText()
     {
         _amounts.text = "( " + _numTroops + " / " + _numTroopsMax + " )";
+    }
+    public void ShowAssignmentButton(bool cond)
+    {
+        print("Show assignment: " + cond);
+        _AssignmentModeButton.SetActive(cond);
     }
 
 }

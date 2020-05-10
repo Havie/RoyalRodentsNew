@@ -727,7 +727,7 @@ public class SubjectScript : MonoBehaviour
     {
         if (canAttack)
         {
-            Debug.LogWarning("SHOOT");
+            //Debug.LogWarning("SHOOT");
             //Flip if needed
             float dist = shootTargetCoordinate.x - transform.position.x;
             if(dist > 0 && !facingRight)

@@ -16,6 +16,8 @@ public class UIDismissCan : MonoBehaviour
         //Get IMGs
         _sp1 = Resources.Load<Sprite>("UI/trash");
         _sp2 = Resources.Load<Sprite>("UI/Trash Fill");
+
+        this.GetComponent<Image>().sprite = _sp1;
     }
 
     public void ImClicked()

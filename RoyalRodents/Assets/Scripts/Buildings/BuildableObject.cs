@@ -50,6 +50,7 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
 
     private GameObject _InstanceConstructionButton;
 
+
     #region otherClasses
     private UIBuildMenu _BuildMenu;
     private UIBuildMenu _DestroyMenu;
@@ -203,6 +204,16 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         // Debug.Log(this.gameObject + " ID is: " + _ID);
 
         setUpInstantConstruction();
+
+        //If were not in the player zone hide the employees
+        if (GameManager.Instance.CheckInPlayerZone(this.transform.position.x) == false)
+            StartCoroutine(hideWorkers());
+    }
+    // has to be a delay becuz things are happening in all sorts of wild order - its gotten out of hand
+    IEnumerator hideWorkers()
+    {
+        yield return new WaitForSeconds(4);
+         ShowWorkers(false);
     }
     private void LateUpdate()
     {

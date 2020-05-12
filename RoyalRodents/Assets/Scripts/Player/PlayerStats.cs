@@ -113,6 +113,12 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     }
     public void LateUpdate()
     {
+
+        if (Input.GetKeyDown(KeyCode.M))
+            Damage(-100);
+
+
+
         if (_RoyalGuardParent)
             _RoyalGuardParent.position = this.transform.position;
 
@@ -335,6 +341,14 @@ public class PlayerStats : MonoBehaviour, IDamageable<float>, DayNight
     public void UpdateInPlayerZone()
     {
         _inPlayerZone = GameManager.Instance.CheckInPlayerZone(this.transform.position.x);
+        StartCoroutine(showButtonDelay());
+    }
+    //UGLY hack
+    IEnumerator showButtonDelay()
+    {
+        yield return new WaitForFixedUpdate();
+        UITroopSelection.Instance.ShowAssignmentButton(_inPlayerZone);
+    
     }
     public bool inPlayerZone() => _inPlayerZone;
 }

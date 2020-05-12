@@ -228,8 +228,11 @@ public class Rodent : MonoBehaviour, IDamageable<float>, DayNight
             this.gameObject.name =_ID+ " Rodent: " + _Name + " ";
 
         _isRanged = PickRanged();
-        if(_Team==2)
+        if (_Team == 2)
+        {
             _NotificationObject.SetActive(false);
+            this.GetComponent<Animator>().SetBool("isArmed", true);
+        }
 
     }
 

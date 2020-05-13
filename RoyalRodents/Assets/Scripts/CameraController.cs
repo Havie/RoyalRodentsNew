@@ -111,7 +111,7 @@ public class CameraController : MonoBehaviour
 
         if (zone == 1) // player
         {
-            _NegXCap = -54;
+            _NegXCap = -54.7f;
             _PosXCap = 15;
         }
         else if (zone == 0) // neutral

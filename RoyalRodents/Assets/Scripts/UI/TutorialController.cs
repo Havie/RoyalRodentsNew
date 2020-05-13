@@ -150,7 +150,7 @@ public class TutorialController : MonoBehaviour
 			generalTutorialStrings[5] = "To start you off, you should recruit a rodent. Tap the screen to walk to a rodent.";
 			generalTutorialStrings[6] = "Rodents that are not wearing a hat are available to recruit. Click an available rodent to recruit.";
 			generalTutorialStrings[7] = "Recruiting costs Food! You can find Food in a Garbage Can. ";
-			generalTutorialStrings[8] = "Search the area until to find a Garbage Can. Walk over to the Garbage Can and click it to search.";
+			generalTutorialStrings[8] = "Search the area until you find a Garbage Can. Walk over to the Garbage Can and click it to search.";
 			generalTutorialStrings[9] = "Keep clicking to keep searching, but be careful! Searching uses up Stamina!";
 			generalTutorialStrings[10] = "Garbage Cans also give Trash! Trash is a building material. Other building materials include Wood, Stone, and Shinies.";
 			generalTutorialStrings[11] = "Click a dirt mound to construct with your materials.";

@@ -86,18 +86,19 @@ public class ResourceManagerScript : MonoBehaviour
     {
         FindTexts();
         // Debug.Log("Started resource Manager");
-        _currentCapacity = 5;
+        _currentCapacity = 3;
         UpdateCurrentPopulation();
-        _food = 10;
-        _trash = 6;
+        _food = 5;
+        _trash = 5;
         _wood = 5;
-        _stone =1;
+        _stone = 5;
         _shiny = 1;
         _crowns = 0;
 
         //LoadVFX();
         UpdateAllText();
     }
+    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.W))
@@ -107,6 +108,7 @@ public class ResourceManagerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
             incrementResource(ResourceType.Shiny, 1);
     }
+    */
 
     private GameObject LoadVFX()
     {

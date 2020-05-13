@@ -50,9 +50,11 @@ public class DayNightTextFade : MonoBehaviour
         if (fadeAway)
         {
             // loop over 1 second backwards
-            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            for (float i = 1; i > 0; i -= Time.deltaTime)
             {
                 // set color with i as alpha
+                if (i < 0)
+                    i = 0;
                 text.color = new Color(1, 1, 1, i);
                 yield return null;
             }
@@ -61,9 +63,11 @@ public class DayNightTextFade : MonoBehaviour
         else
         {
             // loop over 1 second
-            for (float i = 0; i <= 1; i += Time.deltaTime)
+            for (float i = 0; i < 1; i += Time.deltaTime)
             {
                 // set color with i as alpha
+                if (i > 1)
+                    i = 1;
                 text.color = new Color(1, 1, 1, i);
                 yield return null;
             }

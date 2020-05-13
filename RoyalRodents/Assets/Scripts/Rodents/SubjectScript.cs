@@ -700,7 +700,11 @@ public class SubjectScript : MonoBehaviour
     {
        // print("RoyalguardBehavior,  shoulIdle= " + ShouldIdle);
         // Follow the king at all times.
-        // Future: Attack enemies within a radius of the king
+        
+        if(currentTarget == null && team == 1)
+        {
+            currentTarget = savedTarget;
+        }
         if (!ShouldIdle)
         {
             Vector3 moveTo = currentTarget.transform.position;
@@ -766,6 +770,10 @@ public class SubjectScript : MonoBehaviour
             projectile.GetComponent<Projectile>().setEnemyTeam(getEnemyTeam());
             projectile.GetComponent<Projectile>().setTarget(shootTargetCoordinate);
 
+            if (currentTarget == null)
+            {
+                FindNextTargetInRange();
+            }
 
             yield return new WaitForSeconds(1.16f);
             canAttack = true;

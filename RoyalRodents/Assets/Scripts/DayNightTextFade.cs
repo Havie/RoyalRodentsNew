@@ -53,7 +53,7 @@ public class DayNightTextFade : MonoBehaviour
             for (float i = 1; i > 0; i -= Time.deltaTime)
             {
                 // set color with i as alpha
-                if (i < 0)
+                if (i < 0.1f)
                     i = 0;
                 text.color = new Color(1, 1, 1, i);
                 yield return null;

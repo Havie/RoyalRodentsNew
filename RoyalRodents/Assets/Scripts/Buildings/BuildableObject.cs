@@ -163,8 +163,8 @@ public class BuildableObject : MonoBehaviour, IDamageable<float>, DayNight
         {
             eState = BuildingState.Available;
             _sr.sprite = _sStatedefault;
-            
-            //Possible error here in assigning something to be a dirtmound
+        
+            //Possible error here in assigning something to be a dirtmound 
             if (eType == BuildingType.Vacant)
             {
                 setTeam(500); // default value for destroyed state

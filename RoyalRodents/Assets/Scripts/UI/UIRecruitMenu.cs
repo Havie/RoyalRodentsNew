@@ -84,8 +84,8 @@ public class UIRecruitMenu : MonoBehaviour
             _FoodCost = r.getRecruitmentCost();
             _PopCost = r.getPopulationCost();
             //show costs
-            _CostPop.text = _FoodCost.ToString();
-            _CostFood.text = _PopCost.ToString();
+            _CostPop.text = _PopCost.ToString();
+            _CostFood.text = _FoodCost.ToString();
 
             //show class
             if (r.isRanged())

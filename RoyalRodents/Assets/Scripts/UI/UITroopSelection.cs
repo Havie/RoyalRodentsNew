@@ -175,7 +175,7 @@ public class UITroopSelection : MonoBehaviour
     }
     public void ShowAssignmentButton(bool cond)
     {
-        print("Show assignment: " + cond);
+        //print("Show assignment: " + cond);
         _AssignmentModeButton.SetActive(cond);
     }
 

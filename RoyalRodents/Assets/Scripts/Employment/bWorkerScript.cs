@@ -113,7 +113,6 @@ public class bWorkerScript : MonoBehaviour
             }
             //still activate the assignment menu for now
             UIAssignmentMenu.Instance.showMenu(true, _owner);
-            print("show7");
             // To-Do: in future might want to instead display info about the Rodent assigned?
 
         }

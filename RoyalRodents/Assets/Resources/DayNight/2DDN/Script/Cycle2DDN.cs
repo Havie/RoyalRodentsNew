@@ -110,7 +110,7 @@ public class Cycle2DDN : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 	}
 
 	// Use this for initialization

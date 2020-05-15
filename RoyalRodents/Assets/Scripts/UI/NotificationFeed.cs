@@ -36,7 +36,7 @@ public class NotificationFeed : MonoBehaviour
 			Destroy(gameObject);
 		}
 
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 	}
 
 	public void NewNotification(string title, string des, int iconIndex, float posX)

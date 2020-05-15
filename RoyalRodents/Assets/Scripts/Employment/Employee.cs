@@ -124,7 +124,6 @@ public class Employee : MonoBehaviour
                 //EventSystem.Instance.rodentDead -= Dismiss;
                 SoundManager.Instance.PlayDismiss();
                 r.ShowDismissMenu(false);
-                print("EMPL");
             }
         }
     }

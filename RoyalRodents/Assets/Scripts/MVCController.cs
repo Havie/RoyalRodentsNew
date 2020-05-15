@@ -392,7 +392,6 @@ public class MVCController : MonoBehaviour
         //make rodent available again (no hat)
         _Rodent.setTeam(0);
         _Rodent.ShowDismissMenu(false);
-        Debug.Log("SETTING FALSE");
     }
     public void RodentAssigned(Rodent r)
     {
